@@ -1,6 +1,8 @@
 // Info.js
 import React, { useState } from 'react';
 import * as Styled from './InfoStyle';
+import Header from '../../components/Header/Header';
+import { Footer } from '../../components/Footer/Footer';
 
 const InfoData = [
   { title: '자격증 1', description: '자격증 1에 대한 설명' },
@@ -35,6 +37,7 @@ const Info = () => {
 
   return (
     <Styled.InfoContainer>
+      <Header />
       <Styled.AlertContainer>
         자격증 정보, 한눈에 확인해보세요
       </Styled.AlertContainer>
@@ -60,6 +63,7 @@ const Info = () => {
           </Styled.PaginationButton>
         ))}
       </Styled.PaginationContainer>
+      <Footer />
     </Styled.InfoContainer>
   );
 };

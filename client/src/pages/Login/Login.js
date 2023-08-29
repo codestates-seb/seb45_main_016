@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import * as Styled from './LoginStyle'; // 파일 경로에 맞게 수정해주세요
+import { Footer } from '../../components/Footer/Footer';
 
 function Login() {
   return (
@@ -21,6 +22,7 @@ function Login() {
           <Link to="/signup">Sign Up</Link>
         </Styled.LinkWrap>
       </Styled.LoginContainer>
+      <Footer />
     </Styled.Wrap>
   );
 }
