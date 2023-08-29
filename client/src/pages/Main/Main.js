@@ -1,5 +1,7 @@
 import React from 'react';
 import * as Styled from './MainStyle'; // Adjust the import path based on your file structure
+import Header from '../../components/Header/Header';
+import { Footer } from '../../components/Footer/Footer';
 
 const Main = () => {
   // eslint-disable-next-line no-undef
@@ -7,6 +9,7 @@ const Main = () => {
 
   return (
     <Styled.MainContainer>
+      <Header />
       <Styled.ImageContainer>
         <Styled.Image src={imageUrl} alt="Your Image" />
       </Styled.ImageContainer>
@@ -24,6 +27,7 @@ const Main = () => {
         <Styled.Box />
         <Styled.Box />
       </Styled.ComContainer>
+      <Footer />
     </Styled.MainContainer>
   );
 };
