@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import * as Styled from './ComListStyle';
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
 
 const ComData = [
   { title: '제목 1', description: '글 내용 1' },
@@ -34,6 +36,7 @@ const ComList = () => {
 
   return (
     <Styled.ComContainer>
+      <Header />
       <Styled.AlertContainer>
         시험 꿀팁, 후기 함께 나눠요!
       </Styled.AlertContainer>
@@ -59,6 +62,7 @@ const ComList = () => {
           </Styled.PaginationButton>
         ))}
       </Styled.PaginationContainer>
+      <Footer />
     </Styled.ComContainer>
   );
 };

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import * as Styled from './InfoStyle';
 import Header from '../../components/Header/Header';
-import { Footer } from '../../components/Footer/Footer';
+import Footer from '../../components/Footer/Footer';
 
 const InfoData = [
   { title: '자격증 1', description: '자격증 1에 대한 설명' },

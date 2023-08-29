@@ -1,7 +1,7 @@
 import React from 'react';
 import * as Styled from './MainStyle'; // Adjust the import path based on your file structure
 import Header from '../../components/Header/Header';
-import { Footer } from '../../components/Footer/Footer';
+import Footer from '../../components/Footer/Footer';
 
 const Main = () => {
   // eslint-disable-next-line no-undef
