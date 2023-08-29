@@ -1,5 +1,7 @@
 import { FooterStyle } from './FooterStyle';
 
-export const Footer = () => {
+const Footer = () => {
   return <FooterStyle>Footer입니다</FooterStyle>;
 };
+
+export default Footer;

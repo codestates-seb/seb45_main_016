@@ -9,11 +9,15 @@ export const HeaderStyle = styled.div`
     flex-grow: 1;
     margin: 0;
   }
+  input:focus {
+    outline: none;
+  }
   button {
     flex-grow: 0;
     padding: 20px 50px;
     border: none;
     margin-right: 10px;
+    cursor: pointer;
   }
 `;
 
@@ -22,4 +26,5 @@ export const Logo = styled.div`
   width: 100px;
   border: 1px solid black;
   margin: 0 10px;
+  cursor: pointer;
 `;

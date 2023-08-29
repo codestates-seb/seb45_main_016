@@ -5,7 +5,7 @@ import {
   Paging,
 } from './FilteredStyle';
 import Header from '../../components/Header/Header';
-import { Footer } from '../../components/Footer/Footer';
+import Footer from '../../components/Footer/Footer';
 
 const SearchFiltered = () => {
   const pagingNum = [1, 2, 3, 4, 5, 6, 7];

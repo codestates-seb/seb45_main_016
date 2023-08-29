@@ -4,8 +4,10 @@ const Header = () => {
   return (
     <HeaderStyle>
       <Logo>
-        <img src="" alt="" />
-        logo
+        <div>
+          logo
+          <img src="" alt="" />
+        </div>
       </Logo>
       <button>자격증 정보</button>
       <button>Community</button>
