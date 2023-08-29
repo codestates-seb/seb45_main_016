@@ -1,6 +1,6 @@
 ---
-name: issue! 작성 시 이용하세ㅔ요
-about: Describe this issue template's purpose here.
+name: "[ALL / BE / FE] 이슈 작성 템플릿"
+about: 이슈 작성시 이용하세용
 title: ''
 labels: ''
 assignees: ''
