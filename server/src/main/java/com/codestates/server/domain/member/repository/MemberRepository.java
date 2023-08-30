@@ -1,6 +1,6 @@
-package com.codestates.server.member.repository;
+package com.codestates.server.domain.member.repository;
 
-import com.codestates.server.member.entity.Member;
+import com.codestates.server.domain.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

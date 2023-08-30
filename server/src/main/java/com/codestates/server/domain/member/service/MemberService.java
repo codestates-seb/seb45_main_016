@@ -1,7 +1,7 @@
-package com.codestates.server.member.service;
+package com.codestates.server.domain.member.service;
 
-import com.codestates.server.member.entity.Member;
-import com.codestates.server.member.repository.MemberRepository;
+import com.codestates.server.domain.member.entity.Member;
+import com.codestates.server.domain.member.repository.MemberRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -60,7 +60,7 @@ public class MemberService {
     // member 전체 정보 가지고 오는 메서드로 pagination
     public Page<Member> getMembers(int page, int size) {
         return memberRepository.findAll(PageRequest.of(page, size,
-                Sort.by("userId").descending()));
+                Sort.by("memberId").descending()));
     }
 
     // member 삭제하는 deleteMember 메서드

@@ -1,7 +1,5 @@
 package com.codestates.server.global.dto;
 
-import com.codestates.server.member.dto.MemberResponseDto;
-import com.codestates.server.member.entity.Member;
 import lombok.Getter;
 import org.springframework.data.domain.Page;
 

@@ -1,4 +1,4 @@
-package com.codestates.server.member.dto;
+package com.codestates.server.domain.member.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
