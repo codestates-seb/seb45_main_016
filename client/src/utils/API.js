@@ -1,5 +1,4 @@
 import axios from 'axios';
-// axios.defaults.withCredentials = true; // 기본 설정에서 제거
 
 export const login = async (data) => {
   try {
