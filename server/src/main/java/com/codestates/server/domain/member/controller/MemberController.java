@@ -1,12 +1,12 @@
-package com.codestates.server.member.controller;
+package com.codestates.server.domain.member.controller;
 
+import com.codestates.server.domain.member.dto.MemberPatchDto;
+import com.codestates.server.domain.member.dto.MemberPostDto;
+import com.codestates.server.domain.member.dto.MemberResponseDto;
+import com.codestates.server.domain.member.entity.Member;
+import com.codestates.server.domain.member.mapper.MemberMapper;
 import com.codestates.server.global.dto.MultiResponseDto;
-import com.codestates.server.member.dto.MemberPatchDto;
-import com.codestates.server.member.dto.MemberPostDto;
-import com.codestates.server.member.dto.MemberResponseDto;
-import com.codestates.server.member.entity.Member;
-import com.codestates.server.member.mapper.MemberMapper;
-import com.codestates.server.member.service.MemberService;
+import com.codestates.server.domain.member.service.MemberService;
 import com.codestates.server.global.uri.UriCreator;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,10 +20,10 @@ import javax.validation.constraints.Positive;
 import java.net.URI;
 import java.util.List;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/members")
 @Validated
-@AllArgsConstructor
 public class MemberController {
 
     private final MemberMapper mapper;
@@ -68,7 +68,7 @@ public class MemberController {
         return new ResponseEntity(response, HttpStatus.OK);
     }
 
-    @GetMapping()
+    @GetMapping("/info")
     public ResponseEntity getMembers(@Positive @RequestParam int page,
                                      @Positive @RequestParam int size) {
 
@@ -79,7 +79,7 @@ public class MemberController {
         return new ResponseEntity(new MultiResponseDto(mapper.membersTomemberResponseDto(members), memberPage), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{member-id}")
+    @DeleteMapping("/delete/{member-id}")
     public ResponseEntity deleteMember(@PathVariable("member-id") @Positive Long memberId) {
 
         memberService.deleteMember(memberId);
