@@ -1,4 +1,4 @@
-package com.codestates.server.uri;
+package com.codestates.server.global.uri;
 
 import org.springframework.web.util.UriComponentsBuilder;
 
