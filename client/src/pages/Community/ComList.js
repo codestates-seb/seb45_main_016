@@ -42,7 +42,7 @@ const ComList = () => {
         시험 꿀팁, 후기 함께 나눠요!
       </Styled.AlertContainer>
       <Styled.AddPostButton>
-        <Link to="/community/detail">글 작성하기</Link>
+        <Link to="/write">글 작성하기</Link>
       </Styled.AddPostButton>
       <Styled.GridContainer>
         {ComData.slice(startIndex, endIndex).map((info, index) => (
