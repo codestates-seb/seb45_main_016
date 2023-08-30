@@ -1,5 +1,5 @@
 import React from 'react';
-import * as Styled from './HeaderStyle';
+import { HeaderStyle, Logo } from './HeaderStyle';
 import { Link } from 'react-router-dom';
 import SearchBar from '../Header/Searchbar'; // SearchBar 컴포넌트를 import
 
@@ -18,71 +18,58 @@ const Header = () => {
   };
 
   return (
-    <Styled.HeaderContainer>
-      <Styled.LogoContainer>
-        <Link to="/">
-          <img
-            // src="https://stackoverflow.design/assets/img/logos/so/logo-stackoverflow.svg"
-            alt="logo"
-          />
-        </Link>
-      </Styled.LogoContainer>
-
-      <Styled.Nav>
-        <Styled.NavItem>
-          <Link to="/info">자격증 정보</Link>
-        </Styled.NavItem>
-        {userId && (
-          <>
-            <Styled.NavItem>
-              <Link to="/community">Community</Link>
-            </Styled.NavItem>
-            <Styled.NavItem>
-              <Link to="/mypage">My Page</Link>
-            </Styled.NavItem>
-          </>
-        )}
-        {!userId && (
-          <Styled.NavItem>
-            <Link to="/community">Community</Link>
-          </Styled.NavItem>
-        )}
-      </Styled.Nav>
-
-      <Styled.InputContainer>
-        <i className="fa-solid fa-magnifying-glass search-icon"></i>
-        <SearchBar />
-      </Styled.InputContainer>
-
+    <HeaderStyle>
+      <Logo>
+        <div>
+          <Link to="/">
+            <img
+              // src="https://stackoverflow.design/assets/img/logos/so/logo-stackoverflow.svg"
+              alt="logo"
+            />
+          </Link>
+        </div>
+      </Logo>
+      <Link to="/info">자격증 정보</Link>
       {userId ? (
-        <Styled.LoginStateButtonContainer>
+        <>
+          <Link to="/community">Community</Link>
+          <Link to="/mypage">My Page</Link>
+        </>
+      ) : (
+        <button>
+          <Link to="/community">Community</Link>
+        </button>
+      )}
+      <SearchBar />
+      {userId ? (
+        <>
           <Link to="/userinfo">
-            <Styled.UserAvatar
+            <img
               // src="https://i.pinimg.com/564x/18/b4/69/18b4699032c3019658996090bbe54d3f.jpg"
               alt="useravatar"
             />
           </Link>
-          <Styled.LogoutButton>
+          <button>
             <Link to="/" className="logout-button" onClick={onClickHandler}>
               Logout
             </Link>
-          </Styled.LogoutButton>
-        </Styled.LoginStateButtonContainer>
+          </button>
+        </>
       ) : (
-        <Styled.ButtonContainer>
-          <Styled.LoginButton>
+        <>
+          <button>
             <Link to="/login" className="login-button" onClick={handleLogin}>
               Log in
             </Link>
-          </Styled.LoginButton>
-          <Styled.SignupButton>
+          </button>
+          <button>
             <Link to="/signup" className="signup-button">
               Sign up
             </Link>
-          </Styled.SignupButton>
-        </Styled.ButtonContainer>
+          </button>
+        </>
       )}
-    </Styled.HeaderContainer>
+    </HeaderStyle>
   );
 };
 
