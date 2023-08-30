@@ -1,0 +1,45 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+logging:
+  security:
+#    oauth2:
+#      client:
+#        registration:
+#          kakao:
+#            client-id: # ? ?????? >? ?? > ? ? > REST API ?
+#            client-secret:  # ? ?????? > ?? ?? > ??? ??? > ?? > Client Secret
+#            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
+#            authorization-grant-type: authorization_code
+#            client-authentication-method: POST
+#            client-name: Kakao
+#            scope:
+#              - profile_nickname
+#              - profile_image
+#              - account_email
+#              - talk message
+#        provider:
+#          kakao:
+#            authorization-uri: https://kauth.kakao.com/oauth/authorize
+#            token-uri: https://kauth.kakao.com/oauth/token
+#            user-info-uri: https://kapi.kakao.com/v2/user/me
+#            user-name-attribute: id
+  level:
+    org:
+      springframework:
+        orm:
+          jpa: debug
+#admin:
+#  email: admin@studyground.com
+#  password: dlfeksgo16@
+#jwt:
+#  key: '${JWT_SECRET_KEY}'
+#  access-token-expiration-minutes: 30
+#  refresh-token-expiration-minutes: 420
