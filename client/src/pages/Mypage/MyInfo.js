@@ -1,4 +1,5 @@
 import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
 import {
   Calendar,
   LikedInfo,
@@ -35,7 +36,7 @@ const MyInfo = () => {
           <Written>작성한 글</Written>
         </Log>
       </SchedulePlusLog>
-      <div>Footer component 영역</div>
+      <Footer />
     </MypageStyle>
   );
 };
