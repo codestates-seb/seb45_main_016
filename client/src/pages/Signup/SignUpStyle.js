@@ -63,10 +63,3 @@ export const OAuthImage = styled.img`
   max-width: 150px;
   margin-top: 20px;
 `;
-
-export const ErrorMsg = styled.p`
-  color: blue;
-  font-size: 10px;
-  width: 100%;
-  margin-top: 0px;
-`;
