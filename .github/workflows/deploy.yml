@@ -34,11 +34,11 @@ jobs:
           java-version: 11
           distribution: 'temurin'
 
-    # appspec.yml, scripts(start.sh, stop.sh)디렉토리 복사
+      # appspec.yml, scripts(start.sh, stop.sh) directory copy
       - name: Copy appspec.yml to current directory
         run: |
-            cp server/appspec.yml .
-            cp -r server/scripts .
+          cp server/appspec.yml .
+          cp -r server/scripts .
         shell: bash
 
       - name: Build with Gradle and print build result
@@ -63,6 +63,10 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
+      - name: Debug
+        run: |
+          echo "AWS CLI version: $(aws --version)"
+
       - name: Upload to S3
         run: |
           aws deploy push \
@@ -70,6 +74,7 @@ jobs:
             --ignore-hidden-files \
             --s3-location s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip \
             --source .
+
       - name: Code Deploy
         run: |
           aws deploy create-deployment \
