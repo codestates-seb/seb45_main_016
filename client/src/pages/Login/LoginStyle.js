@@ -70,3 +70,10 @@ export const SignupLink = styled(Link)`
   text-decoration: none;
   margin-left: 5px;
 `;
+
+export const ErrorMsg = styled.p`
+  color: blue;
+  font-size: 10px;
+  width: 100%;
+  margin-top: 0px;
+`;

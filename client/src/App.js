@@ -24,7 +24,7 @@ function App() {
           <Route path="/community/detail" element={<ComDetail />} />
           <Route path="/write" element={<PostContent />} />
           <Route path="/mypage" element={<MyInfo />} />
-          <Route path="/search/result" element={<SearchFiltered />} />
+          <Route path="/search" element={<SearchFiltered />} />
         </Routes>
       </div>
     </Router>
