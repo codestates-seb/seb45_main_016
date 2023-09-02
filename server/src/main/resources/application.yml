@@ -40,9 +40,9 @@ logging:
       springframework:
         orm:
           jpa: debug
-admin:
-  email: admin@studyground.com #  email: '${ADMIN_EMAIL}' 나중에 변경하기
-  password: dlfeksgo16@ #  password: '${ADMIN_PASSWORD}' 나중에 변경하기
+mail:
+  address:
+    admin: admin@gmail.com # admin:'${ADMIN_EMAIL}' 나중에 변경하기
 jwt:
   key : dlfeksgo16@dlfeksgo16@dlfeksgo16@goqhwk16@ #  key: '${JWT_SECRET_KEY}' 나중에 변경하기
   access-token-expiration-minutes: 60
