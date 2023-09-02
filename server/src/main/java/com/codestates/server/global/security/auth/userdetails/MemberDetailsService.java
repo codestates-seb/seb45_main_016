@@ -1,8 +1,8 @@
-package com.codestates.server.global.security.userdetails;
+package com.codestates.server.global.security.auth.userdetails;
 
 import com.codestates.server.domain.member.entity.Member;
 import com.codestates.server.domain.member.repository.MemberRepository;
-import com.codestates.server.global.security.utils.CustomAuthorityUtils;
+import com.codestates.server.global.security.auth.utils.CustomAuthorityUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

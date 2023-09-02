@@ -1,4 +1,4 @@
-package com.codestates.server.global.security.dto;
+package com.codestates.server.global.security.auth.dto;
 
 import lombok.Getter;
 

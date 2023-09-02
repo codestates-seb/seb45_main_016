@@ -1,4 +1,4 @@
-package com.codestates.server.global.security.jwt;
+package com.codestates.server.global.security.auth.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
