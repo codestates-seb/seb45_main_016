@@ -2,12 +2,15 @@ package com.codestates.server.domain.member.service;
 
 import com.codestates.server.domain.member.entity.Member;
 import com.codestates.server.domain.member.repository.MemberRepository;
+import com.codestates.server.global.security.utils.CustomAuthorityUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,6 +19,11 @@ public class MemberService {
 
     // JpaRepository를 상속받은 memberReposiory
     private final MemberRepository memberRepository;
+
+    // 비밀번호 암호화
+    private final PasswordEncoder passwordEncoder;
+    // 사용자 권한 설정
+    private final CustomAuthorityUtils customAuthorityUtils;
 
     /**
      * 회원 가입 로직
@@ -28,6 +36,14 @@ public class MemberService {
 
         // 가입된 이메일인지 확인
         verifiyExistMember(member.getEmail());
+
+        // 비밀번호 암호화
+        String encrpytedPassword = passwordEncoder.encode(member.getPassword());
+        member.setPassword(encrpytedPassword);
+
+        // 이메일로 사용자 역할 DB에 저장
+        List<String> roles = customAuthorityUtils.createRoles(member.getEmail());
+        member.setRoles(roles);
 
         // 예외 발생 안 시키면 저장
         Member savedMember = memberRepository.save(member);
