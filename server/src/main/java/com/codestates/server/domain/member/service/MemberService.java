@@ -2,7 +2,7 @@ package com.codestates.server.domain.member.service;
 
 import com.codestates.server.domain.member.entity.Member;
 import com.codestates.server.domain.member.repository.MemberRepository;
-import com.codestates.server.global.security.utils.CustomAuthorityUtils;
+import com.codestates.server.global.security.auth.utils.CustomAuthorityUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
