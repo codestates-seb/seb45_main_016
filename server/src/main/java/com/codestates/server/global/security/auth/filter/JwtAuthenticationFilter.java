@@ -63,6 +63,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         // 생성된 Token -> Header에 보내기
         response.setHeader("Authorization", "Bearer " + accessToken);
         response.setHeader("Refresh", refreshToken);
+
+        this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);    // 로그인 성공, 실패 시 로그 출력
     }
 
     /**
