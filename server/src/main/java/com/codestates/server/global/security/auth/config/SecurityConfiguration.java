@@ -1,8 +1,13 @@
 package com.codestates.server.global.security.auth.config;
 
+import com.codestates.server.global.security.auth.filter.JwtAuthenticationFilter;
+import com.codestates.server.global.security.auth.jwt.JwtTokenizer;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -12,10 +17,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 @Configuration
+@AllArgsConstructor
 public class SecurityConfiguration {
+
+    private final JwtTokenizer jwtTokenizer;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -27,6 +33,8 @@ public class SecurityConfiguration {
                 .and()
                 .formLogin().disable()  // formLogin(주로 SSR 방식에서 사용됨) 허용 안 함 -> JSON 형식으로 전송할 것
                 .httpBasic().disable() // httpBasic(username, password를 헤더에 실어서 인증) 허용 안 함
+                .apply(new CustomFilterconfigurer())
+                .and()
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().permitAll()   // 모든 요청 접근 허용
                 );
@@ -64,5 +72,23 @@ public class SecurityConfiguration {
         source.registerCorsConfiguration("/**", configuration);
 
         return source;
+    }
+
+    /**
+     * spring security 에서 HttpSecurity를 구성하는데 사용되는 클래스
+     * 필터 추가
+     */
+    private class CustomFilterconfigurer extends AbstractHttpConfigurer<CustomFilterconfigurer, HttpSecurity> {
+        @Override
+        public void configure(HttpSecurity builder) throws Exception {
+
+            AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
+
+            // jwtAuthenticationFilter에 사용되는 authenticationManager, jwtTokenizer 추가
+            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer);
+            jwtAuthenticationFilter.setFilterProcessesUrl("/members/auth/login"); // 로그인 URL
+
+            builder.addFilter(jwtAuthenticationFilter); // spring security filter에 jwtAuthenticationFilter 추가
+        }
     }
 }
