@@ -1,6 +1,8 @@
 package com.codestates.server.global.security.auth.config;
 
 import com.codestates.server.global.security.auth.filter.JwtAuthenticationFilter;
+import com.codestates.server.global.security.auth.handler.MemberAuthenticationFailureHandler;
+import com.codestates.server.global.security.auth.handler.MemberAuthenticationSuccessHandler;
 import com.codestates.server.global.security.auth.jwt.JwtTokenizer;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -87,6 +89,8 @@ public class SecurityConfiguration {
             // jwtAuthenticationFilter에 사용되는 authenticationManager, jwtTokenizer 추가
             JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer);
             jwtAuthenticationFilter.setFilterProcessesUrl("/members/auth/login"); // 로그인 URL
+            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler()); // AuthenticationSuccessHandler 객체 생성
+            jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());  // AuthenticationFailureHandler 객체 생성
 
             builder.addFilter(jwtAuthenticationFilter); // spring security filter에 jwtAuthenticationFilter 추가
         }
