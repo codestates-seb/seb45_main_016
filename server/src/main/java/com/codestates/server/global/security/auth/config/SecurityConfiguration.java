@@ -2,6 +2,8 @@ package com.codestates.server.global.security.auth.config;
 
 import com.codestates.server.global.security.auth.filter.JwtAuthenticationFilter;
 import com.codestates.server.global.security.auth.filter.JwtVerificationFilter;
+import com.codestates.server.global.security.auth.handler.MemberAccessDeniedHandler;
+import com.codestates.server.global.security.auth.handler.MemberAuthenticationEntryPoint;
 import com.codestates.server.global.security.auth.handler.MemberAuthenticationFailureHandler;
 import com.codestates.server.global.security.auth.handler.MemberAuthenticationSuccessHandler;
 import com.codestates.server.global.security.auth.jwt.JwtTokenizer;
@@ -42,6 +44,10 @@ public class SecurityConfiguration {
                 .and()
                 .formLogin().disable()  // formLogin(주로 SSR 방식에서 사용됨) 허용 안 함 -> JSON 형식으로 전송할 것
                 .httpBasic().disable() // httpBasic(username, password를 헤더에 실어서 인증) 허용 안 함
+                .exceptionHandling()
+                .authenticationEntryPoint(new MemberAuthenticationEntryPoint()) // AuthenticationException 발생 시 호출
+                .accessDeniedHandler(new MemberAccessDeniedHandler())   // 권한 없을 때 호출
+                .and()
                 .apply(new CustomFilterconfigurer())
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
