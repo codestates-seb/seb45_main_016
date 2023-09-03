@@ -1,15 +1,19 @@
 package com.codestates.server.global.security.auth.config;
 
 import com.codestates.server.global.security.auth.filter.JwtAuthenticationFilter;
+import com.codestates.server.global.security.auth.filter.JwtVerificationFilter;
 import com.codestates.server.global.security.auth.handler.MemberAuthenticationFailureHandler;
 import com.codestates.server.global.security.auth.handler.MemberAuthenticationSuccessHandler;
 import com.codestates.server.global.security.auth.jwt.JwtTokenizer;
+import com.codestates.server.global.security.auth.utils.CustomAuthorityUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -24,6 +28,7 @@ import java.util.Arrays;
 public class SecurityConfiguration {
 
     private final JwtTokenizer jwtTokenizer;
+    private final CustomAuthorityUtils authorityUtils; // 사용자 권한 관련 유틸리티 클래스
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -33,6 +38,8 @@ public class SecurityConfiguration {
                 .csrf().disable() // csrf 허용 안 함
                 .cors().configurationSource(corsConfigurationSource())  // 직접 작성한 corsConfiguration 적용
                 .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)   // 세션을 짧게 가지고 가는 설정 추가 (무상태성 유지)
+                .and()
                 .formLogin().disable()  // formLogin(주로 SSR 방식에서 사용됨) 허용 안 함 -> JSON 형식으로 전송할 것
                 .httpBasic().disable() // httpBasic(username, password를 헤더에 실어서 인증) 허용 안 함
                 .apply(new CustomFilterconfigurer())
@@ -40,6 +47,31 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().permitAll()   // 모든 요청 접근 허용
                 );
+//                .authorizeHttpRequests(authorize -> authorize
+//                        .antMatchers(HttpMethod.POST, "/members/signup").permitAll()
+//                        .antMatchers(HttpMethod.PATCH, "/members/mypage/edit/**").hasRole("USER")
+//                        .antMatchers(HttpMethod.GET, "/members").hasRole("ADMIN")
+//                        .antMatchers(HttpMethod.GET, "/members/**").hasAnyRole("ADMIN", "USER")
+//                        .antMatchers(HttpMethod.DELETE, "/members/delete/**").hasAnyRole("USER")
+//
+//                        .antMatchers(HttpMethod.POST, "/boards/create").hasAnyRole("ADMIN", "USER")
+//                        .antMatchers(HttpMethod.PATCH, "/boards/edit/**").hasAnyRole("ADMIN", "USER")
+//                        .antMatchers(HttpMethod.GET, "/boards").permitAll()
+//                        .antMatchers(HttpMethod.GET, "/boards/**").permitAll()
+//                        .antMatchers(HttpMethod.DELETE, "/boards/delete/**").hasAnyRole("ADMIN", "USER")
+//
+//                        .antMatchers(HttpMethod.POST, "/boards/**/answers/create").hasAnyRole("ADMIN", "USER")
+//                        .antMatchers(HttpMethod.PATCH, "/boards/**/answers/**").hasAnyRole("ADMIN", "USER")
+//                        .antMatchers(HttpMethod.DELETE, "/boards/**/answers/**/delete").hasAnyRole("ADMIN", "USER")
+//
+//                        .antMatchers(HttpMethod.POST, "/answers/replies/create").hasAnyRole("ADMIN", "USER")
+//                        .antMatchers(HttpMethod.PATCH, "/answers/replies/**").hasAnyRole("ADMIN", "USER")
+//                        .antMatchers(HttpMethod.DELETE, "/answers/replies/**/delete").hasAnyRole("ADMIN", "USER")
+//
+//                        .antMatchers(HttpMethod.GET, "/licenses/**").permitAll()
+//                        .antMatchers(HttpMethod.GET, "/licenses").permitAll()
+//                );
+
         return http.build();
     }
 
@@ -92,7 +124,11 @@ public class SecurityConfiguration {
             jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler()); // AuthenticationSuccessHandler 객체 생성
             jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());  // AuthenticationFailureHandler 객체 생성
 
-            builder.addFilter(jwtAuthenticationFilter); // spring security filter에 jwtAuthenticationFilter 추가
+            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils);
+
+            builder
+                    .addFilter(jwtAuthenticationFilter) // spring security filter에 jwtAuthenticationFilter 추가
+                    .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);    // JwtVerificationFilter를 JwtAuthenticationFilter 뒤에 추가
         }
     }
 }
