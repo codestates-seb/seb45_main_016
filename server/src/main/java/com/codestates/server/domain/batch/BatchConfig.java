@@ -38,14 +38,14 @@ public class BatchConfig {
     private final StepBuilderFactory stepBuilderFactory;
     private final LicenseRepository licenseRepository;
     private final LicenseReader licenseReader;
+    private final LicenseProcessor licenseProcessor;
     private final LicenseWriter licenseWriter;
 
     @Bean
     public Job job() throws IOException {
         return jobBuilderFactory.get("job")
                 .start(step01())
-                .on("COMPLETED").to(step02())
-                .end()
+                .next(step02())
                 .build();
     }
 
@@ -53,7 +53,7 @@ public class BatchConfig {
     public Step step01(){
         return stepBuilderFactory.get("step01")
                 //<rader에 넘길 타입, writer에 넘길 타입>
-                .<CsvDto, CsvDto>chunk(200)
+                .<CsvDto, CsvDto>chunk(1000)
                 .reader(csvReader()) //csv파일 읽고 넘기는 로직
                 .writer(items -> csvWriter(items).write(items)) //받은 데이터 DB에 저장 로직
                 .build();
@@ -63,8 +63,9 @@ public class BatchConfig {
     public Step step02() throws IOException {
         return stepBuilderFactory.get("step02")
                 //<rader에 넘길 타입, writer에 넘길 타입>
-                .<License, License>chunk(200)
-                .reader(licenseReader.itemRead())
+                .<License, License>chunk(1000)
+                .reader(licenseReader) //DB에서 데이터 읽어오기
+                .processor(licenseProcessor) //데이터값으로 API 호출해서 전달
                 .writer(licenseWriter) //받은 데이터 DB에 저장 로직
                 .build();
     }
@@ -96,8 +97,9 @@ public class BatchConfig {
                     License license = getCsvDto.toEntity();
                     licenseList.add(license);
                 });
-                licenseList.forEach(System.out::println);
                 licenseRepository.saveAll(licenseList);
+                List<License> licenseLists = licenseRepository.findAll();
+                licenseLists.forEach(x-> System.out.println("라선리스트:" + x));
             }
         };
         return itemWriter;

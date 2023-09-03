@@ -9,39 +9,52 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonParser {
 
-    public License StringToLicense(String json) throws JsonProcessingException {
+    public License StringToLicense(String json, Long code , String name) throws JsonProcessingException {
 
         ObjectMapper objectMapper = new ObjectMapper();
+        License license = new License();
 
-        JsonNode jsonNode = objectMapper.readTree(String.valueOf(json));
-        System.out.println("jsonNode = " + jsonNode.toString());
+        try {
+            JsonNode jsonNode = objectMapper.readTree(String.valueOf(json));
+            JsonNode bodyNode = jsonNode.get("body").get("items");
+            String bodyJson = objectMapper.writeValueAsString(bodyNode);
 
-        JsonNode bodyNode = jsonNode.get("body").get("items");
-        String bodyJson = objectMapper.writeValueAsString(bodyNode);
-        System.out.println(bodyJson);
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            License[] licenses = objectMapper.readValue(bodyJson, License[].class);
 
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        License[] licenses = objectMapper.readValue(bodyJson, License[].class);
+            try{
+                license = licenses[0];
 
-        License license = licenses[0];
+                license.setCode(code);
+                license.setName(name);
 
-        System.out.println("code : " + license.getCode());
-        System.out.println("name : " + license.getName());
-        System.out.println("Implementation Year: " + license.getImplYy());
-        System.out.println("Implementation Sequence: " + license.getImplementationSequence());
-        System.out.println("Qualification Code: " + license.getQualificationCode());
-        System.out.println("Qualification Name: " + license.getQualificationName());
-        System.out.println("Description: " + license.getDescription());
-        System.out.println("Document Registration Start Date: " + license.getDocumentRegistrationStartDate());
-        System.out.println("Document Registration End Date: " + license.getDocumentRegistrationEndDate());
-        System.out.println("Document Exam Start Date: " + license.getDocumentExamStartDate());
-        System.out.println("Document Exam End Date: " + license.getDocumentExamEndDate());
-        System.out.println("Document Pass Date: " + license.getDocumentPassDate());
-        System.out.println("Practical Registration Start Date: " + license.getPracticalRegistrationStartDate());
-        System.out.println("Practical Registration End Date: " + license.getPracticalRegistrationEndDate());
-        System.out.println("Practical Exam Start Date: " + license.getPracticalExamStartDate());
-        System.out.println("Practical Exam End Date: " + license.getPracticalExamEndDate());
-        System.out.println("Practical Pass Date: " + license.getPracticalPassDate());
+                System.out.println("code : " + license.getCode());
+                System.out.println("name : " + license.getName());
+                System.out.println("Implementation Year: " + license.getImplYy());
+                System.out.println("Implementation Sequence: " + license.getImplementationSequence());
+                System.out.println("Qualification Code: " + license.getQualificationCode());
+                System.out.println("Qualification Name: " + license.getQualificationName());
+                System.out.println("Description: " + license.getDescription());
+                System.out.println("Document Registration Start Date: " + license.getDocumentRegistrationStartDate());
+                System.out.println("Document Registration End Date: " + license.getDocumentRegistrationEndDate());
+                System.out.println("Document Exam Start Date: " + license.getDocumentExamStartDate());
+                System.out.println("Document Exam End Date: " + license.getDocumentExamEndDate());
+                System.out.println("Document Pass Date: " + license.getDocumentPassDate());
+                System.out.println("Practical Registration Start Date: " + license.getPracticalRegistrationStartDate());
+                System.out.println("Practical Registration End Date: " + license.getPracticalRegistrationEndDate());
+                System.out.println("Practical Exam Start Date: " + license.getPracticalExamStartDate());
+                System.out.println("Practical Exam End Date: " + license.getPracticalExamEndDate());
+                System.out.println("Practical Pass Date: " + license.getPracticalPassDate());
+
+                return license;
+
+            }catch (Exception e){
+                System.out.println(e.toString());
+            }
+
+        }catch (Exception e){
+            return license;
+        }
 
         return license;
     }

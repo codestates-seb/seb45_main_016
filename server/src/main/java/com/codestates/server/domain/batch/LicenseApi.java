@@ -48,6 +48,8 @@ public class LicenseApi {
         rd.close();
         conn.disconnect();
 
+        System.out.println("sb" + sb);
+
         return String.valueOf(sb); // string으로 리턴 (json값을 가지고 있음)
     }
 

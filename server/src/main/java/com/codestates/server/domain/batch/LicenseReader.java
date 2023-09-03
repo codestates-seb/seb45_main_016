@@ -8,49 +8,36 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.NonTransientResourceException;
+import org.springframework.batch.item.ParseException;
+import org.springframework.batch.item.UnexpectedInputException;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.support.ListItemReader;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-public class LicenseReader {
+public class LicenseReader implements ItemReader<License> {
 
     private final LicenseRepository licenseRepository;
 
-    @Bean
-    public ListItemReader<License> itemRead() throws IOException {
+    private Iterator<License> licenseIterator;
 
-        LicenseDto licenseDto = new LicenseDto();
-        List<License> licenses = licenseRepository.findAll();
+    @Override
+    public License read() {
+        if (licenseIterator == null) {
+            licenseIterator = licenseRepository.findAll().iterator();
+        }
 
-
-        List<String> jsonList = licenses.stream().map(x -> {
-            try {
-                return new LicenseApi().callApiToString(x.getCode());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }).collect(Collectors.toList());
-
-        List<License> licenseList = jsonList.stream().map(x -> {
-            try {
-                return new JsonParser().StringToLicense(x);
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
-        }).collect(Collectors.toList());
-
-        licenseList.forEach(x -> System.out.println("요기야" + x));
-
-        ListItemReader<License> listItemReader = new ListItemReader<>(licenseList);
-
-        return listItemReader;
+        return licenseIterator.hasNext() ? licenseIterator.next() : null;
     }
 }

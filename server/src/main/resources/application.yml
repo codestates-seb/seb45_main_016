@@ -1,4 +1,7 @@
 spring:
+  batch:
+    jdbc:
+      isolation-level-for-create: default
   h2:
     console:
       enabled: true
