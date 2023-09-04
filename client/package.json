@@ -13,6 +13,7 @@
     "react-router-dom": "^6.15.0",
     "react-scripts": "5.0.1",
     "styled-components": "^6.0.7",
+    "token-transformer": "^0.0.33",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -20,7 +21,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "token": "token-transformer src/styles/tokens.json src/styles/global.json global --expandTypography=true --expandShadow=true --expandComposition=true --expandBorder=true",
+    "chromatic": "npx chromatic --project-token=6a567d6510c8"
   },
   "eslintConfig": {
     "extends": [
