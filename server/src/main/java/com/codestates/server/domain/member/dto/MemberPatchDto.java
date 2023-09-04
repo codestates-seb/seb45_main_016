@@ -21,6 +21,8 @@ public class MemberPatchDto {
 
     private String password;
 
+    private String phone;
+
     private String profileImage;
 
 }
