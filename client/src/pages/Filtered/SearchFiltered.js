@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   CommunityCategory,
   FilteredStyle,
@@ -6,14 +7,16 @@ import {
 } from './FilteredStyle';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
+import { useParams } from 'react-router-dom'; // useParams를 import
 
 const SearchFiltered = () => {
   const pagingNum = [1, 2, 3, 4, 5, 6, 7];
+  const { query } = useParams(); // URL 파라미터로부터 검색어 추출
 
   return (
     <FilteredStyle>
       <Header />
-      <div className="title">{`'정보 처리 기사'`}에 대한 검색 결과 입니다.</div>
+      <div className="title">{`'${query}'에 관한 결과입니다.`}</div>
       <LicenseCategory>
         <p>자격증 정보</p>
         <div>img</div>
@@ -25,7 +28,7 @@ const SearchFiltered = () => {
       <Paging>
         <span>{`<`}</span>
         {pagingNum.map((el) => {
-          return <button key={pagingNum}>{el}</button>;
+          return <button key={el}>{el}</button>;
         })}
         <span>{`>`}</span>
       </Paging>

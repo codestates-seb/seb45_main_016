@@ -43,12 +43,11 @@ const Header = () => {
       <SearchBar />
       {userId ? (
         <>
-          <Link to="/userinfo">
-            <img
-              // src="https://i.pinimg.com/564x/18/b4/69/18b4699032c3019658996090bbe54d3f.jpg"
-              alt="useravatar"
-            />
-          </Link>
+          <img
+            // src="https://i.pinimg.com/564x/18/b4/69/18b4699032c3019658996090bbe54d3f.jpg"
+            alt="useravatar"
+          />
+
           <button>
             <Link to="/" className="logout-button" onClick={onClickHandler}>
               Logout
