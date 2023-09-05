@@ -4,9 +4,6 @@ export const PostContentStyle = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  p {
-    border-bottom: 2px solid green;
-  }
   textarea {
     height: 70%;
     resize: none;
@@ -14,23 +11,23 @@ export const PostContentStyle = styled.div`
   textarea:focus {
     outline: none;
   }
-  .post {
-    border: none;
-    background-color: pink;
-    padding: 30px;
-    cursor: pointer;
-  }
 `;
 
 export const TitleWrap = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   border-bottom: 2px solid green;
   input {
-    flex-grow: 1;
     border: none;
+    padding-top: 10%;
   }
   input:focus {
     outline: none;
+  }
+  button {
+    margin-left: 90%;
+  }
+  span {
+    margin-left: 95%;
   }
 `;

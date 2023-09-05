@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import * as Styled from './ComListStyle';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const ComData = [
   { title: '제목 1', description: '글 내용 1' },
@@ -31,8 +31,14 @@ const ComList = () => {
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, totalItems);
 
+  const navigator = useNavigate();
+
   const handleChangePage = (page) => {
     setCurrentPage(page);
+  };
+
+  const openDetail = () => {
+    navigator('/community/detail');
   };
 
   return (
@@ -46,7 +52,7 @@ const ComList = () => {
       </Styled.AddPostButton>
       <Styled.GridContainer>
         {ComData.slice(startIndex, endIndex).map((info, index) => (
-          <Styled.ComBox key={index}>
+          <Styled.ComBox key={index} onClick={openDetail}>
             <Styled.Title>{info.title}</Styled.Title>
             <Styled.Description>{info.description}</Styled.Description>
           </Styled.ComBox>
