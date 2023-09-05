@@ -1,39 +1,46 @@
-// import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as Styled from './MainStyle';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
-// import info from '../../utils/Api';
+import axios from 'axios';
 
 const Main = () => {
   // eslint-disable-next-line no-undef
   const imageUrl = process.env.PUBLIC_URL + '/STUDY_GROUND.JPG';
 
-  // 가상의 자격증 데이터
-  const certificationData = [
-    { id: 1, name: '자격증 1', views: 100 },
-    { id: 2, name: '자격증 2', views: 200 },
-    { id: 3, name: '자격증 3', views: 600 },
-    { id: 4, name: '자격증 4', views: 400 },
-    { id: 5, name: '자격증 5', views: 500 },
-    // 더 많은 자격증 데이터
-  ];
+  const [certificationData, setCertificationData] = useState([]);
+  const [communityData, setCommunityData] = useState([]);
 
-  // 가상의 커뮤니티 데이터
-  const communityData = [
-    { id: 1, title: '글 1', views: 50 },
-    { id: 2, title: '글 2', views: 75 },
-    { id: 3, title: '글 3', views: 60 },
-    { id: 4, title: '글 4', views: 90 },
-    { id: 5, title: '글 5', views: 120 },
-    // 더 많은 커뮤니티 데이터
-  ];
+  useEffect(() => {
+    // 자격증 데이터 가져오기
+    axios
+      .get('YOUR_CERTIFICATION_API_URL')
+      .then((response) => {
+        setCertificationData(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching certification data:', error);
+      });
 
-  // 조회수에 따라 데이터 정렬
+    // 커뮤니티 데이터 가져오기
+    axios
+      .get('YOUR_COMMUNITY_API_URL')
+      .then((response) => {
+        setCommunityData(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching community data:', error);
+      });
+  }, []);
+
+  // 자격증 데이터를 조회수(count)에 따라 정렬
   const sortedCertifications = certificationData
-    .sort((a, b) => b.views - a.views)
+    .sort((a, b) => b.count - a.count)
     .slice(0, 5);
+
+  // 커뮤니티 데이터를 조회수(count)에 따라 정렬
   const sortedCommunity = communityData
-    .sort((a, b) => b.views - a.views)
+    .sort((a, b) => b.count - a.count)
     .slice(0, 5);
 
   return (
@@ -47,7 +54,7 @@ const Main = () => {
         <Styled.TopText>최근 가장 핫한 자격증</Styled.TopText>
         {sortedCertifications.map((certification) => (
           <Styled.Box key={certification.id}>
-            {certification.name} - 조회수: {certification.views}
+            {certification.name} - 조회수: {certification.count}
           </Styled.Box>
         ))}
       </Styled.TopContainer>
@@ -56,7 +63,7 @@ const Main = () => {
         <Styled.TopText>COMMUNITY</Styled.TopText>
         {sortedCommunity.map((post) => (
           <Styled.Box key={post.id}>
-            {post.title} - 조회수: {post.views}
+            {post.title} - 조회수: {post.count}
           </Styled.Box>
         ))}
       </Styled.ComContainer>

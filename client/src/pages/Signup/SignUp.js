@@ -81,7 +81,6 @@ function SignUp() {
     <Styled.Wrap>
       <Header />
       <Styled.SignUpContainer>
-        <h1>회원 가입</h1>
         <Styled.SignUpForm onSubmit={handleSubmit(onSubmit)}>
           <div>
             <Styled.SignUpInput

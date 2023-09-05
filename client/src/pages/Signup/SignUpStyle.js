@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import globalTokens from '../../styles/global.json';
 
 export const Wrap = styled.div`
   position: fixed;
@@ -9,24 +10,25 @@ export const Wrap = styled.div`
 `;
 
 export const SignUpContainer = styled.div`
-  margin: 150px auto;
+  margin: 9% auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  height: 500px;
-  width: 412px;
-  border-radius: 2%;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  height: 67%;
+  width: 32%;
+  border-radius: 20px;
+  box-shadow: 0 2px 10px ${globalTokens.LoginBoxShadow.color.value};
 `;
 
 export const SignUpForm = styled.form`
   display: flex;
   flex-direction: column;
+  // background-color: #ffcc00;
   align-items: center;
   justify-content: center;
-  height: 390px;
-  width: 278px;
+  height: 78%;
+  width: 80%;
 `;
 
 export const SignUpInput = styled.input`
@@ -43,14 +45,16 @@ export const SignUpInput = styled.input`
 `;
 
 export const SignUpButton = styled.button`
-  height: 40px;
-  background-color: #007bff;
-  color: white;
+  height: 50%;
+  width: 100%;
+  background-color: ${globalTokens.Primary.Default.value};
+  color: ${globalTokens.White.value};
   border: none;
-  border-radius: 4px;
+  border-radius: ${globalTokens.Button.value}px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
   :hover {
-    background-color: #0056b3;
+    background-color: ${globalTokens.Primary['Darken-1'].value};
   }
 `;
 
