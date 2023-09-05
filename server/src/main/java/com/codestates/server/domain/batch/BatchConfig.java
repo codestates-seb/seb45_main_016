@@ -63,7 +63,7 @@ public class BatchConfig {
     public Step step02() throws IOException {
         return stepBuilderFactory.get("step02")
                 //<rader에 넘길 타입, writer에 넘길 타입>
-                .<License, License>chunk(1000)
+                .<License, List<License>>chunk(1000)
                 .reader(licenseReader) //DB에서 데이터 읽어오기
                 .processor(licenseProcessor) //데이터값으로 API 호출해서 전달
                 .writer(licenseWriter) //받은 데이터 DB에 저장 로직
@@ -98,8 +98,6 @@ public class BatchConfig {
                     licenseList.add(license);
                 });
                 licenseRepository.saveAll(licenseList);
-                List<License> licenseLists = licenseRepository.findAll();
-                licenseLists.forEach(x-> System.out.println("라선리스트:" + x));
             }
         };
         return itemWriter;

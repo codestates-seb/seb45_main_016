@@ -5,18 +5,24 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Configuration
 @RequiredArgsConstructor
-public class LicenseProcessor implements ItemProcessor<License, License>{
+public class LicenseProcessor implements ItemProcessor<License, List<License>>{
 
     @Override
-    public License process(License item) throws Exception {
+    public List<License> process(License item) throws Exception {
+
+        List<License> licenses = new ArrayList<>();
+
         if(item != null){
             String json = new LicenseApi().callApiToString(item.getCode());
-            License license = new JsonParser().StringToLicense(json, item.getCode(), item.getName());
+            licenses = new JsonParser().StringToLicense(json, item.getCode(), item.getName());
 
-            return license;
+            return licenses;
         }
-        return item;
+        return licenses;
     }
 }
