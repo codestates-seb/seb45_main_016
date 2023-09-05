@@ -5,7 +5,7 @@ export const login = async (data) => {
     const res = await axios({
       method: 'post',
       data,
-      url: `https://62f8-116-125-236-74.ngrok-free.app/users/login`,
+      url: ``,
     });
     return res;
   } catch (e) {
@@ -18,7 +18,7 @@ export const signUp = async (data) => {
     const res = await axios({
       method: 'post',
       data,
-      url: `https://62f8-116-125-236-74.ngrok-free.app/users/login`,
+      url: ``,
     });
     return res;
   } catch (e) {

@@ -1,29 +1,46 @@
 import React, { useState } from 'react';
-import * as Styled from './HeaderStyle';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components'; // styled-components를 import
+import {
+  HeaderStyle as OriginalHeaderStyle,
+  InputContainer,
+  SearchBox,
+} from './HeaderStyle'; // HeaderStyle 스타일들을 import
 
-const SearchBar = () => {
-  const [searchQuery, setSearchQuery] = useState('');
+const HeaderStyle = styled(OriginalHeaderStyle)`
+  /* 여기에 추가하고자 하는 스타일을 정의합니다. */
+`;
 
-  const handleSearch = (event) => {
-    event.preventDefault();
-    if (searchQuery.trim() !== '') {
-      window.location.href = `/search?query=${encodeURIComponent(searchQuery)}`;
+function SearchBar() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
+
+  const saveKeywordAndNavigate = () => {
+    if (searchTerm.trim() !== '') {
+      const updatedKeywords = [searchTerm];
+      localStorage.setItem('savedKeywords', updatedKeywords);
+      setSearchTerm('');
+
+      navigate('/search');
+
+      // 페이지 이동 후 새로고침
+      window.location.reload();
     }
   };
 
   return (
-    <Styled.InputContainer>
-      <Styled.SearchBox
-        value={searchQuery}
-        onChange={(event) => setSearchQuery(event.target.value)}
-        onKeyPress={(event) => {
-          if (event.key === 'Enter') {
-            handleSearch(event);
-          }
-        }}
-      ></Styled.SearchBox>
-    </Styled.InputContainer>
+    <HeaderStyle>
+      <InputContainer>
+        <SearchBox
+          type="text"
+          placeholder="검색어를 입력하세요"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <button onClick={saveKeywordAndNavigate}>검색</button>
+      </InputContainer>
+    </HeaderStyle>
   );
-};
+}
 
 export default SearchBar;
