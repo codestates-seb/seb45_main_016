@@ -43,29 +43,16 @@ const Header = () => {
       <SearchBar />
       {userId ? (
         <>
-<<<<<<< Updated upstream
           <img
             // src="https://i.pinimg.com/564x/18/b4/69/18b4699032c3019658996090bbe54d3f.jpg"
             alt="useravatar"
           />
-
           <button>
             <Link to="/" className="logout-button" onClick={onClickHandler}>
               Logout
             </Link>
           </button>
-=======
-          <Link to="/userinfo">
-            <img
-              // src="https://i.pinimg.com/564x/18/b4/69/18b4699032c3019658996090bbe54d3f.jpg"
-              alt="useravatar"
-            />
-          </Link>
-
-          <Link to="/" className="logout-button" onClick={onClickHandler}>
-            <button>Logout</button>
-          </Link>
->>>>>>> Stashed changes
+          ====
         </>
       ) : (
         <>
