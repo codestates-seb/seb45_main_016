@@ -4,7 +4,7 @@ import Header from '../../components/Header/Header';
 import { PostContentStyle, TitleWrap } from './PostContentStyle';
 // import { API } from '../../utils/API';
 
-const PostContent = () => {
+const Edit = () => {
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState();
   const [content, setContent] = useState();
@@ -27,14 +27,14 @@ const PostContent = () => {
     setContent(e.target.value);
   };
 
-  localStorage.setItem('title', title);
-  localStorage.setItem('content', content);
+  localStorage.setItem('editedTitle', title);
+  localStorage.setItem('editedContent', content);
 
-  const post = () => {
-    // const method = 'post';
+  const fetch = () => {
+    // const method = 'fetch';
     if (count > 0 && content.length > 0) {
-      console.log('post합니다');
-      // API(url, method);
+      console.log('fetch합니다');
+      // API(url,method);
     }
   };
 
@@ -42,18 +42,23 @@ const PostContent = () => {
     <PostContentStyle>
       <Header />
       <TitleWrap>
-        <button onClick={post}>저장하기</button>
+        <button onClick={fetch}>저장하기</button>
         <span>{count}/20</span>
-        <input placeholder="제목을 입력하세요" onKeyUp={titleHandler}></input>
+        <input
+          onKeyUp={titleHandler}
+          name="input"
+          defaultValue="현재 페이지 수정의 제목"
+        ></input>
       </TitleWrap>
       <textarea
-        placeholder="내용을 입력하세요"
         ref={focusRef}
         onKeyUp={contentHandler}
+        name="textarea"
+        defaultValue="현재 페이지 수정의 글 내용"
       ></textarea>
       <Footer />
     </PostContentStyle>
   );
 };
 
-export default PostContent;
+export default Edit;

@@ -29,20 +29,21 @@ const Header = () => {
           </Link>
         </div>
       </Logo>
-      <Link to="/info">자격증 정보</Link>
+      <Link to="/info">
+        <button>자격증 정보</button>
+      </Link>
+      <Link to="/community">
+        <button>Community</button>
+      </Link>
       {userId ? (
-        <>
-          <Link to="/community">Community</Link>
-          <Link to="/mypage">My Page</Link>
-        </>
-      ) : (
-        <button>
-          <Link to="/community">Community</Link>
-        </button>
-      )}
+        <Link to="/mypage">
+          <button>My Page</button>
+        </Link>
+      ) : null}
       <SearchBar />
       {userId ? (
         <>
+<<<<<<< Updated upstream
           <img
             // src="https://i.pinimg.com/564x/18/b4/69/18b4699032c3019658996090bbe54d3f.jpg"
             alt="useravatar"
@@ -53,19 +54,28 @@ const Header = () => {
               Logout
             </Link>
           </button>
+=======
+          <Link to="/userinfo">
+            <img
+              // src="https://i.pinimg.com/564x/18/b4/69/18b4699032c3019658996090bbe54d3f.jpg"
+              alt="useravatar"
+            />
+          </Link>
+
+          <Link to="/" className="logout-button" onClick={onClickHandler}>
+            <button>Logout</button>
+          </Link>
+>>>>>>> Stashed changes
         </>
       ) : (
         <>
-          <button>
-            <Link to="/login" className="login-button" onClick={handleLogin}>
-              Log in
-            </Link>
-          </button>
-          <button>
-            <Link to="/signup" className="signup-button">
-              Sign up
-            </Link>
-          </button>
+          <Link to="/login" className="login-button" onClick={handleLogin}>
+            <button>Log in</button>
+          </Link>
+
+          <Link to="/signup" className="signup-button">
+            <button>Sign up</button>
+          </Link>
         </>
       )}
     </HeaderStyle>

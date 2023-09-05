@@ -4,7 +4,6 @@ export const ComContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
 `;
 
 export const AlertContainer = styled.div`
@@ -28,6 +27,7 @@ export const ComBox = styled.div`
   height: 180px;
   padding: 10px;
   border: 1px solid #ccc;
+  cursor: pointer;
 `;
 
 export const Title = styled.h2`

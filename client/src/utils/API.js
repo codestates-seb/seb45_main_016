@@ -26,18 +26,17 @@ export const signUp = async (data) => {
   }
 };
 
-export const Post = async (url) => {
+export const API = async (url, metho) => {
   try {
-    const response = await axios.post(
-      url,
-      {},
-      {
-        headers: {
-          Authorization: localStorage.getItem('Token'),
-          dataType: 'json',
-        },
+    const response = await axios({
+      method: metho,
+      url: url,
+      // {body형태 넣기},
+      headers: {
+        Authorization: localStorage.getItem('Token'),
+        dataType: 'json',
       },
-    );
+    });
     console.log(response.data);
 
     return response;
