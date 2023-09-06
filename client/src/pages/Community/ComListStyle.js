@@ -1,6 +1,8 @@
 import styled from 'styled-components';
+import globaltoken from '../../styles/global.json';
 
 export const ComContainer = styled.div`
+  font-family: ${globaltoken.Label.fontFamily.value};
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,40 +19,85 @@ export const AlertContainer = styled.div`
 `;
 
 export const GridContainer = styled.div`
+  width: 80%;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(421px, 1fr));
+  gap: 24px;
 `;
 
-export const ComBox = styled.div`
-  width: 300px;
-  height: 180px;
-  padding: 10px;
-  border: 1px solid #ccc;
+export const ComCardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 139px 81.5px;
+  border-radius: ${globaltoken.CommunityCard.value}px;
+  border: ${globaltoken.CommunityBorderDefault.width.value}px
+    ${globaltoken.CommunityBorderDefault.style.value}
+    ${globaltoken.CommunityBorderDefault.color.value};
   cursor: pointer;
+
+  > img {
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    margin: 0;
+  }
+
+  &:hover {
+    border: 2px ${globaltoken.CommunityBorderHover.style.value}
+      ${globaltoken.CommunityBorderHover.color.value};
+  }
 `;
 
-export const Title = styled.h2`
-  font-size: 18px;
-  margin-bottom: 5px;
+export const Username = styled.p`
+  margin: 12px 0 0 0;
+  font-size: 12px;
+  color: ${globaltoken.Gray[600].value};
 `;
 
-export const Description = styled.p`
-  font-size: 14px;
+export const Email = styled.p`
+  margin: 0;
+  font-size: 12px;
+  color: ${globaltoken.Gray[600].value};
+`;
+
+export const Tag = styled.p`
+  margin: 64px 0 0 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: ${globaltoken.Gray[800].value};
+`;
+
+export const Title = styled.p`
+  margin: 10px 0 0 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: ${globaltoken.Gray[800].value};
 `;
 
 export const AddPostButton = styled.button`
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
+  font-family: ${globaltoken.Label.fontFamily.value};
+  display: flex;
+  align-items: flex-end;
+  background-color: ${globaltoken.White.value};
+  color: ${globaltoken.Gray[600].value};
+  border: 1px solid ${globaltoken.Gray[600].value};
+  border-radius: 100px;
   cursor: pointer;
   padding: 8px 16px;
-  font-size: 14px;
-  margin-top: 20px;
-  margin-left: auto; /* 오른쪽으로 붙이기 */
-  :hover {
-    background-color: #0056b3;
+  font-size: 16px;
+  margin: 0 10% 34px auto;
+
+  > a {
+    color: ${globaltoken.Gray[600].value};
+    text-decoration: none;
+  }
+
+  &:hover {
+    border: 1px solid ${globaltoken.Primary.Default.value};
+    color: ${globaltoken.Primary.Default.value};
+    font-weight: bold;
   }
 `;
 
