@@ -52,7 +52,6 @@ const Header = () => {
               Logout
             </Link>
           </button>
-          ====
         </>
       ) : (
         <>

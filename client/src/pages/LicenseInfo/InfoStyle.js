@@ -1,43 +1,29 @@
 // InfoStyle.js
 import styled from 'styled-components';
+import globalToken from '/Users/pchoo/seb45_main_016/client/src/styles/global.json';
+
+const { Primary } = globalToken;
 
 export const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
 `;
 
 export const AlertContainer = styled.div`
-  background-color: #f8f8f8;
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  width: 80%;
-  height: 500px;
-  text-align: center;
+  font-size: 36px;
+  font-weight: 800;
+  line-height: normal;
+  color: ${Primary['Default'].value};
+  margin: 9% auto;
 `;
 
 export const GridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-`;
-
-export const InfoBox = styled.div`
-  width: 250px; /* 너비를 더 넓게 조정 */
-  height: 150px; /* 높이를 더 높게 조정 */
-  padding: 10px;
-  border: 1px solid #ccc;
-`;
-
-export const Title = styled.h2`
-  font-size: 18px;
-  margin-bottom: 5px;
-`;
-
-export const Description = styled.p`
-  font-size: 14px;
+  width: 90%;
+  margin: 0.5% 0 21% 0;
+  gap: 6.5% 1.5%;
 `;
 
 export const PaginationContainer = styled.div`

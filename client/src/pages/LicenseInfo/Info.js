@@ -1,8 +1,10 @@
 // Info.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Styled from './InfoStyle';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
+import InfoCard from '../../components/LicenseCard/LicenseCard';
+import Modal from '../../components/Modal/Modal';
 
 const InfoData = [
   { title: '자격증 1', description: '자격증 1에 대한 설명' },
@@ -25,11 +27,27 @@ const ITEMS_PER_PAGE = 9; // 한 페이지에 보여줄 아이템 수
 
 const Info = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [isModalOpen, setModalOpen] = useState(false);
+
   const totalItems = InfoData.length;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, totalItems);
+
+  const route = () => {
+    if (isModalOpen === false) {
+      setModalOpen(true);
+    }
+  };
+
+  useEffect(() => {
+    if (isModalOpen === true) {
+      document.body.style = `overflow:hidden`;
+    } else {
+      document.body.style = `overflow:display`;
+    }
+  });
 
   const handleChangePage = (page) => {
     setCurrentPage(page);
@@ -44,12 +62,15 @@ const Info = () => {
 
       <Styled.GridContainer>
         {InfoData.slice(startIndex, endIndex).map((info, index) => (
-          <Styled.InfoBox key={index}>
-            <Styled.Title>{info.title}</Styled.Title>
-            <Styled.Description>{info.description}</Styled.Description>
-          </Styled.InfoBox>
+          <InfoCard
+            key={index}
+            title={info.title}
+            description={info.description}
+            onClick={route}
+          />
         ))}
       </Styled.GridContainer>
+      {isModalOpen === true && <Modal setModalOpen={setModalOpen} />}
 
       <Styled.PaginationContainer>
         {Array.from({ length: totalPages }, (_, index) => (
