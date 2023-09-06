@@ -1,18 +1,19 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import KakaoLogin from 'react-kakao-login';
 import jwt_decode from 'jwt-decode'; // jwt-decode 라이브러리를 추가합니다.
 import * as Styled from './LoginStyle';
 import { login } from '../../utils/API';
 import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
 
+// eslint-disable-next-line no-undef
+const imageUrl = process.env.PUBLIC_URL + '/KaKaoLogo.png';
 function Login() {
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting, isDirty, errors },
+    formState: { isSubmitting },
   } = useForm();
   const navigate = useNavigate();
 
@@ -88,61 +89,37 @@ function Login() {
             type="text"
             name="email"
             placeholder="Email"
-            aria-invalid={
-              !isDirty ? undefined : errors.email ? 'true' : 'false'
-            }
             {...register('email', {
               required: '이메일은 필수 입력입니다.',
-              pattern: {
-                value:
-                  /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/,
-                message: '이메일 형식에 맞지 않습니다.',
-              },
             })}
           />
-          {errors.email && (
-            <Styled.ErrorMsg role="alert">
-              {errors.email.message}
-            </Styled.ErrorMsg>
-          )}
+
           <Styled.LoginInput
             type="password"
             name="password"
             placeholder="Password"
             autoComplete="on"
-            aria-invalid={
-              !isDirty ? undefined : errors.password ? 'true' : 'false'
-            }
             {...register('password', {
               required: '비밀번호는 필수 입력입니다.',
-              pattern: {
-                value: /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z\d]).{8,}$/,
-                message:
-                  '비밀번호는 8자리 이상 숫자, 문자, 특수문자 조합으로 입력해야 합니다.',
-              },
             })}
           />
-          {errors.password && (
-            <Styled.ErrorMsg role="alert">
-              {errors.password.message.replace("'", '&apos;')}
-            </Styled.ErrorMsg>
-          )}
-          <Styled.LoginButton type="submit" disabled={isSubmitting}>
-            Login
-          </Styled.LoginButton>
         </Styled.LoginForm>
+        <Styled.LoginButton type="submit" disabled={isSubmitting}>
+          Login
+        </Styled.LoginButton>
+        <Styled.DivisionLine />
         <KakaoLogin
           token="c87f3be5672760404116af0672b10766"
           onSuccess={onKakaoLoginSuccess}
           onFail={onKakaoLoginFail}
+          style={{ background: 'none', border: 'none', padding: '0' }} // 스타일 추가
         >
-          카카오로 로그인
+          <img src={imageUrl} alt="카카오로 회원 가입" />
         </KakaoLogin>
         <Styled.LinkWrap>
           <span>계정이 없으신가요?</span>
-          <Link to="/signup">Sign Up</Link>
+          <Styled.styledLink to="/signup">Sign up</Styled.styledLink>
         </Styled.LinkWrap>
-        <Footer />
       </Styled.LoginContainer>
     </Styled.Wrap>
   );
