@@ -12,9 +12,10 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Like {
+public class Bookmark {
     @Id
-    private Long likeId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long bookmarkId;
 
     @Column
     private Long count;

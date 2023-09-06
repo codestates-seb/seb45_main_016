@@ -15,7 +15,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class License {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @JsonProperty("code")

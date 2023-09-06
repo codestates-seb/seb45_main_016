@@ -1,6 +1,7 @@
-package com.codestates.server.domain.batch;
+package com.codestates.server.domain.batch.infra;
 
 import com.codestates.server.domain.license.dto.LicenseDto;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.BufferedReader;
 import java.io.IOException;

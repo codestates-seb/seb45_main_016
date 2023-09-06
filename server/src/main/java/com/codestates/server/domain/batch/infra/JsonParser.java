@@ -1,6 +1,4 @@
-package com.codestates.server.domain.batch;
-
-import com.codestates.server.domain.license.dto.LicenseDto;
+package com.codestates.server.domain.batch.infra;
 import com.codestates.server.domain.license.entity.License;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -12,10 +10,12 @@ import java.util.List;
 
 public class JsonParser {
 
-    public List<License> StringToLicense(String json, Long code , String name) throws JsonProcessingException {
+    public List<License> StringToLicense(String json, Long code , String name){
 
         ObjectMapper objectMapper = new ObjectMapper();
         List<License> licenseList = new ArrayList<>();
+
+        Long id = 1L;
 
         try {
             JsonNode jsonNode = objectMapper.readTree(String.valueOf(json));
@@ -24,6 +24,7 @@ public class JsonParser {
 
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             License[] licenses = objectMapper.readValue(bodyJson, License[].class);
+
 
 
             try{
@@ -57,7 +58,7 @@ public class JsonParser {
                 return licenseList;
 
             }catch (Exception e){
-                System.out.println(e.toString());
+                System.out.println(e.getMessage());
             }
 
         }catch (Exception e){

@@ -56,3 +56,5 @@ logging:
 #  key: '${JWT_SECRET_KEY}'
 #  access-token-expiration-minutes: 30
 #  refresh-token-expiration-minutes: 420
+secret:
+  key: "=hN6HzankT%2Bi7Qds9PJjAjFb6R6xzw5DAvqBHMSOjw4yaA98ubFd6IRzWT8Kz5CcCiksKJz7qPFdZOsOcjjn4MA%3D%3D"
