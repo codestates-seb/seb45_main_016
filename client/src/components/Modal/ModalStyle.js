@@ -6,11 +6,11 @@ const { Primary, White, Gray } = globalToken;
 export const ModalStyle = styled.div`
   position: fixed;
   height: 45%;
-  width: 79.5%;
+  width: 57.5%;
 `;
 
 export const Content = styled.div`
-  margin: 2vh auto;
+  margin: 5% auto;
   border-radius: 20px;
   background-color: #fff;
   padding: 10.5% 5.5%;
