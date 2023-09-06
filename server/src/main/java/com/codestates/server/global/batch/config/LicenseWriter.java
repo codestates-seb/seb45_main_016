@@ -1,4 +1,4 @@
-package com.codestates.server.domain.batch.config;
+package com.codestates.server.global.batch.config;
 
 import com.codestates.server.domain.license.entity.License;
 import com.codestates.server.domain.license.repository.LicenseRepository;

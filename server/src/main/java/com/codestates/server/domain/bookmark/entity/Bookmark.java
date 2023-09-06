@@ -1,4 +1,4 @@
-package com.codestates.server.domain.license.entity;
+package com.codestates.server.domain.bookmark.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package com.codestates.server.domain.batch.infra;
+package com.codestates.server.global.batch.infra;
 import com.codestates.server.domain.license.entity.License;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;

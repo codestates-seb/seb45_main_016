@@ -1,7 +1,7 @@
-package com.codestates.server.domain.batch.config;
+package com.codestates.server.global.batch.config;
 
-import com.codestates.server.domain.batch.infra.JsonParser;
-import com.codestates.server.domain.batch.infra.LicenseApi;
+import com.codestates.server.global.batch.infra.JsonParser;
+import com.codestates.server.global.batch.infra.LicenseApi;
 import com.codestates.server.domain.license.entity.License;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.ItemProcessor;

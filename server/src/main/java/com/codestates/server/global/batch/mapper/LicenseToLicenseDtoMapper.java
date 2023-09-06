@@ -1,4 +1,4 @@
-package com.codestates.server.domain.batch.mapper;
+package com.codestates.server.global.batch.mapper;
 
 import org.mapstruct.Mapper;
 

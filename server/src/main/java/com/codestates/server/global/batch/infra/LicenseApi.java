@@ -1,4 +1,4 @@
-package com.codestates.server.domain.batch.infra;
+package com.codestates.server.global.batch.infra;
 
 import com.codestates.server.domain.license.dto.LicenseDto;
 import org.springframework.beans.factory.annotation.Value;
