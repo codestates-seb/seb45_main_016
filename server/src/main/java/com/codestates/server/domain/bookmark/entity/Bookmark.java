@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class Bookmark {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long bookmarkId;
+    private Long id;
 
     @Column
     private Long count;
