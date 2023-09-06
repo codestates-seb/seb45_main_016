@@ -1,7 +1,10 @@
+import React, { useState } from 'react';
+import { Calendar } from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
+
 import {
-  Calendar,
   LikedInfo,
   MypageStyle,
   Profile,
@@ -13,6 +16,11 @@ import {
 } from './MypageStyle';
 
 const MyInfo = () => {
+  const [date, setDate] = useState(new Date());
+
+  const handleDateChange = (date) => {
+    setDate(date);
+  };
   return (
     <MypageStyle>
       <Header />
@@ -30,7 +38,9 @@ const MyInfo = () => {
         </ProfileRight>
       </Profile>
       <SchedulePlusLog>
-        <Calendar>달력</Calendar>
+        <div className="calendar-container">
+          <Calendar onChange={handleDateChange} value={date} />
+        </div>
         <Log>
           <LikedInfo>관심있는 자격 정보</LikedInfo>
           <Written>작성한 글</Written>
