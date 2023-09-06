@@ -1,5 +1,6 @@
 package com.codestates.server.global.security.response;
 
+import com.codestates.server.global.exception.ExceptionCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -49,9 +50,9 @@ public class ErrorResponse {
     }
 
     // 예외 코드로 ErrorReponse 객체 생성
-//    public static ErrorResponse of(ExceptionCode exceptionCode) {
-//        return new ErrorResponse(exceptionCode.getStatus(), exceptionCode.getMessage());
-//    }
+    public static ErrorResponse of(ExceptionCode exceptionCode) {
+        return new ErrorResponse(exceptionCode.getStatus(), exceptionCode.getMessage());
+    }
 
     // 상태 코드, 기본 메세지로 ErrorReponse 객체 생성
     public static ErrorResponse of(HttpStatus httpStatus) {
