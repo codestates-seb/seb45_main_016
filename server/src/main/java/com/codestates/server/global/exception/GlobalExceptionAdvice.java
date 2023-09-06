@@ -1,6 +1,6 @@
 package com.codestates.server.global.exception;
 
-import com.codestates.server.global.response.ErrorResponse;
+import com.codestates.server.global.security.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
