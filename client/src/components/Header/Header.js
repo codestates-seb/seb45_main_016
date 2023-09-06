@@ -3,6 +3,9 @@ import { HeaderStyle, Logo } from './HeaderStyle';
 import { Link } from 'react-router-dom';
 import SearchBar from '../Header/Searchbar'; // SearchBar 컴포넌트를 import
 
+// eslint-disable-next-line no-undef
+const imageUrl = process.env.PUBLIC_URL + '/Logo.png';
+
 const Header = () => {
   const userId = localStorage.getItem('userId');
 
@@ -22,10 +25,7 @@ const Header = () => {
       <Logo>
         <div>
           <Link to="/">
-            <img
-              // src="https://stackoverflow.design/assets/img/logos/so/logo-stackoverflow.svg"
-              alt="logo"
-            />
+            <img src={imageUrl} alt="logo" />
           </Link>
         </div>
       </Logo>

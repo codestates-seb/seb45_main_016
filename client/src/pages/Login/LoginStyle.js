@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import globalTokens from '../../styles/global.json';
 
 export const Wrap = styled.div`
   position: fixed;
@@ -7,73 +8,96 @@ export const Wrap = styled.div`
   width: 100%;
   height: 100%;
   z-index: 800;
+  overflow-y: auto;
 `;
 
 export const LoginContainer = styled.div`
-  margin: 150px auto 0; /* 상단 여백을 추가하여 입력란을 아래로 이동 */
+  margin: 10% auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  height: 500px;
-  width: 412px;
-  border-radius: 2%;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 네모박스에 그림자 스타일 추가 */
+  height: 80%;
+  width: 30%;
+  border-radius: 20px;
+  box-shadow: 2px 2px 30px 0px rgba(0, 0, 0, 0.1);
 `;
 
 export const LoginForm = styled.form`
   display: flex;
+  margin-top: 5%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 390px;
-  width: 278px;
+  height: 50%;
+  width: 100%;
 `;
 
 export const LoginInput = styled.input`
-  height: 30px;
-  margin-bottom: 20px;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  :focus {
+  height: 10%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  margin-left: 10%;
+  margin-right: 10%;
+  width: 80%;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid ${globalTokens.Primary.Default.value}; /* 초록색으로 변경 */
+  align-self: stretch;
+  &:focus {
     outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 5px rgba(0, 123, 255, 0.3);
   }
 `;
 
 export const LoginButton = styled.button`
-  height: 40px;
-  background-color: #007bff;
-  color: white;
+  height: 7%;
+  width: 80%;
+  font-size: 16px;
+  background-color: ${globalTokens.Primary.Default.value};
+  color: ${globalTokens.White.value};
   border: none;
-  border-radius: 4px;
+  border-radius: ${globalTokens.Button.value}px;
   cursor: pointer;
-  :hover {
-    background-color: #0056b3;
+  &:hover {
+    /* :hover를 사용하여 마우스를 가져다 댔을 때의 스타일을 정의합니다. */
+    background-color: ${globalTokens.Primary['Darken-1'].value};
   }
 `;
 
-export const OAuthImage = styled.img`
-  max-width: 150px;
-  margin-top: 20px;
+export const DivisionLine = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  width: 80%;
+  height: 1px;
+  background-color: ${globalTokens.Gray[400].value};
+  margin: 20px 0;
+
+  &::before {
+    content: '또는';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white; /* 텍스트 배경색을 페이지 배경색과 동일하게 설정 */
+    padding: 0 10%;
+    font-size: 12px;
+    color: ${globalTokens.Gray[400].value};
+    z-index: 1; /* 텍스트를 선 위에 표시하려면 z-index 값을 설정합니다 */
+  }
 `;
 
 export const LinkWrap = styled.div`
   text-align: center;
-  margin-top: 20px;
+  height: 10%;
+  width: 80%;
+  font-size: 12px;
+  color: ${globalTokens.Gray[400].value};
 `;
 
-export const SignupLink = styled(Link)`
-  color: #007bff;
+export const styledLink = styled(Link)`
+  font-size: 100%;
+  color: ${globalTokens.Secondary.Default.value};
   text-decoration: none;
-  margin-left: 5px;
-`;
-
-export const ErrorMsg = styled.p`
-  color: blue;
-  font-size: 10px;
-  width: 100%;
-  margin-top: 0px;
 `;

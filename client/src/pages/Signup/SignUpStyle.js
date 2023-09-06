@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import globalTokens from '../../styles/global.json';
+import { Link } from 'react-router-dom';
 
 export const Wrap = styled.div`
   position: fixed;
@@ -7,70 +8,100 @@ export const Wrap = styled.div`
   width: 100%;
   height: 100%;
   z-index: 800;
+  overflow-y: auto; /* 내용이 넘칠 경우 스크롤 표시 */
 `;
 
 export const SignUpContainer = styled.div`
-  margin: 9% auto;
+  margin: 10% auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  height: 67%;
-  width: 32%;
+  height: 100%;
+  width: 30%;
+  // background-color: blue;
   border-radius: 20px;
-  box-shadow: 0 2px 10px ${globalTokens.LoginBoxShadow.color.value};
+  box-shadow: 2px 2px 30px 0px rgba(0, 0, 0, 0.1);
 `;
 
 export const SignUpForm = styled.form`
   display: flex;
+  margin-top: 10%;
   flex-direction: column;
-  // background-color: #ffcc00;
   align-items: center;
   justify-content: center;
-  height: 78%;
-  width: 80%;
+  height: 50%;
+  width: 100%;
 `;
 
 export const SignUpInput = styled.input`
-  height: 30px;
-  margin-bottom: 20px;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  :focus {
+  height: 10%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  margin-left: 10%;
+  margin-right: 10%;
+  width: 80%;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid ${globalTokens.Primary.Default.value}; /* 초록색으로 변경 */
+  align-self: stretch;
+  transition: border-color 0.1s ease;
+  &.input-error {
+    border-bottom: 1px solid ${globalTokens.Negative.value};
+  }
+  &:focus {
     outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 5px rgba(0, 123, 255, 0.3);
   }
 `;
 
 export const SignUpButton = styled.button`
-  height: 50%;
-  width: 100%;
+  height: 7%;
+  width: 80%;
+  font-size: 16px;
   background-color: ${globalTokens.Primary.Default.value};
   color: ${globalTokens.White.value};
   border: none;
   border-radius: ${globalTokens.Button.value}px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  :hover {
+  &:hover {
     background-color: ${globalTokens.Primary['Darken-1'].value};
+  }
+`;
+
+export const DivisionLine = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  width: 80%;
+  height: 1px;
+  background-color: ${globalTokens.Gray[400].value};
+  margin: 20px 0;
+
+  &::before {
+    content: '또는';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 0 10%;
+    font-size: 12px;
+    color: ${globalTokens.Gray[400].value};
+    z-index: 1;
   }
 `;
 
 export const LoginWrap = styled.div`
   text-align: center;
-  margin-top: 20px;
+  height: 10%;
+  width: 80%;
+  font-size: 12px;
+  color: ${globalTokens.Gray[400].value};
 `;
 
-export const OAuthImage = styled.img`
-  max-width: 150px;
-  margin-top: 20px;
-`;
-
-export const ErrorMsg = styled.p`
-  color: blue;
-  font-size: 10px;
-  width: 100%;
-  margin-top: 0px;
+export const styledLink = styled(Link)`
+  font-size: 100%;
+  color: ${globalTokens.Secondary.Default.value};
+  text-decoration: none; /* 올바른 속성 이름을 사용하세요 (예: 'text-decoration') */
 `;

@@ -1,17 +1,22 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { signUp } from '../../utils/API';
 import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
 import KakaoLogin from 'react-kakao-login';
 import * as Styled from '../Signup/SignUpStyle'; // 스타일 컴포넌트 가져오기
+// import KakaoImage from '../../../public/KaKaoLogo.png'; // Replace with the correct path to your Kakao logo image
+
+const inputErrorClass = 'input-error'; // Add your error styling class here
+// eslint-disable-next-line no-undef
+const imageUrl = process.env.PUBLIC_URL + '/KaKaoLogo.png';
 
 function SignUp() {
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting, errors }, // Get errors from useForm
+    trigger, // Trigger function to perform validation
   } = useForm();
 
   const navigate = useNavigate();
@@ -22,7 +27,7 @@ function SignUp() {
         userName: data.name,
         email: data.email,
         password: data.password,
-        phonenumber: data.phonenumber,
+        phonenumber: data.phone, // Use 'phone' field for the phone number
       });
 
       if (response?.status === 201) {
@@ -82,79 +87,96 @@ function SignUp() {
       <Header />
       <Styled.SignUpContainer>
         <Styled.SignUpForm onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <Styled.SignUpInput
-              type="text"
-              name="name"
-              placeholder="이름"
-              {...register('name', {
-                required: '이름은 필수 입력입니다.',
-              })}
-            />
-            {errors.name && (
-              <Styled.ErrorMsg>{errors.name.message}</Styled.ErrorMsg>
-            )}
-          </div>
-          <div>
-            <Styled.SignUpInput
-              type="email"
-              name="email"
-              placeholder="이메일"
-              {...register('email', {
-                required: '이메일은 필수 입력입니다.',
-              })}
-            />
-            {errors.email && (
-              <Styled.ErrorMsg>{errors.email.message}</Styled.ErrorMsg>
-            )}
-          </div>
-          <div>
-            <Styled.SignUpInput
-              type="password"
-              name="password"
-              placeholder="비밀번호"
-              {...register('password', {
-                required: '비밀번호는 필수 입력입니다.',
-              })}
-            />
-            {errors.password && (
-              <Styled.ErrorMsg>{errors.password.message}</Styled.ErrorMsg>
-            )}
-          </div>
-          <div>
-            <Styled.SignUpInput
-              type="tel"
-              name="phone"
-              placeholder="전화번호"
-              {...register('phone', {
-                required: '전화번호는 필수 입력입니다.',
-              })}
-            />
-            {errors.phone && (
-              <Styled.ErrorMsg>{errors.phone.message}</Styled.ErrorMsg>
-            )}
-          </div>
-          <Styled.SignUpButton type="submit" disabled={isSubmitting}>
-            회원 가입
-          </Styled.SignUpButton>
-        </Styled.SignUpForm>
+          <Styled.SignUpInput
+            type="text"
+            name="name"
+            placeholder="유저명 입력은 필수 입니다."
+            {...register('name', {
+              required: '유저명은 필수 입력입니다.',
+            })}
+            onBlur={() => trigger('name')} // Validate on blur
+            className={errors.name ? inputErrorClass : ''} // 에러 발생 시 에러 스타일 클래스 적용
+          />
+          {/* {errors.name && (
+              <span className="error-message">{errors.name.message}</span>
+            )} */}
 
+          <Styled.SignUpInput
+            type="email"
+            name="email"
+            placeholder="이메일 형식에 따라 작성해주세요."
+            {...register('email', {
+              required: '이메일은 필수 입력입니다.',
+              pattern: {
+                value:
+                  /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/,
+                message: '이메일 형식에 맞지 않습니다.',
+              },
+            })}
+            onBlur={() => trigger('email')} // Validate on blur
+            className={errors.email ? inputErrorClass : ''} // 에러 발생 시 에러 스타일 클래스 적용
+          />
+          {/* {errors.email && (
+              <span className="error-message">{errors.email.message}</span>
+            )} */}
+
+          <Styled.SignUpInput
+            type="password"
+            name="password"
+            placeholder="비밀번호는 8자리 이상 숫자,문자,특수문자 조합입니다."
+            {...register('password', {
+              required: '비밀번호는 필수 입력입니다.',
+              pattern: {
+                value: /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z\d]).{8,}$/,
+                message: '비밀번호는 8자리 이상 숫자, 문자, 특수문자',
+              },
+            })}
+            onBlur={() => trigger('password')} // Validate on blur
+            className={errors.password ? inputErrorClass : ''} // 에러 발생 시 에러 스타일 클래스 적용
+          />
+          {/* {errors.password && (
+              <span className="error-message">{errors.password.message}</span>
+            )} */}
+
+          <Styled.SignUpInput
+            type="tel"
+            name="phone"
+            placeholder="전화번호 (11자리 숫자)"
+            {...register('phone', {
+              required: '전화번호는 필수 입력입니다.',
+              pattern: {
+                value: /^\d{11}$/, // Require exactly 11 digits
+                message: '전화번호는 11자리 숫자여야 합니다.',
+              },
+            })}
+            onBlur={() => trigger('phone')} // Validate on blur
+            className={errors.phone ? inputErrorClass : ''} // Apply error class if there are errors
+          />
+          {/* {errors.phone && (
+              <span className="error-message">{errors.phone.message}</span>
+            )} */}
+          {/* <Styled.SignUpButton type="submit" disabled={isSubmitting}>
+            회원 가입
+          </Styled.SignUpButton> */}
+        </Styled.SignUpForm>
+        <Styled.SignUpButton type="submit" disabled={isSubmitting}>
+          SIGN UP
+        </Styled.SignUpButton>
+        <Styled.DivisionLine />
         <KakaoLogin
-          token="c87f3be5672760404116af0672b10766" // 여기에 카카오 개발자 사이트에서 발급한 클라이언트 ID를 넣으세요
+          token="c87f3be5672760404116af0672b10766"
           onSuccess={onKakaoLoginSuccess}
           onFail={onKakaoLoginFail}
+          style={{ background: 'none', border: 'none', padding: '0' }} // 스타일 추가
         >
-          카카오로 회원 가입
+          <img src={imageUrl} alt="카카오로 회원 가입" />
         </KakaoLogin>
-
         <Styled.LoginWrap>
-          <span>이미 아이디가 있으신가요?</span>
-          <Link to="/login">로그인</Link>
+          <span>이미 아이디가 있나요? </span>
+          <Styled.styledLink to="/login">Login</Styled.styledLink>
         </Styled.LoginWrap>
-        <Footer />
       </Styled.SignUpContainer>
     </Styled.Wrap>
   );
 }
-
 export default SignUp;
