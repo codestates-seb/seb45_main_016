@@ -19,6 +19,8 @@ public class MemberResponseDto {
 
     private String nickname;
 
+    private String phone;
+
     private String profileImage;
 
 //    private List<Like> likeList;
