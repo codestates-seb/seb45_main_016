@@ -1,5 +1,6 @@
 package com.codestates.server.global.security.auth.config;
 
+import com.codestates.server.domain.member.repository.MemberRepository;
 import com.codestates.server.global.security.auth.filter.JwtAuthenticationFilter;
 import com.codestates.server.global.security.auth.filter.JwtVerificationFilter;
 import com.codestates.server.global.security.auth.handler.MemberAccessDeniedHandler;
@@ -8,16 +9,21 @@ import com.codestates.server.global.security.auth.handler.MemberAuthenticationFa
 import com.codestates.server.global.security.auth.handler.MemberAuthenticationSuccessHandler;
 import com.codestates.server.global.security.auth.jwt.JwtTokenizer;
 import com.codestates.server.global.security.auth.utils.CustomAuthorityUtils;
+
+import com.codestates.server.global.security.oauth2.v3.OAuth2MemberSuccessHandler3;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -26,11 +32,13 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 
 @Configuration
-@AllArgsConstructor
+@EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfiguration {
 
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils; // 사용자 권한 관련 유틸리티 클래스
+    private final MemberRepository memberRepository;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -52,7 +60,9 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().permitAll()   // 모든 요청 접근 허용
-                );
+                )
+                .oauth2Login(oauth2 -> oauth2
+                        .successHandler(new OAuth2MemberSuccessHandler3(jwtTokenizer, authorityUtils, memberRepository)));
 //                .authorizeHttpRequests(authorize -> authorize
 //                        .antMatchers(HttpMethod.POST, "/members/signup").permitAll()
 //                        .antMatchers(HttpMethod.PATCH, "/members/mypage/edit/**").hasRole("USER")
@@ -137,4 +147,5 @@ public class SecurityConfiguration {
                     .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);    // JwtVerificationFilter를 JwtAuthenticationFilter 뒤에 추가
         }
     }
+
 }
