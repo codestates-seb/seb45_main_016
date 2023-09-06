@@ -1,5 +1,6 @@
 package com.codestates.server.domain.board.entity;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -40,8 +41,15 @@ public class Board {
 
 	// 댓글 및 대댓글과의 연관관계 구성해야함.
 
-
 	@ManyToOne
 	@JoinColumn(name = "memberId")
 	private Member member;
+
+	//
+	// @Column(name = "memberNickname")
+	// private String memberNickname;
+	//
+	// @Column(name = "memberEmail")
+	// private String memberEmail;
+
 }
