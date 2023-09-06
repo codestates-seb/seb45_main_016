@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import globalToken from '/Users/pchoo/seb45_main_016/client/src/styles/global.json';
+import globalToken from '../../styles/global.json';
 
 const { LicenseCard, LicenseCardBorder, Primary, Gray } = globalToken;
 
