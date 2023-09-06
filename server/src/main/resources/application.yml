@@ -12,29 +12,28 @@ spring:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
-#logging:
-#  security:
-#    oauth2:
-#      client:
-#        registration:
-#          kakao:
-#            client-id: b05b33f9ad8c9790f4281e18ebd1e7fc
-#            client-secret:  7dXriA9W9qAdL5SvlFtBx9NBLRR3y3Bl
-#            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
-#            authorization-grant-type: authorization_code
-#            client-authentication-method: POST
-#            client-name: Kakao
-#            scope:
-#              - profile_nickname
-#              - profile_image
-#              - account_email
-#              - talk message
-#        provider:
-#          kakao:
-#            authorization-uri: https://kauth.kakao.com/oauth/authorize
-#            token-uri: https://kauth.kakao.com/oauth/token
-#            user-info-uri: https://kapi.kakao.com/v2/user/me
-#            user-name-attribute: id
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: b05b33f9ad8c9790f4281e18ebd1e7fc
+            client-secret:  7dXriA9W9qAdL5SvlFtBx9NBLRR3y3Bl
+            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
+            authorization-grant-type: authorization_code
+            client-authentication-method: POST
+            client-name: Kakao
+            scope:
+              - profile_nickname
+              - profile_image
+              - account_email
+              - talk message
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
   level:
     org:
       springframework:
