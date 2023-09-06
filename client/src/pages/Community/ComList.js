@@ -2,23 +2,78 @@ import React, { useState } from 'react';
 import * as Styled from './ComListStyle';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import ComCard from '../../components/ComCard';
 
 const ComData = [
-  { title: '제목 1', description: '글 내용 1' },
-  { title: '제목 2', description: '글 내용 2' },
-  { title: '제목 3', description: '글 내용 3' },
-  { title: '제목 4', description: '글 내용 4' },
-  { title: '제목 5', description: '글 내용 5' },
-  { title: '제목 6', description: '글 내용 6' },
-  { title: '제목 7', description: '글 내용 7' },
-  { title: '제목 8', description: '글 내용 8' },
-  { title: '제목 9', description: '글 내용 9' },
-  { title: '제목 10', description: '글 내용 10' },
-  { title: '제목 11', description: '글 내용 11' },
-  { title: '제목 12', description: '글 내용 12' },
-  { title: '제목 13', description: '글 내용 13' },
-  // ... 다른 자격증 데이터들
+  {
+    username: 'Username1',
+    email: '123@gmail.com',
+    tag: '[후기]',
+    title: '정보처리기사 꿀팁 공유합니다.',
+  },
+  {
+    username: 'Username2',
+    email: '456@gmail.com',
+    tag: '[질문]',
+    title: '정보처리기사 꿀팁 공유합니다.',
+  },
+  {
+    username: 'Username3',
+    email: '789@gmail.com',
+    tag: '[후기]',
+    title: '정보처리기사 꿀팁 공유합니다.',
+  },
+  {
+    username: 'Username4',
+    email: 'qwe@gmail.com',
+    tag: '[질문]',
+    title: '정보처리기사 꿀팁 공유합니다.',
+  },
+  {
+    username: 'Username5',
+    email: 'ert@gmail.com',
+    tag: '[후기]',
+    title: '정보처리기사 꿀팁 공유합니다.',
+  },
+  {
+    username: 'Username6',
+    email: 'rty@gmail.com',
+    tag: '[질문]',
+    title: '정보처리기사 꿀팁 공유합니다.',
+  },
+  {
+    username: 'Username7',
+    email: 'tyu@gmail.com',
+    tag: '[후기]',
+    title: '정보처리기사 꿀팁 공유합니다.',
+  },
+  {
+    username: 'Username8',
+    email: 'yui@gmail.com',
+    tag: '[질문]',
+    title: '정보처리기사 꿀팁 공유합니다.',
+  },
+  {
+    username: 'Username9',
+    email: 'uio@gmail.com',
+    tag: '[후기]',
+    title: '정보처리기사 꿀팁 공유합니다.',
+  },
+  {
+    username: 'Username10',
+    email: 'iop@gmail.com',
+    tag: '[질문]',
+    title: '정보처리기사 꿀팁 공유합니다.',
+  },
+  {
+    username: 'Username11',
+    email: 'opp@gmail.com',
+    tag: '[후기]',
+    title: '정보처리기사 꿀팁 공유합니다.',
+  },
+
+  // ... 다른 글 데이터들
 ];
 
 const ITEMS_PER_PAGE = 6; // 한 페이지에 보여줄 아이템 수
@@ -44,18 +99,20 @@ const ComList = () => {
   return (
     <Styled.ComContainer>
       <Header />
-      <Styled.AlertContainer>
-        시험 꿀팁, 후기 함께 나눠요!
-      </Styled.AlertContainer>
-      <Styled.AddPostButton>
-        <Link to="/write">글 작성하기</Link>
+      <Styled.AlertContainer>COMMUNITY</Styled.AlertContainer>
+      <Styled.AddPostButton onClick={navigator('/write')}>
+        글 작성하기
       </Styled.AddPostButton>
       <Styled.GridContainer>
         {ComData.slice(startIndex, endIndex).map((info, index) => (
-          <Styled.ComBox key={index} onClick={openDetail}>
-            <Styled.Title>{info.title}</Styled.Title>
-            <Styled.Description>{info.description}</Styled.Description>
-          </Styled.ComBox>
+          <ComCard
+            key={index}
+            username={info.username}
+            email={info.email}
+            tag={info.tag}
+            title={info.title}
+            onClick={openDetail}
+          />
         ))}
       </Styled.GridContainer>
 
@@ -64,7 +121,7 @@ const ComList = () => {
           <Styled.PaginationButton
             key={index}
             onClick={() => handleChangePage(index + 1)}
-            data-currentpage={currentPage === index + 1} // 커스텀 속성으로 변경
+            currentPage={currentPage === index + 1} // currentPage 값 전달
             disabled={currentPage === index + 1}
           >
             {index + 1}
