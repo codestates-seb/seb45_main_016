@@ -64,7 +64,7 @@ const ComList = () => {
           <Styled.PaginationButton
             key={index}
             onClick={() => handleChangePage(index + 1)}
-            currentPage={currentPage === index + 1} // currentPage 값 전달
+            data-currentpage={currentPage === index + 1} // 커스텀 속성으로 변경
             disabled={currentPage === index + 1}
           >
             {index + 1}

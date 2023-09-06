@@ -1,6 +1,6 @@
 // InfoStyle.js
 import styled from 'styled-components';
-import globalToken from '/Users/pchoo/seb45_main_016/client/src/styles/global.json';
+import globalToken from '../../styles/global.json';
 
 const { Primary } = globalToken;
 
@@ -33,15 +33,19 @@ export const PaginationContainer = styled.div`
 `;
 
 export const PaginationButton = styled.button`
-  margin: 0 5px;
   background-color: ${(props) =>
-    props.currentPage === true ? '#0056b3' : '#000000'};
-  color: white;
+    props['data-currentpage'] ? '#007bff' : '#f8f8f8'};
+  color: ${(props) => (props['data-currentpage'] ? 'white' : '#333')};
   border: none;
   border-radius: 4px;
-  cursor: pointer;
+  cursor: ${(props) => (props['data-currentpage'] ? 'default' : 'pointer')};
   padding: 5px 10px;
   :hover {
-    background-color: #0056b3;
+    background-color: ${(props) =>
+      props['data-currentpage'] ? '#007bff' : '#f8f8f8'};
+    color: ${(props) => (props['data-currentpage'] ? 'white' : '#333')};
+  }
+  :disabled {
+    cursor: not-allowed;
   }
 `;
