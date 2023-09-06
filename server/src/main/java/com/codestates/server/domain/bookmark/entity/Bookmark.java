@@ -1,5 +1,6 @@
 package com.codestates.server.domain.bookmark.entity;
 
+import com.codestates.server.domain.license.entity.License;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,4 +21,6 @@ public class Bookmark {
     @Column
     private Long count;
 
+    @OneToOne
+    private License license;
 }
