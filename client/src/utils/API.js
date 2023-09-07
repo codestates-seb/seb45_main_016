@@ -26,12 +26,12 @@ export const signUp = async (data) => {
   }
 };
 
-export const API = async (url, metho) => {
+export const API = async (url, metho, body) => {
   try {
     const response = await axios({
       method: metho,
       url: url,
-      // {body형태 넣기},
+      body: body,
       headers: {
         Authorization: localStorage.getItem('Token'),
         dataType: 'json',

@@ -1,10 +1,18 @@
 import React from 'react';
-import { HeaderStyle, Logo } from './HeaderStyle';
+import {
+  HeaderStyle,
+  Logo,
+  Headerform,
+  Linkform,
+  Loginform,
+} from './HeaderStyle';
 import { Link } from 'react-router-dom';
 import SearchBar from '../Header/Searchbar'; // SearchBar 컴포넌트를 import
 
 // eslint-disable-next-line no-undef
 const imageUrl = process.env.PUBLIC_URL + '/Logo.png';
+// eslint-disable-next-line no-undef
+const imageUrl1 = process.env.PUBLIC_URL + '/ava.png';
 
 const Header = () => {
   const userId = localStorage.getItem('userId');
@@ -22,48 +30,49 @@ const Header = () => {
 
   return (
     <HeaderStyle>
-      <Logo>
-        <div>
-          <Link to="/">
-            <img src={imageUrl} alt="logo" />
+      <Headerform>
+        <Linkform>
+          <Logo>
+            <div>
+              <Link to="/">
+                <img src={imageUrl} alt="logo" />
+              </Link>
+            </div>
+          </Logo>
+          <Link to="/info">
+            <button>LIENSE</button>
           </Link>
-        </div>
-      </Logo>
-      <Link to="/info">
-        <button>자격증 정보</button>
-      </Link>
-      <Link to="/community">
-        <button>Community</button>
-      </Link>
-      {userId ? (
-        <Link to="/mypage">
-          <button>My Page</button>
-        </Link>
-      ) : null}
-      <SearchBar />
-      {userId ? (
-        <>
-          <img
-            // src="https://i.pinimg.com/564x/18/b4/69/18b4699032c3019658996090bbe54d3f.jpg"
-            alt="useravatar"
-          />
-          <button>
-            <Link to="/" className="logout-button" onClick={onClickHandler}>
-              Logout
+          <Link to="/community">
+            <button>COMMUNITY</button>
+          </Link>
+          {userId ? (
+            <Link to="/mypage">
+              <button>MY PAGE</button>
             </Link>
-          </button>
-        </>
-      ) : (
-        <>
-          <Link to="/login" className="login-button" onClick={handleLogin}>
-            <button>Log in</button>
-          </Link>
+          ) : null}
+        </Linkform>
+        <SearchBar />
+        <Loginform>
+          {userId ? (
+            <>
+              <img src={imageUrl1} alt="useravatar" />
+              <Link to="/" className="logout-button" onClick={onClickHandler}>
+                <button> Logout</button>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="login-button" onClick={handleLogin}>
+                <button>Login</button>
+              </Link>
 
-          <Link to="/signup" className="signup-button">
-            <button>Sign up</button>
-          </Link>
-        </>
-      )}
+              <Link to="/signup" className="signup-button">
+                <button>Signup</button>
+              </Link>
+            </>
+          )}
+        </Loginform>
+      </Headerform>
     </HeaderStyle>
   );
 };

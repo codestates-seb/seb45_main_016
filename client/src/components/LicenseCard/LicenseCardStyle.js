@@ -6,7 +6,7 @@ const { LicenseCard, LicenseCardBorder, Primary, Gray } = globalToken;
 export const InfoCardStyle = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 20% 10.5%;
+  padding: 57.5px 44px;
   font-size: 16px;
   border-radius: ${LicenseCard.value}px;
   border: 1px solid ${LicenseCardBorder['color'].value};

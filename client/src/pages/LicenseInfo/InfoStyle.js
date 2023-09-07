@@ -20,7 +20,7 @@ export const AlertContainer = styled.div`
 
 export const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(391px, 1fr));
   width: 90%;
   margin: 0.5% 0 21% 0;
   gap: 6.5% 1.5%;

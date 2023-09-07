@@ -3,12 +3,10 @@ import { Link } from 'react-router-dom';
 import globalTokens from '../../styles/global.json';
 
 export const Wrap = styled.div`
-  position: fixed;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 800;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto; /* 내용이 넘칠 경우 스크롤 표시 */
 `;
 
 export const LoginContainer = styled.div`
@@ -17,7 +15,7 @@ export const LoginContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  height: 80%;
+  height: 100vh;
   width: 30%;
   border-radius: 20px;
   box-shadow: 2px 2px 30px 0px rgba(0, 0, 0, 0.1);

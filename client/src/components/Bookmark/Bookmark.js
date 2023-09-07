@@ -1,14 +1,30 @@
 import { useState } from 'react';
 import { BookmarkStyle } from './BookmarkStyle';
+// import { API } from '../../utils/API';
 
 const Bookmark = () => {
   const [isLiked, setLiked] = useState(false);
 
-  const pushHeart = () => {
+  //   const url = '북마크 요청 주소';
+
+  // const body = {
+  //     userId:"",
+  //     licenseId:"",
+  // }
+
+  const pushHeart = (e) => {
     if (isLiked === false) {
       setLiked(true);
+      // const method = 'post';
+      console.log('해당 데이터에서 북마크 정보를 보냅니다');
+      //   API(url, method, body);
+      e.stopPropagation();
     } else {
       setLiked(false);
+      // const method = 'delete';
+      console.log('해당 데이터에서 북마크 정보를 삭제합니다');
+      //API(url, method, body);
+      e.stopPropagation();
     }
   };
 
