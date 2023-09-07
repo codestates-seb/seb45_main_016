@@ -10,7 +10,7 @@ import com.codestates.server.global.security.auth.handler.MemberAuthenticationSu
 import com.codestates.server.global.security.auth.jwt.JwtTokenizer;
 import com.codestates.server.global.security.auth.utils.CustomAuthorityUtils;
 
-import com.codestates.server.global.security.oauth2.v3.OAuth2MemberSuccessHandler3;
+import com.codestates.server.global.security.oauth2.v2.OAuth2MemberSuccessHandler2;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -21,15 +21,23 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -61,8 +69,9 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().permitAll()   // 모든 요청 접근 허용
                 )
-                .oauth2Login(oauth2 -> oauth2
-                        .successHandler(new OAuth2MemberSuccessHandler3(jwtTokenizer, authorityUtils, memberRepository)));
+                .oauth2Login(withDefaults());
+//                .oauth2Login(oauth2 -> oauth2
+//                        .successHandler(new OAuth2MemberSuccessHandler2(jwtTokenizer, authorityUtils, memberRepository)));
 //                .authorizeHttpRequests(authorize -> authorize
 //                        .antMatchers(HttpMethod.POST, "/members/signup").permitAll()
 //                        .antMatchers(HttpMethod.PATCH, "/members/mypage/edit/**").hasRole("USER")
@@ -90,6 +99,30 @@ public class SecurityConfiguration {
 
         return http.build();
     }
+
+    @Bean
+    public ClientRegistrationRepository clientRegistrationRepository() {
+        var clientRegistration = kakaoClientRegistration();
+
+        return new InMemoryClientRegistrationRepository(clientRegistration);
+    }
+
+    private ClientRegistration kakaoClientRegistration() {
+        return ClientRegistration.withRegistrationId("kakao")
+                .clientId("YOUR_KAKAO_CLIENT_ID")
+                .clientSecret("YOUR_KAKAO_CLIENT_SECRET")
+                .clientAuthenticationMethod(ClientAuthenticationMethod.POST)
+                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .redirectUriTemplate("http://localhost:7070/login/oauth2/code/kakao")
+                .scope("profile_nickname", "profile_image", "account_email")
+                .authorizationUri("https://kauth.kakao.com/oauth/authorize")
+                .tokenUri("https://kauth.kakao.com/oauth/token")
+                .userInfoUri("https://kapi.kakao.com/v2/user/me")
+                .userNameAttributeName("id")
+                .clientName("Kakao")
+                .build();
+    }
+
 
     /**
      * Password Encoder Bean 객체 생성
