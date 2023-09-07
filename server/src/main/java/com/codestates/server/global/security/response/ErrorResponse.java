@@ -49,17 +49,17 @@ public class ErrorResponse {
         return new ErrorResponse(null, ConstraintViolationError.of(violations));
     }
 
-    // 예외 코드로 ErrorReponse 객체 생성
+    // 예외 코드로 ErrorResponse 객체 생성
     public static ErrorResponse of(ExceptionCode exceptionCode) {
         return new ErrorResponse(exceptionCode.getStatus(), exceptionCode.getMessage());
     }
 
-    // 상태 코드, 기본 메세지로 ErrorReponse 객체 생성
+    // 상태 코드, 기본 메세지로 ErrorResponse 객체 생성
     public static ErrorResponse of(HttpStatus httpStatus) {
         return new ErrorResponse(httpStatus.value(), httpStatus.getReasonPhrase());
     }
 
-    // 상태코드, 메세지로 ErrorReponse 객체 생성
+    // 상태코드, 메세지로 ErrorResponse 객체 생성
     public static ErrorResponse of(HttpStatus httpStatus, String message) {
         return new ErrorResponse(httpStatus.value(), message);
     }
