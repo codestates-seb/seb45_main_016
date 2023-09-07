@@ -2,7 +2,6 @@ package com.codestates.server.global.exception;
 
 import lombok.Getter;
 
-//에러메세지 추후 추가예정.
 public enum ExceptionCode {
     USER_NOT_FOUND(404, "User not found"),
     //User not in database
@@ -10,9 +9,9 @@ public enum ExceptionCode {
     //User exists
     UNAUTHORIZED_USER(403, "Unauthorized user"),
     //Unauthorized user
-    PASSWORD_NOT_MATCH(404, "Password does not match");
+    PASSWORD_NOT_MATCH(404, "Password does not match"),
     //Password wrong
-
+    COMMENT_NOT_FOUND(404, "Comment not found");
 
     @Getter
     private int status;

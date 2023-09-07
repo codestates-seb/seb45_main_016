@@ -99,7 +99,7 @@ public class ErrorResponse {
         private Object rejectedValue;   // 거부된 값
         private String reason;  // 에러 발생 이유
 
-        // ConstraintViolation에서 ConstrainViolationError 객체 목록 생성
+        // ConstraintViolation 에서 ConstrainViolationError 객체 목록 생성
         public static List<ConstraintViolationError> of(
                 Set<ConstraintViolation<?>> constraintViolations) {
 
