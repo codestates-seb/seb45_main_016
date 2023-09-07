@@ -30,11 +30,9 @@ export const ComCardContainer = styled.div`
   flex-shrink: 0;
   padding: 139px 81.5px;
   border-radius: ${globaltoken.CommunityCard.value}px;
-  border: (
-    ${globaltoken.CommunityBorderDefault.width.value}px
-      ${globaltoken.CommunityBorderDefault.style.value}
-      ${globaltoken.CommunityBorderDefault.color.value}
-  );
+  border: (${globaltoken.CommunityBorderDefault.width.value}px)
+    (${globaltoken.CommunityBorderDefault.style.value})
+    (${globaltoken.CommunityBorderDefault.color.value});
 
   cursor: pointer;
 
@@ -45,10 +43,7 @@ export const ComCardContainer = styled.div`
     margin: 0;
   }
   &:hover {
-    border: (
-      2px ${globaltoken.CommunityBorderHoverstyle.value}
-        ${globaltoken.CommunityBorderHover.color.value}
-    );
+    border: 2px ${globaltoken.CommunityBorderHover.style.value}${globaltoken.CommunityBorderHover.color.value};
   }
 `;
 
@@ -104,7 +99,6 @@ export const PaginationContainer = styled.div`
   display: flex;
   justify-content: space-between; /* 오른쪽과 왼쪽에 간격을 둠 */
   align-items: center; /* 수직 정렬을 위해 추가 */
-  margin-top: 20px;
 `;
 
 export const PaginationButton = styled.button`

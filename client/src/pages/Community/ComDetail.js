@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
+import writerprofile from '../../pages/Community/writerprofile.png';
 // import { API } from '../../utils/API';
 
 import * as T from './ComDetailStyle';
@@ -71,25 +72,54 @@ const ComDetail = () => {
   return (
     <T.DetailEntire>
       <Header />
-      <T.Title>
+      <T.Top>
         <T.EditBtn>
           <button onClick={editContent}>
-            <img src="" alt="수정아이콘" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <rect width="24" height="24" fill="white" />
+              <path
+                d="M18.4141 2C18.1581 2 17.902 2.09797 17.707 2.29297L15.707 4.29297L14.293 5.70703L3 17V21H7L21.707 6.29297C22.098 5.90197 22.098 5.26891 21.707 4.87891L19.1211 2.29297C18.9261 2.09797 18.6701 2 18.4141 2ZM18.4141 4.41406L19.5859 5.58594L18.293 6.87891L17.1211 5.70703L18.4141 4.41406ZM15.707 7.12109L16.8789 8.29297L6.17188 19H5V17.8281L15.707 7.12109Z"
+                fill="#E0E0E0"
+              />
+            </svg>
           </button>
           <button onClick={deleting} name="content">
-            <img src="" alt="삭제아이콘" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <rect width="24" height="24" fill="white" />
+              <path
+                d="M10 2L9 3H4V5H5V20C5 20.5222 5.19133 21.0546 5.56836 21.4316C5.94539 21.8087 6.47778 22 7 22H17C17.5222 22 18.0546 21.8087 18.4316 21.4316C18.8087 21.0546 19 20.5222 19 20V5H20V3H15L14 2H10ZM7 5H17V20H7V5ZM9 7V18H11V7H9ZM13 7V18H15V7H13Z"
+                fill="#E0E0E0"
+              />
+            </svg>
           </button>
         </T.EditBtn>
-        <p>[후기]</p>
-        <p>정보처리기사 필기 합격 꿀팁 전수합니다.</p>
+        <T.Title>
+          <p>[후기]</p>
+          <p>정보처리기사 필기 합격 꿀팁 전수합니다.</p>
+        </T.Title>
         <T.ImgWrap>
-          <img src="" alt="이미지" />
+          <img src={writerprofile} alt="이미지" />
         </T.ImgWrap>
-        <div>
-          <span>user nickname</span>
-          <span>작성일 들어갈 곳</span>
-        </div>
-      </T.Title>
+        <T.InfoWrap>
+          <T.User>
+            <p>물폭탄 보보</p>
+            <p className="email">email@naver.com</p>
+          </T.User>
+          <p>Aug.28.2023</p>
+        </T.InfoWrap>
+      </T.Top>
       <T.Body>
         <T.Content>
           <p>

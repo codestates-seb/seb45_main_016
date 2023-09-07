@@ -117,7 +117,7 @@ const ComList = () => {
       </Styled.GridContainer>
 
       <Styled.PaginationContainer>
-        {Array.from({ length: totalPages }, (_, index) => (
+        {Array.from({ length: totalPages }, (index) => (
           <Styled.PaginationButton
             key={index}
             onClick={() => handleChangePage(index + 1)}

@@ -1,15 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components'; // styled-components를 import
-import {
-  HeaderStyle as OriginalHeaderStyle,
-  InputContainer,
-  SearchBox,
-} from './HeaderStyle'; // HeaderStyle 스타일들을 import
+import { SearchBox, Searchform } from './HeaderStyle'; // HeaderStyle 스타일들을 import
 
-const HeaderStyle = styled(OriginalHeaderStyle)`
-  /* 여기에 추가하고자 하는 스타일을 정의합니다. */
-`;
+// eslint-disable-next-line no-undef
+const imageUrl = process.env.PUBLIC_URL + '/Searchlogo.png';
 
 function SearchBar() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -29,17 +23,18 @@ function SearchBar() {
   };
 
   return (
-    <HeaderStyle>
-      <InputContainer>
-        <SearchBox
-          type="text"
-          placeholder="검색어를 입력하세요"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <button onClick={saveKeywordAndNavigate}>검색</button>
-      </InputContainer>
-    </HeaderStyle>
+    <Searchform>
+      <SearchBox
+        type="text"
+        placeholder="Search..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        style={{ textAlign: 'right' }} // placeholder 텍스트를 오른쪽으로 정렬
+      />
+      <button onClick={saveKeywordAndNavigate}>
+        <img src={imageUrl} alt="검색" />
+      </button>
+    </Searchform>
   );
 }
 

@@ -1,33 +1,69 @@
 import { styled } from 'styled-components';
+import globalToken from '../../styles/global.json';
+
+const { Gray } = globalToken;
 
 export const DetailEntire = styled.div`
   display: flex;
   flex-direction: column;
-  .view-count {
-    text-align: right;
-    border-bottom: 1px solid black;
-  }
-  span {
-    margin: 0 10px;
+`;
+
+export const Top = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: ${Gray['600'].value};
+`;
+
+export const EditBtn = styled.div`
+  margin-top: 2%;
+  padding-left: 90%;
+  button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
   }
 `;
 
 export const Title = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-bottom: 1px solid black;
-`;
-
-export const EditBtn = styled.div`
-  padding-left: 80%;
+  font-size: 2.66667rem;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 4.17rem;
+  p {
+    margin: 0;
+  }
 `;
 
 export const ImgWrap = styled.div`
-  width: 30px;
-  height: 30px;
-  border-radius: 100px;
-  background-color: pink;
+  width: 5rem;
+  height: 5rem;
+  padding-top: 5.33rem;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+export const InfoWrap = styled.div`
+  display: flex;
+  flex-direction: row;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 100%;
+  align-items: center;
+  margin: 1.08rem 0 3.67rem;
+  .email {
+    font-weight: 400;
+  }
+`;
+
+export const User = styled.div`
+  text-align: center;
+  margin-right: 1.83rem;
+  p {
+    margin: 0;
+  }
 `;
 
 export const Body = styled.div`

@@ -3,11 +3,9 @@ import globalTokens from '../../styles/global.json';
 import { Link } from 'react-router-dom';
 
 export const Wrap = styled.div`
-  position: fixed;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 800;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   overflow-y: auto; /* 내용이 넘칠 경우 스크롤 표시 */
 `;
 
@@ -17,7 +15,7 @@ export const SignUpContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  height: 100%;
+  height: 100vh;
   width: 30%;
   // background-color: blue;
   border-radius: 20px;
