@@ -131,7 +131,7 @@ public class SecurityConfiguration {
         // 지정한 HTTP 메서드에 대한 통신 허용
         // OPTIONS : 프리플라이트 요청
         configuration.setAllowedMethods(Arrays.asList("POST", "PATCH", "GET", "DELETE", "OPTIONS"));
-
+        // 응답 헤더에 어떤 헤더를 노출시킬 것인지를 지정
         configuration.addExposedHeader("*");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
