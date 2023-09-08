@@ -38,7 +38,6 @@ public class SecurityConfiguration {
 
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils; // 사용자 권한 관련 유틸리티 클래스
-    private final MemberRepository memberRepository;
     private final CustomOAuth2UserService oAuth2UserService;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
     private final OAuth2FailureHandler oAuth2FailureHandler;
@@ -106,31 +105,6 @@ public class SecurityConfiguration {
 
         return http.build();
     }
-
-//    ✨ ver4
-//    @Bean
-//    public ClientRegistrationRepository clientRegistrationRepository() {
-//        var clientRegistration = kakaoClientRegistration();
-//
-//        return new InMemoryClientRegistrationRepository(clientRegistration);
-//    }
-//
-//    private ClientRegistration kakaoClientRegistration() {
-//        return ClientRegistration.withRegistrationId("kakao")
-//                .clientId("YOUR_KAKAO_CLIENT_ID")
-//                .clientSecret("YOUR_KAKAO_CLIENT_SECRET")
-//                .clientAuthenticationMethod(ClientAuthenticationMethod.POST)
-//                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-//                .redirectUriTemplate("http://localhost:7070/login/oauth2/code/kakao")
-//                .scope("profile_nickname", "profile_image", "account_email")
-//                .authorizationUri("https://kauth.kakao.com/oauth/authorize")
-//                .tokenUri("https://kauth.kakao.com/oauth/token")
-//                .userInfoUri("https://kapi.kakao.com/v2/user/me")
-//                .userNameAttributeName("id")
-//                .clientName("Kakao")
-//                .build();
-//    }
-
 
     /**
      * Password Encoder Bean 객체 생성
