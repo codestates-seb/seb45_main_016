@@ -39,29 +39,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-logging:
-#  security:
-#    oauth2:
-#      client:
-#        registration:
-#          kakao:
-#            client-id: # ? ?????? >? ?? > ? ? > REST API ?
-#            client-secret:  # ? ?????? > ?? ?? > ??? ??? > ?? > Client Secret
-#            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
-#            authorization-grant-type: authorization_code
-#            client-authentication-method: POST
-#            client-name: Kakao
-#            scope:
-#              - profile_nickname
-#              - profile_image
-#              - account_email
-#              - talk message
-#        provider:
-#          kakao:
-#            authorization-uri: https://kauth.kakao.com/oauth/authorize
-#            token-uri: https://kauth.kakao.com/oauth/token
-#            user-info-uri: https://kapi.kakao.com/v2/user/me
-#            user-name-attribute: id
   level:
     org:
       springframework:
