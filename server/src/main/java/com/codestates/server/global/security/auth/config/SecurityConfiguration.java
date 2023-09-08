@@ -10,7 +10,6 @@ import com.codestates.server.global.security.auth.handler.MemberAuthenticationSu
 import com.codestates.server.global.security.auth.jwt.JwtTokenizer;
 import com.codestates.server.global.security.auth.utils.CustomAuthorityUtils;
 
-import com.codestates.server.global.security.oauth2.v2.OAuth2MemberSuccessHandler2;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -30,6 +29,7 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -47,6 +47,8 @@ public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils; // 사용자 권한 관련 유틸리티 클래스
     private final MemberRepository memberRepository;
+
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -68,10 +70,14 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().permitAll()   // 모든 요청 접근 허용
-                )
-                .oauth2Login(withDefaults());
+                );
+//                .oauth2Login(oauth2 -> {    // ✨ ver5
+//                    oauth2.userInfoEndpoint().userService(oAuth2DetailService);
+//                    oauth2.successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, memberRepository ));
+//                });
+//                .oauth2Login(withDefaults()); // ✨ ver4
 //                .oauth2Login(oauth2 -> oauth2
-//                        .successHandler(new OAuth2MemberSuccessHandler2(jwtTokenizer, authorityUtils, memberRepository)));
+//                        .successHandler(new OAuth2MemberSuccessHandler2(jwtTokenizer, authorityUtils, memberRepository)));    // ✨ ver2,3
 //                .authorizeHttpRequests(authorize -> authorize
 //                        .antMatchers(HttpMethod.POST, "/members/signup").permitAll()
 //                        .antMatchers(HttpMethod.PATCH, "/members/mypage/edit/**").hasRole("USER")
@@ -100,28 +106,29 @@ public class SecurityConfiguration {
         return http.build();
     }
 
-    @Bean
-    public ClientRegistrationRepository clientRegistrationRepository() {
-        var clientRegistration = kakaoClientRegistration();
-
-        return new InMemoryClientRegistrationRepository(clientRegistration);
-    }
-
-    private ClientRegistration kakaoClientRegistration() {
-        return ClientRegistration.withRegistrationId("kakao")
-                .clientId("YOUR_KAKAO_CLIENT_ID")
-                .clientSecret("YOUR_KAKAO_CLIENT_SECRET")
-                .clientAuthenticationMethod(ClientAuthenticationMethod.POST)
-                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .redirectUriTemplate("http://localhost:7070/login/oauth2/code/kakao")
-                .scope("profile_nickname", "profile_image", "account_email")
-                .authorizationUri("https://kauth.kakao.com/oauth/authorize")
-                .tokenUri("https://kauth.kakao.com/oauth/token")
-                .userInfoUri("https://kapi.kakao.com/v2/user/me")
-                .userNameAttributeName("id")
-                .clientName("Kakao")
-                .build();
-    }
+//    ✨ ver4
+//    @Bean
+//    public ClientRegistrationRepository clientRegistrationRepository() {
+//        var clientRegistration = kakaoClientRegistration();
+//
+//        return new InMemoryClientRegistrationRepository(clientRegistration);
+//    }
+//
+//    private ClientRegistration kakaoClientRegistration() {
+//        return ClientRegistration.withRegistrationId("kakao")
+//                .clientId("YOUR_KAKAO_CLIENT_ID")
+//                .clientSecret("YOUR_KAKAO_CLIENT_SECRET")
+//                .clientAuthenticationMethod(ClientAuthenticationMethod.POST)
+//                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+//                .redirectUriTemplate("http://localhost:7070/login/oauth2/code/kakao")
+//                .scope("profile_nickname", "profile_image", "account_email")
+//                .authorizationUri("https://kauth.kakao.com/oauth/authorize")
+//                .tokenUri("https://kauth.kakao.com/oauth/token")
+//                .userInfoUri("https://kapi.kakao.com/v2/user/me")
+//                .userNameAttributeName("id")
+//                .clientName("Kakao")
+//                .build();
+//    }
 
 
     /**
@@ -149,6 +156,8 @@ public class SecurityConfiguration {
         // 지정한 HTTP 메서드에 대한 통신 허용
         // OPTIONS : 프리플라이트 요청
         configuration.setAllowedMethods(Arrays.asList("POST", "PATCH", "GET", "DELETE", "OPTIONS"));
+
+        configuration.addExposedHeader("*");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         // 모든 엔드포인트에 구성한 CORS 적용

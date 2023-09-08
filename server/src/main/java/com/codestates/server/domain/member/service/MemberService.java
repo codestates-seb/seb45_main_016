@@ -67,7 +67,7 @@ public class MemberService {
     }
 
     // member 사용자 정보 가지고 오는 메서드
-    public Member gerMember(Long memberId) {
+    public Member getMember(Long memberId) {
         Member member = getVerifiedMember(memberId);
 
         return member;

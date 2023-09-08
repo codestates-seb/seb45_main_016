@@ -1,5 +1,6 @@
 package com.codestates.server.global.security.response;
 
+import com.codestates.server.global.exception.ExceptionCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -48,17 +49,17 @@ public class ErrorResponse {
         return new ErrorResponse(null, ConstraintViolationError.of(violations));
     }
 
-    // 예외 코드로 ErrorReponse 객체 생성
-//    public static ErrorResponse of(ExceptionCode exceptionCode) {
-//        return new ErrorResponse(exceptionCode.getStatus(), exceptionCode.getMessage());
-//    }
+    // 예외 코드로 ErrorResponse 객체 생성
+    public static ErrorResponse of(ExceptionCode exceptionCode) {
+        return new ErrorResponse(exceptionCode.getStatus(), exceptionCode.getMessage());
+    }
 
-    // 상태 코드, 기본 메세지로 ErrorReponse 객체 생성
+    // 상태 코드, 기본 메세지로 ErrorResponse 객체 생성
     public static ErrorResponse of(HttpStatus httpStatus) {
         return new ErrorResponse(httpStatus.value(), httpStatus.getReasonPhrase());
     }
 
-    // 상태코드, 메세지로 ErrorReponse 객체 생성
+    // 상태코드, 메세지로 ErrorResponse 객체 생성
     public static ErrorResponse of(HttpStatus httpStatus, String message) {
         return new ErrorResponse(httpStatus.value(), message);
     }
@@ -98,7 +99,7 @@ public class ErrorResponse {
         private Object rejectedValue;   // 거부된 값
         private String reason;  // 에러 발생 이유
 
-        // ConstraintViolation에서 ConstrainViolationError 객체 목록 생성
+        // ConstraintViolation 에서 ConstrainViolationError 객체 목록 생성
         public static List<ConstraintViolationError> of(
                 Set<ConstraintViolation<?>> constraintViolations) {
 
