@@ -69,7 +69,7 @@ public class BoardService {
 
 		// ✨(솔이님 첨삭) 멤버 이미지 가지고와서 set
 		Member member = board.getMember();
-		member.getNickname();
+		member.getName();
 		member.getEmail();
 		member.getProfileImage();
 
