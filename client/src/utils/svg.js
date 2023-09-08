@@ -139,3 +139,32 @@ export const SvgModalHeart = () => {
     </svg>
   );
 };
+
+export const BottomErrow = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="21"
+      height="20"
+      viewBox="0 0 21 20"
+      fill="none"
+    >
+      <g clipPath="url(#clip0_592_2675)">
+        <path
+          d="M6.09189 7.74209C5.76689 8.06709 5.76689 8.59209 6.09189 8.91709L9.91689 12.7421C10.2419 13.0671 10.7669 13.0671 11.0919 12.7421L14.9169 8.91709C15.2419 8.59209 15.2419 8.06709 14.9169 7.74209C14.5919 7.41709 14.0669 7.41709 13.7419 7.74209L10.5002 10.9754L7.26689 7.74209C6.94189 7.41709 6.40856 7.42542 6.09189 7.74209Z"
+          fill="#BDBDBD"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_592_2675">
+          <rect
+            width="20"
+            height="20"
+            fill="white"
+            transform="translate(0.5 20.0005) rotate(-90)"
+          />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+};

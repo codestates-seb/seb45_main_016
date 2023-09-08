@@ -4,7 +4,6 @@ import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import { PostContentStyle, TitleWrap } from './PostContentStyle';
 import axios from 'axios';
-import { redirect } from 'react-router-dom';
 
 const PostContent = () => {
   const [count, setCount] = useState(0);
@@ -35,13 +34,21 @@ const PostContent = () => {
       console.log('post합니다');
     }
     axios
-      .post('https://d606-182-211-13-193.ngrok-free.app/boards/create', {
+      .post('https://7af2-182-211-13-193.ngrok-free.app/boards/create', {
         memberId: '1',
         title: localStorage.getItem('title'),
         content: localStorage.getItem('content'),
+        headers: {
+          'ngrok-skip-browser-warning': '2',
+        },
       })
       .then(function (response) {
-        redirect(`/community/detail${response.headers.location}`);
+        localStorage.setItem('param', response.headers.location);
+      })
+      .then(() => {
+        window.location.href = `/community/detail${localStorage.getItem(
+          'param',
+        )}`;
       })
       .catch(function (error) {
         console.log(error);

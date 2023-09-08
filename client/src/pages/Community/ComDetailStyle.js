@@ -187,12 +187,25 @@ export const ReplyFlex = styled.div`
   p {
     margin: 1.33rem 0 0 0;
   }
+  .flex1 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 `;
 
 export const ReviewInfo = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  textarea {
+    width: 100%;
+    height: 50%;
+    margin-top: 2rem;
+    resize: none;
+    border-radius: 0.3rem;
+    border: 1px solid ${Gray['300'].value};
+  }
+  textarea:focus {
+    outline: none;
+  }
 
   .reply-btn {
     background-color: transparent;
@@ -233,24 +246,113 @@ export const ReplyContent = styled.div`
 `;
 
 export const WriteReview = styled.div`
-  border: 1px solid black;
-  input {
-    display: block;
+  display: flex;
+  flex-direction: column;
+  margin-top: 5.33;
+  padding: 2rem;
+  border-radius: 0.83rem;
+  border: 1px solid ${Gray['300'].value};
+
+  div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    p {
+      margin: 0;
+    }
   }
-  input:focus {
+
+  img {
+    margin-right: 1.33rem;
+  }
+
+  textarea {
+    flex-grow: 1;
+    border: none;
+    height: 6.42rem;
+    resize: none;
+    padding: 2rem;
+  }
+  textarea:focus {
     outline: none;
+  }
+  button {
+    background-color: transparent;
+    border: 1px solid ${Gray['300'].value};
+    border-radius: 83.3rem;
+    padding: 0.67rem 1rem;
+    margin-left: 88%;
+    width: fit-content;
+    color: ${Gray['400'].value};
+    font-size: 1.3333rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: center;
+    cursor: pointer;
   }
 `;
 
 export const ReviewEditBtn = styled.div`
+  display: flex;
+  flex-direction: row;
   button {
     background-color: transparent;
     border: none;
+    width: 2.5rem;
     cursor: pointer;
     color: ${Gray['400'].value};
     font-size: 1rem;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+  }
+`;
+
+export const WriteReReview = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+  padding: 1rem;
+  border-radius: 0.83rem;
+  border: 1px solid ${Gray['300'].value};
+
+  div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    p {
+      margin: 0;
+    }
+  }
+
+  img {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  textarea {
+    flex-grow: 1;
+    border: none;
+    height: 3rem;
+    resize: none;
+  }
+  textarea:focus {
+    outline: none;
+  }
+  button {
+    background-color: transparent;
+    border: 1px solid ${Gray['300'].value};
+    border-radius: 83.3rem;
+    padding: 0.35rem 0.5rem;
+    margin-left: 91%;
+    width: fit-content;
+    color: ${Gray['400'].value};
+    font-size: 0.8rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: center;
+    cursor: pointer;
   }
 `;
