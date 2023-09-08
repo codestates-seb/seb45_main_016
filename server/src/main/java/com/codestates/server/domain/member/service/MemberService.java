@@ -56,8 +56,8 @@ public class MemberService {
         // 없는 회원이면 예외 발생
         Member getMember = getVerifiedMember(member.getMemberId());
 
-        Optional.ofNullable(member.getNickname())
-                .ifPresent(nickname -> getMember.setNickname(member.getNickname()));
+        Optional.ofNullable(member.getName())
+                .ifPresent(nickname -> getMember.setName(member.getName()));
         Optional.ofNullable(member.getPassword())
                 .ifPresent(password -> getMember.setPassword(member.getPassword()));
         Optional.ofNullable(member.getProfileImage())

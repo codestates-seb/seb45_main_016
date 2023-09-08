@@ -17,7 +17,7 @@ public class MemberResponseDto {
 
     private String email;
 
-    private String nickname;
+    private String name;
 
     private String phone;
 

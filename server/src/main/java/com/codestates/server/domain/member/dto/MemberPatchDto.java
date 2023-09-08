@@ -17,7 +17,8 @@ public class MemberPatchDto {
 
     private Long memberId;
 
-    private String nickname;
+    private String name;
+//    private String nickname;
 
     private String password;
 
