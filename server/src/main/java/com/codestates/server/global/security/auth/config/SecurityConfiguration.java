@@ -10,37 +10,26 @@ import com.codestates.server.global.security.auth.handler.MemberAuthenticationSu
 import com.codestates.server.global.security.auth.jwt.JwtTokenizer;
 import com.codestates.server.global.security.auth.utils.CustomAuthorityUtils;
 
-import com.codestates.server.global.security.oauth2.v7.CustomOAuth2UserService;
-import com.codestates.server.global.security.oauth2.v7.OAuth2FailureHandler;
-import com.codestates.server.global.security.oauth2.v7.OAuth2SuccessHandler;
-import lombok.AllArgsConstructor;
+import com.codestates.server.global.security.oauth2.service.CustomOAuth2UserService;
+import com.codestates.server.global.security.oauth2.handler.OAuth2FailureHandler;
+import com.codestates.server.global.security.oauth2.handler.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import org.springframework.security.oauth2.client.registration.ClientRegistration;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
-import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
-import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
-import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity

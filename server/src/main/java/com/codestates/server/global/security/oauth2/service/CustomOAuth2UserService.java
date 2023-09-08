@@ -1,8 +1,10 @@
-package com.codestates.server.global.security.oauth2.v7;
+package com.codestates.server.global.security.oauth2.service;
 
 import com.codestates.server.domain.member.entity.Member;
 import com.codestates.server.domain.member.repository.MemberRepository;
 import com.codestates.server.global.security.auth.utils.CustomAuthorityUtils;
+import com.codestates.server.global.security.oauth2.attribute.CustomOAuth2User;
+import com.codestates.server.global.security.oauth2.attribute.OAuth2Attribute;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;

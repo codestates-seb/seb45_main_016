@@ -1,7 +1,6 @@
-package com.codestates.server.global.security.oauth2.v7;
+package com.codestates.server.global.security.oauth2.attribute;
 
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;

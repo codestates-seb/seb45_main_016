@@ -1,4 +1,4 @@
-package com.codestates.server.global.security.oauth2.v7;
+package com.codestates.server.global.security.oauth2.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
