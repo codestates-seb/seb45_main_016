@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import globalToken from '../../styles/global.json';
 
-const { Gray } = globalToken;
+const { Gray, Primary, White } = globalToken;
 
 export const DetailEntire = styled.div`
   display: flex;
@@ -67,36 +67,169 @@ export const User = styled.div`
 `;
 
 export const Body = styled.div`
-  padding: 0px 20%;
+  padding: 7% 27%;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 export const Content = styled.div`
-  padding: 30px 0;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid ${Gray['300'].value};
+  padding-bottom: 5.33rem;
+  color: ${Gray['600'].value};
+  font-size: 1.33333rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 `;
 
 export const ButtonWrap = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 20px 0px;
-  button {
+  margin-top: 2rem;
+`;
+
+export const ReviewOpenBtn = styled.button`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0.66667rem 1rem;
+  margin-bottom: 8.33rem;
+  background-color: ${White.value};
+  border: 1px solid
+    ${(props) =>
+      props['data-isOpen'] || props['data-isContentLiked']
+        ? Gray['600'].value
+        : Gray['400'].value};
+  border-radius: 83.3rem;
+  font-size: 1.33333rem;
+  font-style: normal;
+  font-weight: ${(props) =>
+    props['data-isOpen'] || props['data-isContentLiked'] ? '700' : '400'};
+  line-height: normal;
+  color: ${(props) =>
+    props['data-isOpen'] || props['data-isContentLiked']
+      ? Gray['600'].value
+      : Gray['400'].value};
+  cursor: pointer;
+  .btn-name {
+    margin: 0 0.33rem;
+  }
+  .num {
+    color: ${(props) =>
+      props['data-isOpen']
+        ? Primary['Default'].value
+        : Primary['Lighten-1'].value};
+  }
+  &.num:hover {
+    color: ${Primary['Default'].value};
+  }
+  &:hover {
+    border-color: ${Gray['600'].value};
+    font-weight: 700;
+    color: ${Gray['600'].value};
+    path {
+      fill: ${Gray['600'].value};
+    }
+  }
+  path {
+    fill: ${(props) =>
+      props['data-isOpen'] || props['data-isContentLiked']
+        ? Gray['600'].value
+        : '#BDBDBD'};
+  }
+`;
+
+export const HeartBtn = styled(ReviewOpenBtn)`
+  svg {
+    margin-right: 0.33rem;
+  }
+`;
+
+export const ReviewWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  p {
+    color: ${Gray['600'].value};
+    font-size: 1.33333rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin: 0 0 0.67rem 0;
+  }
+`;
+export const ReviewList = styled.div`
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid ${Gray['300'].value};
+  padding-top: 5.33rem;
+`;
+
+export const Review = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 2rem;
+  img {
+    margin-right: 1.33rem;
+    width: 5rem;
+    height: 5rem;
+  }
+`;
+
+export const ReplyFlex = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  color: ${Gray['500'].value};
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 100%;
+  p {
+    margin: 1.33rem 0 0 0;
+  }
+`;
+
+export const ReviewInfo = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .reply-btn {
     background-color: transparent;
-    border-radius: 15px;
+    border: none;
+    margin-top: 2rem;
+    color: ${Gray['400'].value};
+    text-align: center;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%;
     cursor: pointer;
   }
 `;
 
-export const ReviewWrap = styled.div``;
-export const ReviewList = styled.div`
+export const Reply = styled(ReviewList)`
   display: flex;
   flex-direction: row;
-  border-top: 1px solid black;
+  border: none;
+  padding-top: 4.33rem;
+  justify-content: space-between;
+  button {
+    height: fit-content;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: ${Gray['400'].value};
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
 `;
 
-export const Reply = styled.div``;
-
-export const WrittenReply = styled(ReviewList)`
-  border: none;
+export const ReplyContent = styled.div`
+  display: flex;
+  flex-direction: row;
 `;
 
 export const WriteReview = styled.div`
@@ -111,6 +244,13 @@ export const WriteReview = styled.div`
 
 export const ReviewEditBtn = styled.div`
   button {
-    height: 10%;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: ${Gray['400'].value};
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
   }
 `;
