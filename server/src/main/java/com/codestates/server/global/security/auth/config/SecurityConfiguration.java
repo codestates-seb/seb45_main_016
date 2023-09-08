@@ -10,6 +10,9 @@ import com.codestates.server.global.security.auth.handler.MemberAuthenticationSu
 import com.codestates.server.global.security.auth.jwt.JwtTokenizer;
 import com.codestates.server.global.security.auth.utils.CustomAuthorityUtils;
 
+import com.codestates.server.global.security.oauth2.v7.CustomOAuth2UserService;
+import com.codestates.server.global.security.oauth2.v7.OAuth2FailureHandler;
+import com.codestates.server.global.security.oauth2.v7.OAuth2SuccessHandler;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -47,7 +50,9 @@ public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils; // 사용자 권한 관련 유틸리티 클래스
     private final MemberRepository memberRepository;
-
+    private final CustomOAuth2UserService oAuth2UserService;
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
+    private final OAuth2FailureHandler oAuth2FailureHandler;
 
 
     @Bean
@@ -70,7 +75,12 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().permitAll()   // 모든 요청 접근 허용
-                );
+                )
+                .oauth2Login()
+                .successHandler(oAuth2SuccessHandler)
+                .failureHandler(oAuth2FailureHandler)
+                .userInfoEndpoint()
+                .userService(oAuth2UserService);
 //                .oauth2Login(oauth2 -> {    // ✨ ver5
 //                    oauth2.userInfoEndpoint().userService(oAuth2DetailService);
 //                    oauth2.successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, memberRepository ));
@@ -78,27 +88,29 @@ public class SecurityConfiguration {
 //                .oauth2Login(withDefaults()); // ✨ ver4
 //                .oauth2Login(oauth2 -> oauth2
 //                        .successHandler(new OAuth2MemberSuccessHandler2(jwtTokenizer, authorityUtils, memberRepository)));    // ✨ ver2,3
+//
 //                .authorizeHttpRequests(authorize -> authorize
+//                /** ---------------------------------- member 접근 권한 설정 ---------------------------------- **/
 //                        .antMatchers(HttpMethod.POST, "/members/signup").permitAll()
 //                        .antMatchers(HttpMethod.PATCH, "/members/mypage/edit/**").hasRole("USER")
 //                        .antMatchers(HttpMethod.GET, "/members").hasRole("ADMIN")
 //                        .antMatchers(HttpMethod.GET, "/members/**").hasAnyRole("ADMIN", "USER")
 //                        .antMatchers(HttpMethod.DELETE, "/members/delete/**").hasAnyRole("USER")
-//
+//                /** ---------------------------------- boards 접근 권한 설정 ---------------------------------- **/
 //                        .antMatchers(HttpMethod.POST, "/boards/create").hasAnyRole("ADMIN", "USER")
 //                        .antMatchers(HttpMethod.PATCH, "/boards/edit/**").hasAnyRole("ADMIN", "USER")
 //                        .antMatchers(HttpMethod.GET, "/boards").permitAll()
 //                        .antMatchers(HttpMethod.GET, "/boards/**").permitAll()
 //                        .antMatchers(HttpMethod.DELETE, "/boards/delete/**").hasAnyRole("ADMIN", "USER")
-//
+//                /** ---------------------------------- boards-answers 접근 권한 설정 ---------------------------------- **/
 //                        .antMatchers(HttpMethod.POST, "/boards/**/answers/create").hasAnyRole("ADMIN", "USER")
 //                        .antMatchers(HttpMethod.PATCH, "/boards/**/answers/**").hasAnyRole("ADMIN", "USER")
 //                        .antMatchers(HttpMethod.DELETE, "/boards/**/answers/**/delete").hasAnyRole("ADMIN", "USER")
-//
+//                /** ---------------------------------- boards-replies 접근 권한 설정 ---------------------------------- **/
 //                        .antMatchers(HttpMethod.POST, "/answers/replies/create").hasAnyRole("ADMIN", "USER")
 //                        .antMatchers(HttpMethod.PATCH, "/answers/replies/**").hasAnyRole("ADMIN", "USER")
 //                        .antMatchers(HttpMethod.DELETE, "/answers/replies/**/delete").hasAnyRole("ADMIN", "USER")
-//
+//                /** ---------------------------------- licenses 접근 권한 설정 ---------------------------------- **/
 //                        .antMatchers(HttpMethod.GET, "/licenses/**").permitAll()
 //                        .antMatchers(HttpMethod.GET, "/licenses").permitAll()
 //                );
