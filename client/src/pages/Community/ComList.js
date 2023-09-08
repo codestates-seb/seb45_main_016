@@ -1,110 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as Styled from './ComListStyle';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import ComCard from '../../components/Comcard';
 
-const ComData = [
-  {
-    username: 'Username1',
-    email: '123@gmail.com',
-    tag: '[후기]',
-    title: '정보처리기사 꿀팁 공유합니다.',
-  },
-  {
-    username: 'Username2',
-    email: '456@gmail.com',
-    tag: '[질문]',
-    title: '정보처리기사 꿀팁 공유합니다.',
-  },
-  {
-    username: 'Username3',
-    email: '789@gmail.com',
-    tag: '[후기]',
-    title: '정보처리기사 꿀팁 공유합니다.',
-  },
-  {
-    username: 'Username4',
-    email: 'qwe@gmail.com',
-    tag: '[질문]',
-    title: '정보처리기사 꿀팁 공유합니다.',
-  },
-  {
-    username: 'Username5',
-    email: 'ert@gmail.com',
-    tag: '[후기]',
-    title: '정보처리기사 꿀팁 공유합니다.',
-  },
-  {
-    username: 'Username6',
-    email: 'rty@gmail.com',
-    tag: '[질문]',
-    title: '정보처리기사 꿀팁 공유합니다.',
-  },
-  {
-    username: 'Username7',
-    email: 'tyu@gmail.com',
-    tag: '[후기]',
-    title: '정보처리기사 꿀팁 공유합니다.',
-  },
-  {
-    username: 'Username8',
-    email: 'yui@gmail.com',
-    tag: '[질문]',
-    title: '정보처리기사 꿀팁 공유합니다.',
-  },
-  {
-    username: 'Username9',
-    email: 'uio@gmail.com',
-    tag: '[후기]',
-    title: '정보처리기사 꿀팁 공유합니다.',
-  },
-  {
-    username: 'Username10',
-    email: 'iop@gmail.com',
-    tag: '[질문]',
-    title: '정보처리기사 꿀팁 공유합니다.',
-  },
-  {
-    username: 'Username11',
-    email: 'opp@gmail.com',
-    tag: '[후기]',
-    title: '정보처리기사 꿀팁 공유합니다.',
-  },
-
-  // ... 다른 글 데이터들
-];
-
 const ITEMS_PER_PAGE = 6; // 한 페이지에 보여줄 아이템 수
 
 const ComList = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const totalItems = ComData.length;
+  const [comData, setComData] = useState([]);
+  const [param, setParam] = useState();
+  const totalItems = comData.length;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, totalItems);
 
   const navigator = useNavigate();
+  const userId = localStorage.getItem('userId');
 
   const handleChangePage = (page) => {
     setCurrentPage(page);
   };
 
   const openDetail = () => {
-    navigator('/community/detail');
+    navigator(`/community/detail${param}`);
   };
+
+  const route = () => {
+    if (userId) {
+      navigator('/write');
+    } else {
+      navigator('/login');
+      alert('로그인이 필요합니다');
+    }
+  };
+
+  useEffect(() => {
+    fetch('../data.json')
+      .then((res) => res.json())
+      .then((res) => {
+        res.data;
+        setComData(res.data);
+        setParam(res.data.headers.location);
+      });
+  });
 
   return (
     <Styled.ComContainer>
       <Header />
       <Styled.AlertContainer>COMMUNITY</Styled.AlertContainer>
-      <Styled.AddPostButton onClick={navigator('/write')}>
-        글 작성하기
-      </Styled.AddPostButton>
+      <Styled.AddPostButton onClick={route}>글 작성하기</Styled.AddPostButton>
+
       <Styled.GridContainer>
-        {ComData.slice(startIndex, endIndex).map((info, index) => (
+        {comData.slice(startIndex, endIndex).map((info, index) => (
           <ComCard
             key={index}
             username={info.username}

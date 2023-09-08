@@ -32,7 +32,7 @@ export const LoginForm = styled.form`
 `;
 
 export const LoginInput = styled.input`
-  height: 10%;
+  height: 15%;
   margin-top: 5%;
   margin-bottom: 5%;
   margin-left: 10%;
@@ -48,9 +48,13 @@ export const LoginInput = styled.input`
 `;
 
 export const LoginButton = styled.button`
-  height: 7%;
+  height: 15%;
   width: 80%;
+  font-family: Pretendard Variable;
   font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
   background-color: ${globalTokens.Primary.Default.value};
   color: ${globalTokens.White.value};
   border: none;
@@ -98,4 +102,9 @@ export const styledLink = styled(Link)`
   font-size: 100%;
   color: ${globalTokens.Secondary.Default.value};
   text-decoration: none;
+`;
+
+export const KakaoLogin = styled.div`
+  backround: none;
+  border: none;
 `;

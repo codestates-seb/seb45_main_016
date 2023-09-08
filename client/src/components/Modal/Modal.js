@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { SvgModalHeart } from '../../utils/svg';
 import Bookmark from '../Bookmark/Bookmark';
 import {
   ModalStyle,
@@ -16,25 +17,7 @@ const Modal = ({ setModalOpen }) => {
       <Background onClick={() => setModalOpen(false)}></Background>
       <ButtonWrap>
         <CloseBtn onClick={() => setModalOpen(false)}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="32"
-            height="32"
-            viewBox="0 0 32 32"
-            fill="none"
-          >
-            <g clipPath="url(#clip0_178_11674)">
-              <path
-                d="M24.4 7.61333C23.88 7.09333 23.04 7.09333 22.52 7.61333L16 14.12L9.47996 7.59999C8.95996 7.07999 8.11996 7.07999 7.59996 7.59999C7.07996 8.11999 7.07996 8.95999 7.59996 9.47999L14.12 16L7.59996 22.52C7.07996 23.04 7.07996 23.88 7.59996 24.4C8.11996 24.92 8.95996 24.92 9.47996 24.4L16 17.88L22.52 24.4C23.04 24.92 23.88 24.92 24.4 24.4C24.92 23.88 24.92 23.04 24.4 22.52L17.88 16L24.4 9.47999C24.9066 8.97333 24.9066 8.11999 24.4 7.61333Z"
-                fill="#757575"
-              />
-            </g>
-            <defs>
-              <clipPath id="clip0_178_11674">
-                <rect width="32" height="32" fill="white" />
-              </clipPath>
-            </defs>
-          </svg>
+          <SvgModalHeart />
         </CloseBtn>
         <Bookmark />
       </ButtonWrap>
