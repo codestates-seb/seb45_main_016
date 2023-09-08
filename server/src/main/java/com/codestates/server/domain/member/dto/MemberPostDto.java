@@ -12,7 +12,7 @@ import javax.validation.constraints.Pattern;
 public class MemberPostDto {
 
     @NotBlank(message = "이름은 필수값입니다.")
-    private String nickname;
+    private String name;
 
     @NotBlank(message = "이메일은 필수값입니다.")
     @Email(message = "이메일 형식으로 작성해주세요. email@example.com")

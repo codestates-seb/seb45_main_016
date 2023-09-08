@@ -98,6 +98,8 @@ public class SecurityConfiguration {
 
         // 모든 헤더 허용
         configuration.setAllowedHeaders(Arrays.asList("*"));
+        // configuration.setAllowedOrigins(Arrays.asList("*"));
+
         //자격 증명 (예 : 쿠키, 인증 헤더 등) 허용
         configuration.setAllowCredentials(true);
         // 허용할 출처 패턴 설정 ** setAllowedOrigin은 setAlowedCredentials 과 함께 사용 불가 **
@@ -106,6 +108,7 @@ public class SecurityConfiguration {
         // 지정한 HTTP 메서드에 대한 통신 허용
         // OPTIONS : 프리플라이트 요청
         configuration.setAllowedMethods(Arrays.asList("POST", "PATCH", "GET", "DELETE", "OPTIONS"));
+        configuration.addExposedHeader("*");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         // 모든 엔드포인트에 구성한 CORS 적용

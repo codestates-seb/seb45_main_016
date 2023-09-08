@@ -56,7 +56,7 @@ public class BoardService {
 			findedBoard.setContent(board.getContent());
 			findedBoard.setVideoLink(board.getVideoLink());
 			findedBoard.setBookLink(board.getBookLink());
-			BeanUtils.copyProperties(findedBoard,board,"review-id");
+			BeanUtils.copyProperties(findedBoard,board,"board-id");
 			return boardRepository.save(board);
 		} else {
 			throw new RuntimeException();
@@ -69,7 +69,7 @@ public class BoardService {
 
 		// ✨(솔이님 첨삭) 멤버 이미지 가지고와서 set
 		Member member = board.getMember();
-		member.getNickname();
+		member.getName();
 		member.getEmail();
 		member.getProfileImage();
 
