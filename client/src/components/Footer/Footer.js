@@ -6,6 +6,7 @@ import {
   Gitlink,
   Rightform,
 } from './FooterStyle';
+import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
 
 // eslint-disable-next-line no-undef
@@ -32,7 +33,9 @@ const Footer = () => {
     <FooterStyle>
       <Leftform>
         <Logo>
-          <img src={imageUrl} alt="logo" />
+          <Link to="/">
+            <img src={imageUrl} alt="logo" />
+          </Link>
         </Logo>
         <Teamname>
           <div>TEAM</div>
