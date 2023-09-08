@@ -53,6 +53,7 @@ const ComList = () => {
       <Styled.AlertContainer>COMMUNITY</Styled.AlertContainer>
       <Styled.AddPostButton onClick={route}>글 작성하기</Styled.AddPostButton>
 
+
       <Styled.GridContainer>
         {comData.slice(startIndex, endIndex).map((info, index) => (
           <ComCard
