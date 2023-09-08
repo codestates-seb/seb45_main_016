@@ -49,7 +49,11 @@ const Header = () => {
             <Link to="/mypage">
               <button>MY PAGE</button>
             </Link>
-          ) : null}
+          ) : (
+            <Link to="/login">
+              <button>MY PAGE</button>
+            </Link>
+          )}
         </Linkform>
         <SearchBar />
         <Loginform>

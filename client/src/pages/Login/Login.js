@@ -1,42 +1,41 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import KakaoLogin from 'react-kakao-login';
-import jwt_decode from 'jwt-decode'; // jwt-decode 라이브러리를 추가합니다.
+import jwt_decode from 'jwt-decode';
 import * as Styled from './LoginStyle';
 import { login } from '../../utils/API';
 import Header from '../../components/Header/Header';
 
-// eslint-disable-next-line no-undef
 const imageUrl = process.env.PUBLIC_URL + '/KaKaoLogo.png';
+const KAKAO_CLIENT_ID = 'b05b33f9ad8c9790f4281e18ebd1e7fc';
+const KAKAO_REDIRECT_URI = 'http://localhost:3000/oauth';
+const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
+
 function Login() {
   const {
     register,
     handleSubmit,
     formState: { isSubmitting },
   } = useForm();
+
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     try {
-      // 여기에서 서버로 로그인 요청을 보내고 사용자 정보를 받아옵니다.
       const res = await login(data);
-
+      console.log(res);
       if (res?.status === 200) {
-        // 로그인이 성공한 경우
         const accessToken = res.headers.get('authorization');
         const userId = jwt_decode(accessToken).userId;
         const email = jwt_decode(accessToken).sub;
         localStorage.setItem('Id', email);
         localStorage.setItem('userId', userId);
         localStorage.setItem('Token', accessToken);
-
         alert('로그인이 성공했습니다.');
         navigate('/');
       } else {
-        // 로그인이 실패한 경우
         const errorText =
-          (await res.json())?.message ||
+          res?.data?.message ||
           '로그인에 실패했습니다. 이메일과 비밀번호를 다시 확인해주세요.';
         alert(errorText);
       }
@@ -46,39 +45,44 @@ function Login() {
     }
   };
 
-  const onKakaoLoginSuccess = (res) => {
-    console.log('카카오 로그인 성공:', res);
+  const handleSocialLogin = async () => {
+    window.location.href = KAKAO_AUTH_URI;
+  };
 
-    // 카카오로부터 받은 사용자 정보를 서버에 전송하고 로그인 처리를 수행할 수 있습니다.
-    fetch('/api/login/kakao', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        kakaoUserId: res.profile.id,
-        // 다른 필요한 정보도 추가하세요.
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          // 카카오 로그인 성공 시 페이지 이동 및 알림
-          alert('카카오 로그인이 성공했습니다.');
-          navigate('/');
+  // handleKakaoCallback 함수 추가
+  const handleKakaoCallback = async () => {
+    const code = new URL(window.location.href).searchParams.get('code');
+    if (code) {
+      try {
+        // 백엔드 서버에 code를 전송
+        const response = await fetch(`/api/kakao/callback?code=${code}`, {
+          method: 'POST',
+          // 필요하다면 다른 헤더나 body 정보를 추가하세요.
+        });
+
+        if (response.status === 200) {
+          // 로그인이 성공한 경우의 처리
+          const data = await response.json();
+          localStorage.setItem('Id', data.email);
+          localStorage.setItem('userId', data.userId);
+          localStorage.setItem('Token', data.accessToken);
+          // data에서 필요한 정보를 추출하여 저장하거나 다른 작업을 수행
         } else {
+          // 로그인이 실패한 경우의 처리
+          console.error('로그인 실패:', response.statusText);
           alert('로그인 중에 문제가 발생했습니다. 나중에 다시 시도해주세요.');
         }
-      })
-      .catch((error) => {
-        console.error('카카오 로그인 에러:', error);
+      } catch (error) {
+        console.error('로그인 에러:', error);
         alert('로그인 중에 문제가 발생했습니다. 나중에 다시 시도해주세요.');
-      });
+      }
+    }
   };
 
-  const onKakaoLoginFail = (err) => {
-    console.error('카카오 로그인 실패:', err);
-  };
+  // 컴포넌트가 마운트될 때 handleKakaoCallback 함수를 호출
+  useEffect(() => {
+    handleKakaoCallback();
+  }, []);
 
   return (
     <Styled.Wrap>
@@ -93,7 +97,6 @@ function Login() {
               required: '이메일은 필수 입력입니다.',
             })}
           />
-
           <Styled.LoginInput
             type="password"
             name="password"
@@ -103,22 +106,18 @@ function Login() {
               required: '비밀번호는 필수 입력입니다.',
             })}
           />
+          <Styled.LoginButton type="submit" disabled={isSubmitting}>
+            Log in
+          </Styled.LoginButton>
         </Styled.LoginForm>
-        <Styled.LoginButton type="submit" disabled={isSubmitting}>
-          Login
-        </Styled.LoginButton>
         <Styled.DivisionLine />
-        <KakaoLogin
-          token="c87f3be5672760404116af0672b10766"
-          onSuccess={onKakaoLoginSuccess}
-          onFail={onKakaoLoginFail}
-          style={{ background: 'none', border: 'none', padding: '0' }} // 스타일 추가
-        >
+        <Styled.KakaoLogin onClick={() => handleSocialLogin()}>
           <img src={imageUrl} alt="카카오로 회원 가입" />
-        </KakaoLogin>
+        </Styled.KakaoLogin>
+
         <Styled.LinkWrap>
           <span>계정이 없으신가요?</span>
-          <Styled.styledLink to="/signup">Sign up</Styled.styledLink>
+          <Styled.styledLink to="/signup">SignUp</Styled.styledLink>
         </Styled.LinkWrap>
       </Styled.LoginContainer>
     </Styled.Wrap>

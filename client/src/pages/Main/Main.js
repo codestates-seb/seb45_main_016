@@ -3,6 +3,7 @@ import * as Styled from './MainStyle';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import axios from 'axios';
+import InfoCard from '../../components/LicenseCard/LicenseCard';
 
 const Main = () => {
   // eslint-disable-next-line no-undef
@@ -33,7 +34,6 @@ const Main = () => {
       });
   }, []);
 
-  // 자격증 데이터를 조회수(count)에 따라 정렬
   const sortedCertifications = certificationData
     .sort((a, b) => b.count - a.count)
     .slice(0, 5);
@@ -53,9 +53,12 @@ const Main = () => {
       <Styled.TopContainer>
         <Styled.TopText>최근 가장 핫한 자격증</Styled.TopText>
         {sortedCertifications.map((certification) => (
-          <Styled.Box key={certification.id}>
-            {certification.name} - 조회수: {certification.count}
-          </Styled.Box>
+          // Use InfoCard component for each certification
+          <InfoCard
+            key={certification.id}
+            title={certification.name}
+            count={certification.count}
+          />
         ))}
       </Styled.TopContainer>
 

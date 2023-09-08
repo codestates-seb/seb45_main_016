@@ -100,7 +100,7 @@ const ComList = () => {
     <Styled.ComContainer>
       <Header />
       <Styled.AlertContainer>COMMUNITY</Styled.AlertContainer>
-      <Styled.AddPostButton onClick={navigator('/write')}>
+      <Styled.AddPostButton onClick={() => navigator('/write')}>
         글 작성하기
       </Styled.AddPostButton>
       <Styled.GridContainer>
