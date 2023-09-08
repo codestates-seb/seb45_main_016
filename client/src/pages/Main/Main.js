@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useState, useEffect } from 'react';
 import * as Styled from './MainStyle';
 import Header from '../../components/Header/Header';
@@ -6,11 +7,12 @@ import axios from 'axios';
 import InfoCard from '../../components/LicenseCard/LicenseCard';
 
 const Main = () => {
-  // eslint-disable-next-line no-undef
   const imageUrl = process.env.PUBLIC_URL + '/STUDY_GROUND.JPG';
+  const imageUrl3D = process.env.PUBLIC_URL + '/studyground.png';
 
   const [certificationData, setCertificationData] = useState([]);
   const [communityData, setCommunityData] = useState([]);
+  const [isHover, setIsHover] = useState(false);
 
   useEffect(() => {
     // 자격증 데이터 가져오기
@@ -43,11 +45,28 @@ const Main = () => {
     .sort((a, b) => b.count - a.count)
     .slice(0, 5);
 
+  const hovering = () => {
+    if (isHover === false) {
+      setIsHover(true);
+    }
+  };
+
+  const out = () => {
+    if (isHover === true) {
+      setIsHover(false);
+    }
+  };
+
   return (
     <Styled.MainContainer>
       <Header />
       <Styled.ImageContainer>
-        <Styled.Image src={imageUrl} alt="Your Image" />
+        <Styled.Image
+          onMouseOver={hovering}
+          onMouseOut={out}
+          src={isHover ? imageUrl3D : imageUrl}
+          alt="Your Image"
+        />
       </Styled.ImageContainer>
 
       <Styled.TopContainer>
