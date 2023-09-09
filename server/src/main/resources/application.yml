@@ -16,11 +16,17 @@ spring:
       naming:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-      ddl-auto: update
+      ddl-auto: create-drop #update로 다시 변경해야함.
     show-sql: true
     properties:
       hibernate:
         format_sql: true
+    defer-datasource-initialization: true #삭제 필요
+  sql:
+    init:
+      data-locations: classpath:database/data.sql  # 자격증 더미데이터 입력
+      mode: always
+      platform: h2
 logging:
 #  security:
 #    oauth2:
