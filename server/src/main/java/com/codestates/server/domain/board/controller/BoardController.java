@@ -32,9 +32,9 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/boards")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Slf4j
 @RequiredArgsConstructor
+@CrossOrigin(origins = "", allowedHeaders = "")
 public class BoardController {
 
 	private final BoardService boardService;
@@ -45,7 +45,7 @@ public class BoardController {
 	public ResponseEntity postBoard(@RequestBody BoardPostDto boardPostDto) {
 		Long memberId = boardPostDto.getMemberId();
 		Board board = boardService.createBoard(mapper.boardPostDtoToBoard(boardPostDto), memberId);
-		URI location = UriCreator.createUri("/boards/create", board.getBoardId());
+		URI location = UriCreator.createUri("/boards", board.getBoardId());
 
 		return ResponseEntity.created(location).build();
 	}
@@ -53,7 +53,7 @@ public class BoardController {
 	//게시글 수정
 	@PatchMapping("/edit/{board-id}")	// ✨(솔이님 첨삭) review-id -> @PatchMapping("/edit/{board-id}")
     public ResponseEntity patchBoard(@PathVariable("board-id") Long boardId, // ✨(솔이님 첨삭) review-id -> Long boardId로 바꿔도 될 것 같아용
-                                @RequestBody BoardPatchDto boardPatchDto) {
+                              	     @RequestBody BoardPatchDto boardPatchDto) {
         boardPatchDto.setBoardId(boardId);
         Long userId = boardPatchDto.getMemberId();
         Board board = mapper.boardPatchDtoToBoard(boardPatchDto);

@@ -25,7 +25,7 @@ public class Member {
     private String email;
 
     @Column(nullable = false, unique = true)
-    private String nickname; // 닉네임
+    private String name; // 닉네임
 
     @Column(nullable = false, unique = true)
     private String phone;
