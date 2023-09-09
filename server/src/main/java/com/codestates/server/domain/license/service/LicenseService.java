@@ -3,6 +3,9 @@ package com.codestates.server.domain.license.service;
 import com.codestates.server.domain.license.entity.License;
 import com.codestates.server.domain.license.repository.LicenseRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,5 +25,13 @@ public class LicenseService {
         return license;
     }
 
-
+    /**
+     * 페이지네이션 처리가 된 자격증 정보 목록을 리턴
+     * @param page
+     * @param size
+     * @return
+     */
+    public Page<License> findLicenses(int page, int size) {
+        return licenseRepository.findAll(PageRequest.of(page-1, size, Sort.by("id").ascending()));
+    }
 }
