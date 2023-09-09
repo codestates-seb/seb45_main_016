@@ -21,12 +21,12 @@ spring:
     properties:
       hibernate:
         format_sql: true
-    defer-datasource-initialization: true #삭제 필요
-  sql:
-    init:
-      data-locations: classpath:database/data.sql  # 자격증 더미데이터 입력
-      mode: always
-      platform: h2
+#    defer-datasource-initialization: true #삭제 필요
+#  sql:
+#    init:
+#      data-locations: classpath:database/data.sql  # 자격증 더미데이터 입력
+#      mode: always
+#      platform: h2
 logging:
 #  security:
 #    oauth2:

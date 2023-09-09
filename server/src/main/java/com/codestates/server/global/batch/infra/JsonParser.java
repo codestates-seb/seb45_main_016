@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class JsonParser {
 
@@ -25,11 +27,27 @@ public class JsonParser {
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             License[] licenses = objectMapper.readValue(bodyJson, License[].class);
 
-
-
             try{
 
+//                List<Integer> sequence = Arrays.stream(licenses).map(x->Integer.parseInt(x.getImplementationSequence())).collect(Collectors.toList());
+//
+//                for(int i: sequence){
+//
+//                    for(License license : licenses){
+//
+//                        if(Integer.parseInt(license.getImplementationSequence()) == i){
+//                            license.setCode(code);
+//                            license.setName(name);
+//                        }
+//                        license.setCode(code);
+//                        license.setName(name);
+//
+//                        licenseList.add(license);
+//                    }
+//                }
+
                 for(License license : licenses){
+
                     license.setCode(code);
                     license.setName(name);
 
