@@ -63,12 +63,12 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().permitAll()   // 모든 요청 접근 허용
-                )
-                .oauth2Login()
-                .successHandler(oAuth2SuccessHandler)
-                .failureHandler(oAuth2FailureHandler)
-                .userInfoEndpoint()
-                .userService(oAuth2UserService);
+                );
+//                .oauth2Login()
+//                .successHandler(oAuth2SuccessHandler)
+//                .failureHandler(oAuth2FailureHandler)
+//                .userInfoEndpoint()
+//                .userService(oAuth2UserService);
 //                .oauth2Login(oauth2 -> {    // ✨ ver5
 //                    oauth2.userInfoEndpoint().userService(oAuth2DetailService);
 //                    oauth2.successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, memberRepository ));
