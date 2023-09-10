@@ -25,8 +25,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-batch' //스프링배치
 	implementation 'org.springframework.boot:spring-boot-starter-webflux' //스프링 웹클라이언트 사용
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
@@ -43,6 +43,7 @@ dependencies {
 	runtimeOnly	'io.jsonwebtoken:jjwt-jackson:0.11.5'
 	implementation 'com.google.code.gson:gson'
 	implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 }
 
 tasks.named('test') {
