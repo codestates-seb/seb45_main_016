@@ -10,9 +10,6 @@ import com.codestates.server.global.security.auth.handler.MemberAuthenticationSu
 import com.codestates.server.global.security.auth.jwt.JwtTokenizer;
 import com.codestates.server.global.security.auth.utils.CustomAuthorityUtils;
 
-import com.codestates.server.global.security.oauth2.service.CustomOAuth2UserService;
-import com.codestates.server.global.security.oauth2.handler.OAuth2FailureHandler;
-import com.codestates.server.global.security.oauth2.handler.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,9 +35,7 @@ public class SecurityConfiguration {
 
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils; // 사용자 권한 관련 유틸리티 클래스
-    private final CustomOAuth2UserService oAuth2UserService;
-    private final OAuth2SuccessHandler oAuth2SuccessHandler;
-    private final OAuth2FailureHandler oAuth2FailureHandler;
+
 
 
     @Bean
@@ -64,18 +59,14 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().permitAll()   // 모든 요청 접근 허용
                 );
+
+//                Spring security OAuth2 적용 버전
 //                .oauth2Login()
 //                .successHandler(oAuth2SuccessHandler)
 //                .failureHandler(oAuth2FailureHandler)
 //                .userInfoEndpoint()
 //                .userService(oAuth2UserService);
-//                .oauth2Login(oauth2 -> {    // ✨ ver5
-//                    oauth2.userInfoEndpoint().userService(oAuth2DetailService);
-//                    oauth2.successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, memberRepository ));
-//                });
-//                .oauth2Login(withDefaults()); // ✨ ver4
-//                .oauth2Login(oauth2 -> oauth2
-//                        .successHandler(new OAuth2MemberSuccessHandler2(jwtTokenizer, authorityUtils, memberRepository)));    // ✨ ver2,3
+
 //
 //                .authorizeHttpRequests(authorize -> authorize
 //                /** ---------------------------------- member 접근 권한 설정 ---------------------------------- **/
