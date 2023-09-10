@@ -14,7 +14,7 @@ public class LicenseApi {
 
     /**
      * API를 호출하고 나온값을 String으로 받아서 넘겨준다.
-     * @param code
+     * @param licenseInfo
      * @return string
      * @throws IOException
      */
