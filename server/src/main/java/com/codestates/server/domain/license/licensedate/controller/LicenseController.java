@@ -1,12 +1,11 @@
-package com.codestates.server.domain.license.controller;
+package com.codestates.server.domain.license.licensedate.controller;
 
-import com.codestates.server.domain.license.dto.LicenseResponseDto;
-import com.codestates.server.domain.license.entity.License;
-import com.codestates.server.domain.license.mapper.LicenseMapper;
-import com.codestates.server.domain.license.service.LicenseService;
+import com.codestates.server.domain.license.licensedate.dto.LicenseResponseDto;
+import com.codestates.server.domain.license.licensedate.entity.License;
+import com.codestates.server.domain.license.licensedate.mapper.LicenseMapper;
+import com.codestates.server.domain.license.licensedate.service.LicenseService;
 import com.codestates.server.global.dto.MultiResponseDto;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -23,7 +22,6 @@ public class LicenseController {
 
     private final LicenseService licenseService;
     private final LicenseMapper licenseMapper;
-
 
     /**
      * 스프링에서는 기본적으로 페이지 번호를 0부터 시작한다. -> 이를 위해서 controller쪽에서 page-1 을 해서 올바른 번호를 조회할수있게 해줌.
@@ -46,7 +44,7 @@ public class LicenseController {
     @GetMapping("/find")
     public ResponseEntity<LicenseResponseDto> getLicense(@RequestParam("name") String name) {
 
-        List<License> licenses = licenseService.findLicense(name);
+        List<License> licenses = licenseService.findLicense();
 
         return new ResponseEntity<>(licenseMapper.licenseToLicenseResponseDto(licenses),HttpStatus.OK);
     }

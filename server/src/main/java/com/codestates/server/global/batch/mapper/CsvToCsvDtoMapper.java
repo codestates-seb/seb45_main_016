@@ -1,6 +1,6 @@
 package com.codestates.server.global.batch.mapper;
 
-import com.codestates.server.domain.license.dto.CsvDto;
+import com.codestates.server.domain.license.licenseinfo.dto.CsvDto;
 import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.transform.FieldSet;
 import org.springframework.validation.BindException;

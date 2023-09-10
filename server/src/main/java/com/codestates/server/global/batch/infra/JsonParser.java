@@ -1,18 +1,16 @@
 package com.codestates.server.global.batch.infra;
-import com.codestates.server.domain.license.entity.License;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.codestates.server.domain.license.licensedate.entity.License;
+import com.codestates.server.domain.license.licenseinfo.entity.LicenseInfo;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class JsonParser {
 
-    public List<License> StringToLicense(String json, Long code , String name){
+    public List<License> StringToLicense(String json, LicenseInfo licenseInfo){
 
         ObjectMapper objectMapper = new ObjectMapper();
         List<License> licenseList = new ArrayList<>();
@@ -48,13 +46,15 @@ public class JsonParser {
 
                 for(License license : licenses){
 
-                    license.setCode(code);
-                    license.setName(name);
+//                    license.setCode(code);
+//                    license.setName(name);
+                    license.setLicenseInfo(licenseInfo);
 
                     licenseList.add(license);
 
-                    System.out.println("code : " + license.getCode());
-                    System.out.println("name : " + license.getName());
+//                    System.out.println("code : " + license.getCode());
+//                    System.out.println("name : " + license.getName());
+                    System.out.println("id : " + license.getId());
                     System.out.println("Implementation Year: " + license.getImplYy());
                     System.out.println("Implementation Sequence: " + license.getImplementationSequence());
                     System.out.println("Qualification Code: " + license.getQualificationCode());

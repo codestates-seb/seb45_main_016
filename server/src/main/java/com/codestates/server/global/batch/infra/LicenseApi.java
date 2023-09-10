@@ -1,7 +1,7 @@
 package com.codestates.server.global.batch.infra;
 
-import com.codestates.server.domain.license.dto.LicenseDto;
-import org.springframework.beans.factory.annotation.Value;
+import com.codestates.server.domain.license.licensedate.dto.LicenseDto;
+import com.codestates.server.domain.license.licenseinfo.entity.LicenseInfo;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,7 +18,7 @@ public class LicenseApi {
      * @return string
      * @throws IOException
      */
-    public String callApiToString(Long code) throws IOException {
+    public String callApiToString(LicenseInfo licenseInfo) throws IOException {
 
         LicenseDto licenseDto = new LicenseDto();
 
@@ -29,7 +29,7 @@ public class LicenseApi {
         urlBuilder.append("&" + URLEncoder.encode("dataFormat","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")); /*응답 데이터 표준 형식 - xml / json (대소문자 구분 없음)*/
         urlBuilder.append("&" + URLEncoder.encode("implYy","UTF-8") + "=" + URLEncoder.encode("2023", "UTF-8")); /*시행년도*/
         urlBuilder.append("&" + URLEncoder.encode("qualgbCd","UTF-8") + "=" + URLEncoder.encode("T", "UTF-8")); /*자격구분코드 - T : 국가기술자격 - C : 과정평가형자격 - W : 일학습병행자격 - S : 국가전문자격*/
-        urlBuilder.append("&" + URLEncoder.encode("jmCd","UTF-8") + "=" + URLEncoder.encode(String.valueOf(code), "UTF-8")); //종목코드값 필요.
+        urlBuilder.append("&" + URLEncoder.encode("jmCd","UTF-8") + "=" + URLEncoder.encode(String.valueOf(licenseInfo.getCode()), "UTF-8")); //종목코드값 필요.
         URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");

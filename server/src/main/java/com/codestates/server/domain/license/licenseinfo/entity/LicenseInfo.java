@@ -1,4 +1,4 @@
-package com.codestates.server.domain.bookmark.entity;
+package com.codestates.server.domain.license.licenseinfo.entity;
 
 import com.codestates.server.domain.license.licensedate.entity.License;
 import lombok.AllArgsConstructor;
@@ -7,20 +7,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class Bookmark {
+@AllArgsConstructor
+public class LicenseInfo {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long code;
 
     @Column
-    private Long count;
+    private String name;
 
-    @OneToOne
-    private License license;
+    @OneToMany(mappedBy = "id")
+    private List<License> licenses;
+
 }

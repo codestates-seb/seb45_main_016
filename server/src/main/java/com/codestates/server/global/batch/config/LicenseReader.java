@@ -1,7 +1,9 @@
 package com.codestates.server.global.batch.config;
 
-import com.codestates.server.domain.license.entity.License;
-import com.codestates.server.domain.license.repository.LicenseRepository;
+import com.codestates.server.domain.license.licensedate.entity.License;
+import com.codestates.server.domain.license.licensedate.repository.LicenseRepository;
+import com.codestates.server.domain.license.licenseinfo.entity.LicenseInfo;
+import com.codestates.server.domain.license.licenseinfo.repository.LicenseInfoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemReader;
@@ -12,16 +14,17 @@ import java.util.Iterator;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-public class LicenseReader implements ItemReader<License> {
+public class LicenseReader implements ItemReader<LicenseInfo> {
 
     private final LicenseRepository licenseRepository;
+    private final LicenseInfoRepository licenseInfoRepository;
 
-    private Iterator<License> licenseIterator;
+    private Iterator<LicenseInfo> licenseIterator;
 
     @Override
-    public License read() {
+    public LicenseInfo read() {
         if (licenseIterator == null) {
-            licenseIterator = licenseRepository.findAll().iterator();
+            licenseIterator = licenseInfoRepository.findAll().iterator();
         }
 
         return licenseIterator.hasNext() ? licenseIterator.next() : null;

@@ -1,16 +1,12 @@
 package com.codestates.server.global.batch.config;
 
-import com.codestates.server.domain.license.entity.License;
-import com.codestates.server.domain.license.repository.LicenseRepository;
-import lombok.AllArgsConstructor;
+import com.codestates.server.domain.license.licensedate.entity.License;
+import com.codestates.server.domain.license.licensedate.repository.LicenseRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j

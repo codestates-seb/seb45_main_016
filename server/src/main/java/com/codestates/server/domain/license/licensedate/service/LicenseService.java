@@ -1,7 +1,7 @@
-package com.codestates.server.domain.license.service;
+package com.codestates.server.domain.license.licensedate.service;
 
-import com.codestates.server.domain.license.entity.License;
-import com.codestates.server.domain.license.repository.LicenseRepository;
+import com.codestates.server.domain.license.licensedate.entity.License;
+import com.codestates.server.domain.license.licensedate.repository.LicenseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,12 +16,12 @@ public class LicenseService {
 
     private final LicenseRepository licenseRepository;
 
-    public List<License> findLicense(String name){
-
-        List<License> license = licenseRepository.findAllByName(name);
-        if(license.isEmpty()){
-            throw new RuntimeException("암것도없어"); //에러처리필요. 에러코드 생성해줘야해여
-        }
+    public List<License> findLicense(){
+//
+        List<License> license = licenseRepository.findAll();
+//        if(license.isEmpty()){
+//            throw new RuntimeException("암것도없어"); //에러처리필요. 에러코드 생성해줘야해여
+//        }
         return license;
     }
 

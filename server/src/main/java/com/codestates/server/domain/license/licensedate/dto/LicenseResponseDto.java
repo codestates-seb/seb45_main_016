@@ -1,6 +1,6 @@
-package com.codestates.server.domain.license.dto;
+package com.codestates.server.domain.license.licensedate.dto;
 
-import com.codestates.server.domain.license.entity.License;
+import com.codestates.server.domain.license.licensedate.entity.License;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,9 +1,11 @@
 package com.codestates.server.global.batch.config;
 
+import com.codestates.server.domain.license.licenseinfo.dto.CsvDto;
+import com.codestates.server.domain.license.licensedate.entity.License;
+import com.codestates.server.domain.license.licensedate.repository.LicenseRepository;
+import com.codestates.server.domain.license.licenseinfo.entity.LicenseInfo;
+import com.codestates.server.domain.license.licenseinfo.repository.LicenseInfoRepository;
 import com.codestates.server.global.batch.mapper.CsvToCsvDtoMapper;
-import com.codestates.server.domain.license.dto.CsvDto;
-import com.codestates.server.domain.license.entity.License;
-import com.codestates.server.domain.license.repository.LicenseRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -14,7 +16,6 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -44,6 +45,7 @@ public class BatchConfig {
     private final LicenseReader licenseReader;
     private final LicenseProcessor licenseProcessor;
     private final LicenseWriter licenseWriter;
+    private final LicenseInfoRepository licenseInfoRepository;
 
     @Bean
     public Job job() throws IOException {
@@ -67,7 +69,7 @@ public class BatchConfig {
     public Step step02() {
         return stepBuilderFactory.get("step02")
                 //<rader에 넘길 타입, writer에 넘길 타입>
-                .<License, List<License>>chunk(5000)
+                .<LicenseInfo, List<License>>chunk(5000)
                 .reader(licenseReader) //DB에서 데이터 읽어오기
                 .processor(licenseProcessor) //데이터값으로 API 호출해서 전달
                 .writer(licenseWriter) //받은 데이터 DB에 저장 로직
@@ -76,7 +78,6 @@ public class BatchConfig {
 
     @Bean
     public FlatFileItemReader<CsvDto> csvReader(){
-        licenseRepository.deleteAll();
         FlatFileItemReader<CsvDto> itemReader = new FlatFileItemReader<>();
         itemReader.setResource(new ClassPathResource("/csv/license.csv"));
 
@@ -96,13 +97,13 @@ public class BatchConfig {
         ItemWriter<CsvDto> itemWriter = new ItemWriter<CsvDto>() {
             @Override
             public void write(List<? extends CsvDto> items) throws Exception {
-                List<License> licenseList = new ArrayList<>();
+                List<LicenseInfo> licenseInfos = new ArrayList<>();
 
                 items.forEach(getCsvDto -> {
-                    License license = getCsvDto.toEntity();
-                    licenseList.add(license);
+                    LicenseInfo licenseinfo = getCsvDto.toEntity();
+                    licenseInfos.add(licenseinfo);
                 });
-                licenseRepository.saveAll(licenseList);
+                licenseInfoRepository.saveAll(licenseInfos);
             }
         };
         return itemWriter;
