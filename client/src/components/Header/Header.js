@@ -2,7 +2,8 @@ import React from 'react';
 import {
   HeaderStyle,
   Logo,
-  Headerform,
+  HeaderLeft,
+  HeaderRight,
   Linkform,
   Loginform,
 } from './HeaderStyle';
@@ -30,15 +31,13 @@ const Header = () => {
 
   return (
     <HeaderStyle>
-      <Headerform>
+      <HeaderLeft>
+        <Logo>
+          <Link to="/">
+            <img src={imageUrl} alt="logo" />
+          </Link>
+        </Logo>
         <Linkform>
-          <Logo>
-            <div>
-              <Link to="/">
-                <img src={imageUrl} alt="logo" />
-              </Link>
-            </div>
-          </Logo>
           <Link to="/info">
             <button>LIENSE</button>
           </Link>
@@ -55,13 +54,15 @@ const Header = () => {
             </Link>
           )}
         </Linkform>
+      </HeaderLeft>
+      <HeaderRight>
         <SearchBar />
         <Loginform>
           {userId ? (
             <>
-              <img src={imageUrl1} alt="useravatar" />
+              <img className="useravatar" src={imageUrl1} alt="useravatar" />
               <Link to="/" className="logout-button" onClick={onClickHandler}>
-                <button> Logout</button>
+                <button>Logout</button>
               </Link>
             </>
           ) : (
@@ -76,7 +77,7 @@ const Header = () => {
             </>
           )}
         </Loginform>
-      </Headerform>
+      </HeaderRight>
     </HeaderStyle>
   );
 };
