@@ -29,6 +29,7 @@ const ComDetail = () => {
 
   const navigator = useNavigate();
   const userId = localStorage.getItem('userId');
+
   useEffect(() => {
     GetDetail().then((res) => setBoardData(res.data));
   }, []);

@@ -63,7 +63,6 @@ const ComList = () => {
         },
       })
       .then((res) => console.log(res.data))
-      .then(() => localStorage.setItem('redirect', 'false'))
       .then((res) => setComData(res.data));
   }, []);
 
