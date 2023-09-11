@@ -3,200 +3,181 @@ import globalTokens from '../../styles/global.json';
 
 // Define breakpoints for responsive design
 const breakpoints = {
-  small: '768px',
   medium: '992px',
   large: '1200px',
 };
 
 export const HeaderStyle = styled.div`
+  position: fixed;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
-  height: 5%;
+  padding-top: 10px;
+  padding-bottom: 5px;
   background: ${globalTokens.White.value};
   border: none;
   box-shadow: 0px 4px 5px 0px ${globalTokens.Gray[300].value};
 
-  @media (max-width: ${breakpoints.small}) {
+  @media (max-width: ${breakpoints.medium}) {
     flex-direction: column;
-    align-items: center;
   }
 `;
 
-export const Headerform = styled.div`
+export const HeaderLeft = styled.div`
   display: flex;
   flex-direction: row;
-  margin-top: 0.7%;
-  margin-bottom: 0.7%;
-  margin-left: 2.5%;
-  justify-content: space-between;
-  width: 95%;
-  height: 70%;
-  border: none;
+  flex-grow: 1;
+  align-items: center;
+  padding-left: 36px;
+  gap: 28px;
 
   @media (max-width: ${breakpoints.medium}) {
+    padding-left: 12px;
     flex-direction: column;
-    align-items: center;
-    margin-left: 0;
+    align-items: flex-start;
+    gap: 0px;
   }
+`;
+
+export const Logo = styled.div`
+  align-items: center;
+  border: none;
+  cursor: pointer;
 `;
 
 export const Linkform = styled.div`
   display: flex;
-  width: 50%;
-  height: 100%;
+  align-items: center;
   border: none;
   background-color: ${globalTokens.White.value};
+  gap: 24px;
+
   button {
     border: none;
     cursor: pointer;
     background-color: ${globalTokens.White.value};
     color: ${globalTokens.Gray[800].value};
     font-size: 22px;
-    width: auto;
+    width: 100%;
     height: 100%;
-    margin-right: 10px;
     font-family: ${globalTokens.SubHeadingBold.fontFamily.value};
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+
+    &:hover {
+      color: ${globalTokens.Gray[900].value};
+    }
+
+    @media (max-width: ${breakpoints.medium}) {
+      align-items: center;
+      font-size: 16px;
+    }
   }
 
   @media (max-width: ${breakpoints.medium}) {
+    flex-direction: column;
     width: 100%;
-    justify-content: center;
-    button {
-      margin-right: 0;
-    }
   }
 `;
 
-export const Logo = styled.div`
-  flex-grow: 0;
-  margin-top: 0.7%;
-  margin-right: 5%;
-  width: 20%;
-  border: none;
-  cursor: pointer;
-
-  @media (max-width: ${breakpoints.small}) {
-    width: 40%;
-    margin-right: 0;
-  }
-`;
-
-export const SearchBox = styled.input`
+export const HeaderRight = styled.div`
   display: flex;
-  margin-left: 5%;
-  margin-right: 5%;
-  width: 80%;
-  height: 50%;
+  flex-direction: row;
   justify-content: flex-end;
-  font-size: 16px;
-  border: none;
+  flex-grow: 1;
+  align-items: center;
+  padding-right: 36px;
+  gap: 24px;
 
-  @media (max-width: ${breakpoints.small}) {
+  @media (max-width: ${breakpoints.medium}) {
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-top: 24px;
     width: 100%;
-    margin: 5px 0;
   }
 `;
 
 export const Searchform = styled.div`
   display: flex;
-  margin-top: 0.5%;
-  width: 25%;
-  padding: 1%;
-  height: 100%;
-  border: none;
   justify-content: flex-end;
+  flex-grow: 0.7;
   align-items: center;
+  height: 40px;
   cursor: pointer;
   border-radius: ${globalTokens.Button.value}px;
   border: 0.5px solid ${globalTokens.Primary.Default.value};
   background: ${globalTokens.White.value};
+
   button {
     display: flex;
-    margin-right: 10%;
-    border-radius: ${globalTokens.Button.value}px;
-    width: 5%;
-    height: 55%;
-    border: none;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    margin-right: 24px;
+    border: red;
     background: ${globalTokens.White.value};
     cursor: pointer;
-    color: ${globalTokens.Gray[800].value};
   }
 
   @media (max-width: ${breakpoints.medium}) {
-    width: 50%;
-    justify-content: center;
+    margin-bottom: 12px;
   }
+`;
 
-  @media (max-width: ${breakpoints.small}) {
-    width: 100%;
-    margin-top: 10px;
+export const SearchBox = styled.input`
+  display: flex;
+  flex-grow: 0.5;
+  align-items: center;
+  margin: 0 8px 0 24px;
+  font-size: 16px;
+  border: none;
+  text-align: right;
+
+  &:focus {
+    outline: none;
   }
 `;
 
 export const Loginform = styled.div`
   display: flex;
-  width: 15%;
-  margin-top: 0.8%;
-  height: 100%;
+  justify-content: flex-end;
+  flex-grow: 0;
+  align-items: center;
   border: none;
+  gap: 8px;
+
+  @media (max-width: ${breakpoints.medium}) {
+    position: absolute;
+    padding: 0;
+    top: 16px;
+    right: 12px;
+  }
+
+  .useravatar {
+    width: 35px;
+    height: 35px;
+  }
 
   /* 버튼 스타일 */
   button {
     border: none;
     cursor: pointer;
-    background-color: ${globalTokens.White.value};
-    color: ${globalTokens.Gray[800].value};
     width: auto;
     text-decoration: none;
     font-size: 16px;
-    height: 100%;
-    padding: 0.67rem 1rem;
-    margin-right: 0.67rem;
-    border-radius: 83.33333rem;
-    background: ${globalTokens.Primary.Default.value};
+    padding: 8px 12px;
+    border-radius: 100px;
+    background-color: ${globalTokens.Primary.Default.value};
     color: ${globalTokens.White.value};
-    font-family: Pretendard Variable;
-    font-size: 1.33333rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
 
     /* Hover 효과 추가 */
     &:hover {
       background-color: ${globalTokens.Primary['Darken-1'].value};
+      font-weight: bold;
       /* 원하는 Hover 스타일을 여기에 추가하세요 */
-    }
-  }
-
-  img {
-    width: 25%;
-    height: 50%;
-    margin-right: 10%;
-  }
-
-  @media (max-width: ${breakpoints.small}) {
-    width: 30%;
-
-    /* 작은 화면용 버튼 스타일 */
-    button {
-      font-size: 14px;
-      padding: 0.5rem 0.8rem;
-      margin-right: 0.2rem;
-
-      /* 작은 화면용 버튼 Hover 효과 추가 */
-      &:hover {
-        background-color: ${globalTokens.Primary['Darken-1'].value};
-        /* 작은 화면용 Hover 스타일을 여기에 추가하세요 */
-      }
-    }
-
-    img {
-      width: 20%;
     }
   }
 `;

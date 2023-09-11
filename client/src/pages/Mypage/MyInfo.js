@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { Calendar } from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { useNavigate } from 'react-router-dom';
-// eslint-disable-next-line no-undef
-const imageUrl = process.env.PUBLIC_URL + '/edit.png';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import Modal from '../../components/Modal/Modal';
@@ -21,6 +19,9 @@ import {
   BookMarkContainer,
   WriteContents,
 } from './MypageStyle';
+
+// eslint-disable-next-line no-undef
+const imageUrl = process.env.PUBLIC_URL + '/edit.png';
 
 const InfoData = [
   { title: '정보처리기사' },

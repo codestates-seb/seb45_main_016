@@ -30,9 +30,9 @@ export const ComCardContainer = styled.div`
   flex-shrink: 0;
   padding: 139px 81.5px;
   border-radius: ${globaltoken.CommunityCard.value}px;
-  border: (${globaltoken.CommunityBorderDefault.width.value}px)
-    (${globaltoken.CommunityBorderDefault.style.value})
-    (${globaltoken.CommunityBorderDefault.color.value});
+  border: ${globaltoken.CommunityBorderDefault.width.value}px
+    ${globaltoken.CommunityBorderDefault.style.value}
+    ${globaltoken.CommunityBorderDefault.color.value};
 
   cursor: pointer;
 

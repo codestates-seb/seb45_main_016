@@ -29,10 +29,9 @@ function SearchBar() {
         placeholder="Search..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        style={{ textAlign: 'right' }} // placeholder 텍스트를 오른쪽으로 정렬
       />
       <button onClick={saveKeywordAndNavigate}>
-        <img src={imageUrl} alt="검색" />
+        <img className="searchIcon" src={imageUrl} alt="검색" />
       </button>
     </Searchform>
   );
