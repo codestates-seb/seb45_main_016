@@ -62,6 +62,11 @@ export const Gitlink = styled.div`
     font-weight: 500;
     line-height: 100%; /* 12px */
     text-decoration: none;
+
+    &:hover {
+      color: ${globalTokens.Primary['Darken-2'].value};
+      font-weight: bold;
+    }
   }
   span {
     color: ${globalTokens.Primary['Darken-1'].value};
