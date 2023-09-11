@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useEffect, useState } from 'react';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import writerprofile from '../../pages/Community/writerprofile.png';
@@ -19,6 +18,7 @@ import {
 
 import * as T from './ComDetailStyle';
 import { useNavigate } from 'react-router-dom';
+import { Delete, GetDetail } from '../../utils/API';
 
 const ComDetail = () => {
   const [isOpen, setOpen] = useState(false);
@@ -28,24 +28,10 @@ const ComDetail = () => {
   const [boardData, setBoardData] = useState({});
 
   const navigator = useNavigate();
-  // const { param } = useParams();
   const userId = localStorage.getItem('userId');
-
   useEffect(() => {
-    axios
-      .get(
-        `https://e26f-182-211-13-193.ngrok-free.app${localStorage.getItem(
-          'param',
-        )}`,
-        {
-          headers: {
-            'ngrok-skip-browser-warning': '2',
-          },
-        },
-      )
-      .then((res) => console.log(res.data))
-      .then((res) => setBoardData(res.data));
-  });
+    GetDetail().then((res) => setBoardData(res.data));
+  }, []);
 
   const openReview = () => {
     if (isOpen === false) {
@@ -70,10 +56,9 @@ const ComDetail = () => {
   };
 
   const deleting = (e) => {
-    // const method = 'delete';
-    if (e.target.name === 'content') {
+    if (e.currentTarget.name === 'content') {
       console.log('데이터 베이스에서 해당 게시글을 삭제합니다');
-      // API(url, method);
+      Delete();
       navigator('/community');
     } else if (e.target.innerText === '삭제') {
       console.log('데이터 베이스에서 해당 댓글을 삭제합니다');

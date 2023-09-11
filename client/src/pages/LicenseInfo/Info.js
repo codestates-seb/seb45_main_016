@@ -5,6 +5,7 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import InfoCard from '../../components/LicenseCard/LicenseCard';
 import Modal from '../../components/Modal/Modal';
+import { LeftArrow, RightArrow } from '../../utils/svg';
 
 const InfoData = [
   { title: '자격증 1', description: '자격증 1에 대한 설명' },
@@ -73,6 +74,7 @@ const Info = () => {
       {isModalOpen === true && <Modal setModalOpen={setModalOpen} />}
 
       <Styled.PaginationContainer>
+        <LeftArrow onClick="" />
         {Array.from({ length: totalPages }, (_, index) => (
           <Styled.PaginationButton
             key={index}
@@ -83,6 +85,7 @@ const Info = () => {
             {index + 1}
           </Styled.PaginationButton>
         ))}
+        <RightArrow onClick="" />
       </Styled.PaginationContainer>
       <Footer />
     </Styled.InfoContainer>

@@ -30,22 +30,36 @@ export const PaginationContainer = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  .arrow:hover {
+    cursor: pointer;
+    path {
+      fill: ${globalToken.Gray[800].value};
+    }
+  }
 `;
 
 export const PaginationButton = styled.button`
-  background-color: ${(props) =>
-    props['data-currentpage'] ? '#007bff' : '#f8f8f8'};
-  color: ${(props) => (props['data-currentpage'] ? 'white' : '#333')};
-  border: none;
-  border-radius: 4px;
-  cursor: ${(props) => (props['data-currentpage'] ? 'default' : 'pointer')};
-  padding: 5px 10px;
-  :hover {
-    background-color: ${(props) =>
-      props['data-currentpage'] ? '#007bff' : '#f8f8f8'};
-    color: ${(props) => (props['data-currentpage'] ? 'white' : '#333')};
+  font-size: 1rem;
+  line-height: 100%;
+  font-style: normal;
+  font-weight: ${(props) => (props['data-currentpage'] ? 700 : 500)};
+  color: ${(props) =>
+    props['data-currentpage']
+      ? globalToken.Primary['Darken-2'].value
+      : globalToken.Gray[600].value};
+  &:hover {
+    color: ${(props) =>
+      props['data-currentpage']
+        ? globalToken.Primary['Darken-2'].value
+        : globalToken.Gray[800].value};
   }
+  text-decoration: ${(props) => props['data-currentpage'] && 'underline'};
+  border: none;
+  background-color: transparent;
+  cursor: ${(props) => (props['data-currentpage'] ? 'default' : 'pointer')};
+
   :disabled {
     cursor: not-allowed;
   }
+  margin: 0 2rem 11rem;
 `;

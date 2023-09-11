@@ -34,7 +34,7 @@ const PostContent = () => {
       console.log('post합니다');
     }
     axios
-      .post('https://7af2-182-211-13-193.ngrok-free.app/boards/create', {
+      .post('https://65a9-182-211-13-193.ngrok-free.app/boards/create', {
         memberId: '1',
         title: localStorage.getItem('title'),
         content: localStorage.getItem('content'),
@@ -42,13 +42,9 @@ const PostContent = () => {
           'ngrok-skip-browser-warning': '2',
         },
       })
-      .then(function (response) {
-        localStorage.setItem('param', response.headers.location);
-      })
-      .then(() => {
-        window.location.href = `/community/detail${localStorage.getItem(
-          'param',
-        )}`;
+
+      .then((res) => {
+        window.location.href = `/community/detail${res.headers.location}`;
       })
       .catch(function (error) {
         console.log(error);

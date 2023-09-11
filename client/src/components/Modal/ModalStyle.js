@@ -14,7 +14,7 @@ export const ModalStyle = styled.div`
 `;
 
 export const Content = styled.div`
-  margin: 5% auto;
+  margin: auto;
   border-radius: 20px;
   background-color: #fff;
   padding: 10.5% 5.5%;

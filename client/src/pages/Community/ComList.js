@@ -43,8 +43,7 @@ const ComList = () => {
 
   const openDetail = (index) => {
     setParam(comData[index].boardId);
-    localStorage.setItem('param', `/board/${isparam}`);
-    navigator(`/community/detail${localStorage.getItem('param')}`);
+    navigator(`/community/detail/boards/${isparam}`);
   };
 
   const route = () => {
@@ -58,14 +57,15 @@ const ComList = () => {
 
   useEffect(() => {
     axios
-      .get('https://7af2-182-211-13-193.ngrok-free.app/boards', {
+      .get('https://65a9-182-211-13-193.ngrok-free.app/boards', {
         headers: {
           'ngrok-skip-browser-warning': '1',
         },
       })
       .then((res) => console.log(res.data))
+      .then(() => localStorage.setItem('redirect', 'false'))
       .then((res) => setComData(res.data));
-  });
+  }, []);
 
   return (
     <Styled.ComContainer>
