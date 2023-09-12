@@ -2,18 +2,19 @@ package com.codestates.server.global.security.oauth2.service;
 
 import com.codestates.server.domain.member.entity.Member;
 import com.codestates.server.domain.member.repository.MemberRepository;
-import com.codestates.server.domain.member.service.MemberService;
 import com.codestates.server.global.security.auth.jwt.JwtTokenizer;
 import com.codestates.server.global.security.auth.utils.CustomAuthorityUtils;
 import com.codestates.server.global.security.oauth2.config.KakaoOAuthConfig;
-import com.codestates.server.global.security.oauth2.dto.KakaoMemberInfo;
+import com.codestates.server.global.security.oauth2.dto.KakaoMemberInfoDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
@@ -33,7 +34,6 @@ public class KakaoOAuthService {
     private final MemberRepository memberRepository;
     private final CustomAuthorityUtils customAuthorityUtils;
     private final JwtTokenizer jwtTokenizer;
-    private final KakaoMemberInfo kakaoMemberInfo;
 
 
     /**
@@ -88,7 +88,7 @@ public class KakaoOAuthService {
      * @param accessToken
      * @return
      */
-    public KakaoMemberInfo getKakaoMemberInfo(String accessToken) {
+    public KakaoMemberInfoDto getKakaoMemberInfoDto(String accessToken) {
 
         log.info("Received Kakao access token for member info: {}", accessToken);
 
@@ -99,7 +99,7 @@ public class KakaoOAuthService {
                 .header("Authorization", "Bearer " + accessToken)
                 .header("Content-type", "application/x-www-form-urlencoded;charset=utf-8")
                 .retrieve()
-                .bodyToMono(KakaoMemberInfo.class)
+                .bodyToMono(KakaoMemberInfoDto.class)
                 .block();
 
     }
@@ -107,14 +107,15 @@ public class KakaoOAuthService {
     /**
      * accesstoken으로 조회한 회원 정보로 Member 등록하기
      *
-     * @param kakaoMemberInfo
+     * @param accessToken
      * @return
      */
-    public Member createMemberForKakao(KakaoMemberInfo kakaoMemberInfo) {
+    public Member createMemberForKakao(String accessToken) {
 
-        String email = kakaoMemberInfo.getEmail();
+        KakaoMemberInfoDto kakaoMemberInfoDto = getKakaoMemberInfoDto(accessToken);
 
-        log.info("Creating/Found member with email: {}", email);
+        String email = kakaoMemberInfoDto.getKakao_account().getEmail();
+        log.info("이메일로 회원 찾기 : {}", email);
 
         // DB에 중복되는 이메일 있는지 확인
         Optional<Member> existingMember = memberRepository.findByEmail(email);
@@ -123,15 +124,16 @@ public class KakaoOAuthService {
         if (existingMember.isPresent()) {
             // 그대로 반환
             return existingMember.get();
+
         } else {
             // 없으면 회원 가입
             Member newMember = new Member();
 
-            newMember.setName(kakaoMemberInfo.getNickname());
+            newMember.setName(kakaoMemberInfoDto.getProperties().getNickname());
             log.info("Creating/Found member with name: {}", newMember.getName());
-            newMember.setEmail(kakaoMemberInfo.getEmail());
+            newMember.setEmail(kakaoMemberInfoDto.getKakao_account().getEmail());
             log.info("Creating/Found member with email: {}", newMember.getEmail());
-            newMember.setProfileImage(kakaoMemberInfo.getProfileImageUrl());
+            newMember.setProfileImage(kakaoMemberInfoDto.getProperties().getProfile_image());
             log.info("Creating/Found member with profile image: {}", newMember.getProfileImage());
             newMember.setRoles(Collections.singletonList("USER"));
 
@@ -146,7 +148,6 @@ public class KakaoOAuthService {
         Map<String, Object> claims = new HashMap<>();
         claims.put("memberId", member.getMemberId());
         claims.put("email", member.getEmail());
-        claims.put("profileImage", member.getProfileImage());
         claims.put("roles", member.getRoles());
 
         Date expriration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
