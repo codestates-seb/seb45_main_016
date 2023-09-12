@@ -50,11 +50,15 @@ const ComListMock = () => {
         {comData &&
           comData.slice(startIndex, endIndex).map((info, index) => (
             <Link to={`/community/detail/${index}`} key={info.boardId}>
-              {localStorage.setItem('mockid', index)}
               <ComCard
                 title={info.title}
                 username={info.username}
                 email={info.email}
+                onClick={() => {
+                  {
+                    localStorage.setItem('mockid', index);
+                  }
+                }}
               />
             </Link>
           ))}

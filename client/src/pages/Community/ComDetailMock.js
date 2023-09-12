@@ -23,9 +23,9 @@ const ComDetailMock = () => {
   const [isReviewEdit, setReviewEdit] = useState(false);
   const [isContentLiked, setContentLiked] = useState(false);
   const [data, setData] = useState([...ComData]);
-  const [comment, setComment] = useState([...data[0].comment]);
 
   let mockid = localStorage.getItem('mockid');
+  const [comment, setComment] = useState([...data[mockid].comment]);
 
   const userId = localStorage.getItem('userId');
 
@@ -63,6 +63,7 @@ const ComDetailMock = () => {
     }
   };
 
+  let length = comment.length;
   const deleting = (e) => {
     if (e.target.className === 'reply') {
       comment[e.target.id].reply = undefined;
@@ -71,7 +72,10 @@ const ComDetailMock = () => {
       comment[e.target.id] = undefined;
       setComment(comment.map((el) => el));
     }
+    console.log(comment.length);
+    length = comment.length - 1;
   };
+  console.log(length);
 
   const contentLike = () => {
     if (isContentLiked === false) {
@@ -100,7 +104,7 @@ const ComDetailMock = () => {
 
         <T.Title>
           <p>[후기]</p>
-          <p>{data[0].title}</p>
+          <p>{data[mockid].title}</p>
         </T.Title>
         <T.ImgWrap>
           <img src={writerprofile} alt="이미지" />
@@ -115,13 +119,13 @@ const ComDetailMock = () => {
       </T.Top>
       <T.Body>
         <T.Content>
-          <p>{data[0].content}</p>
+          <p>{data[mockid].content}</p>
         </T.Content>
         <T.ButtonWrap>
           <T.ReviewOpenBtn onClick={openReview} data-isOpen={isOpen}>
             <SvgReview />
             <div className="btn-name">댓글</div>
-            <div className="num">{data[0].comment.length}</div>
+            <div className="num">{length}</div>
           </T.ReviewOpenBtn>
           <T.HeartBtn
             onClick={contentLike}
@@ -133,7 +137,7 @@ const ComDetailMock = () => {
         </T.ButtonWrap>
         {isOpen === true ? (
           <T.ReviewWrap>
-            <p>댓글 {data[0].comment.length}</p>
+            <p>댓글 {length}</p>
             <T.ReviewList>
               {comment &&
                 comment.map((el, index) => {
