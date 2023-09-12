@@ -6,6 +6,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,11 +59,25 @@ public class CustomAuthorityUtils {
      * @param email
      * @return
      */
+//    public List<String> createRoles(String email) {
+//        if(email.equals(adminMailAddress)) {
+//            return ADMIN_ROLES_STRING;
+//        }
+//        return USER_ROLES_STRING;
+//    }
     public List<String> createRoles(String email) {
-        if(email.equals(adminMailAddress)) {
-            return ADMIN_ROLES_STRING;
+        List<String> roles = new ArrayList<>();
+
+        // 이메일이 관리자 이메일과 일치하면 "ADMIN" 역할을 추가
+        if (email.equals(adminMailAddress)) {
+            roles.add("ADMIN");
         }
-        return USER_ROLES_STRING;
+
+        // 모든 사용자에게 "USER" 역할을 추가
+        roles.add("USER");
+
+        return roles;
     }
+
 
 }
