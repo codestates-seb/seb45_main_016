@@ -78,7 +78,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         Map<String, Object> claims = new HashMap<>();
         claims.put("memberId", member.getMemberId());
         claims.put("email", member.getEmail());
-        claims.put("profileImage", member.getProfileImage());
         claims.put("roles", member.getRoles());
 
         // token이 어떤 사용자를 대표하는지 명시적으로 표현하기 위해 사용 -> 주로 사용자의 이메일 또는 아이디를 담음
