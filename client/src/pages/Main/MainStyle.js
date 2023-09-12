@@ -1,8 +1,26 @@
 import styled from 'styled-components';
+import globalTokens from '../../styles/global.json';
+
+// Define breakpoints for responsive design
+const breakpoints = {
+  small: '756px',
+  medium: '992px',
+  large: '1200px',
+};
+
+export const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+`;
 
 export const ImageContainer = styled.div`
   text-align: center;
-  margin: 10px 0;
+
+  @media (max-width: ${breakpoints.medium}) {
+    margin-top: 260px;
+  }
 `;
 
 export const Image = styled.img`
@@ -10,34 +28,153 @@ export const Image = styled.img`
   height: auto;
 `;
 
-export const MainContainer = styled.div`
+export const TopContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-export const TopContainer = styled.div`
-  display: flex;
-  align-items: center;
   justify-content: flex-start;
-  gap: 20px;
-  margin-bottom: 40px;
+  margin-top: 64px;
 `;
 
 export const TopText = styled.span`
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 32px;
+  font-weight: ${globalTokens.Heading2.fontWeight.value};
+  color: ${globalTokens.Primary.Default.value};
+  margin-bottom: 52px;
+
+  &.ComText {
+    margin-top: 128px;
+  }
+`;
+
+export const InfoCardContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(5, minmax(391px, 1fr));
+  gap: 24px;
+  width: 70%;
+  overflow-x: auto;
+  justify-content: flex-start;
+  padding-top: 40px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (max-width: ${breakpoints.medium}) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(391px, 1fr));
+    width: 100%;
+    gap: 40px;
+  }
+
+  @media (max-width: ${breakpoints.small}) {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(391px, 1fr));
+    width: 100%;
+    gap: 40px;
+  }
 `;
 
 export const ComContainer = styled.div`
+  align-items: flex-start;
+  margin-top: 24px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
+  overflow-y: auto;
+  width: 90%;
+  max-height: 500px;
+  margin-bottom: 128px;
+  gap: 24px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (max-width: ${breakpoints.medium}) {
+    display: flex;
+    width: 90%;
+  }
 `;
 
 export const Box = styled.div`
-  width: 100px;
-  height: 100px;
-  background-color: #d9d9d9;
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  min-height: 150px;
+  padding: 36px 54px;
+  gap: 36px;
+  background-color: ${globalTokens.Primary['Lighten-4'].value};
+  color: ${globalTokens.Gray[600].value};
+
+  &:hover {
+    background-color: ${globalTokens.Primary['Lighten-3'].value};
+    color: ${globalTokens.Primary['Darken-2'].value};
+  }
+  border-radius: ${globalTokens.MainCommunityPreview.value}px;
+  @media (max-width: ${breakpoints.medium}) {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    max-width: 600px;
+    min-height: 300px;
+    gap: 12px;
+  }
+
+  @media (max-width: ${breakpoints.small}) {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    max-width: 300px;
+    min-height: 300px;
+    gap: 12px;
+  }
+`;
+
+export const Comuseravatar = styled.div`
+  display: flex;
+  align-items: center;
+  color: ${globalTokens.Gray[600].value};
+  img {
+    width: 120px;
+    height: 120px;
+
+    @media (max-width: ${breakpoints.medium}) {
+      width: 80px;
+      height: 80px;
+    }
+
+    @media (max-width: ${breakpoints.small}) {
+      width: 50px;
+      height: 50px;
+    }
+  }
+`;
+export const ComText = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: ${globalTokens.Gray[600].value};
+
+  &:hover {
+    color: ${globalTokens.Primary['Darken-2'].value};
+  }
+`;
+
+export const Comid = styled.p`
+  margin: 0;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: ${globalTokens.Primary['Darken-1'].value};
+`;
+export const Comtitle = styled.p`
+  margin: 0;
+  margin-bottom: 20px;
+  font-size: 22px;
+  font-weight: 700;
+  color: ${globalTokens.Primary['Darken-2'].value};
+`;
+export const Compreview = styled.p`
+  margin: 0;
+  font-size: 16px;
+  color: ${globalTokens.Primary['Darken-1'].value};
 `;
