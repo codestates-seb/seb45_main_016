@@ -13,6 +13,7 @@ import PostContent from './pages/Community/PostContent';
 // import Edit from './pages/Community/Edit';
 import ComDetailMock from './pages/Community/ComDetailMock';
 import ComListMock from './pages/Community/ComListMock';
+import Kakao from './pages/Login/Kakao';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           {/* <Route path="/edit/:id" element={<Edit />} /> */}
           <Route path="/mypage" element={<MyInfo />} />
           <Route path="/search" element={<SearchFiltered />} />
+          <Route path="/login/oauth/code/kakao" element={<Kakao />} />
         </Routes>
       </div>
     </Router>
