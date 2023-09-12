@@ -26,7 +26,6 @@ public class Member {
     @Column(nullable = false, unique = true)
     private String phone;
 
-    @Column(nullable = false)
     private String password;
 
     private String profileImage;
