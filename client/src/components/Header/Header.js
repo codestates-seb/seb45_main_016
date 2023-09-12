@@ -39,7 +39,7 @@ const Header = () => {
         </Logo>
         <Linkform>
           <Link to="/info">
-            <button>LIENSE</button>
+            <button>LICENSE</button>
           </Link>
           <Link to="/community">
             <button>COMMUNITY</button>
