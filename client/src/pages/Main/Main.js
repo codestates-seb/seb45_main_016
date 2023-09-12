@@ -10,8 +10,6 @@ import Modal from '../../components/Modal/Modal';
 const Main = () => {
   const imageUrl = process.env.PUBLIC_URL + '/studyground.png';
 
-
-  // eslint-disable-next-line no-undef
   const imageUrl1 = process.env.PUBLIC_URL + '/ava.png';
 
   const [isModalOpen, setModalOpen] = useState(false);
