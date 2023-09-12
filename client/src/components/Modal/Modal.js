@@ -54,7 +54,6 @@ const Modal = ({ setModalOpen }) => {
               <p className="date">날짜</p>
             </div>
           </Grid>
-
           <div></div>
           <div>
             <p>최종 합격자 발표</p>

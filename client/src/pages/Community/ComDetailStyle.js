@@ -9,6 +9,12 @@ const breakpoints = {
   large: '1200px',
 };
 
+const breakpoints = {
+  small: '756px',
+  medium: '992px',
+  large: '1200px',
+};
+
 export const DetailEntire = styled.div`
   display: flex;
   flex-direction: column;
