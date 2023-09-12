@@ -1,8 +1,8 @@
 import notfound from './animation_lmehiw89.json';
-import Lottie from 'lottie-react';
+import { Player } from '@lottiefiles/react-lottie-player';
 
 const NotFound = () => {
-  return <Lottie animationData={notfound} />;
+  return <Player autoplay loop src={notfound} />;
 };
 
 export default NotFound;
