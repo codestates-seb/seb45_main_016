@@ -160,14 +160,13 @@ export const ReviewWrap = styled.div`
 export const ReviewList = styled.div`
   display: flex;
   flex-direction: column;
-  border-top: 1px solid ${Gray['300'].value};
-  padding-top: 5.33rem;
 `;
 
 export const Review = styled.div`
   display: flex;
   flex-direction: row;
-  margin-bottom: 2rem;
+  border-top: 1px solid ${Gray['300'].value};
+  padding: 5.33rem 0;
   img {
     margin-right: 1.33rem;
     width: 5rem;

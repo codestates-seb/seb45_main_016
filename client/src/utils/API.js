@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import NotFound from '../components/404/404notfound';
 
 export const login = async (data) => {
   try {
@@ -41,6 +42,7 @@ export const GetDetail = async (data) => {
     return res;
   } catch (e) {
     console.log(e);
+    return <NotFound />;
   }
 };
 
