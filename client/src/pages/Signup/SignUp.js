@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 // Import necessary modules and components
+/* eslint-disable no-undef */
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
