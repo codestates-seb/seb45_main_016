@@ -48,7 +48,7 @@ secret:
   key: "=hN6HzankT%2Bi7Qds9PJjAjFb6R6xzw5DAvqBHMSOjw4yaA98ubFd6IRzWT8Kz5CcCiksKJz7qPFdZOsOcjjn4MA%3D%3D"
 mail:
   address:
-    admin: admin@gmail.com # admin:'${ADMIN_EMAIL}' 나중에 변경하기
+    admin: "admin@gmail.com" # admin:'${ADMIN_EMAIL}' 나중에 변경하기
 jwt:
   key : dlfeksgo16@dlfeksgo16@dlfeksgo16@goqhwk16@ #  key: '${JWT_SECRET_KEY}' 나중에 변경하기
   access-token-expiration-minutes: 60
