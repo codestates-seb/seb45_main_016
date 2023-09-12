@@ -33,6 +33,7 @@ public class KakaoOAuthService {
     private final MemberRepository memberRepository;
     private final CustomAuthorityUtils customAuthorityUtils;
     private final JwtTokenizer jwtTokenizer;
+    private final KakaoMemberInfo kakaoMemberInfo;
 
 
     /**
@@ -43,7 +44,9 @@ public class KakaoOAuthService {
      * @return
      */
     @SneakyThrows
-    public String exchangeCodeForAccessToekn(String code) {
+    public String exchangeCodeForAccessToken(String code) {
+
+        log.info("🌷 Received code: {}", code);
 
         // Http Header 에 Content type 입력 (공식문서 참고)
         HttpHeaders headers = new HttpHeaders();
@@ -87,15 +90,18 @@ public class KakaoOAuthService {
      */
     public KakaoMemberInfo getKakaoMemberInfo(String accessToken) {
 
+        log.info("Received Kakao access token for member info: {}", accessToken);
+
         return WebClient.builder()  // WebClient : 비동기 방식으로 원하는 값만 출력할 때 효율적이다
                 .baseUrl("https://kapi.kakao.com/v2/user/me")   // 고정값
                 .build()
                 .get()
-                .header("Authorization", "Bearer " + accessToken)   //
+                .header("Authorization", "Bearer " + accessToken)
                 .header("Content-type", "application/x-www-form-urlencoded;charset=utf-8")
                 .retrieve()
                 .bodyToMono(KakaoMemberInfo.class)
                 .block();
+
     }
 
     /**
@@ -107,6 +113,8 @@ public class KakaoOAuthService {
     public Member createMemberForKakao(KakaoMemberInfo kakaoMemberInfo) {
 
         String email = kakaoMemberInfo.getEmail();
+
+        log.info("Creating/Found member with email: {}", email);
 
         // DB에 중복되는 이메일 있는지 확인
         Optional<Member> existingMember = memberRepository.findByEmail(email);
@@ -120,11 +128,12 @@ public class KakaoOAuthService {
             Member newMember = new Member();
 
             newMember.setName(kakaoMemberInfo.getNickname());
+            log.info("Creating/Found member with name: {}", newMember.getName());
             newMember.setEmail(kakaoMemberInfo.getEmail());
+            log.info("Creating/Found member with email: {}", newMember.getEmail());
             newMember.setProfileImage(kakaoMemberInfo.getProfileImageUrl());
-
-            List<String> roles = customAuthorityUtils.createRoles(newMember.getEmail());
-            newMember.setRoles(roles);
+            log.info("Creating/Found member with profile image: {}", newMember.getProfileImage());
+            newMember.setRoles(Collections.singletonList("USER"));
 
             // 새로운 멤버는 저장하고 리턴
             return memberRepository.save(newMember);
@@ -140,20 +149,22 @@ public class KakaoOAuthService {
         claims.put("profileImage", member.getProfileImage());
         claims.put("roles", member.getRoles());
 
-        log.info("🗝️ JWT 토큰 생성 🗝️");
         Date expriration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
         String accessToken = jwtTokenizer.generateAccessToken(claims, member.getEmail(), expriration, base64EncodedSecretKey);
+
+        log.info("🗝️ JWT 토큰 생성 🗝️:{}", accessToken);
 
         return accessToken;
     }
 
     public String generateRefreshToken(Member member) {
 
-        log.info("🗝️ JWT 토큰 생성 🗝️");
         Date expriration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
         String refreshToken = jwtTokenizer.generateRefreshToken(member.getEmail(), expriration, base64EncodedSecretKey);
+
+        log.info("🗝️ JWT 토큰 생성 🗝️:{}", refreshToken);
 
         return refreshToken;
     }
