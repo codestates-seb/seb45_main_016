@@ -16,7 +16,7 @@ public class CustomAuthorityUtils {
     // 관리자 권한 가질 수 있는 메일 주소
     // -> appication.yml 에서 환경변수로 주기
     @Value("${mail.address.admin}")
-    private String adminMailAddress;
+    private String admin;
 
     // GrantedAuthority : 권한 관련 작업 수행 -> 권한 목록 생성, 객체 배열 전환 ..
     // 관리자 권한 및 사용자 권한 목록 설정
@@ -35,7 +35,7 @@ public class CustomAuthorityUtils {
      * @return
      */
     public List<GrantedAuthority> createAuthorities(String email) {
-        if(email.equals(adminMailAddress)) {
+        if(email.equals(admin)) {
             return ADMIN_ROLES;
         } return USER_ROLES;
     }
@@ -69,12 +69,12 @@ public class CustomAuthorityUtils {
         List<String> roles = new ArrayList<>();
 
         // 이메일이 관리자 이메일과 일치하면 "ADMIN" 역할을 추가
-        if (email.equals(adminMailAddress)) {
-            roles.add("ADMIN");
+        if (!email.equals(admin)) {
+            roles.add("USER");
         }
 
         // 모든 사용자에게 "USER" 역할을 추가
-        roles.add("USER");
+        roles.add("ADMIN");
 
         return roles;
     }
