@@ -39,25 +39,27 @@ const Edit = () => {
   };
 
   return (
-    <PostContentStyle>
+    <>
       <Header />
-      <TitleWrap>
-        <button onClick={fetch}>저장하기</button>
-        <span>{count}/20</span>
-        <input
-          onKeyUp={titleHandler}
-          name="input"
-          defaultValue="현재 페이지 수정의 제목"
-        ></input>
-      </TitleWrap>
-      <textarea
-        ref={focusRef}
-        onKeyUp={contentHandler}
-        name="textarea"
-        defaultValue="현재 페이지 수정의 글 내용"
-      ></textarea>
-      <Footer />
-    </PostContentStyle>
+      <PostContentStyle>
+        <TitleWrap>
+          <button onClick={fetch}>저장하기</button>
+          <span>{count}/20</span>
+          <input
+            onKeyUp={titleHandler}
+            name="input"
+            defaultValue="현재 페이지 수정의 제목"
+          ></input>
+        </TitleWrap>
+        <textarea
+          ref={focusRef}
+          onKeyUp={contentHandler}
+          name="textarea"
+          defaultValue="현재 페이지 수정의 글 내용"
+        ></textarea>
+        <Footer />
+      </PostContentStyle>
+    </>
   );
 };
 

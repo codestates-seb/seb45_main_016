@@ -105,6 +105,6 @@ export const styledLink = styled(Link)`
 `;
 
 export const KakaoLogin = styled.div`
-  backround: none;
+  background: none;
   border: none;
 `;

@@ -5,7 +5,7 @@ export const PostContentStyle = styled.div`
   flex-direction: column;
   height: 100vh;
   textarea {
-    height: 70%;
+    height: 100%;
     resize: none;
   }
   textarea:focus {
@@ -19,13 +19,15 @@ export const TitleWrap = styled.div`
   border-bottom: 2px solid green;
   input {
     border: none;
-    padding-top: 10%;
+    padding: 0.83rem 15.08rem;
+    margin-top: 21.5rem;
   }
   input:focus {
     outline: none;
   }
   button {
     margin-left: 90%;
+    margin-top: 8.67rem;
   }
   span {
     margin-left: 95%;
