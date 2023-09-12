@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @Setter
 public class KakaoMemberInfo {
 
-    private Long KakaoId;
+    private Long kakaoId;
     private String nickname;
     private String email;
     private String profileImageUrl;
