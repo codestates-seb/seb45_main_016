@@ -1,16 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useRef, useState } from 'react';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import { PostContentStyle, TitleWrap } from './PostContentStyle';
-// import { API } from '../../utils/API';
+import { useNavigate } from 'react-router-dom';
+import { ComData } from './ComData';
 
-const Edit = () => {
+const PostMock = () => {
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState();
   const [content, setContent] = useState();
   const focusRef = useRef();
-
-  // const url = "주소넣기";
+  const navigator = useNavigate();
 
   const titleHandler = (e) => {
     e.target.maxLength = 20;
@@ -27,15 +28,23 @@ const Edit = () => {
     setContent(e.target.value);
   };
 
-  localStorage.setItem('editedTitle', title);
-  localStorage.setItem('editedContent', content);
+  localStorage.setItem('title', title);
+  localStorage.setItem('content', content);
 
-  const fetch = () => {
-    // const method = 'fetch';
+  const post = () => {
     if (count > 0 && content.length > 0) {
-      console.log('fetch합니다');
-      // API(url,method);
+      console.log('post합니다');
+      ComData.push({
+        boardId: ComData.length,
+        username: 'exampleUserId',
+        email: 'bobibo@naver.com',
+        title: localStorage.getItem('title'),
+        content: localStorage.getItem('content'),
+        comment: [],
+      });
     }
+    localStorage.setItem('mockid', ComData.length);
+    navigator(`/community/detail/${ComData.length}`);
   };
 
   return (
@@ -43,19 +52,14 @@ const Edit = () => {
       <Header />
       <PostContentStyle>
         <TitleWrap>
-          <button onClick={fetch}>저장하기</button>
+          <button onClick={post}>저장하기</button>
           <span>{count}/20</span>
-          <input
-            onKeyUp={titleHandler}
-            name="input"
-            defaultValue="현재 페이지 수정의 제목"
-          ></input>
+          <input placeholder="제목을 입력하세요" onKeyUp={titleHandler}></input>
         </TitleWrap>
         <textarea
+          placeholder="내용을 입력하세요"
           ref={focusRef}
           onKeyUp={contentHandler}
-          name="textarea"
-          defaultValue="현재 페이지 수정의 글 내용"
         ></textarea>
         <Footer />
       </PostContentStyle>
@@ -63,4 +67,4 @@ const Edit = () => {
   );
 };
 
-export default Edit;
+export default PostMock;

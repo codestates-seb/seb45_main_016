@@ -14,7 +14,7 @@ export const ModalStyle = styled.div`
 `;
 
 export const Content = styled.div`
-  margin: 5% auto;
+  margin: auto;
   border-radius: 20px;
   background-color: #fff;
   padding: 10.5% 5.5%;
@@ -50,7 +50,6 @@ export const Background = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1;
 `;
 
 export const Name = styled.div`

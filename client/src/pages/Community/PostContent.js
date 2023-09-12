@@ -1,16 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useRef, useState } from 'react';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import { PostContentStyle, TitleWrap } from './PostContentStyle';
-// import { API } from '../../utils/API';
+import axios from 'axios';
 
 const PostContent = () => {
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState();
   const [content, setContent] = useState();
   const focusRef = useRef();
-
-  // const url = "주소넣기";
 
   const titleHandler = (e) => {
     e.target.maxLength = 20;
@@ -31,28 +30,44 @@ const PostContent = () => {
   localStorage.setItem('content', content);
 
   const post = () => {
-    // const method = 'post';
     if (count > 0 && content.length > 0) {
       console.log('post합니다');
-      // API(url, method);
     }
+    axios
+      .post('https://65a9-182-211-13-193.ngrok-free.app/boards/create', {
+        memberId: '1',
+        title: localStorage.getItem('title'),
+        content: localStorage.getItem('content'),
+        headers: {
+          'ngrok-skip-browser-warning': '2',
+        },
+      })
+
+      .then((res) => {
+        window.location.href = `/community/detail${res.headers.location}`;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   return (
-    <PostContentStyle>
+    <>
       <Header />
-      <TitleWrap>
-        <button onClick={post}>저장하기</button>
-        <span>{count}/20</span>
-        <input placeholder="제목을 입력하세요" onKeyUp={titleHandler}></input>
-      </TitleWrap>
-      <textarea
-        placeholder="내용을 입력하세요"
-        ref={focusRef}
-        onKeyUp={contentHandler}
-      ></textarea>
-      <Footer />
-    </PostContentStyle>
+      <PostContentStyle>
+        <TitleWrap>
+          <button onClick={post}>저장하기</button>
+          <span>{count}/20</span>
+          <input placeholder="제목을 입력하세요" onKeyUp={titleHandler}></input>
+        </TitleWrap>
+        <textarea
+          placeholder="내용을 입력하세요"
+          ref={focusRef}
+          onKeyUp={contentHandler}
+        ></textarea>
+        <Footer />
+      </PostContentStyle>
+    </>
   );
 };
 
