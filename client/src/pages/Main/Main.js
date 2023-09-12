@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useState, useEffect } from 'react';
 import * as Styled from './MainStyle';
 import Header from '../../components/Header/Header';
@@ -7,8 +8,8 @@ import InfoCard from '../../components/LicenseCard/LicenseCard';
 import Modal from '../../components/Modal/Modal';
 
 const Main = () => {
-  // eslint-disable-next-line no-undef
-  const imageUrl = process.env.PUBLIC_URL + '/Main.png';
+  const imageUrl = process.env.PUBLIC_URL + '/studyground.png';
+
 
   // eslint-disable-next-line no-undef
   const imageUrl1 = process.env.PUBLIC_URL + '/ava.png';

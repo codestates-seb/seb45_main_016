@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { SvgModalHeart } from '../../utils/svg';
 import Bookmark from '../Bookmark/Bookmark';
 import {
   ModalStyle,
@@ -53,7 +54,6 @@ const Modal = ({ setModalOpen }) => {
               <p className="date">날짜</p>
             </div>
           </Grid>
-
           <div></div>
           <div>
             <p>최종 합격자 발표</p>
