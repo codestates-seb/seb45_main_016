@@ -4,7 +4,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 
 import lombok.Getter;
+import lombok.Setter;
 
+@Setter
 @Getter
 public class BoardPostDto {
 
@@ -18,7 +20,6 @@ public class BoardPostDto {
 	@NotBlank
 	private String content;
 
-	@NotBlank
 	private int views;
 
 	// ✨(솔이님 첨삭) post 할 때는 userId로 검증해서 nickname, email 필요 없을 것 같아요
