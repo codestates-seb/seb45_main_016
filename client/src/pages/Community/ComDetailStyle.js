@@ -3,6 +3,12 @@ import globalToken from '../../styles/global.json';
 
 const { Gray } = globalToken;
 
+const breakpoints = {
+  small: '756px',
+  medium: '992px',
+  large: '1200px',
+};
+
 export const DetailEntire = styled.div`
   display: flex;
   flex-direction: column;
@@ -13,10 +19,13 @@ export const Top = styled.div`
   flex-direction: column;
   align-items: center;
   color: ${Gray['600'].value};
+  @media (max-width: ${breakpoints.medium}) {
+    margin-top: 260px;
+  }
 `;
 
 export const EditBtn = styled.div`
-  margin-top: 2%;
+  margin-top: 10%;
   padding-left: 90%;
   button {
     background-color: transparent;
