@@ -91,12 +91,12 @@ const Main = () => {
       });
   }, []);
 
-  const sortedCertifications = [...certificationData]
+  const sortedCertifications = certificationData
     .sort((a, b) => b.count - a.count)
     .slice(0, 5);
 
   // 커뮤니티 데이터를 조회수(count)에 따라 정렬
-  const sortedCommunity = [...communityData]
+  const sortedCommunity = communityData
     .sort((a, b) => b.count - a.count)
     .slice(0, 5);
 
