@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 // Import necessary modules and components
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -8,7 +10,7 @@ import KakaoLogin from 'react-kakao-login';
 import * as Styled from '../Signup/SignUpStyle';
 
 const inputErrorClass = 'input-error';
-// // eslint-disable-next-line no-undef, no-undef
+
 const imageUrl = process.env.PUBLIC_URL + '/KaKaoLogo.png';
 
 function SignUp() {

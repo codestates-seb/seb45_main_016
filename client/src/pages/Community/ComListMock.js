@@ -1,35 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useEffect, useState } from 'react';
 import * as Styled from './ComListStyle';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
-import { useNavigate } from 'react-router-dom';
 import ComCard from '../../components/Comcard';
+import { ComData } from './ComData';
+import { Link, useNavigate } from 'react-router-dom';
 
 const ITEMS_PER_PAGE = 6; // 한 페이지에 보여줄 아이템 수
 
-const ComList = () => {
+const ComListMock = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [comData, setComData] = useState([]);
-  const [isparam, setParam] = useState();
 
   const totalItems = comData.length;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, totalItems);
+  const userId = localStorage.getItem('userId');
 
   const navigator = useNavigate();
-  const userId = localStorage.getItem('userId');
 
   const handleChangePage = (page) => {
     setCurrentPage(page);
   };
 
-  const openDetail = (index) => {
-    setParam(comData[index].boardId);
-    navigator(`/community/detail/boards/${isparam}`);
-  };
+  useEffect(() => {
+    setComData(ComData);
+  }, []);
 
   const route = () => {
     if (userId) {
@@ -40,25 +40,6 @@ const ComList = () => {
     }
   };
 
-  useEffect(() => {
-    axios
-      .get('https://65a9-182-211-13-193.ngrok-free.app/boards', {
-        headers: {
-          'ngrok-skip-browser-warning': '1',
-        },
-      })
-      .then((res) => console.log(res.data))
-      .then((res) => setComData(res.data))
-      .catch((e) => {
-        console.log(e);
-        // if (e.status === 404) {
-        //   setError(true);
-        // } else if (e.code === 'ERROR_NETWORK') {
-        //   setError(true);
-        // }
-      });
-  }, []);
-
   return (
     <Styled.ComContainer>
       <Header />
@@ -66,9 +47,21 @@ const ComList = () => {
       <Styled.AddPostButton onClick={route}>글 작성하기</Styled.AddPostButton>
 
       <Styled.GridContainer>
-        {comData.slice(startIndex, endIndex).map((info, index) => (
-          <ComCard key={index} title={info.title} onClick={openDetail(index)} />
-        ))}
+        {comData &&
+          comData.slice(startIndex, endIndex).map((info, index) => (
+            <Link to={`/community/detail/${index}`} key={info.boardId}>
+              <ComCard
+                title={info.title}
+                username={info.username}
+                email={info.email}
+                onClick={() => {
+                  {
+                    localStorage.setItem('mockid', index);
+                  }
+                }}
+              />
+            </Link>
+          ))}
       </Styled.GridContainer>
 
       <Styled.PaginationContainer>
@@ -88,4 +81,4 @@ const ComList = () => {
   );
 };
 
-export default ComList;
+export default ComListMock;
