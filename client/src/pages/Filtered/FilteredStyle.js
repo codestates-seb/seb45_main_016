@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-
+import globalToken from '../../styles/global.json';
 const breakpoints = {
   medium: '992px',
   large: '1200px',
@@ -114,18 +114,40 @@ export const Paging = styled.div`
 
 export const Pagination = styled.div`
   display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  margin-top: 10px;
-  align-items: center; /* 페이지 네이션 가운데 정렬 추가 */
-  justify-content: center; /* 페이지 네이션 가운데 정렬 추가 */
+  justify-content: center;
+  margin-top: 20px;
+
+  .arrow-button {
+    cursor: pointer;
+    background-color: white;
+    border: none;
+    height: 5%;
+    color: ${globalToken.Gray[600].value};
+  }
 `;
 
 export const PageButton = styled.button`
-  padding: 5px 10px;
-  margin-right: 5px;
-  background-color: ${(props) => (props.isActive ? 'blue' : 'transparent')};
-  color: ${(props) => (props.isActive ? 'white' : 'black')};
-  border: 1px solid blue;
-  cursor: pointer;
+  font-size: 1rem;
+  line-height: 100%;
+  font-style: normal;
+  font-weight: ${(props) => (props['data-currentPage'] ? 700 : 500)};
+  color: ${(props) =>
+    props['data-currentPage']
+      ? globalToken.Primary['Darken-2'].value
+      : globalToken.Gray[600].value};
+  &:hover {
+    color: ${(props) =>
+      props['data-currentPage']
+        ? globalToken.Primary['Darken-2'].value
+        : globalToken.Gray[800].value};
+  }
+  text-decoration: ${(props) => props['data-currentPage'] && 'underline'};
+  border: none;
+  background-color: transparent;
+  cursor: ${(props) => (props['data-currentPage'] ? 'default' : 'pointer')};
+
+  :disabled {
+    cursor: not-allowed;
+  }
+  margin: 0 2rem 11rem;
 `;
