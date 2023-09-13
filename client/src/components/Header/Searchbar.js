@@ -22,6 +22,12 @@ function SearchBar() {
     }
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      saveKeywordAndNavigate();
+    }
+  };
+
   return (
     <Searchform>
       <SearchBox
@@ -29,6 +35,7 @@ function SearchBar() {
         placeholder="Search..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
+        onKeyPress={handleKeyPress} // 엔터 키 이벤트 처리
       />
       <button onClick={saveKeywordAndNavigate}>
         <img className="searchIcon" src={imageUrl} alt="검색" />

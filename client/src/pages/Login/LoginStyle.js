@@ -2,11 +2,14 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import globalTokens from '../../styles/global.json';
 
+const breakpoints = {
+  medium: '992px',
+  large: '1200px',
+};
 export const Wrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-y: auto; /* 내용이 넘칠 경우 스크롤 표시 */
 `;
 
 export const LoginContainer = styled.div`
@@ -19,6 +22,10 @@ export const LoginContainer = styled.div`
   width: 30%;
   border-radius: 20px;
   box-shadow: 2px 2px 30px 0px rgba(0, 0, 0, 0.1);
+  overflow-y: auto; /* 내용이 넘칠 경우 스크롤 표시 */
+  @media (max-width: ${breakpoints.medium}) {
+    margin-top: 300px;
+  }
 `;
 
 export const LoginForm = styled.form`

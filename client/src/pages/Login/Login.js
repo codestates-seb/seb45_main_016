@@ -1,6 +1,10 @@
+<<<<<<< Updated upstream
 /* eslint-disable no-undef */
 
 import React, { useEffect } from 'react';
+=======
+import React from 'react';
+>>>>>>> Stashed changes
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
@@ -10,7 +14,7 @@ import Header from '../../components/Header/Header';
 
 const imageUrl = process.env.PUBLIC_URL + '/KaKaoLogo.png';
 const KAKAO_CLIENT_ID = 'b05b33f9ad8c9790f4281e18ebd1e7fc';
-const KAKAO_REDIRECT_URI = 'http://localhost:3000/oauth';
+const KAKAO_REDIRECT_URI = 'http://localhost:3000/login/oauth/code/kakao';
 const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
 
 function Login() {
@@ -50,41 +54,6 @@ function Login() {
   const handleSocialLogin = async () => {
     window.location.href = KAKAO_AUTH_URI;
   };
-
-  // handleKakaoCallback 함수 추가
-  const handleKakaoCallback = async () => {
-    const code = new URL(window.location.href).searchParams.get('code');
-    if (code) {
-      try {
-        // 백엔드 서버에 code를 전송
-        const response = await fetch(`/api/kakao/callback?code=${code}`, {
-          method: 'POST',
-          // 필요하다면 다른 헤더나 body 정보를 추가하세요.
-        });
-
-        if (response.status === 200) {
-          // 로그인이 성공한 경우의 처리
-          const data = await response.json();
-          localStorage.setItem('Id', data.email);
-          localStorage.setItem('userId', data.userId);
-          localStorage.setItem('Token', data.accessToken);
-          // data에서 필요한 정보를 추출하여 저장하거나 다른 작업을 수행
-        } else {
-          // 로그인이 실패한 경우의 처리
-          console.error('로그인 실패:', response.statusText);
-          alert('로그인 중에 문제가 발생했습니다. 나중에 다시 시도해주세요.');
-        }
-      } catch (error) {
-        console.error('로그인 에러:', error);
-        alert('로그인 중에 문제가 발생했습니다. 나중에 다시 시도해주세요.');
-      }
-    }
-  };
-
-  // 컴포넌트가 마운트될 때 handleKakaoCallback 함수를 호출
-  useEffect(() => {
-    handleKakaoCallback();
-  }, []);
 
   return (
     <Styled.Wrap>

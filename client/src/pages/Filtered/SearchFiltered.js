@@ -1,111 +1,182 @@
-import React, { useState, useEffect } from 'react';
+// SearchFiltered.js
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import {
   CommunityCategory,
   FilteredStyle,
   LicenseCategory,
-  Paging,
+  Filteredform,
+  Licensere,
+  Pagination,
+  PageButton,
+  Comresult,
 } from './FilteredStyle';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
+import ComCard from '../../components/Comcard';
+import LicenseCard from '../../components/LicenseCard/LicenseCard';
+import Modal from '../../components/Modal/Modal';
+
+const InfoData = [
+  { title: '자격증 1', description: '자격증 1에 대한 설명' },
+  { title: '자격증 1', description: '자격증 1에 대한 설명' },
+  { title: '자격증 1', description: '자격증 1에 대한 설명' },
+  { title: '자격증 1', description: '자격증 1에 대한 설명' },
+  { title: '자격증 1', description: '자격증 1에 대한 설명' },
+  { title: '자격증 1', description: '자격증 1에 대한 설명' },
+  { title: '자격증 1', description: '자격증 1에 대한 설명' },
+  { title: '자격증 2', description: '자격증 1에 대한 설명' },
+];
+
+const comData = [
+  { title: '자격증 1', description: '자격증 1에 대한 설명' },
+  { title: '자격증 1', description: '자격증 1에 대한 설명' },
+  { title: '자격증 1', description: '자격증 1에 대한 설명' },
+  { title: '자격증 1', description: '자격증 1에 대한 설명' },
+  { title: '자격증 1', description: '자격증 1에 대한 설명' },
+  { title: '자격증 2', description: '자격증 1에 대한 설명' },
+  { title: '자격증 2', description: '자격증 1에 대한 설명' },
+  { title: '자격증 2', description: '자격증 1에 대한 설명' },
+];
 
 const SearchFiltered = () => {
   const query = localStorage.getItem('savedKeywords');
-  const pageSize = 5; // 페이지당 정보 개수
-  const [currentPage, setCurrentPage] = useState(1);
-  const [licenseData, setLicenseData] = useState([]); // 자격증 정보 데이터 배열
-  const [communityData, setCommunityData] = useState([]); // 커뮤니티 정보 데이터 배열
+  const PageSize = 3;
 
-  useEffect(() => {
-    // 가상의 자격증 정보 데이터 API로 가정
-    fetch('https://api.example.com/licenses')
-      .then((response) => response.json())
-      .then((data) => {
-        // 검색어를 포함하는 자격증 정보만 필터링
-        const filteredData = data.filter((license) =>
-          license.title.includes(query),
-        );
+  const [isModalOpen, setModalOpen] = useState(false); // 모달 열림 상태 관리
+  const [selectedLicense, setSelectedLicense] = useState(null); // 선택한 자격증 정보
 
-        // 페이지에 맞게 데이터 슬라이스
-        const startIndex = (currentPage - 1) * pageSize;
-        const endIndex = startIndex + pageSize;
-        const slicedData = filteredData.slice(startIndex, endIndex);
+  const openModal = (license) => {
+    setSelectedLicense(license);
+    setModalOpen(true);
+  };
 
-        setLicenseData(slicedData);
-      })
-      .catch((error) => {
-        console.error('Error fetching license data:', error);
-      });
+  const closeModal = () => {
+    setSelectedLicense(null);
+    setModalOpen(false);
+  };
 
-    // 가상의 커뮤니티 정보 데이터 API로 가정
-    fetch('https://api.example.com/community')
-      .then((response) => response.json())
-      .then((data) => {
-        // 검색어를 포함하는 커뮤니티 정보만 필터링
-        const filteredData = data.filter((community) =>
-          community.title.includes(query),
-        );
-
-        // 페이지에 맞게 데이터 슬라이스
-        const startIndex = (currentPage - 1) * pageSize;
-        const endIndex = startIndex + pageSize;
-        const slicedData = filteredData.slice(startIndex, endIndex);
-
-        setCommunityData(slicedData);
-      })
-      .catch((error) => {
-        console.error('Error fetching community data:', error);
-      });
-  }, [currentPage, query]);
-
-  const pagingNum = Array.from(
-    { length: Math.ceil(licenseData.length / pageSize) },
-    (_, index) => index + 1,
+  const filteredLicenseData = InfoData.filter((data) =>
+    data.title.includes(query),
   );
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
+  const filteredCommunityData = comData.filter((data) =>
+    data.title.includes(query),
+  );
+
+  const LicensereComponent = ({ data }) => {
+    const [currentPage, setCurrentPage] = useState(1);
+    const totalPages = Math.ceil(data.length / PageSize);
+    const startIndex = (currentPage - 1) * PageSize;
+    const endIndex = startIndex + PageSize;
+    const currentData = data.slice(startIndex, endIndex);
+
+    const handlePageChange = (page) => {
+      setCurrentPage(page);
+    };
+
+    return (
+      <div>
+        <Licensere>
+          {currentData.map((license, index) => (
+            <LicenseCard
+              key={index}
+              title={license.title}
+              onClick={() => openModal(license)} // 클릭 시 모달 열기
+            />
+          ))}
+        </Licensere>
+        <Pagination>
+          {Array.from({ length: totalPages }).map((_, page) => (
+            <PageButton
+              key={page}
+              isActive={page + 1 === currentPage}
+              onClick={() => handlePageChange(page + 1)}
+            >
+              {page + 1}
+            </PageButton>
+          ))}
+        </Pagination>
+      </div>
+    );
   };
+
+  LicensereComponent.propTypes = {
+    data: PropTypes.array.isRequired,
+  };
+
+  const CommunityComponent = ({ data }) => {
+    const [currentPage, setCurrentPage] = useState(1);
+    const totalPages = Math.ceil(data.length / PageSize);
+    const startIndex = (currentPage - 1) * PageSize;
+    const endIndex = startIndex + PageSize;
+    const currentData = data.slice(startIndex, endIndex);
+
+    const handlePageChange = (page) => {
+      setCurrentPage(page);
+    };
+
+    return (
+      <div>
+        <Comresult>
+          {currentData.map((community, index) => (
+            <ComCard key={index} title={community.title} />
+          ))}
+        </Comresult>
+        <Pagination>
+          {Array.from({ length: totalPages }).map((_, page) => (
+            <PageButton
+              key={page}
+              isActive={page + 1 === currentPage}
+              onClick={() => handlePageChange(page + 1)}
+            >
+              {page + 1}
+            </PageButton>
+          ))}
+        </Pagination>
+      </div>
+    );
+  };
+
+  CommunityComponent.propTypes = {
+    data: PropTypes.array.isRequired,
+  };
+
+  let noResultsMessage1 = null;
+  if (filteredLicenseData.length === 0) {
+    noResultsMessage1 = <div className="notting">해당 내용이 없습니다.</div>;
+  }
+
+  let noResultsMessage2 = null;
+  if (filteredCommunityData.length === 0) {
+    noResultsMessage2 = <div className="notting">해당 내용이 없습니다.</div>;
+  }
 
   return (
     <FilteredStyle>
       <Header />
-      <div className="title">{`'${query}'에 관한 결과입니다.`}</div>
-      <LicenseCategory>
-        <p>자격증 정보</p>
-        {licenseData.map((license) => (
-          <div key={license.id}>{license.title}</div>
-        ))}
-      </LicenseCategory>
-      <CommunityCategory>
-        <p>커뮤니티 정보</p>
-        {communityData.map((community) => (
-          <div key={community.id}>{community.title}</div>
-        ))}
-      </CommunityCategory>
-      <Paging>
-        <button
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          {`<`}
-        </button>
-        {pagingNum.map((page) => (
-          <button
-            key={page}
-            onClick={() => handlePageChange(page)}
-            className={page === currentPage ? 'active' : ''}
-          >
-            {page}
-          </button>
-        ))}
-        <button
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === pagingNum.length}
-        >
-          {`>`}
-        </button>
-      </Paging>
+      <Filteredform>
+        <div className="title">{`'${query}'에 관한 결과입니다.`}</div>
+        <LicenseCategory>
+          <div className="subtitle1">자격증 정보</div>
+          <LicensereComponent data={filteredLicenseData} />
+          {noResultsMessage1}
+        </LicenseCategory>
+        <CommunityCategory>
+          <div className="subtitle2">커뮤니티 정보</div>
+          <CommunityComponent data={filteredCommunityData} />
+          {noResultsMessage2}
+        </CommunityCategory>
+      </Filteredform>
       <Footer />
+      {isModalOpen && (
+        <Modal
+          setModalOpen={setModalOpen}
+          isOpen={isModalOpen}
+          closeModal={closeModal}
+          selectedLicense={selectedLicense}
+        />
+      )}
     </FilteredStyle>
   );
 };

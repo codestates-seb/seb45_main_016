@@ -2,6 +2,11 @@ import styled from 'styled-components';
 import globalTokens from '../../styles/global.json';
 import { Link } from 'react-router-dom';
 
+const breakpoints = {
+  medium: '992px',
+  large: '1200px',
+};
+
 export const Wrap = styled.div`
   display: flex;
   flex-direction: column;
@@ -20,6 +25,9 @@ export const SignUpContainer = styled.div`
   // background-color: blue;
   border-radius: 20px;
   box-shadow: 2px 2px 30px 0px rgba(0, 0, 0, 0.1);
+  @media (max-width: ${breakpoints.medium}) {
+    margin-top: 300px;
+  }
 `;
 
 export const SignUpForm = styled.form`
