@@ -1,5 +1,6 @@
 package com.codestates.server.domain.license.controller;
 
+import com.codestates.server.domain.license.licensedate.dto.LicenseTop5Dto;
 import com.codestates.server.domain.license.licensedate.dto.LicenseResponseDto;
 import com.codestates.server.domain.license.licensedate.entity.LicenseDate;
 import com.codestates.server.domain.license.licensedate.mapper.LicenseDateMapper;
@@ -41,10 +42,12 @@ public class LicenseController {
         );
     }
 
-    @GetMapping("top5")
-    public ResponseEntity getLicenseTop5(){
-        List<LicenseInfo> top5 = licenseService.findTop5();
-        licenseService.
+    @GetMapping("/top5")
+    public ResponseEntity<LicenseTop5Dto> getLicenseTop5(){
+        List<LicenseInfo> top5LicenseInfo = licenseService.findTop5LicenseInfo();
+        LicenseTop5Dto top5License = licenseService.findTop5LicenseDate(top5LicenseInfo);
+
+        return new ResponseEntity<>(top5License,HttpStatus.OK);
     }
 
 

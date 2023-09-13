@@ -1,6 +1,6 @@
 package com.codestates.server.global.batch.infra;
 
-import com.codestates.server.domain.license.licensedate.dto.LicenseDto;
+import com.codestates.server.domain.license.licensedate.dto.LicenseTop5Dto;
 import com.codestates.server.domain.license.licenseinfo.entity.LicenseInfo;
 
 import java.io.BufferedReader;
@@ -20,7 +20,7 @@ public class LicenseApi {
      */
     public String callApiToString(LicenseInfo licenseInfo) throws IOException {
 
-        LicenseDto licenseDto = new LicenseDto();
+        LicenseTop5Dto licenseTop5Dto = new LicenseTop5Dto();
 
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B490007/qualExamSchd/getQualExamSchdList"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=hN6HzankT%2Bi7Qds9PJjAjFb6R6xzw5DAvqBHMSOjw4yaA98ubFd6IRzWT8Kz5CcCiksKJz7qPFdZOsOcjjn4MA%3D%3D"); /*Service Key*/

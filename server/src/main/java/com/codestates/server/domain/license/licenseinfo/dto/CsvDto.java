@@ -16,6 +16,7 @@ public class CsvDto {
         return LicenseInfo.builder()
                 .code(this.code)
                 .name(this.name)
+                .markCount(0L)
                 .build();
     }
 }

@@ -15,7 +15,6 @@ public interface LicenseInfoRepository extends JpaRepository<LicenseInfo,Long> {
      * @return
      */
     public LicenseInfo findByName(String name);
-    //구현필요
 
     /**
      * 북마크수 기준으로 상위 5개를 뽑아낸다.

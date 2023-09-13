@@ -16,5 +16,5 @@ public class LicenseResponseDto {
 
     private String name;
 
-    private List<LicenseDate> info;
+    private List<LicenseDate> date;
 }

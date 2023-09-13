@@ -1,5 +1,7 @@
 package com.codestates.server.domain.license.service;
 
+import com.codestates.server.domain.license.licensedate.dto.LicenseTop5Dto;
+import com.codestates.server.domain.license.licensedate.dto.LicenseResponseDto;
 import com.codestates.server.domain.license.licensedate.entity.LicenseDate;
 import com.codestates.server.domain.license.licensedate.repository.LicenseDateRepository;
 import com.codestates.server.domain.license.licenseinfo.entity.LicenseInfo;
@@ -10,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -52,11 +55,19 @@ public class LicenseService {
         return licenseInfos;
     }
 
-    public List<LicenseDate> findTop5LicenseDate(List<LicenseInfo> licenseInfos){
+    public LicenseTop5Dto findTop5LicenseDate(List<LicenseInfo> licenseInfos){
+
+        LicenseTop5Dto licenseTop5Dto = new LicenseTop5Dto();
+        List<LicenseResponseDto> licenseResponseDtos = new ArrayList<>();
 
         for(LicenseInfo licenseInfo : licenseInfos){
             List<LicenseDate> licenseDates = licenseDateRepository.findAllByLicenseInfo(licenseInfo);
+            LicenseResponseDto licenseResponseDto = new LicenseResponseDto(licenseInfo.getCode(), licenseInfo.getName(), licenseDates);
+            licenseResponseDtos.add(licenseResponseDto);
         }
+        licenseTop5Dto.setData(licenseResponseDtos);
+
+        return licenseTop5Dto;
     }
 
     /**
