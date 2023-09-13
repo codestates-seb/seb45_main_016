@@ -18,7 +18,7 @@ export const HeaderStyle = styled.div`
   background: ${globalTokens.White.value};
   border: none;
   box-shadow: 0px 4px 5px 0px ${globalTokens.Gray[300].value};
-  z-index: 2;
+  z-index: 1;
 
   @media (max-width: ${breakpoints.medium}) {
     flex-direction: column;
