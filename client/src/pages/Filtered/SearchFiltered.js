@@ -16,16 +16,30 @@ import Footer from '../../components/Footer/Footer';
 import ComCard from '../../components/Comcard';
 import LicenseCard from '../../components/LicenseCard/LicenseCard';
 import Modal from '../../components/Modal/Modal';
-
+import { LeftArrow, RightArrow } from '../../utils/svg';
 const InfoData = [
   { title: '자격증 1', description: '자격증 1에 대한 설명' },
+  { title: '자격증 12', description: '자격증 1에 대한 설명' },
   { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
+  { title: '자격증 12', description: '자격증 1에 대한 설명' },
   { title: '자격증 1', description: '자격증 1에 대한 설명' },
   { title: '자격증 1', description: '자격증 1에 대한 설명' },
   { title: '자격증 1', description: '자격증 1에 대한 설명' },
   { title: '자격증 2', description: '자격증 1에 대한 설명' },
+  { title: '자격증 1', description: '자격증 1에 대한 설명' },
+  { title: '자격증 1', description: '자격증 1에 대한 설명' },
+  { title: '자격증 1', description: '자격증 1에 대한 설명' },
+  { title: '자격증 1', description: '자격증 1에 대한 설명' },
+  { title: '자격증 1', description: '자격증 1에 대한 설명' },
+  { title: '자격증 1', description: '자격증 1에 대한 설명' },
+  { title: '자격증 1', description: '자격증 1에 대한 설명' },
+  { title: '자격증 1', description: '자격증 1에 대한 설명' },
+  { title: '자격증 1', description: '자격증 1에 대한 설명' },
+  { title: '자격증 1', description: '자격증 1에 대한 설명' },
+  { title: '자격증 1', description: '자격증 1에 대한 설명' },
+  { title: '자격증 1', description: '자격증 1에 대한 설명' },
+  { title: '자격증 1', description: '자격증 1에 대한 설명' },
+  { title: '자격증 1', description: '자격증 1에 대한 설명' },
 ];
 
 const comData = [
@@ -71,8 +85,40 @@ const SearchFiltered = () => {
     const endIndex = startIndex + PageSize;
     const currentData = data.slice(startIndex, endIndex);
 
+    const maxDisplayedPages = 5; // 최대 표시 페이지 수
+    const halfDisplayedPages = Math.floor(maxDisplayedPages / 2);
+    let startPage, endPage;
+
+    if (totalPages <= maxDisplayedPages) {
+      // 페이지가 5개 이하인 경우 모든 페이지를 표시
+      startPage = 1;
+      endPage = totalPages;
+    } else {
+      // 페이지가 5개를 초과하는 경우 현재 페이지 주변 페이지만 표시
+      if (currentPage <= halfDisplayedPages) {
+        startPage = 1;
+        endPage = maxDisplayedPages;
+      } else if (currentPage + halfDisplayedPages >= totalPages) {
+        startPage = totalPages - maxDisplayedPages + 1;
+        endPage = totalPages;
+      } else {
+        startPage = currentPage - halfDisplayedPages;
+        endPage = currentPage + halfDisplayedPages;
+      }
+    }
     const handlePageChange = (page) => {
       setCurrentPage(page);
+    };
+    const handlePrevPage = () => {
+      if (currentPage > 1) {
+        setCurrentPage(currentPage - 1);
+      }
+    };
+
+    const handleNextPage = () => {
+      if (currentPage < totalPages) {
+        setCurrentPage(currentPage + 1);
+      }
     };
 
     return (
@@ -87,15 +133,20 @@ const SearchFiltered = () => {
           ))}
         </Licensere>
         <Pagination>
-          {Array.from({ length: totalPages }).map((_, page) => (
-            <PageButton
-              key={page}
-              isActive={page + 1 === currentPage}
-              onClick={() => handlePageChange(page + 1)}
-            >
-              {page + 1}
-            </PageButton>
-          ))}
+          <LeftArrow onClick={handlePrevPage} />
+          {Array.from({ length: endPage - startPage + 1 }).map((_, i) => {
+            const page = startPage + i;
+            return (
+              <PageButton
+                key={page}
+                data-currentPage={page === currentPage}
+                onClick={() => handlePageChange(page)}
+              >
+                {page}
+              </PageButton>
+            );
+          })}
+          <RightArrow onClick={handleNextPage} />
         </Pagination>
       </div>
     );
@@ -112,8 +163,40 @@ const SearchFiltered = () => {
     const endIndex = startIndex + PageSize;
     const currentData = data.slice(startIndex, endIndex);
 
+    const maxDisplayedPages = 5; // 최대 표시 페이지 수
+    const halfDisplayedPages = Math.floor(maxDisplayedPages / 2);
+    let startPage, endPage;
+
+    if (totalPages <= maxDisplayedPages) {
+      // 페이지가 5개 이하인 경우 모든 페이지를 표시
+      startPage = 1;
+      endPage = totalPages;
+    } else {
+      // 페이지가 5개를 초과하는 경우 현재 페이지 주변 페이지만 표시
+      if (currentPage <= halfDisplayedPages) {
+        startPage = 1;
+        endPage = maxDisplayedPages;
+      } else if (currentPage + halfDisplayedPages >= totalPages) {
+        startPage = totalPages - maxDisplayedPages + 1;
+        endPage = totalPages;
+      } else {
+        startPage = currentPage - halfDisplayedPages;
+        endPage = currentPage + halfDisplayedPages;
+      }
+    }
     const handlePageChange = (page) => {
       setCurrentPage(page);
+    };
+    const handlePrevPage = () => {
+      if (currentPage > 1) {
+        setCurrentPage(currentPage - 1);
+      }
+    };
+
+    const handleNextPage = () => {
+      if (currentPage < totalPages) {
+        setCurrentPage(currentPage + 1);
+      }
     };
 
     return (
@@ -124,15 +207,20 @@ const SearchFiltered = () => {
           ))}
         </Comresult>
         <Pagination>
-          {Array.from({ length: totalPages }).map((_, page) => (
-            <PageButton
-              key={page}
-              isActive={page + 1 === currentPage}
-              onClick={() => handlePageChange(page + 1)}
-            >
-              {page + 1}
-            </PageButton>
-          ))}
+          <LeftArrow onClick={handlePrevPage} />
+          {Array.from({ length: endPage - startPage + 1 }).map((_, i) => {
+            const page = startPage + i;
+            return (
+              <PageButton
+                key={page}
+                data-currentPage={page === currentPage}
+                onClick={() => handlePageChange(page)}
+              >
+                {page}
+              </PageButton>
+            );
+          })}
+          <RightArrow onClick={handleNextPage} />
         </Pagination>
       </div>
     );
@@ -159,13 +247,25 @@ const SearchFiltered = () => {
         <div className="title">{`'${query}'에 관한 결과입니다.`}</div>
         <LicenseCategory>
           <div className="subtitle1">자격증 정보</div>
-          <LicensereComponent data={filteredLicenseData} />
-          {noResultsMessage1}
+          {filteredLicenseData.length > 0 ? (
+            <>
+              <LicensereComponent data={filteredLicenseData} />
+              {noResultsMessage1}
+            </>
+          ) : (
+            noResultsMessage1
+          )}
         </LicenseCategory>
         <CommunityCategory>
           <div className="subtitle2">커뮤니티 정보</div>
-          <CommunityComponent data={filteredCommunityData} />
-          {noResultsMessage2}
+          {filteredCommunityData.length > 0 ? (
+            <>
+              <CommunityComponent data={filteredCommunityData} />
+              {noResultsMessage2}
+            </>
+          ) : (
+            noResultsMessage2
+          )}
         </CommunityCategory>
       </Filteredform>
       <Footer />

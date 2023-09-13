@@ -99,22 +99,37 @@ export const PaginationContainer = styled.div`
   display: flex;
   justify-content: space-between; /* 오른쪽과 왼쪽에 간격을 둠 */
   align-items: center; /* 수직 정렬을 위해 추가 */
+  .arrow-button {
+    cursor: pointer;
+    background-color: white;
+    border: none;
+    height: 5%;
+    color: ${globaltoken.Gray[600].value};
+  }
 `;
 
 export const PaginationButton = styled.button`
-  background-color: ${(props) =>
-    props['data-currentpage'] ? '#007bff' : '#f8f8f8'};
-  color: ${(props) => (props['data-currentpage'] ? 'white' : '#333')};
+  font-size: 1rem;
+  line-height: 100%;
+  font-style: normal;
+  font-weight: ${(props) => (props['data-currentpage'] ? 700 : 500)};
+  background-color: transparent;
+  color: ${(props) =>
+    props['data-currentpage']
+      ? globaltoken.Primary['Darken-2'].value
+      : globaltoken.Gray[600].value};
+  &:hover {
+    color: ${(props) =>
+      props['data-currentpage']
+        ? globaltoken.Primary['Darken-2'].value
+        : globaltoken.Gray[800].value};
+  }
+  text-decoration: ${(props) => props['data-currentpage'] && 'underline'};
   border: none;
   border-radius: 4px;
   cursor: ${(props) => (props['data-currentpage'] ? 'default' : 'pointer')};
-  padding: 5px 10px;
-  :hover {
-    background-color: ${(props) =>
-      props['data-currentpage'] ? '#007bff' : '#f8f8f8'};
-    color: ${(props) => (props['data-currentpage'] ? 'white' : '#333')};
-  }
   :disabled {
     cursor: not-allowed;
   }
+  margin: 1rem 2rem;
 `;

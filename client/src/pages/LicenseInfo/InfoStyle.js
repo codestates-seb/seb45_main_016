@@ -30,11 +30,13 @@ export const PaginationContainer = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
-  .arrow:hover {
+
+  .arrow-button {
     cursor: pointer;
-    path {
-      fill: ${globalToken.Gray[800].value};
-    }
+    background-color: white;
+    border: none;
+    height: 5%;
+    color: ${globalToken.Gray[600].value};
   }
 `;
 
