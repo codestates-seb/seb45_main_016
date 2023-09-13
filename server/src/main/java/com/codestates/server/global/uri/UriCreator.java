@@ -11,6 +11,6 @@ public class UriCreator {
                 .newInstance()
                 .path(defaultUri + "/{resourceId}")// URI 경로 설정, resourceId 변수에는 값을 대체
                 .buildAndExpand(resourceId) // 경로 변수를 실제 값으로 대체해서 URI 생성
-                .toUri(); // 최종 URI로 변환하여 반환
+                .toUri(); // 최종 URI로 변환하여 반환합니다.
     }
 }

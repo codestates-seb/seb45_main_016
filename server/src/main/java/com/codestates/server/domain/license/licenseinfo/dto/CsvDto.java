@@ -1,6 +1,5 @@
 package com.codestates.server.domain.license.licenseinfo.dto;
 
-import com.codestates.server.domain.license.licensedate.entity.License;
 import com.codestates.server.domain.license.licenseinfo.entity.LicenseInfo;
 import lombok.Data;
 

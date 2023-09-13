@@ -1,6 +1,7 @@
 package com.codestates.server.domain.license.licenseinfo.entity;
 
-import com.codestates.server.domain.license.licensedate.entity.License;
+import com.codestates.server.domain.bookmark.entity.Bookmark;
+import com.codestates.server.domain.license.licensedate.entity.LicenseDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +23,14 @@ public class LicenseInfo {
     @Column
     private String name;
 
+    @Column
+    private Long count;
+
+    @OneToOne
+    @JoinColumn(name = "BOOKMARK_id")
+    private Bookmark bookmark;
+
     @OneToMany(mappedBy = "id")
-    private List<License> licenses;
+    private List<LicenseDate> licenses;
 
 }

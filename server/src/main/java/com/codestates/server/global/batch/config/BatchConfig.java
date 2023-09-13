@@ -1,8 +1,8 @@
 package com.codestates.server.global.batch.config;
 
+import com.codestates.server.domain.license.licensedate.entity.LicenseDate;
 import com.codestates.server.domain.license.licenseinfo.dto.CsvDto;
-import com.codestates.server.domain.license.licensedate.entity.License;
-import com.codestates.server.domain.license.licensedate.repository.LicenseRepository;
+import com.codestates.server.domain.license.licensedate.repository.LicenseDateRepository;
 import com.codestates.server.domain.license.licenseinfo.entity.LicenseInfo;
 import com.codestates.server.domain.license.licenseinfo.repository.LicenseInfoRepository;
 import com.codestates.server.global.batch.mapper.CsvToCsvDtoMapper;
@@ -41,7 +41,7 @@ public class BatchConfig {
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
-    private final LicenseRepository licenseRepository;
+    private final LicenseDateRepository licenseDateRepository;
     private final LicenseReader licenseReader;
     private final LicenseProcessor licenseProcessor;
     private final LicenseWriter licenseWriter;
@@ -69,7 +69,7 @@ public class BatchConfig {
     public Step step02() {
         return stepBuilderFactory.get("step02")
                 //<rader에 넘길 타입, writer에 넘길 타입>
-                .<LicenseInfo, List<License>>chunk(5000)
+                .<LicenseInfo, List<LicenseDate>>chunk(5000)
                 .reader(licenseReader) //DB에서 데이터 읽어오기
                 .processor(licenseProcessor) //데이터값으로 API 호출해서 전달
                 .writer(licenseWriter) //받은 데이터 DB에 저장 로직

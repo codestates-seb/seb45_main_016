@@ -1,7 +1,6 @@
 package com.codestates.server.global.batch.config;
 
-import com.codestates.server.domain.license.licensedate.entity.License;
-import com.codestates.server.domain.license.licensedate.repository.LicenseRepository;
+import com.codestates.server.domain.license.licensedate.repository.LicenseDateRepository;
 import com.codestates.server.domain.license.licenseinfo.entity.LicenseInfo;
 import com.codestates.server.domain.license.licenseinfo.repository.LicenseInfoRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +15,7 @@ import java.util.Iterator;
 @RequiredArgsConstructor
 public class LicenseReader implements ItemReader<LicenseInfo> {
 
-    private final LicenseRepository licenseRepository;
+    private final LicenseDateRepository licenseDateRepository;
     private final LicenseInfoRepository licenseInfoRepository;
 
     private Iterator<LicenseInfo> licenseIterator;

@@ -1,9 +1,9 @@
 package com.codestates.server.domain.license.licensedate.controller;
 
 import com.codestates.server.domain.license.licensedate.dto.LicenseResponseDto;
-import com.codestates.server.domain.license.licensedate.entity.License;
-import com.codestates.server.domain.license.licensedate.mapper.LicenseMapper;
-import com.codestates.server.domain.license.licensedate.service.LicenseService;
+import com.codestates.server.domain.license.licensedate.entity.LicenseDate;
+import com.codestates.server.domain.license.licensedate.mapper.LicenseDateMapper;
+import com.codestates.server.domain.license.licensedate.service.LicenseDateService;
 import com.codestates.server.global.dto.MultiResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,10 +18,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/licenses")
 @AllArgsConstructor
-public class LicenseController {
+public class LicenseDateController {
 
-    private final LicenseService licenseService;
-    private final LicenseMapper licenseMapper;
+    private final LicenseDateService licenseDateService;
+    private final LicenseDateMapper licenseDateMapper;
 
     /**
      * 스프링에서는 기본적으로 페이지 번호를 0부터 시작한다. -> 이를 위해서 controller쪽에서 page-1 을 해서 올바른 번호를 조회할수있게 해줌.
@@ -32,8 +32,8 @@ public class LicenseController {
     @GetMapping
     public ResponseEntity getLicenses(@RequestParam int page,
                               @RequestParam int size){
-        Page<License> pageLicenses = licenseService.findLicenses(page, size);
-        List<License> licenses = pageLicenses.getContent();
+        Page<LicenseDate> pageLicenses = licenseDateService.findLicenses(page, size);
+        List<LicenseDate> licenses = pageLicenses.getContent();
 
         return new ResponseEntity<>(
                 new MultiResponseDto<>(licenses,pageLicenses),HttpStatus.OK
@@ -44,9 +44,9 @@ public class LicenseController {
     @GetMapping("/find")
     public ResponseEntity<LicenseResponseDto> getLicense(@RequestParam("name") String name) {
 
-        List<License> licenses = licenseService.findLicense();
+        List<LicenseDate> licenses = licenseDateService.findLicense();
 
-        return new ResponseEntity<>(licenseMapper.licenseToLicenseResponseDto(licenses),HttpStatus.OK);
+        return new ResponseEntity<>(licenseDateMapper.licensesToLicenseResponseDto(licenses),HttpStatus.OK);
     }
 
 }

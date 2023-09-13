@@ -1,6 +1,8 @@
 package com.codestates.server.domain.bookmark.entity;
 
-import com.codestates.server.domain.license.licensedate.entity.License;
+import com.codestates.server.domain.license.licensedate.entity.LicenseDate;
+import com.codestates.server.domain.license.licenseinfo.entity.LicenseInfo;
+import com.codestates.server.domain.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,9 +20,9 @@ public class Bookmark {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private Long count;
-
     @OneToOne
-    private License license;
+    private LicenseInfo licenseInfo;
+
+    @ManyToOne
+    private Member member;
 }

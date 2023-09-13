@@ -1,6 +1,5 @@
 package com.codestates.server.domain.license.licensedate.entity;
 
-import com.codestates.server.domain.bookmark.entity.Bookmark;
 import com.codestates.server.domain.license.licenseinfo.entity.LicenseInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -15,7 +14,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class License {
+public class LicenseDate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
