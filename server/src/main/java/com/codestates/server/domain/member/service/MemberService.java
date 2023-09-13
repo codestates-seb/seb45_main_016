@@ -1,5 +1,6 @@
 package com.codestates.server.domain.member.service;
 
+import com.codestates.server.domain.member.entity.AuthUserUtils;
 import com.codestates.server.domain.member.entity.Member;
 import com.codestates.server.domain.member.repository.MemberRepository;
 import com.codestates.server.global.exception.BusinessLogicException;
@@ -58,6 +59,10 @@ public class MemberService {
         // 없는 회원이면 예외 발생
         Member getMember = getVerifiedMember(member.getMemberId());
 
+        // 로그인한 MemberId랑 업데이트 하려는 마이페이지의 memberId랑 다르면 예외 발생
+        if(!getLoginMember().getMemberId().equals(getMember.getMemberId()))
+            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_USER);
+
         Optional.ofNullable(member.getName())
                 .ifPresent(nickname -> getMember.setName(member.getName()));
         Optional.ofNullable(member.getPassword())
@@ -85,6 +90,10 @@ public class MemberService {
     public void deleteMember(Long memberId) {
         Member getMember = getVerifiedMember(memberId);
 
+        // 만약 로그인 한 사용자랑 회원 삭제 하려는 회원이랑 memberId 다르면 예외 던지기
+        if(!getLoginMember().getMemberId().equals(getMember.getMemberId()))
+            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_USER);
+
         memberRepository.delete(getMember);
     }
 
@@ -99,7 +108,8 @@ public class MemberService {
         Optional<Member> member = memberRepository.findById(memberId);
 
         // 회원이 아니면 예외 발생
-        Member getMember = member.orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+        Member getMember =
+                member.orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
 
         return getMember;
     }
@@ -114,8 +124,18 @@ public class MemberService {
 
         Optional<Member> optionalMember = memberRepository.findByEmail(email);
 
-        if(optionalMember.isPresent()) throw new BusinessLogicException(ExceptionCode.USER_EXISTS);
+        if(optionalMember.isPresent())
+            throw new BusinessLogicException(ExceptionCode.USER_EXISTS);
 
+    }
+
+    /**
+     * 로그인한 Member를 가지고 오는 메서드
+     * @return
+     */
+    public Member getLoginMember() {
+        return memberRepository.findByEmail(AuthUserUtils.getAuthUser().getName())
+                .orElseThrow(()-> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
     }
 
 }
