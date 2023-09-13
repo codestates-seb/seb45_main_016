@@ -1,10 +1,7 @@
-<<<<<<< Updated upstream
-/* eslint-disable no-undef */
 
-import React, { useEffect } from 'react';
-=======
+/* eslint-disable no-undef */
 import React from 'react';
->>>>>>> Stashed changes
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
