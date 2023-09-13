@@ -1,9 +1,10 @@
-package com.codestates.server.domain.license.licensedate.controller;
+package com.codestates.server.domain.license.controller;
 
 import com.codestates.server.domain.license.licensedate.dto.LicenseResponseDto;
 import com.codestates.server.domain.license.licensedate.entity.LicenseDate;
 import com.codestates.server.domain.license.licensedate.mapper.LicenseDateMapper;
-import com.codestates.server.domain.license.licensedate.service.LicenseDateService;
+import com.codestates.server.domain.license.licenseinfo.entity.LicenseInfo;
+import com.codestates.server.domain.license.service.LicenseService;
 import com.codestates.server.global.dto.MultiResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,9 +19,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/licenses")
 @AllArgsConstructor
-public class LicenseDateController {
+public class LicenseController {
 
-    private final LicenseDateService licenseDateService;
+    private final LicenseService licenseService;
     private final LicenseDateMapper licenseDateMapper;
 
     /**
@@ -32,7 +33,7 @@ public class LicenseDateController {
     @GetMapping
     public ResponseEntity getLicenses(@RequestParam int page,
                               @RequestParam int size){
-        Page<LicenseDate> pageLicenses = licenseDateService.findLicenses(page, size);
+        Page<LicenseDate> pageLicenses = licenseService.findLicenses(page, size);
         List<LicenseDate> licenses = pageLicenses.getContent();
 
         return new ResponseEntity<>(
@@ -40,13 +41,20 @@ public class LicenseDateController {
         );
     }
 
+    @GetMapping("top5")
+    public ResponseEntity getLicenseTop5(){
+        List<LicenseInfo> top5 = licenseService.findTop5();
+        licenseService.
+    }
+
 
     @GetMapping("/find")
     public ResponseEntity<LicenseResponseDto> getLicense(@RequestParam("name") String name) {
 
-        List<LicenseDate> licenses = licenseDateService.findLicense();
+        LicenseInfo licenseInfo = licenseService.findLicenseInfo(name);
+        List<LicenseDate> licenseDates = licenseService.findLicenseDateToLicenseInfo(licenseInfo);
 
-        return new ResponseEntity<>(licenseDateMapper.licensesToLicenseResponseDto(licenses),HttpStatus.OK);
+        return new ResponseEntity<>(licenseDateMapper.licensesToLicenseResponseDto(licenseDates,licenseInfo),HttpStatus.OK);
     }
 
 }

@@ -24,7 +24,7 @@ public class LicenseInfo {
     private String name;
 
     @Column
-    private Long count;
+    private Long markCount;
 
     @OneToOne
     @JoinColumn(name = "BOOKMARK_id")

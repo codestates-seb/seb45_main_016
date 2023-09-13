@@ -2,19 +2,17 @@ package com.codestates.server.domain.license.licensedate.mapper;
 
 import com.codestates.server.domain.license.licensedate.dto.LicenseResponseDto;
 import com.codestates.server.domain.license.licensedate.entity.LicenseDate;
+import com.codestates.server.domain.license.licenseinfo.entity.LicenseInfo;
 import org.mapstruct.Mapper;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface LicenseDateMapper {
-    default LicenseResponseDto licensesToLicenseResponseDto(List<LicenseDate> licenses){
-        String name = "";
-        Long code = 0L;
-//        for (License license : licenses){
-//            name = license.getName();
-//        }
+    default LicenseResponseDto licensesToLicenseResponseDto(List<LicenseDate> licenseDates, LicenseInfo licenseInfo){
+        String name = licenseInfo.getName();
+        Long code = licenseInfo.getCode();
 
-        return new LicenseResponseDto(code ,name, licenses);
+        return new LicenseResponseDto(code ,name, licenseDates);
     }
 }
