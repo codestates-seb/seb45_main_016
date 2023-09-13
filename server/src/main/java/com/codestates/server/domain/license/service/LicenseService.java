@@ -1,6 +1,6 @@
 package com.codestates.server.domain.license.service;
 
-import com.codestates.server.domain.license.licensedate.dto.LicenseTop5Dto;
+import com.codestates.server.domain.license.licensedate.dto.LicenseDto;
 import com.codestates.server.domain.license.licensedate.dto.LicenseResponseDto;
 import com.codestates.server.domain.license.licensedate.entity.LicenseDate;
 import com.codestates.server.domain.license.licensedate.repository.LicenseDateRepository;
@@ -50,14 +50,14 @@ public class LicenseService {
         return licenseDates;
     }
 
-    public List<LicenseInfo> findTop5LicenseInfo(){
+    public List<LicenseInfo> findTop5LicenseInfoList(){
         List<LicenseInfo> licenseInfos = licenseInfoRepository.findTop5ByOrderByMarkCountDesc();
         return licenseInfos;
     }
 
-    public LicenseTop5Dto findTop5LicenseDate(List<LicenseInfo> licenseInfos){
+    public LicenseDto findLicenseDateList(List<LicenseInfo> licenseInfos){
 
-        LicenseTop5Dto licenseTop5Dto = new LicenseTop5Dto();
+        LicenseDto licenseDto = new LicenseDto();
         List<LicenseResponseDto> licenseResponseDtos = new ArrayList<>();
 
         for(LicenseInfo licenseInfo : licenseInfos){
@@ -65,18 +65,29 @@ public class LicenseService {
             LicenseResponseDto licenseResponseDto = new LicenseResponseDto(licenseInfo.getCode(), licenseInfo.getName(), licenseDates);
             licenseResponseDtos.add(licenseResponseDto);
         }
-        licenseTop5Dto.setData(licenseResponseDtos);
+        licenseDto.setData(licenseResponseDtos);
 
-        return licenseTop5Dto;
+        return licenseDto;
     }
+
+/**
+ * 이렇게 페이지네이션하는건 적용 불가능
+ * @param page
+ * @param size
+ */
+//    public Page<LicenseDate> findLicenses(int page, int size) {
+//        return licenseDateRepository.findAll(PageRequest.of(page-1, size, Sort.by("id").ascending()));
+//    }
 
     /**
      * 페이지네이션 처리가 된 자격증 정보 목록을 리턴
-     * @param page
-     * @param size
+     * @param page , size는 9로 고정
      * @return
      */
-    public Page<LicenseDate> findLicenses(int page, int size) {
-        return licenseDateRepository.findAll(PageRequest.of(page-1, size, Sort.by("id").ascending()));
+    public Page<LicenseInfo> findLicenses(int page){
+        int size = 9;
+        Page<LicenseInfo> licenseInfoPage = licenseInfoRepository.findAll(PageRequest.of(page - 1, size, Sort.by("name").ascending()));
+
+        return licenseInfoPage;
     }
 }
