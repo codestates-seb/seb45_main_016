@@ -56,7 +56,7 @@ public class BoardService {
 			findedBoard.setContent(board.getContent());
 			findedBoard.setVideoLink(board.getVideoLink());
 			findedBoard.setBookLink(board.getBookLink());
-			BeanUtils.copyProperties(findedBoard,board,"review-id");
+			BeanUtils.copyProperties(findedBoard,board,"board-id");
 			return boardRepository.save(board);
 		} else {
 			throw new RuntimeException();
