@@ -73,7 +73,6 @@ const ComDetailMock = () => {
       setComment(comment.map((el) => el));
     }
     console.log(comment.length);
-    length = comment.length - 1;
   };
   console.log(length);
 

@@ -1,12 +1,12 @@
 {
   "dependencies": {
+    "@lottiefiles/react-lottie-player": "^3.5.3",
     "@reduxjs/toolkit": "^1.9.5",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.5.0",
     "jwt-decode": "^3.1.2",
-    "lottie-react": "^2.4.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-calendar": "^4.6.0",
@@ -16,7 +16,6 @@
     "react-redux": "^8.1.2",
     "react-router-dom": "^6.15.0",
     "react-scripts": "5.0.1",
-    "react-scroll-horizontal": "^1.6.6",
     "styled-components": "^6.0.7",
     "token-transformer": "^0.0.33",
     "web-vitals": "^2.1.4"
