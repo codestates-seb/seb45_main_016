@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { useEffect } from 'react';
 import { SvgModalHeart } from '../../utils/svg';
 import Bookmark from '../Bookmark/Bookmark';
 import {
@@ -24,14 +25,25 @@ const Modal = ({ setModalOpen, name, date }) => {
     }
   });
 
-  console.log(newdata);
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+  useEffect(() => {
+    const escKeyModalClose = (e) => {
+      if (e.keyCode === 27) {
+        setModalOpen(false);
+      }
+    };
+    window.addEventListener('keydown', escKeyModalClose);
+    return () => window.removeEventListener('keydown', escKeyModalClose);
+  }, [setModalOpen]);
 
   return (
     <>
-      <Background onClick={() => setModalOpen(false)}></Background>
+      <Background onClick={closeModal}></Background>
       <ModalStyle>
         <ButtonWrap>
-          <CloseBtn onClick={() => setModalOpen(false)}>
+          <CloseBtn onClick={closeModal}>
             <SvgModalHeart />
           </CloseBtn>
           <Bookmark />

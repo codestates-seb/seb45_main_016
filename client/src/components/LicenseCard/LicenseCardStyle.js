@@ -6,6 +6,7 @@ const { LicenseCard, LicenseCardBorder, Primary, Gray } = globalToken;
 export const InfoCardStyle = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding: 57.5px 44px;
   font-size: 16px;
   border-radius: ${LicenseCard.value}px;
@@ -30,10 +31,4 @@ export const Title = styled.div`
     font-size: 22px;
     color: ${Primary['Default'].value};
   }
-`;
-export const ExamDate = styled.div``;
-export const ApplyDate = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
 `;

@@ -17,6 +17,7 @@ import {
   SvgReview,
 } from '../../utils/svg';
 import * as T from './ComDetailStyle';
+import { useNavigate } from 'react-router-dom';
 
 const ComDetailMock = ({ ComData }) => {
   const [isOpen, setOpen] = useState(false);
@@ -29,6 +30,8 @@ const ComDetailMock = ({ ComData }) => {
   const [comment, setComment] = useState([...data[mockid].comment]);
 
   const userId = localStorage.getItem('userId');
+
+  const navigator = useNavigate();
 
   useEffect(() => {
     setData(data);
@@ -104,7 +107,7 @@ const ComDetailMock = ({ ComData }) => {
         <T.EditBtn>
           {userId === data[mockid].username && (
             <div>
-              <button>
+              <button onClick={() => navigator(`/edit/${mockid}`)}>
                 <SvgEdit />
               </button>
               <button name="content">
