@@ -50,10 +50,9 @@ public class BoardController {
         boardPatchDto.setBoardId(boardId);
         Long userId = boardPatchDto.getMemberId();
         Board board = mapper.boardPatchDtoToBoard(boardPatchDto);
-        Board updatedBoard = boardService.updateBoard(board, userId);
-        URI location = UriCreator.createUri("/boards", board.getBoardId());
+        boardService.updateBoard(board, userId);
 
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.accepted().build();
     }
 
 	//게시글 조회
@@ -88,7 +87,5 @@ public class BoardController {
 
 		return new ResponseEntity(HttpStatus.NO_CONTENT);
 	}
-
-
 
 }
