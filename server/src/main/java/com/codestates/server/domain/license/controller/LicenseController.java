@@ -43,14 +43,13 @@ public class LicenseController {
      */
     @GetMapping
     public ResponseEntity getLicenses(@RequestParam int page,
-                                      @RequestBody Optional<Map<String,Long>> requestBody){
-
-        Long memberId = requestBody.orElseThrow(()->new RuntimeException("멤버아이디없슴")).get("memberId");
+                                      @RequestBody(required = false)Optional<Map<String,Long>> body){
 
         Page<LicenseInfo> pageLicenses = licenseService.findLicenses(page);
         List<LicenseInfo> licenses = pageLicenses.getContent();
 
-        LicenseDto licenseList = licenseService.findLicenseDateList(licenses,memberId);
+        LicenseDto licenseList = licenseService.findLicenseDateList(licenses,
+                body.isPresent() ? body.get().get("memberId") : 0L);
 
         return new ResponseEntity<>(
                 new MultiResponseDto<>(licenseList.getData(),pageLicenses),HttpStatus.OK

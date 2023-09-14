@@ -77,12 +77,20 @@ public class LicenseService {
 
         for(LicenseInfo licenseInfo : licenseInfos){
             List<LicenseDate> licenseDates = licenseDateRepository.findAllByLicenseInfo(licenseInfo);
-            Member member = memberRepository.findById(memberId).orElseThrow(() -> new RuntimeException("멤버가없어용"));
 
-            boolean boolBookmark = bookmarkRepository.existsBookmarkByLicenseInfoAndMember(licenseInfo, member);
-            LicenseResponseDto licenseResponseDto = new LicenseResponseDto(licenseInfo.getCode(), licenseInfo.getName(), boolBookmark ,licenseDates);
-            licenseResponseDtos.add(licenseResponseDto);
+            if(memberId == 0L){
+                LicenseResponseDto licenseResponseDto = new LicenseResponseDto(licenseInfo.getCode(), licenseInfo.getName(), false ,licenseDates);
+                licenseResponseDtos.add(licenseResponseDto);
+
+            }else {
+                Member member = memberRepository.findById(memberId).orElseThrow(() -> new RuntimeException("멤버가없어용"));
+
+                boolean boolBookmark = bookmarkRepository.existsBookmarkByLicenseInfoAndMember(licenseInfo, member);
+                LicenseResponseDto licenseResponseDto = new LicenseResponseDto(licenseInfo.getCode(), licenseInfo.getName(), boolBookmark ,licenseDates);
+                licenseResponseDtos.add(licenseResponseDto);
+            }
         }
+
         licenseDto.setData(licenseResponseDtos);
 
         return licenseDto;
