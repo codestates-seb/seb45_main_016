@@ -65,11 +65,12 @@ public class MemberController {
 
     @PatchMapping("/mypage/image/upload/{member-id}")
     public ResponseEntity uploadImage(@PathVariable("member-id") @Positive Long memberId,
-                                      @RequestParam("file") MultipartFile file,
+                                      @RequestParam("file") MultipartFile file ,
                                       @RequestParam("x") int x,
                                       @RequestParam("y") int y,
                                       @RequestParam("width") int width,
-                                      @RequestParam("height") int height) throws IOException {
+                                      @RequestParam("height") int height ) throws IOException {
+
         // 사용자가 마우스로 조절하는 x, y, width, height 값
 //        String imagePath = memberService.uploadImage(memberId, file);
         String imagePath = memberService.uploadImage(memberId, file, x, y, width, height);

@@ -94,7 +94,7 @@ public class MemberService {
         // 현재 프로필 이미지 가지고 오기
         String presentProfileImage = member.getProfileImage();
         // 만약에 현재 파일이 있으면 현재 파일 삭제
-        if (presentProfileImage != null && presentProfileImage.equals(DEFAULT_IMAGE)) {
+        if (presentProfileImage != null && !presentProfileImage.equals(DEFAULT_IMAGE)) {
 //            s3UploadService.deleteImageFromS3(presentProfileImage, MEMBER_IMAGE_PROCESS_TYPE);
             s3UploadService.deleteImageFromS3(presentProfileImage);
         }

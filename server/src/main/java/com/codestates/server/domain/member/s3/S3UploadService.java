@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
@@ -26,25 +27,21 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class S3UploadService {
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    private AmazonS3Client amazonS3;
+    private final AmazonS3 amazonS3;
 
 
     public String uploadProfileImage(MultipartFile image, int x, int y, int width, int height) throws IOException {
 
-        // 이미지 파일인지 확인
-        if(!Objects.requireNonNull(image.getContentType()).contains("image")) {
-            throw new IllegalArgumentException("🚨 Not an image file 🚨");
-        }
-
         // 원본 파일 이름 가지고 와서 UUID 추가 후 새로운 이름 생성
         // UUID : 고유식별자 부여 -> 파일 중복 업로드를 막아준다
         String originName = image.getOriginalFilename();
-        String ext = originName.substring(originName.lastIndexOf(".")); // 확장자
+        String ext = originName.substring(originName.lastIndexOf(".")+1); // 확장자
         String changedName = UUID.randomUUID().toString() + ext;
 
         // 이미지 크기 조정
@@ -129,7 +126,7 @@ public class S3UploadService {
     }
 }
 
-//
+
 //    // MultipartFile을 전달받아 File로 전환한 후 S3에 업로드
 //    public String uploadProfileImage(MultipartFile image, String type) {
 //        String originName = image.getOriginalFilename(); //원본 파일 이름
@@ -154,7 +151,7 @@ public class S3UploadService {
 //    }
 //
 //    public void deleteImageFromS3(String imageUrl, String type) {
-//        if (imageUrl.contains("https://s3.ap-northeast-2.amazonaws.com/"+ bucket))
+//        if (imageUrl.contains("https://s3.ap-northeast-2.amazonaws.com/" + bucket))
 //            amazonS3.deleteObject(bucket + "/" + type, imageUrl.split("/")[6]);
 //    }
 //
@@ -163,3 +160,5 @@ public class S3UploadService {
 //    private static String changedImageName(String originName) {
 //        String random = UUID.randomUUID().toString();
 //        return random + originName;
+//    }
+//}
