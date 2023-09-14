@@ -1,12 +1,13 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import writerprofile from '../../pages/Community/writerprofile.png';
 import profile1 from '../../pages/Community/profile1.png';
 import profile2 from '../../pages/Community/profile2.png';
 import profile3 from '../../pages/Community/profile3.png';
-import { ComData } from './ComData';
 import {
   BottomErrow,
   SvgDelete,
@@ -17,12 +18,12 @@ import {
 } from '../../utils/svg';
 import * as T from './ComDetailStyle';
 
-const ComDetailMock = () => {
+const ComDetailMock = ({ ComData }) => {
   const [isOpen, setOpen] = useState(false);
-  const [isReplyOpen, setReplyOpen] = useState(false);
   const [isReviewEdit, setReviewEdit] = useState(false);
   const [isContentLiked, setContentLiked] = useState(false);
   const [data, setData] = useState([...ComData]);
+  const [openReviewIndex, setOpenReviewIndex] = useState();
 
   let mockid = localStorage.getItem('mockid');
   const [comment, setComment] = useState([...data[mockid].comment]);
@@ -40,16 +41,9 @@ const ComDetailMock = () => {
       setOpen(true);
     } else {
       setOpen(false);
-      setReplyOpen(false);
     }
   };
 
-  const openReply = (index) => {
-    if (isReplyOpen === false) {
-      localStorage.setItem('reviewNum', index);
-      setReplyOpen(true);
-    }
-  };
   const editReview = (e) => {
     // const method = 'fetch';
     if (isReviewEdit === false) {
@@ -80,6 +74,27 @@ const ComDetailMock = () => {
     } else {
       setContentLiked(false);
     }
+  };
+
+  const postReply = () => {
+    if (0 < localStorage.getItem('reply').length) {
+      axios
+        .post(
+          'https://65a9-182-211-13-193.ngrok-free.app/answers/replies/create',
+          {
+            memberId: '1',
+            content: localStorage.getItem('content'),
+            headers: {
+              'ngrok-skip-browser-warning': '2',
+            },
+          },
+        )
+
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+    setOpenReviewIndex('');
   };
 
   return (
@@ -119,14 +134,14 @@ const ComDetailMock = () => {
           <p>{data[mockid].content}</p>
         </T.Content>
         <T.ButtonWrap>
-          <T.ReviewOpenBtn onClick={openReview} data-isOpen={isOpen}>
+          <T.ReviewOpenBtn onClick={openReview} data-isopen={isOpen}>
             <SvgReview />
             <div className="btn-name">댓글</div>
             <div className="num">{length}</div>
           </T.ReviewOpenBtn>
           <T.HeartBtn
             onClick={contentLike}
-            data-isContentLiked={isContentLiked}
+            data-iscontentliked={isContentLiked}
           >
             {isContentLiked ? <SvgHeartFill /> : <SvgHeartPath />}
             <div>Like</div>
@@ -160,7 +175,6 @@ const ComDetailMock = () => {
                                 </T.ReviewEditBtn>
                               )}
                             </div>
-
                             <div>
                               {isReviewEdit === true &&
                               userId === el.username ? (
@@ -177,7 +191,7 @@ const ComDetailMock = () => {
                                   <p>{el.content}</p>
                                   <button
                                     onClick={() => {
-                                      openReply(index);
+                                      setOpenReviewIndex(index);
                                     }}
                                     className="reply-btn"
                                     id={index}
@@ -187,21 +201,22 @@ const ComDetailMock = () => {
                                 </div>
                               )}
                             </div>
-
-                            {isReplyOpen === true ? (
+                            {openReviewIndex === index ? (
                               <T.WriteReReview>
-                                {console.log(
-                                  localStorage.getItem('reviewNum') + 'local',
-                                )}
-                                {console.log(index + 'index')}
                                 <div>
                                   <img src={profile3} alt="대댓글 프로필" />
                                   <p>{userId}</p>
                                 </div>
-                                <textarea placeholder="댓글을 입력하세요" />
-                                <button
-                                  onClick={() => console.log('리리뷰등록')}
-                                >
+                                <textarea
+                                  onChange={(e) =>
+                                    localStorage.setItem(
+                                      'reply',
+                                      e.target.innerText,
+                                    )
+                                  }
+                                  placeholder="댓글을 입력하세요"
+                                />
+                                <button onClick={() => postReply()}>
                                   등록
                                 </button>
                               </T.WriteReReview>

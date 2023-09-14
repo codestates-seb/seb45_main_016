@@ -1,4 +1,4 @@
-export const InfoData = [
+export const infoData = [
   {
     code: 1029,
     name: '환경위해관리기사',

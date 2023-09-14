@@ -1,4 +1,4 @@
-export const ComData = [
+export const comData = [
   {
     boardId: 0,
     username: 'exampleUserId',
