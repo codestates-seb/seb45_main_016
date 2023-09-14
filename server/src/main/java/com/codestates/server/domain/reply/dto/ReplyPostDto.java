@@ -12,6 +12,6 @@ public class ReplyPostDto {
     @Positive
     private Long userId;
 
-    @NotBlank(message = "댓글을 작성해주세요.")
+    @NotBlank(message = "답글을 작성해주세요.")
     private String content;
 }
