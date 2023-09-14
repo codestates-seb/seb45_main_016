@@ -1,11 +1,13 @@
 package com.codestates.server.domain.answer.dto;
 
+import com.codestates.server.domain.comment.entity.Comment;
 import com.codestates.server.domain.member.dto.MemberBoardResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,4 +21,6 @@ public class AnswerBoardResponseDto {
     private LocalDateTime modifiedAt;
 
     private MemberBoardResponseDto answerCreator;
+
+    private List<Comment> comments;
 }

@@ -98,7 +98,8 @@ public interface BoardMapper {
 					new MemberBoardResponseDto(answer.getMember().getMemberId(),
 							answer.getMember().getEmail(),
 							answer.getMember().getName(),
-							answer.getMember().getProfileImage()));
+							answer.getMember().getProfileImage()),
+							answer.getComments());
 			
 			answerBoardResponseDtos.add(answerBoardResponseDto);
 		}

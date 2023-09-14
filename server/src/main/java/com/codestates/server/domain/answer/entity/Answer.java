@@ -1,15 +1,10 @@
 package com.codestates.server.domain.answer.entity;
 
 import com.codestates.server.domain.board.entity.Board;
+import com.codestates.server.domain.comment.entity.Comment;
 import com.codestates.server.domain.member.entity.Member;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -18,6 +13,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -46,8 +42,8 @@ public class Answer {
 	@JsonIgnore
 	private Member member;
 
+	@OneToMany(mappedBy = "answer")
+	private List<Comment> comments;
 
-
-	// 대댓글하고 연관관계(매핑) 구성해야함.
 
 }
