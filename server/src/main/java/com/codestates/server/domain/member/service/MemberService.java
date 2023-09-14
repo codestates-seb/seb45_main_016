@@ -2,6 +2,8 @@ package com.codestates.server.domain.member.service;
 
 import com.codestates.server.domain.member.entity.Member;
 import com.codestates.server.domain.member.repository.MemberRepository;
+import com.codestates.server.global.exception.BusinessLogicException;
+import com.codestates.server.global.exception.ExceptionCode;
 import com.codestates.server.global.security.auth.utils.CustomAuthorityUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -35,7 +37,7 @@ public class MemberService {
     public Member createMember(Member member){
 
         // 가입된 이메일인지 확인
-        verifiyExistMember(member.getEmail());
+        verifiyExistedMember(member.getEmail());
 
         // 비밀번호 암호화
         String encrpytedPassword = passwordEncoder.encode(member.getPassword());
@@ -97,7 +99,7 @@ public class MemberService {
         Optional<Member> member = memberRepository.findById(memberId);
 
         // 회원이 아니면 예외 발생
-        Member getMember = member.orElseThrow(() -> new RuntimeException("🚨 회원 정보를 찾을 수 없습니다. 🚨"));
+        Member getMember = member.orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
 
         return getMember;
     }
@@ -108,12 +110,11 @@ public class MemberService {
      * 만약 가입 되어있으면 예외 던지기
      * @param email
      */
-    private void verifiyExistMember(String email) {
+    private void verifiyExistedMember(String email) {
 
         Optional<Member> optionalMember = memberRepository.findByEmail(email);
 
-        // 예외 추가 후 수정
-        if(optionalMember.isPresent()) throw new RuntimeException("🚨 이미 있는 회원입니다. 🚨");
+        if(optionalMember.isPresent()) throw new BusinessLogicException(ExceptionCode.USER_EXISTS);
 
     }
 

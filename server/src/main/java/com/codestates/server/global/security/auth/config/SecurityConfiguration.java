@@ -1,5 +1,6 @@
 package com.codestates.server.global.security.auth.config;
 
+import com.codestates.server.domain.member.repository.MemberRepository;
 import com.codestates.server.global.security.auth.filter.JwtAuthenticationFilter;
 import com.codestates.server.global.security.auth.filter.JwtVerificationFilter;
 import com.codestates.server.global.security.auth.handler.MemberAccessDeniedHandler;
@@ -8,16 +9,18 @@ import com.codestates.server.global.security.auth.handler.MemberAuthenticationFa
 import com.codestates.server.global.security.auth.handler.MemberAuthenticationSuccessHandler;
 import com.codestates.server.global.security.auth.jwt.JwtTokenizer;
 import com.codestates.server.global.security.auth.utils.CustomAuthorityUtils;
-import lombok.AllArgsConstructor;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -26,11 +29,14 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 
 @Configuration
-@AllArgsConstructor
+@EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfiguration {
 
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils; // 사용자 권한 관련 유틸리티 클래스
+
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -53,27 +59,37 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().permitAll()   // 모든 요청 접근 허용
                 );
+
+//                Spring security OAuth2 적용 버전
+//                .oauth2Login()
+//                .successHandler(oAuth2SuccessHandler)
+//                .failureHandler(oAuth2FailureHandler)
+//                .userInfoEndpoint()
+//                .userService(oAuth2UserService);
+
+//
 //                .authorizeHttpRequests(authorize -> authorize
+//                /** ---------------------------------- member 접근 권한 설정 ---------------------------------- **/
 //                        .antMatchers(HttpMethod.POST, "/members/signup").permitAll()
 //                        .antMatchers(HttpMethod.PATCH, "/members/mypage/edit/**").hasRole("USER")
 //                        .antMatchers(HttpMethod.GET, "/members").hasRole("ADMIN")
 //                        .antMatchers(HttpMethod.GET, "/members/**").hasAnyRole("ADMIN", "USER")
 //                        .antMatchers(HttpMethod.DELETE, "/members/delete/**").hasAnyRole("USER")
-//
+//                /** ---------------------------------- boards 접근 권한 설정 ---------------------------------- **/
 //                        .antMatchers(HttpMethod.POST, "/boards/create").hasAnyRole("ADMIN", "USER")
 //                        .antMatchers(HttpMethod.PATCH, "/boards/edit/**").hasAnyRole("ADMIN", "USER")
 //                        .antMatchers(HttpMethod.GET, "/boards").permitAll()
 //                        .antMatchers(HttpMethod.GET, "/boards/**").permitAll()
 //                        .antMatchers(HttpMethod.DELETE, "/boards/delete/**").hasAnyRole("ADMIN", "USER")
-//
+//                /** ---------------------------------- boards-answers 접근 권한 설정 ---------------------------------- **/
 //                        .antMatchers(HttpMethod.POST, "/boards/**/answers/create").hasAnyRole("ADMIN", "USER")
 //                        .antMatchers(HttpMethod.PATCH, "/boards/**/answers/**").hasAnyRole("ADMIN", "USER")
 //                        .antMatchers(HttpMethod.DELETE, "/boards/**/answers/**/delete").hasAnyRole("ADMIN", "USER")
-//
+//                /** ---------------------------------- boards-replies 접근 권한 설정 ---------------------------------- **/
 //                        .antMatchers(HttpMethod.POST, "/answers/replies/create").hasAnyRole("ADMIN", "USER")
 //                        .antMatchers(HttpMethod.PATCH, "/answers/replies/**").hasAnyRole("ADMIN", "USER")
 //                        .antMatchers(HttpMethod.DELETE, "/answers/replies/**/delete").hasAnyRole("ADMIN", "USER")
-//
+//                /** ---------------------------------- licenses 접근 권한 설정 ---------------------------------- **/
 //                        .antMatchers(HttpMethod.GET, "/licenses/**").permitAll()
 //                        .antMatchers(HttpMethod.GET, "/licenses").permitAll()
 //                );
@@ -108,6 +124,7 @@ public class SecurityConfiguration {
         // 지정한 HTTP 메서드에 대한 통신 허용
         // OPTIONS : 프리플라이트 요청
         configuration.setAllowedMethods(Arrays.asList("POST", "PATCH", "GET", "DELETE", "OPTIONS"));
+        // 응답 헤더에 어떤 헤더를 노출시킬 것인지를 지정
         configuration.addExposedHeader("*");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -140,4 +157,5 @@ public class SecurityConfiguration {
                     .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);    // JwtVerificationFilter를 JwtAuthenticationFilter 뒤에 추가
         }
     }
+
 }
