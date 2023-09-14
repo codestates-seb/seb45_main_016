@@ -35,6 +35,13 @@ public class LicenseService {
         return licenseInfo;
     }
 
+    public LicenseInfo findLicenseInfoByCode(Long code){
+        LicenseInfo licenseInfo = licenseInfoRepository.findById(code).orElseThrow();
+
+        return licenseInfo;
+    }
+
+
     /**
      * licenseDate를 licenseinfo로 조회한다.
      * @param licenseInfo

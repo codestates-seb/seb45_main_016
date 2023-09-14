@@ -28,10 +28,6 @@ public class LicenseInfo {
     @Column
     private Long markCount;
 
-    @OneToOne
-    @JoinColumn(name = "BOOKMARK_id")
-    private Bookmark bookmark;
-
     @OneToMany(mappedBy = "id")
     private List<LicenseDate> licenses;
 
