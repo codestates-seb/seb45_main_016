@@ -1,12 +1,14 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-undef */
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as Styled from './MainStyle';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 // import axios from 'axios';
 import InfoCard from '../../components/LicenseCard/LicenseCard';
 import Modal from '../../components/Modal/Modal';
+import { Link } from 'react-router-dom';
 
 const Main = ({ InfoData, ComData }) => {
   const imageUrl = process.env.PUBLIC_URL + '/studyground.png';
@@ -65,6 +67,12 @@ const Main = ({ InfoData, ComData }) => {
     .sort((a, b) => b.count - a.count)
     .slice(0, 5);
 
+  const navigator = useNavigate();
+
+  const openDetail = () => {
+    navigator('/community/detail');
+  };
+
   return (
     <Styled.MainContainer>
       <Header />
@@ -80,7 +88,12 @@ const Main = ({ InfoData, ComData }) => {
       </Styled.ImageContainer>
 
       <Styled.TopContainer>
-        <Styled.TopText>최근 가장 핫한 자격증 TOP 5</Styled.TopText>
+        <Styled.TopText>
+          최근 가장 핫한 자격증 TOP 5
+          <Link to="/Info">
+            <button className="more1">더 많은 자격증 보러가기 ▶</button>
+          </Link>
+        </Styled.TopText>
 
         <Styled.InfoCardContainer>
           {sortedInfo.map((info, index) => (
@@ -97,8 +110,13 @@ const Main = ({ InfoData, ComData }) => {
           ))}
         </Styled.InfoCardContainer>
       </Styled.TopContainer>
-      <Styled.TopText className="ComText">COMMUNITY</Styled.TopText>
-      <Styled.ComContainer>
+      <Styled.TopText className="ComText">
+        COMMUNITY
+        <Link to="/community">
+          <button className="more2">더 많은 정보 보러가기 ▶</button>
+        </Link>
+      </Styled.TopText>
+      <Styled.ComContainer onClick={openDetail}>
         {sortedComData.map((post) => (
           <Styled.Box key={post.id}>
             <Styled.Comuseravatar>

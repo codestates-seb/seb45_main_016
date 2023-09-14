@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
 import globalToken from '../../styles/global.json';
+
 const breakpoints = {
   medium: '992px',
   large: '1200px',
@@ -28,13 +29,10 @@ export const Filteredform = styled.div`
     margin-top: 300px;
   }
   .title {
-    color: var(--primary-default, #57a162);
+    color: ${globalToken.Primary.Default.value};
     text-align: center;
-    font-family: Pretendard Variable;
     font-size: 36px;
-    font-style: normal;
     font-weight: 800;
-    line-height: normal;
     margin-bottom: 10%;
   }
 `;
@@ -43,19 +41,26 @@ export const LicenseCategory = styled.div`
   display: flex;
   flex-direction: column;
   width: 90%;
-  margin-left: 5%;
+  /* margin-left: 5%; */
   .subtitle1 {
-    color: var(--primary-default, #57a162);
-    font-family: Pretendard Variable;
+    color: ${globalToken.Primary.Default.value};
     font-size: 32px;
-    font-style: normal;
     font-weight: 700;
-    line-height: normal;
     margin-bottom: 5%;
   }
   .div {
     background-color: white;
     font-size: 10px;
+  }
+
+  .notting {
+    display: flex;
+    font-size: 22px;
+    margin: 128px 0 128px 0;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    color: ${globalToken.Primary.Default.value};
   }
 `;
 
@@ -63,33 +68,42 @@ export const Licensere = styled.div`
   display: grid; /* grid로 변경 */
   grid-template-columns: repeat(
     3,
-    1fr
+    minmax(400px, 1fr)
   ); /* 3개의 카드가 한 행에 나오도록 수정 */
-  width: 100%;
-  gap: 5px;
-  .notting {
-    background-color: blue;
-    font-size: 20px;
+  width: 90%;
+  gap: 24px;
+
+  @media (max-width: ${breakpoints.medium}) {
+    margin-top: 24px;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 35px;
   }
 `;
 
 export const CommunityCategory = styled.div`
   flex-grow: 1;
   width: 90%;
-  margin-left: 5%;
+  /* margin-left: 5%; */
   margin-top: 5%;
   .subtitle2 {
-    color: var(--primary-default, #57a162);
-    font-family: Pretendard Variable;
+    color: ${globalToken.Primary.Default.value};
     font-size: 32px;
-    font-style: normal;
     font-weight: 700;
-    line-height: normal;
     margin-bottom: 5%;
   }
   .div {
     background-color: white;
     font-size: 10px;
+  }
+
+  .notting {
+    display: flex;
+    font-size: 22px;
+    margin: 128px 0 200px 0;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    color: ${globalToken.Primary.Default.value};
   }
 `;
 
@@ -97,13 +111,14 @@ export const Comresult = styled.div`
   display: grid; /* grid로 변경 */
   grid-template-columns: repeat(
     3,
-    1fr
+    minmax(421px, 1fr)
   ); /* 3개의 카드가 한 행에 나오도록 수정 */
-  gap: 20px;
-  width: 100%;
-  .notting {
-    background-color: blue;
-    font-size: 20px;
+  gap: 24px;
+  width: 90%;
+
+  @media (max-width: ${breakpoints.medium}) {
+    margin-top: 24px;
+    grid-template-columns: repeat(auto-fill, minmax(421px, 1fr));
   }
 `;
 
@@ -116,6 +131,7 @@ export const Pagination = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  padding-top: 52px;
 
   .arrow-button {
     cursor: pointer;
