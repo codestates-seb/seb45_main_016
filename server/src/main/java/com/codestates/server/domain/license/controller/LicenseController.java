@@ -19,6 +19,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -41,13 +43,14 @@ public class LicenseController {
      */
     @GetMapping
     public ResponseEntity getLicenses(@RequestParam int page,
-                                      @RequestBody LicenseGetDto licenseGetDto){
+                                      @RequestBody Optional<Map<String,Long>> requestBody){
+
+        Long memberId = requestBody.orElseThrow(()->new RuntimeException("멤버아이디없슴")).get("memberId");
 
         Page<LicenseInfo> pageLicenses = licenseService.findLicenses(page);
         List<LicenseInfo> licenses = pageLicenses.getContent();
 
-        LicenseDto licenseList = licenseService.findLicenseDateList(licenses,
-                licenseGetDto.getMemberId() != null ? licenseGetDto.getMemberId() : 0L);
+        LicenseDto licenseList = licenseService.findLicenseDateList(licenses,memberId);
 
         return new ResponseEntity<>(
                 new MultiResponseDto<>(licenseList.getData(),pageLicenses),HttpStatus.OK
