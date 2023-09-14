@@ -26,12 +26,13 @@ public class AnswerService {
 	private final AnswerRepository answerRepository;
 	private final BoardService boardService;
 	private final MemberRepository memberRepository;
+	private final BoardRepository boardRepository;
 
 	public Answer createAnswer(Answer answer, Long boardId, Long memberId) {
 
 		Optional<Member> member = memberRepository.findById(memberId);
 		Member getMember = member.orElseThrow(() -> new RuntimeException("🚨 회원 정보를 찾을 수 없습니다. 🚨"));
-		Board board = boardService.findBoard(boardId);
+		Board board = boardRepository.findById(boardId).orElseThrow(() -> new RuntimeException("board가 없습니다."));
 		answer.setBoard(board);
 		answer.setMember(getMember);
 		answerRepository.save(answer);
