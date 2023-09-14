@@ -1,7 +1,13 @@
 package com.codestates.server.domain.board.mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.codestates.server.domain.answer.dto.AnswerBoardResponseDto;
+import com.codestates.server.domain.answer.entity.Answer;
+import com.codestates.server.domain.board.dto.BoardPageResponse;
+import com.codestates.server.domain.member.dto.MemberBoardResponseDto;
+import com.codestates.server.domain.member.dto.MemberResponseDto;
 import org.mapstruct.Mapper;
 
 import com.codestates.server.domain.board.dto.BoardPatchDto;
@@ -12,6 +18,34 @@ import com.codestates.server.domain.member.entity.Member;
 
 @Mapper(componentModel = "spring")
 public interface BoardMapper {
+
+	default List<BoardPageResponse> boardToBoardPageResponseDto(List<Board> board) {
+		if (board == null) {
+			return null;
+		}
+
+		List<BoardPageResponse> boardPageResponses = new ArrayList<>();
+
+		for(Board item : board) {
+
+			BoardPageResponse boardPageResponse = new BoardPageResponse();
+
+			boardPageResponse.setBoardId(item.getBoardId());
+			boardPageResponse.setTitle(item.getTitle());
+			boardPageResponse.setViews(item.getViews());
+			boardPageResponse.setContent(item.getContent());
+			boardPageResponse.setModifiedAt(item.getModifiedAt());
+
+			MemberBoardResponseDto memberBoardResponseDto = new MemberBoardResponseDto(item.getMember().getMemberId(),
+					item.getMember().getEmail(),
+					item.getMember().getName(),
+					item.getMember().getProfileImage());
+
+			boardPageResponse.setBoardCreator(memberBoardResponseDto);
+			boardPageResponses.add(boardPageResponse);
+		}
+		return boardPageResponses;
+	}
 
 	default Board boardPostDtoToBoard(BoardPostDto boardPostDto) {
 		if (boardPostDto == null) {
@@ -24,13 +58,9 @@ public interface BoardMapper {
 		member.setMemberId(boardPostDto.getMemberId());
 
 		board.setMember(member);
-//		board.setMemberNickname(boardPostDto.getMemberNickname());
-//		board.setMemberEmail(board.getMemberEmail());
 		board.setTitle(boardPostDto.getTitle());
 		board.setContent(boardPostDto.getContent());
 		board.setViews((long)boardPostDto.getViews());
-		board.setVideoLink(boardPostDto.getVideoLink());
-		board.setBookLink(boardPostDto.getBookLink());
 
 		return board;
 	}
@@ -48,8 +78,32 @@ public interface BoardMapper {
 		boardResponseDto.setTitle(board.getTitle());
 		boardResponseDto.setContent(board.getContent());
 		boardResponseDto.setViews(board.getViews());
+		boardResponseDto.setModifiedAt(board.getModifiedAt());
 
-		// ModifiedAt() 구성해야함.
+		//board작성자를 mapping
+		MemberBoardResponseDto memberBoardResponseDto = new MemberBoardResponseDto(board.getMember().getMemberId(),
+				board.getMember().getEmail(),
+				board.getMember().getName(),
+				board.getMember().getProfileImage());
+
+		boardResponseDto.setBoardCreater(memberBoardResponseDto);
+
+		List<AnswerBoardResponseDto> answerBoardResponseDtos = new ArrayList<>();
+
+		for(Answer answer : board.getAnswers()){
+
+			AnswerBoardResponseDto answerBoardResponseDto = new AnswerBoardResponseDto(answer.getAnswerId(),
+					answer.getContent(),
+					answer.getModifiedAt(),
+					new MemberBoardResponseDto(answer.getMember().getMemberId(),
+							answer.getMember().getEmail(),
+							answer.getMember().getName(),
+							answer.getMember().getProfileImage()));
+			
+			answerBoardResponseDtos.add(answerBoardResponseDto);
+		}
+
+		boardResponseDto.setAnswers(answerBoardResponseDtos);
 
 		return boardResponseDto;
 	}

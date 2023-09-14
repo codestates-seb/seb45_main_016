@@ -1,6 +1,6 @@
-//package com.codestates.server.domain.batch.config;
+//package com.codestates.server.global.batch.config;
 //
-//import com.codestates.server.domain.batch.config.BatchConfig;
+//import com.codestates.server.global.batch.config.BatchConfig;
 //import lombok.RequiredArgsConstructor;
 //import lombok.extern.slf4j.Slf4j;
 //import org.springframework.batch.core.JobParameter;
@@ -25,7 +25,7 @@
 //    private final JobLauncher jobLauncher;
 //    private final BatchConfig batchConfig;
 //
-//    @Scheduled(cron = "0 0/5 * * * *")
+//    @Scheduled(cron = "0 5 * * * *") //job에 스케줄러 적용..
 //    public void doJob(){
 //        Map<String, JobParameter> conf = new HashMap<>();
 //        conf.put("time", new JobParameter(System.currentTimeMillis()));

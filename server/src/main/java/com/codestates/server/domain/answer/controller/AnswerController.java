@@ -35,37 +35,32 @@ public class AnswerController {
 	private final AnswerMapper mapper;
 
 	@PostMapping
-	public ResponseEntity<?> createAnswer(@Valid @RequestBody AnswerPostDto answerPostDto,
+	public ResponseEntity<URI> createAnswer(@Valid @RequestBody AnswerPostDto answerPostDto,
 												 @PathVariable("board-id") Long boardId) {
 
-			log.info("boardId = {}", boardId);
+		Answer answer = answerService.createAnswer(mapper.answerPostDtoToAnswer(answerPostDto), boardId, answerPostDto.getMemberId());
 
-			Answer createAnswer = answerService.createAnswer(
-				mapper.answerPostDtoToAnswer(answerPostDto), boardId, answerPostDto.getMemberId());
-			URI location = UriCreator.createUri("/boards/" + boardId + "/answers/", createAnswer.getAnswerId());
+		URI location = UriCreator.createUri("/boards/",boardId); // hae02y: 보드로 이동 됩니다.
 			return ResponseEntity.created(location).build();
-
-
 	}
 
 	@PatchMapping("/{answer-id}")
-	public ResponseEntity<?> updateAnswer(
+	public ResponseEntity updateAnswer(
 		@PathVariable("answer-id") @Positive long answerId,
 		@PathVariable("board-id") @Positive long boardId,
 		@RequestBody @Valid AnswerPatchDto answerPatchDto) {
 
 		answerPatchDto.setAnswerId(answerId);
+
 		Long memberId = answerPatchDto.getMemberId();
-		Answer updatedAnswer = answerService.updateAnswer(
+		answerService.updateAnswer(
 			mapper.answerPatchDtoToAnswer(answerPatchDto), boardId, memberId);
 
 		return ResponseEntity.accepted().build();
-
-
 	}
 
 	@DeleteMapping("/{answer-id}")
-	public ResponseEntity<?> deleteAnswer(
+	public ResponseEntity deleteAnswer(
 		@PathVariable("answer-id") @Positive Long answerId,
 		@PathVariable("board-id") @Positive Long boardId,
 		@RequestBody Map<String, Long> data) {

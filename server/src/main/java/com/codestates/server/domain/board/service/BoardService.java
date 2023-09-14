@@ -3,7 +3,10 @@ package com.codestates.server.domain.board.service;
 import java.util.List;
 import java.util.Optional;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.stereotype.Service;
@@ -19,16 +22,17 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 @Transactional
+@RequiredArgsConstructor
 public class BoardService {
 
 	private final BoardRepository boardRepository;
 	private final MemberRepository memberRepository;
 	private final MemberService memberService;
 
-	public BoardService(BoardRepository boardRepository, MemberRepository memberRepository, MemberService memberService) {
-		this.boardRepository = boardRepository;
-		this.memberRepository = memberRepository;
-		this.memberService = memberService;
+	public Page<Board> findBoards(int page){
+		int size = 6;
+		Page<Board> boardPage = boardRepository.findAll(PageRequest.of(page - 1, size));
+		return boardPage;
 	}
 
 	public Board createBoard(Board board, Long memberId) {
@@ -54,8 +58,6 @@ public class BoardService {
 		if(memberId.equals(savedMemberId)) {
 			findedBoard.setTitle(board.getTitle());
 			findedBoard.setContent(board.getContent());
-			findedBoard.setVideoLink(board.getVideoLink());
-			findedBoard.setBookLink(board.getBookLink());
 			BeanUtils.copyProperties(findedBoard,board,"board-id");
 			return boardRepository.save(board);
 		} else {
