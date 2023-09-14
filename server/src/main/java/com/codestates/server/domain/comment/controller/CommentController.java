@@ -64,4 +64,16 @@ public class CommentController {
         return ResponseEntity.accepted().build();
     }
 
+
+    @DeleteMapping("/{comment-id}")
+    public ResponseEntity<Void> deleteReply(@PathVariable("comment-id") Long commentId,
+                                            @PathVariable("answer-id") Long answerId,
+                                            @RequestBody Map<String, Long> data) {
+
+        Long memberId = data.get("memberId");
+
+        commentService.deleteComment(commentId, answerId, memberId);
+
+        return ResponseEntity.noContent().build();
+    }
 }
