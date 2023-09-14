@@ -11,7 +11,18 @@ public enum ExceptionCode {
     //Unauthorized user
     PASSWORD_NOT_MATCH(404, "Password does not match"),
     //Password wrong
-    COMMENT_NOT_FOUND(404, "Reply not found");
+    COMMENT_NOT_FOUND(404, "Reply not found"),
+
+
+    /**
+     * hae02y 필요 코드 작성
+     */
+    //Bookmark exists
+    BOOKMARK_EXISTS(409, "bookmark exists"),
+    //LicenseInfo Not in database
+    LICENSE_NOT_FOUND(404,"License not found");
+
+
     @Getter
     private int status;
 

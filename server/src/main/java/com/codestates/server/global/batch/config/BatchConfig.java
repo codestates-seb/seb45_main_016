@@ -51,7 +51,7 @@ public class BatchConfig {
     public Job job() throws IOException {
         return jobBuilderFactory.get("job")
                 .start(step01())
-//                .next(step02())
+                .next(step02())
                 .build();
     }
 
@@ -78,6 +78,7 @@ public class BatchConfig {
 
     @Bean
     public FlatFileItemReader<CsvDto> csvReader(){
+        log.info("Csv Reader 실행");
         FlatFileItemReader<CsvDto> itemReader = new FlatFileItemReader<>();
         itemReader.setResource(new ClassPathResource("/csv/license.csv"));
 
@@ -97,6 +98,7 @@ public class BatchConfig {
         ItemWriter<CsvDto> itemWriter = new ItemWriter<CsvDto>() {
             @Override
             public void write(List<? extends CsvDto> items) throws Exception {
+                log.info("Csv Writer 실행");
                 List<LicenseInfo> licenseInfos = new ArrayList<>();
 
                 items.forEach(getCsvDto -> {

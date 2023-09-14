@@ -15,6 +15,6 @@ public class AnswerPatchDto {
 	@Positive
 	private Long memberId;
 
-	@NotBlank
+	@NotBlank(message = "댓글 내용을 적어주세요.")
 	private String content;
 }
