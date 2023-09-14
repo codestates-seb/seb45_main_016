@@ -28,7 +28,7 @@ public class Answer {
 	private Long answerId;
 
 	@Column(name = "answerContent", length = 10000, nullable = false)
-	private String answerContent;
+	private String content;
 
 	@ManyToOne
 	@JoinColumn(name = "boardId")
@@ -37,5 +37,7 @@ public class Answer {
 	@ManyToOne
 	@JoinColumn(name = "memberId")
 	private Member member;
+
+	// 대댓글하고 연관관계(매핑) 구성해야함.
 
 }
