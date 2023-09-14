@@ -1,11 +1,15 @@
 package com.codestates.server.domain.license.controller;
 
+import com.codestates.server.domain.bookmark.service.BookmarkService;
 import com.codestates.server.domain.license.licensedate.dto.LicenseDto;
+import com.codestates.server.domain.license.licensedate.dto.LicenseGetDto;
 import com.codestates.server.domain.license.licensedate.dto.LicenseResponseDto;
 import com.codestates.server.domain.license.licensedate.entity.LicenseDate;
 import com.codestates.server.domain.license.licensedate.mapper.LicenseDateMapper;
 import com.codestates.server.domain.license.licenseinfo.entity.LicenseInfo;
 import com.codestates.server.domain.license.service.LicenseService;
+import com.codestates.server.domain.member.entity.Member;
+import com.codestates.server.domain.member.service.MemberService;
 import com.codestates.server.global.dto.MultiResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +28,10 @@ public class LicenseController {
 
     private final LicenseService licenseService;
     private final LicenseDateMapper licenseDateMapper;
+    private final BookmarkService bookmarkService;
+    private final MemberService memberService;
+
+    //memberId가 있으면 태그 가능. 없으면 불가능.
 
     /**
      * 스프링에서는 기본적으로 페이지 번호를 0부터 시작한다. -> 이를 위해서 controller쪽에서 page-1 을 해서 올바른 번호를 조회할수있게 해줌.
@@ -32,12 +40,14 @@ public class LicenseController {
      * @return
      */
     @GetMapping
-    public ResponseEntity getLicenses(@RequestParam int page){
+    public ResponseEntity getLicenses(@RequestParam int page,
+                                      @RequestBody LicenseGetDto licenseGetDto){
 
         Page<LicenseInfo> pageLicenses = licenseService.findLicenses(page);
         List<LicenseInfo> licenses = pageLicenses.getContent();
 
-        LicenseDto licenseList = licenseService.findLicenseDateList(licenses);
+        LicenseDto licenseList = licenseService.findLicenseDateList(licenses,
+                licenseGetDto.getMemberId() != null ? licenseGetDto.getMemberId() : 0L);
 
         return new ResponseEntity<>(
                 new MultiResponseDto<>(licenseList.getData(),pageLicenses),HttpStatus.OK
@@ -45,21 +55,27 @@ public class LicenseController {
     }
 
     @GetMapping("/top5")
-    public ResponseEntity<LicenseDto> getLicenseTop5(){
+    public ResponseEntity<LicenseDto> getLicenseTop5(@RequestBody LicenseGetDto licenseGetDto){
         List<LicenseInfo> top5LicenseInfo = licenseService.findTop5LicenseInfoList();
-        LicenseDto top5License = licenseService.findLicenseDateList(top5LicenseInfo);
+        LicenseDto top5License = licenseService.findLicenseDateList(top5LicenseInfo,
+                licenseGetDto.getMemberId() != null ? licenseGetDto.getMemberId() : 0L);
 
         return new ResponseEntity<>(top5License,HttpStatus.OK);
     }
 
 
     @GetMapping("/find")
-    public ResponseEntity<LicenseResponseDto> getLicense(@RequestParam("name") String name) {
+    public ResponseEntity<LicenseResponseDto> getLicense(@RequestParam("name") String name,
+                                                         @RequestBody LicenseGetDto licenseGetDto) {
 
         LicenseInfo licenseInfo = licenseService.findLicenseInfo(name);
         List<LicenseDate> licenseDates = licenseService.findLicenseDateToLicenseInfo(licenseInfo);
 
-        return new ResponseEntity<>(licenseDateMapper.licensesToLicenseResponseDto(licenseDates,licenseInfo),HttpStatus.OK);
+        Member member = memberService.getMember(licenseGetDto.getMemberId());
+        boolean bool = bookmarkService.existsBookmarkByLicenseInfoAndMember(licenseInfo, member);
+
+
+        return new ResponseEntity<>(licenseDateMapper.licensesToLicenseResponseDto(licenseDates,licenseInfo, bool),HttpStatus.OK);
     }
 
 }

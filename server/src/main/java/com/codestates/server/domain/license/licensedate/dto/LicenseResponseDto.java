@@ -16,5 +16,7 @@ public class LicenseResponseDto {
 
     private String name;
 
+    private Boolean bookmark;
+
     private List<LicenseDate> date;
 }

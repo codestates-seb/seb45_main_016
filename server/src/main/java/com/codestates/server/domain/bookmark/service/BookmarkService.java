@@ -42,4 +42,11 @@ public class BookmarkService {
         licenseInfoRepository.save(licenseInfo);
         bookmarkRepository.delete(bookmark);
     }
+
+    public boolean existsBookmarkByLicenseInfoAndMember(LicenseInfo licenseInfo,Member member){
+
+        boolean bool = bookmarkRepository.existsBookmarkByLicenseInfoAndMember(licenseInfo, member);
+
+        return bool;
+    }
 }

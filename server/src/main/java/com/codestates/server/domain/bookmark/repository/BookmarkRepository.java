@@ -10,4 +10,5 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
     public boolean existsBookmarkByLicenseInfoAndMember(LicenseInfo licenseInfo, Member member);
 
     public Bookmark findBookmarkByLicenseInfoAndMember(LicenseInfo licenseInfo, Member member);
+
 }
