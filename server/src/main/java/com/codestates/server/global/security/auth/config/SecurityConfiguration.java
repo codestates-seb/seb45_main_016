@@ -13,6 +13,7 @@ import com.codestates.server.global.security.auth.utils.CustomAuthorityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -56,8 +57,33 @@ public class SecurityConfiguration {
                 .and()
                 .apply(new CustomFilterconfigurer())
                 .and()
-                .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().permitAll()   // 모든 요청 접근 허용
+//                .authorizeHttpRequests(authorize -> authorize
+//                        .anyRequest().permitAll()   // 모든 요청 접근 허용
+//                )
+                        .authorizeHttpRequests(authorize -> authorize
+                /** ---------------------------------- member 접근 권한 설정 ---------------------------------- **/
+                        .antMatchers(HttpMethod.POST, "/members/signup").permitAll()
+                        .antMatchers(HttpMethod.PATCH, "/members/mypage/edit/**").hasRole("USER")
+                        .antMatchers(HttpMethod.GET, "/members").hasRole("ADMIN")
+                        .antMatchers(HttpMethod.GET, "/members/**").hasAnyRole("ADMIN", "USER")
+                        .antMatchers(HttpMethod.DELETE, "/members/delete/**").hasAnyRole("USER")
+                /** ---------------------------------- boards 접근 권한 설정 ---------------------------------- **/
+                        .antMatchers(HttpMethod.POST, "/boards/create").hasAnyRole("ADMIN", "USER")
+                        .antMatchers(HttpMethod.PATCH, "/boards/edit/**").hasAnyRole("ADMIN", "USER")
+                        .antMatchers(HttpMethod.GET, "/boards").permitAll()
+                        .antMatchers(HttpMethod.GET, "/boards/**").permitAll()
+                        .antMatchers(HttpMethod.DELETE, "/boards/delete/**").hasAnyRole("ADMIN", "USER")
+                /** ---------------------------------- boards-answers 접근 권한 설정 ---------------------------------- **/
+                        .antMatchers(HttpMethod.POST, "/boards/**/answers/create").hasAnyRole("ADMIN", "USER")
+                        .antMatchers(HttpMethod.PATCH, "/boards/**/answers/**").hasAnyRole("ADMIN", "USER")
+                        .antMatchers(HttpMethod.DELETE, "/boards/**/answers/**/delete").hasAnyRole("ADMIN", "USER")
+                /** ---------------------------------- boards-replies 접근 권한 설정 ---------------------------------- **/
+                        .antMatchers(HttpMethod.POST, "/answers/replies/create").hasAnyRole("ADMIN", "USER")
+                        .antMatchers(HttpMethod.PATCH, "/answers/replies/**").hasAnyRole("ADMIN", "USER")
+                        .antMatchers(HttpMethod.DELETE, "/answers/replies/**/delete").hasAnyRole("ADMIN", "USER")
+                /** ---------------------------------- licenses 접근 권한 설정 ---------------------------------- **/
+                        .antMatchers(HttpMethod.GET, "/licenses/**").permitAll()
+                        .antMatchers(HttpMethod.GET, "/licenses").permitAll()
                 );
 
 //                Spring security OAuth2 적용 버전
@@ -66,33 +92,6 @@ public class SecurityConfiguration {
 //                .failureHandler(oAuth2FailureHandler)
 //                .userInfoEndpoint()
 //                .userService(oAuth2UserService);
-
-//
-//                .authorizeHttpRequests(authorize -> authorize
-//                /** ---------------------------------- member 접근 권한 설정 ---------------------------------- **/
-//                        .antMatchers(HttpMethod.POST, "/members/signup").permitAll()
-//                        .antMatchers(HttpMethod.PATCH, "/members/mypage/edit/**").hasRole("USER")
-//                        .antMatchers(HttpMethod.GET, "/members").hasRole("ADMIN")
-//                        .antMatchers(HttpMethod.GET, "/members/**").hasAnyRole("ADMIN", "USER")
-//                        .antMatchers(HttpMethod.DELETE, "/members/delete/**").hasAnyRole("USER")
-//                /** ---------------------------------- boards 접근 권한 설정 ---------------------------------- **/
-//                        .antMatchers(HttpMethod.POST, "/boards/create").hasAnyRole("ADMIN", "USER")
-//                        .antMatchers(HttpMethod.PATCH, "/boards/edit/**").hasAnyRole("ADMIN", "USER")
-//                        .antMatchers(HttpMethod.GET, "/boards").permitAll()
-//                        .antMatchers(HttpMethod.GET, "/boards/**").permitAll()
-//                        .antMatchers(HttpMethod.DELETE, "/boards/delete/**").hasAnyRole("ADMIN", "USER")
-//                /** ---------------------------------- boards-answers 접근 권한 설정 ---------------------------------- **/
-//                        .antMatchers(HttpMethod.POST, "/boards/**/answers/create").hasAnyRole("ADMIN", "USER")
-//                        .antMatchers(HttpMethod.PATCH, "/boards/**/answers/**").hasAnyRole("ADMIN", "USER")
-//                        .antMatchers(HttpMethod.DELETE, "/boards/**/answers/**/delete").hasAnyRole("ADMIN", "USER")
-//                /** ---------------------------------- boards-replies 접근 권한 설정 ---------------------------------- **/
-//                        .antMatchers(HttpMethod.POST, "/answers/replies/create").hasAnyRole("ADMIN", "USER")
-//                        .antMatchers(HttpMethod.PATCH, "/answers/replies/**").hasAnyRole("ADMIN", "USER")
-//                        .antMatchers(HttpMethod.DELETE, "/answers/replies/**/delete").hasAnyRole("ADMIN", "USER")
-//                /** ---------------------------------- licenses 접근 권한 설정 ---------------------------------- **/
-//                        .antMatchers(HttpMethod.GET, "/licenses/**").permitAll()
-//                        .antMatchers(HttpMethod.GET, "/licenses").permitAll()
-//                );
 
         return http.build();
     }
