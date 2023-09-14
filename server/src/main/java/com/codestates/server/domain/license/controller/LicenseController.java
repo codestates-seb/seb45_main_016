@@ -57,10 +57,10 @@ public class LicenseController {
     }
 
     @GetMapping("/top5")
-    public ResponseEntity<LicenseDto> getLicenseTop5(@RequestBody LicenseGetDto licenseGetDto){
+    public ResponseEntity<LicenseDto> getLicenseTop5(@RequestBody(required = false)Optional<Map<String,Long>> body){
         List<LicenseInfo> top5LicenseInfo = licenseService.findTop5LicenseInfoList();
         LicenseDto top5License = licenseService.findLicenseDateList(top5LicenseInfo,
-                licenseGetDto.getMemberId() != null ? licenseGetDto.getMemberId() : 0L);
+                body.isPresent() ? body.get().get("memberId") : 0L);
 
         return new ResponseEntity<>(top5License,HttpStatus.OK);
     }
