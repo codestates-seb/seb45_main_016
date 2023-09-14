@@ -3,7 +3,7 @@ import { useRef, useState } from 'react';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import { PostContentStyle, TitleWrap } from './PostContentStyle';
-import axios from 'axios';
+import { PostContents } from '../../utils/API';
 
 const PostContent = () => {
   const [count, setCount] = useState(0);
@@ -33,22 +33,23 @@ const PostContent = () => {
     if (count > 0 && content.length > 0) {
       console.log('post합니다');
     }
-    axios
-      .post('https://65a9-182-211-13-193.ngrok-free.app/boards/create', {
-        memberId: '1',
-        title: localStorage.getItem('title'),
-        content: localStorage.getItem('content'),
-        headers: {
-          'ngrok-skip-browser-warning': '2',
-        },
-      })
+    // axios
+    //   .post('https://65a9-182-211-13-193.ngrok-free.app/boards/create', {
+    //     memberId: '1',
+    //     title: localStorage.getItem('title'),
+    //     content: localStorage.getItem('content'),
+    //     headers: {
+    //       'ngrok-skip-browser-warning': '2',
+    //     },
+    //   })
 
-      .then((res) => {
-        window.location.href = `/community/detail${res.headers.location}`;
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    //   .then((res) => {
+    //     window.location.href = `/community/detail${res.headers.location}`;
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
+    PostContents();
   };
 
   return (

@@ -1,5 +1,5 @@
 // SearchFiltered.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   CommunityCategory,
@@ -14,33 +14,15 @@ import {
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import ComCard from '../../components/Comcard';
-import LicenseCard from '../../components/LicenseCard/LicenseCard';
+import InfoCard from '../../components/LicenseCard/LicenseCard';
 import Modal from '../../components/Modal/Modal';
 import { LeftArrow, RightArrow } from '../../utils/svg';
-const InfoData = [
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 12', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 12', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 2', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-];
+import { LicenseDummy } from './dummy';
+//테스트 시 주석해제
+// import { GetSearchedlicense } from '../../utils/API';
+
+//테스트 시 코드 삭제
+const InfoData = [...LicenseDummy];
 
 const comData = [
   { title: '자격증 1', description: '자격증 1에 대한 설명' },
@@ -56,22 +38,36 @@ const comData = [
 const SearchFiltered = () => {
   const query = localStorage.getItem('savedKeywords');
   const PageSize = 3;
-
   const [isModalOpen, setModalOpen] = useState(false); // 모달 열림 상태 관리
-  const [selectedLicense, setSelectedLicense] = useState(null); // 선택한 자격증 정보
+  const [isSelectedLicenseDate, setSelectedLicenseDate] = useState(); // 선택한 자격증 정보 - 날짜
+  const [isSelectedLicenseName, setSelectedLicenseName] = useState(); // 선택한 자격증 정보 - 이름
 
-  const openModal = (license) => {
-    setSelectedLicense(license);
-    setModalOpen(true);
+  //테스트 시 주석해제
+  // const [InfoData, setInfoData] = useState();
+
+  //테스트 시 주석해제
+  // useEffect(() => {
+  //   GetSearchedlicense().then((res) => setInfoData([...res.data]));
+  // });
+
+  const modal = (license) => {
+    if (isModalOpen === false) {
+      setModalOpen(true);
+    }
+    setSelectedLicenseDate(license.date);
+    setSelectedLicenseName(license.name);
   };
 
-  const closeModal = () => {
-    setSelectedLicense(null);
-    setModalOpen(false);
-  };
+  useEffect(() => {
+    if (isModalOpen === true) {
+      document.body.style = `overflow:hidden`;
+    } else {
+      document.body.style = `overflow:display`;
+    }
+  });
 
   const filteredLicenseData = InfoData.filter((data) =>
-    data.title.includes(query),
+    data.name.includes(query),
   );
 
   const filteredCommunityData = comData.filter((data) =>
@@ -125,10 +121,11 @@ const SearchFiltered = () => {
       <div>
         <Licensere>
           {currentData.map((license, index) => (
-            <LicenseCard
+            <InfoCard
               key={index}
-              title={license.title}
-              onClick={() => openModal(license)} // 클릭 시 모달 열기
+              title={license.name}
+              onClick={() => modal(license)} // 클릭 시 모달 열기
+              date={license.date}
             />
           ))}
         </Licensere>
@@ -269,12 +266,11 @@ const SearchFiltered = () => {
         </CommunityCategory>
       </Filteredform>
       <Footer />
-      {isModalOpen && (
+      {isModalOpen === true && (
         <Modal
+          date={isSelectedLicenseDate}
           setModalOpen={setModalOpen}
-          isOpen={isModalOpen}
-          closeModal={closeModal}
-          selectedLicense={selectedLicense}
+          name={isSelectedLicenseName}
         />
       )}
     </FilteredStyle>

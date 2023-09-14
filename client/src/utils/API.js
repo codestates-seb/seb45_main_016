@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import NotFound from '../components/404/404notfound';
 
 export const login = async (data) => {
   try {
@@ -29,6 +28,40 @@ export const signUp = async (data) => {
   }
 };
 
+export const GetAllLicensesList = async (data) => {
+  try {
+    const res = await axios({
+      method: 'get',
+      data,
+      url: `https://65a9-182-211-13-193.ngrok-free.app/licenses
+      `,
+      headers: {
+        'ngrok-skip-browser-warning': '2',
+      },
+    });
+    return res;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const GetAllCommunityPostsList = async (data) => {
+  try {
+    const res = await axios({
+      method: 'get',
+      data,
+      url: `https://65a9-182-211-13-193.ngrok-free.app/boards
+      `,
+      headers: {
+        'ngrok-skip-browser-warning': '2',
+      },
+    });
+    return res;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const GetDetail = async (data) => {
   const { id } = useParams();
   try {
@@ -43,18 +76,17 @@ export const GetDetail = async (data) => {
     return res;
   } catch (e) {
     console.log(e);
-    return <NotFound />;
   }
 };
 
-export const Delete = async (data) => {
-  const { id } = useParams();
+export const GetSearchedlicense = async (data) => {
   try {
     const res = await axios({
       method: 'get',
       data,
-      url: `https://65a9-182-211-13-193.ngrok-free.app/boards/delete/${id}`,
-      memberId: 1,
+      url: `https://65a9-182-211-13-193.ngrok-free.app/licenses/find?name=${localStorage.getItem(
+        'savedKeyWords',
+      )}`,
       headers: {
         'ngrok-skip-browser-warning': '2',
       },
@@ -63,4 +95,45 @@ export const Delete = async (data) => {
   } catch (e) {
     console.log(e);
   }
+};
+
+export const PostContents = async () => {
+  const res = await axios
+    .post('https://65a9-182-211-13-193.ngrok-free.app/boards/create', {
+      memberId: '1',
+      title: localStorage.getItem('title'),
+      content: localStorage.getItem('content'),
+      headers: {
+        'ngrok-skip-browser-warning': '2',
+      },
+    })
+
+    .then((res) => {
+      window.location.href = `/community/detail${res.headers.location}`;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  return res;
+};
+
+export const DeletePost = async () => {
+  const { id } = useParams();
+  const res = await axios
+    .delete(`https://65a9-182-211-13-193.ngrok-free.app/boards/delete/${id}`, {
+      memberId: '1',
+      title: localStorage.getItem('title'),
+      content: localStorage.getItem('content'),
+      headers: {
+        'ngrok-skip-browser-warning': '2',
+      },
+    })
+
+    .then((res) => {
+      window.location.href = `/community/detail${res.headers.location}`;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  return res;
 };
