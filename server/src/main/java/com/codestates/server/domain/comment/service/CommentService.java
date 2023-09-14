@@ -12,11 +12,20 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
 
+    /**
+     * comment 등록
+     * @param comment
+     * @return
+     */
     public Comment createComment(Comment comment) {
         return commentRepository.save(comment);
     }
 
-
+    /**
+     * comment 수정
+     * @param comment
+     * @return
+     */
     public void updateComment(Comment comment) {
 
         Comment existComment = findCommentById(comment.getId());
@@ -29,7 +38,12 @@ public class CommentService {
         }
     }
 
-
+    /**
+     * comment 삭제
+     * @param commentId
+     * @param answerId
+     * @param memberId
+     */
     public void deleteComment(long commentId, long answerId, long memberId) {
 
         Comment existingComment = findCommentById(commentId);
@@ -45,7 +59,11 @@ public class CommentService {
         }
     }
 
-
+    /**
+     * commentId를 통해서 commentRepo에서 존재하는지 검색을 한다.
+     * @param commentId
+     * @return
+     */
     public Comment findCommentById(long commentId) {
         return commentRepository.findById(commentId).orElseThrow(()->new RuntimeException("없습니다."));
     }
