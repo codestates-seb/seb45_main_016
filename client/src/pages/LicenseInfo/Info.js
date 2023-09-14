@@ -5,64 +5,17 @@ import Footer from '../../components/Footer/Footer';
 import InfoCard from '../../components/LicenseCard/LicenseCard';
 import Modal from '../../components/Modal/Modal';
 import { LeftArrow, RightArrow } from '../../utils/svg';
-
-const InfoData = [
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-];
+import { InfoData } from './infoDummydata';
+// import axios from 'axios';
+// import NotFound from '../../components/404/404notfound';
 
 const Info = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setModalOpen] = useState(false);
   const [itemsPerPage, setItemsPerPage] = useState(calculateItemsPerPage());
+  const [isIndex, setIndex] = useState();
+  // const [InfoData, setInfoData] = useState([]);
+  // const [isError, setError] = useState();
 
   const totalItems = InfoData.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -74,10 +27,11 @@ const Info = () => {
   const pagesToShow = 5; // 항상 5개의 페이지 번호를 표시
   const halfPagesToShow = Math.floor(pagesToShow / 2); // 현재 페이지 기준 양쪽에 표시할 페이지 번호 수의 절반
 
-  const route = () => {
+  const modal = (index) => {
     if (isModalOpen === false) {
       setModalOpen(true);
     }
+    setIndex(index);
   };
 
   const handleResize = useCallback(() => {
@@ -98,6 +52,26 @@ const Info = () => {
       window.removeEventListener('resize', handleResize);
     };
   }, [handleResize]);
+
+  // api요청- 상단의 코딩된 주석 4개 해체 후 함께 사용
+  // useEffect(() => {
+  //   axios
+  //     .get('https://65a9-182-211-13-193.ngrok-free.app/boards', {
+  //       headers: {
+  //         'ngrok-skip-browser-warning': '1',
+  //       },
+  //     })
+  //     .then((res) => console.log(res.data))
+  //     .then((res) => setInfoData(res.data))
+  //     .catch((e) => {
+  //       console.log(e);
+  //       if (e.status === 404) {
+  //         setError(true);
+  //       } else if (e.code === 'ERROR_NETWORK') {
+  //         setError(true);
+  //       }
+  //     });
+  // }, []);
 
   const handleChangePage = (page) => {
     setCurrentPage(page);
@@ -157,36 +131,54 @@ const Info = () => {
   return (
     <Styled.InfoContainer>
       <Header />
-      <Styled.AlertContainer>
-        자격증 정보, 한눈에 확인해보세요
-      </Styled.AlertContainer>
+      {/* {!isError ? ( */}
+      <>
+        <Styled.AlertContainer>
+          자격증 정보, 한눈에 확인해보세요
+        </Styled.AlertContainer>
 
-      <Styled.GridContainer>
-        {InfoData.slice(startIndex, endIndex).map((info, index) => (
-          <InfoCard
-            key={index}
-            title={info.title}
-            description={info.description}
-            onClick={route}
+        <Styled.GridContainer>
+          {InfoData.slice(startIndex, endIndex).map((info, index) => (
+            <InfoCard
+              key={index}
+              title={info.name}
+              description={info.description}
+              date={info.date}
+              isIndex={isIndex}
+              onClick={() => {
+                modal(index);
+              }}
+            />
+          ))}
+        </Styled.GridContainer>
+
+        {isModalOpen === true && (
+          <Modal
+            date={InfoData[isIndex].date}
+            setModalOpen={setModalOpen}
+            name={InfoData[isIndex].name}
           />
-        ))}
-      </Styled.GridContainer>
-      {isModalOpen === true && <Modal setModalOpen={setModalOpen} />}
+        )}
 
-      <Styled.PaginationContainer>
-        <LeftArrow onClick={handlePrevPage} />
-        {middlePages.map((page) => (
-          <Styled.PaginationButton
-            key={page}
-            onClick={() => handleChangePage(page)}
-            data-currentpage={currentPage === page}
-            disabled={currentPage === page}
-          >
-            {page}
-          </Styled.PaginationButton>
-        ))}
-        <RightArrow onClick={handleNextPage} />
-      </Styled.PaginationContainer>
+        <Styled.PaginationContainer>
+          <LeftArrow onClick={handlePrevPage} />
+          {middlePages.map((page) => (
+            <Styled.PaginationButton
+              key={page}
+              onClick={() => handleChangePage(page)}
+              data-currentpage={currentPage === page}
+              disabled={currentPage === page}
+            >
+              {page}
+            </Styled.PaginationButton>
+          ))}
+          <RightArrow onClick={handleNextPage} />
+        </Styled.PaginationContainer>
+      </>
+      {/* ) : (
+        <NotFound />
+      )} */}
+
       <Footer />
     </Styled.InfoContainer>
   );

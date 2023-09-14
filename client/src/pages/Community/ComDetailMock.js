@@ -44,14 +44,12 @@ const ComDetailMock = () => {
     }
   };
 
-  const openReply = () => {
+  const openReply = (index) => {
     if (isReplyOpen === false) {
+      localStorage.setItem('reviewNum', index);
       setReplyOpen(true);
-    } else {
-      setReplyOpen(false);
     }
   };
-
   const editReview = (e) => {
     // const method = 'fetch';
     if (isReviewEdit === false) {
@@ -89,7 +87,7 @@ const ComDetailMock = () => {
       <Header />
       <T.Top>
         <T.EditBtn>
-          {userId && (
+          {userId === data[mockid].username && (
             <div>
               <button>
                 <SvgEdit />
@@ -178,8 +176,11 @@ const ComDetailMock = () => {
                                 <div>
                                   <p>{el.content}</p>
                                   <button
-                                    onClick={openReply}
+                                    onClick={() => {
+                                      openReply(index);
+                                    }}
                                     className="reply-btn"
+                                    id={index}
                                   >
                                     답글달기 {<BottomErrow />}
                                   </button>
@@ -189,6 +190,10 @@ const ComDetailMock = () => {
 
                             {isReplyOpen === true ? (
                               <T.WriteReReview>
+                                {console.log(
+                                  localStorage.getItem('reviewNum') + 'local',
+                                )}
+                                {console.log(index + 'index')}
                                 <div>
                                   <img src={profile3} alt="대댓글 프로필" />
                                   <p>{userId}</p>
@@ -215,7 +220,9 @@ const ComDetailMock = () => {
                               {userId === el.reply.username && (
                                 <T.ReviewEditBtn>
                                   <button
-                                    onClick={deleting}
+                                    onClick={() => {
+                                      deleting();
+                                    }}
                                     className="reply"
                                     id={index}
                                   >

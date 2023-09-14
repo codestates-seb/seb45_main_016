@@ -5,28 +5,27 @@ const { Primary, White, Gray } = globalToken;
 
 export const ModalStyle = styled.div`
   position: fixed;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  left: 50;
+  margin: 2% auto;
   height: 45%;
-  width: 57.5%;
+  width: 70%;
   z-index: 1;
+  p {
+    font-size: 12px;
+    font-weight: 500;
+    color: ${Gray['600'].value};
+    line-height: 100%;
+    margin-bottom: 2%;
+  }
 `;
 
 export const Content = styled.div`
   margin: auto;
   border-radius: 20px;
   background-color: #fff;
-  padding: 10.5% 5.5%;
+  padding: 8.5% 4.5%;
   box-shadow: 2px 2px 30px 0px rgba(0, 0, 0, 0.1);
   text-align: center;
-  .date {
-    font-size: 12px;
-    font-weight: 500;
-    color: ${Gray['500'].value};
-    line-height: 100%;
-    margin: 0;
-  }
 `;
 
 export const ButtonWrap = styled.div`
@@ -34,7 +33,7 @@ export const ButtonWrap = styled.div`
   display: flex;
   flex-direction: column;
   right: 3%;
-  top: 20%;
+  top: 10%;
 `;
 
 export const CloseBtn = styled.button`
@@ -61,20 +60,27 @@ export const Name = styled.div`
   background-color: ${Primary['Default'].value};
   border-radius: 100px;
   color: ${White.value};
-  margin: 0 auto 12px;
+  margin: 0 auto 8%;
 `;
 
-export const Grid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  margin-top: 10%;
-  margin-bottom: 14%;
-  p {
+export const Table = styled.table`
+  width: 100%;
+  margin-bottom: 5%;
+
+  td {
+    font-size: 12px;
+    font-weight: 500;
+    color: ${Gray['500'].value};
+    line-height: 100%;
+  }
+  p,
+  th {
     font-size: 16px;
     font-weight: 700;
     color: ${Gray['600'].value};
     line-height: normal;
     margin-bottom: 8px;
   }
+
   gap: 40% 0;
 `;
