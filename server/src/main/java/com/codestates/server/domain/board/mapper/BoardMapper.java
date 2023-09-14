@@ -2,6 +2,8 @@ package com.codestates.server.domain.board.mapper;
 
 import java.util.List;
 
+import com.codestates.server.domain.member.dto.MemberBoardResponseDto;
+import com.codestates.server.domain.member.dto.MemberResponseDto;
 import org.mapstruct.Mapper;
 
 import com.codestates.server.domain.board.dto.BoardPatchDto;
@@ -24,13 +26,9 @@ public interface BoardMapper {
 		member.setMemberId(boardPostDto.getMemberId());
 
 		board.setMember(member);
-//		board.setMemberNickname(boardPostDto.getMemberNickname());
-//		board.setMemberEmail(board.getMemberEmail());
 		board.setTitle(boardPostDto.getTitle());
 		board.setContent(boardPostDto.getContent());
 		board.setViews((long)boardPostDto.getViews());
-		board.setVideoLink(boardPostDto.getVideoLink());
-		board.setBookLink(boardPostDto.getBookLink());
 
 		return board;
 	}
@@ -48,8 +46,14 @@ public interface BoardMapper {
 		boardResponseDto.setTitle(board.getTitle());
 		boardResponseDto.setContent(board.getContent());
 		boardResponseDto.setViews(board.getViews());
+		boardResponseDto.setModifiedAt(board.getModifiedAt());
 
-		// ModifiedAt() 구성해야함.
+		MemberBoardResponseDto memberBoardResponseDto = new MemberBoardResponseDto(board.getMember().getMemberId(),
+				board.getMember().getEmail(),
+				board.getMember().getName(),
+				board.getMember().getProfileImage());
+
+		boardResponseDto.setBoardCreater(memberBoardResponseDto);
 
 		return boardResponseDto;
 	}

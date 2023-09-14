@@ -51,8 +51,8 @@ public class BoardController {
 	}
 
 	//게시글 수정
-	@PatchMapping("/edit/{board-id}")	// ✨(솔이님 첨삭) review-id -> @PatchMapping("/edit/{board-id}")
-    public ResponseEntity patchBoard(@PathVariable("board-id") Long boardId, // ✨(솔이님 첨삭) review-id -> Long boardId로 바꿔도 될 것 같아용
+	@PatchMapping("/edit/{board-id}")
+    public ResponseEntity patchBoard(@PathVariable("board-id") Long boardId,
                               	     @RequestBody BoardPatchDto boardPatchDto) {
         boardPatchDto.setBoardId(boardId);
         Long userId = boardPatchDto.getMemberId();
@@ -64,10 +64,8 @@ public class BoardController {
     }
 
 	//게시글 조회
-	@GetMapping("/{board-id}") 	// ✨(솔이님 첨삭) @GetMapping("/edit/{board-id}")
-	public ResponseEntity getBoard(@PathVariable("board-id") Long boardId) { // ✨(솔이님 첨삭) review-id ->board-id & Long boardId로 바꿔도 될 것 같아용
-//		✨(솔이님 첨삭) List로 반환하는 거 수정
-
+	@GetMapping("/{board-id}")
+	public ResponseEntity getBoard(@PathVariable("board-id") Long boardId) {
 		Board board = boardService.findBoard(boardId);
 		BoardResponseDto response = mapper.boardToBoardResponseDto(board);	// response 수정
 
@@ -77,8 +75,6 @@ public class BoardController {
 //	 게시글 목록 조회
 	@GetMapping
 	public ResponseEntity getBoards(){
-//		✨(솔이님 첨삭) List로 반환하는 거 수정
-//		✨(솔이님 첨삭) 나중에는 페이지네이션으로 바꿔주세용
 
 		List<Board> allBoards = boardService.findAllBoards();
 		List<BoardResponseDto> response = mapper.boardsToBoardResponseDto(allBoards);

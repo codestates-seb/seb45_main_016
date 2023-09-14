@@ -54,8 +54,6 @@ public class BoardService {
 		if(memberId.equals(savedMemberId)) {
 			findedBoard.setTitle(board.getTitle());
 			findedBoard.setContent(board.getContent());
-			findedBoard.setVideoLink(board.getVideoLink());
-			findedBoard.setBookLink(board.getBookLink());
 			BeanUtils.copyProperties(findedBoard,board,"board-id");
 			return boardRepository.save(board);
 		} else {

@@ -14,24 +14,18 @@ import com.codestates.server.domain.board.service.BoardService;
 import com.codestates.server.domain.member.entity.Member;
 import com.codestates.server.domain.member.repository.MemberRepository;
 import com.codestates.server.domain.member.service.MemberService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import com.codestates.server.domain.answer.dto.AnswerResponseDto;
 
 @Service
+@RequiredArgsConstructor
 public class AnswerService {
 
 	private final AnswerRepository answerRepository;
 	private final BoardService boardService;
-	private final MemberService memberService;
 	private final MemberRepository memberRepository;
-
-	public AnswerService(AnswerRepository answerRepository, BoardService boardService, MemberService memberService, MemberRepository memberRepository) {
-		this.answerRepository = answerRepository;
-		this.boardService = boardService;
-		this.memberService = memberService;
-		this.memberRepository = memberRepository;
-	}
 
 	public Answer createAnswer(Answer answer, Long boardId, Long memberId) {
 
@@ -43,7 +37,6 @@ public class AnswerService {
 		answer.setMember(getMember);
 		answerRepository.save(answer);
 		return answer;
-
 	}
 
 	public Answer updateAnswer(Answer answer, long boardId, long memberId) {
@@ -62,20 +55,24 @@ public class AnswerService {
 		throw new EntityNotFoundException("답변이 확인되지 않습니다.");
 	}
 
-	public List<Answer> findByBoardId(long boardId) { return answerRepository.findByBoardId(boardId); }
+	public List<Answer> findByBoardId(long boardId){
+		return answerRepository.findByBoardId(boardId);
+	}
 
 	public void deleteAnswer(long boardId, long answerId, long memberId) {
 		Answer existingAnswer = findAnswerById(answerId);
+
 
 		if (existingAnswer != null) {
 			if (existingAnswer.getBoard().getBoardId() == boardId && existingAnswer.getMember().getMemberId() == memberId) {
 				answerRepository.deleteById(answerId);
 			} else {
-				throw new RuntimeException();
+				throw new RuntimeException("에러발생");
 		}
-	}
+	}else {
+			throw new RuntimeException("answer가 없습니다.");
+		}
 }
-
 
 
 	public Answer findAnswerById(long answerId) {
