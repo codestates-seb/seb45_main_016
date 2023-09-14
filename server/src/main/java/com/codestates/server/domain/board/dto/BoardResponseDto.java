@@ -1,7 +1,13 @@
 package com.codestates.server.domain.board.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import com.codestates.server.domain.answer.dto.AnswerBoardResponseDto;
+import com.codestates.server.domain.answer.entity.Answer;
+import com.codestates.server.domain.member.dto.MemberBoardResponseDto;
+import com.codestates.server.domain.member.dto.MemberResponseDto;
+import com.codestates.server.domain.member.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,17 +23,9 @@ public class BoardResponseDto {
 
 	private Long views;
 
-	private String videoLink;
-
-	private String bookLink;
-
-	private String memberNickname;
-
-	private String memberEmail;
-
-	private String memberImage; // ✨(솔이님 첨삭) repsonse에 memberImage 추가했습니다
-
 	private LocalDateTime modifiedAt;
 
-	//댓글, 대댓글 ResponseDto 구성해야함.
+	private MemberBoardResponseDto boardCreater;
+
+	private List<AnswerBoardResponseDto> answers;
 }

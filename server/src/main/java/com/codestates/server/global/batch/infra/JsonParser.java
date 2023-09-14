@@ -1,19 +1,21 @@
 package com.codestates.server.global.batch.infra;
-import com.codestates.server.domain.license.entity.License;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.codestates.server.domain.license.licensedate.entity.LicenseDate;
+import com.codestates.server.domain.license.licenseinfo.entity.LicenseInfo;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class JsonParser {
 
-    public List<License> StringToLicense(String json, Long code , String name){
+    public List<LicenseDate> StringToLicense(String json, LicenseInfo licenseInfo){
 
         ObjectMapper objectMapper = new ObjectMapper();
-        List<License> licenseList = new ArrayList<>();
+        List<LicenseDate> licenseDateList = new ArrayList<>();
 
         Long id = 1L;
 
@@ -23,48 +25,28 @@ public class JsonParser {
             String bodyJson = objectMapper.writeValueAsString(bodyNode);
 
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            License[] licenses = objectMapper.readValue(bodyJson, License[].class);
-
-
+            LicenseDate[] licens = objectMapper.readValue(bodyJson, LicenseDate[].class);
 
             try{
+                for(LicenseDate licenseDate : licens){
 
-                for(License license : licenses){
-                    license.setCode(code);
-                    license.setName(name);
-
-                    licenseList.add(license);
-
-                    System.out.println("code : " + license.getCode());
-                    System.out.println("name : " + license.getName());
-                    System.out.println("Implementation Year: " + license.getImplYy());
-                    System.out.println("Implementation Sequence: " + license.getImplementationSequence());
-                    System.out.println("Qualification Code: " + license.getQualificationCode());
-                    System.out.println("Qualification Name: " + license.getQualificationName());
-                    System.out.println("Description: " + license.getDescription());
-                    System.out.println("Document Registration Start Date: " + license.getDocumentRegistrationStartDate());
-                    System.out.println("Document Registration End Date: " + license.getDocumentRegistrationEndDate());
-                    System.out.println("Document Exam Start Date: " + license.getDocumentExamStartDate());
-                    System.out.println("Document Exam End Date: " + license.getDocumentExamEndDate());
-                    System.out.println("Document Pass Date: " + license.getDocumentPassDate());
-                    System.out.println("Practical Registration Start Date: " + license.getPracticalRegistrationStartDate());
-                    System.out.println("Practical Registration End Date: " + license.getPracticalRegistrationEndDate());
-                    System.out.println("Practical Exam Start Date: " + license.getPracticalExamStartDate());
-                    System.out.println("Practical Exam End Date: " + license.getPracticalExamEndDate());
-                    System.out.println("Practical Pass Date: " + license.getPracticalPassDate());
-
+                    licenseDate.setLicenseInfo(licenseInfo);
+                    licenseDateList.add(licenseDate);
+                    log.info("작성 완료 : {}", licenseInfo.getCode());
                 }
 
-                return licenseList;
+                return licenseDateList;
 
             }catch (Exception e){
                 System.out.println(e.getMessage());
+                log.info("작성 실패 ");
             }
 
         }catch (Exception e){
-            return licenseList;
+            log.info("Json parser 실패 ");
+            return licenseDateList;
         }
 
-        return licenseList;
+        return licenseDateList;
     }
 }

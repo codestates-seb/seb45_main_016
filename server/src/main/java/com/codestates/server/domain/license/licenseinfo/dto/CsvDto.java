@@ -1,6 +1,6 @@
-package com.codestates.server.domain.license.dto;
+package com.codestates.server.domain.license.licenseinfo.dto;
 
-import com.codestates.server.domain.license.entity.License;
+import com.codestates.server.domain.license.licenseinfo.entity.LicenseInfo;
 import lombok.Data;
 
 @Data
@@ -12,10 +12,11 @@ public class CsvDto {
      * License 엔티티 반환 시키기 (to entity)
      * @return License
      */
-    public License toEntity(){
-        return License.builder()
+    public LicenseInfo toEntity(){
+        return LicenseInfo.builder()
                 .code(this.code)
                 .name(this.name)
+                .markCount(0L)
                 .build();
     }
 }

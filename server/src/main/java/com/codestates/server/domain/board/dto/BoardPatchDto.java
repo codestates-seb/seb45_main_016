@@ -23,15 +23,4 @@ public class BoardPatchDto {
 	@NotBlank
 	private String content;
 
-	// ✨(솔이님 첨삭) patch 할 때는 userId로 검증해서 nickname, email 필요 없을 것 같아
-
-	// @NotBlank
-	// private String memberNickname;
-	//
-	// @NotBlank
-	// private String memberEmail;
-
-	private String videoLink;
-
-	private String bookLink;
 }
