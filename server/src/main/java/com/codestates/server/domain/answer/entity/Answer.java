@@ -23,22 +23,21 @@ public class Answer {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "answerId")
 	private Long answerId;
 
-	@Column(name = "answerContent", length = 10000, nullable = false)
+	@Column(length = 10000, nullable = false)
 	private String content;
 
 	@Column
 	private LocalDateTime modifiedAt = LocalDateTime.now();
 
 	@ManyToOne
-	@JoinColumn(name = "boardId")
+	@JoinColumn(name = "board_Id")
 	@JsonIgnore
 	private Board board;
 
 	@ManyToOne
-	@JoinColumn(name = "memberId")
+	@JoinColumn(name = "member_Id")
 	@JsonIgnore
 	private Member member;
 

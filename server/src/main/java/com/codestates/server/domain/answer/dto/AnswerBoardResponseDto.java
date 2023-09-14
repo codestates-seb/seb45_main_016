@@ -1,5 +1,6 @@
 package com.codestates.server.domain.answer.dto;
 
+import com.codestates.server.domain.comment.dto.CommentAnswerDto;
 import com.codestates.server.domain.comment.entity.Comment;
 import com.codestates.server.domain.member.dto.MemberBoardResponseDto;
 import lombok.AllArgsConstructor;
@@ -22,5 +23,5 @@ public class AnswerBoardResponseDto {
 
     private MemberBoardResponseDto answerCreator;
 
-    private List<Comment> comments;
+    private List<CommentAnswerDto> comments;
 }
