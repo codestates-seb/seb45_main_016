@@ -37,7 +37,9 @@ public class BookmarkService {
     public void cancelBookmark(Member member, LicenseInfo licenseInfo){
 
         Bookmark bookmark = bookmarkRepository.findBookmarkByLicenseInfoAndMember(licenseInfo, member);
+        licenseInfo.setMarkCount(licenseInfo.getMarkCount()-1);
 
+        licenseInfoRepository.save(licenseInfo);
         bookmarkRepository.delete(bookmark);
     }
 }

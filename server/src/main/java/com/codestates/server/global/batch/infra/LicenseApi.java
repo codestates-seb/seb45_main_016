@@ -2,6 +2,7 @@ package com.codestates.server.global.batch.infra;
 
 import com.codestates.server.domain.license.licensedate.dto.LicenseDto;
 import com.codestates.server.domain.license.licenseinfo.entity.LicenseInfo;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+@Slf4j
 public class LicenseApi {
 
     /**
@@ -50,7 +52,7 @@ public class LicenseApi {
         rd.close();
         conn.disconnect();
 
-        System.out.println("sb" + sb);
+        log.info("licenseApi 작성");
 
         return String.valueOf(sb); // string으로 리턴 (json값을 가지고 있음)
     }
