@@ -1,13 +1,10 @@
 package com.codestates.server.domain.comment.service;
 
-import com.codestates.server.domain.answer.entity.Answer;
-import com.codestates.server.domain.comment.dto.CommentPatchDto;
 import com.codestates.server.domain.comment.entity.Comment;
 import com.codestates.server.domain.comment.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,14 +17,13 @@ public class CommentService {
     }
 
 
-    public Comment updateComment(Comment comment) {
+    public void updateComment(Comment comment) {
 
         Comment existComment = findCommentById(comment.getId());
 
         if(existComment != null){
             Comment updatedComment = commentRepository.save(comment);
 
-            return updatedComment;
         }else {
             throw new RuntimeException("comment가 없습니다.");
         }

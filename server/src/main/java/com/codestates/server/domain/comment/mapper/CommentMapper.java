@@ -8,6 +8,11 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
 
+        /**
+         * commentPostDto 를 Comment로 변환
+         * @param commentPostDto
+         * @return
+         */
         default Comment commentPostDtoToComment(CommentPostDto commentPostDto){
 
                 if (commentPostDto == null) {
@@ -22,6 +27,11 @@ public interface CommentMapper {
                 }
         }
 
+        /**
+         * commentPatchDto 를 Comment로 변환
+         * @param commentPatchDto
+         * @return
+         */
         default Comment commentPatchDtoToComment(CommentPatchDto commentPatchDto){
 
                 if (commentPatchDto == null) {

@@ -11,7 +11,7 @@ public enum ExceptionCode {
     //Unauthorized user
     PASSWORD_NOT_MATCH(404, "Password does not match"),
     //Password wrong
-    REPLY_NOT_FOUND(404, "Reply not found");
+    COMMENT_NOT_FOUND(404, "Reply not found");
     @Getter
     private int status;
 
