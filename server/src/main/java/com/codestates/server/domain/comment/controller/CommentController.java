@@ -46,4 +46,22 @@ public class CommentController {
         return ResponseEntity.created(location).build();
     }
 
+    @PatchMapping("/{comment-id}")
+    public ResponseEntity updateComment(@PathVariable("comment-id") Long commentId,
+                                        @PathVariable("answer-id") Long answerId,
+                                        @Valid @RequestBody CommentPatchDto commentPatchDto) {
+
+        Answer answer = answerService.findAnswerById(answerId);
+        Member member = memberService.getMember(commentPatchDto.getMemberId());
+
+        commentPatchDto.setMember(member);
+        commentPatchDto.setAnswer(answer);
+
+        Comment comment = commentMapper.commentPatchDtoToComment(commentPatchDto);
+        comment.setId(commentId);
+        commentService.updateComment(comment);
+
+        return ResponseEntity.accepted().build();
+    }
+
 }
