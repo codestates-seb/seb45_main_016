@@ -19,6 +19,8 @@ public enum ExceptionCode {
      */
     //Bookmark exists
     BOOKMARK_EXISTS(409, "bookmark exists"),
+    //Bookmark Not in database
+    BOOKMARK_NOT_FOUND(404,"Bookmark not found"),
     //LicenseInfo Not in database
     LICENSE_NOT_FOUND(404,"License not found");
 

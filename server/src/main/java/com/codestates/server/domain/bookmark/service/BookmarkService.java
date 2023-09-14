@@ -47,7 +47,7 @@ public class BookmarkService {
             bookmarkRepository.delete(bookmark);
 
         } catch (InvalidDataAccessApiUsageException e){
-            throw new BusinessLogicException(ExceptionCode.LICENSE_NOT_FOUND);
+            throw new BusinessLogicException(ExceptionCode.BOOKMARK_NOT_FOUND);
         }
 
     }
@@ -57,8 +57,8 @@ public class BookmarkService {
         try{
             return bookmarkRepository.existsBookmarkByLicenseInfoAndMember(licenseInfo, member);
 
-        }catch (RuntimeException e){
-            throw new BusinessLogicException(ExceptionCode.LICENSE_NOT_FOUND);
+        }catch (RuntimeException e){  // true/false return 이라 필요 없음.
+            throw new BusinessLogicException(ExceptionCode.BOOKMARK_NOT_FOUND);
         }
     }
 }
