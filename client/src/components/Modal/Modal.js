@@ -8,10 +8,24 @@ import {
   Name,
   CloseBtn,
   ButtonWrap,
-  Grid,
+  Table,
 } from './ModalStyle';
 
-const Modal = ({ setModalOpen }) => {
+const Modal = ({ setModalOpen, name, date }) => {
+  const allDate = [...date, {}];
+  let newdata = [];
+
+  allDate.reduce((a, b) => {
+    if (a.implSeq === b.implSeq) {
+      return { ...a, docRegEndDt: b.docRegEndDt };
+    } else {
+      newdata.push(a);
+      return b;
+    }
+  });
+
+  console.log(newdata);
+
   return (
     <>
       <Background onClick={() => setModalOpen(false)}></Background>
@@ -23,42 +37,76 @@ const Modal = ({ setModalOpen }) => {
           <Bookmark />
         </ButtonWrap>
         <Content>
-          <Name>자격증 이름</Name>
-          <div className="date">3회</div>
-          <Grid>
-            <div>
-              <p>원서접수 기간</p>
-              <p className="date">날짜</p>
-            </div>
-            <div>
-              <p>필기시험 일자</p>
-              <p className="date">날짜</p>
-            </div>
-            <div>
-              <p>필기시험 합격(예정)자 발표</p>
-              <p className="date">날짜</p>
-            </div>
-            <div>
-              <p>
-                응시자격 서류제출 및 <br />
-                필기 시험 합격자 결정 기간
-              </p>
-              <p className="date">날짜</p>
-            </div>
-            <div>
-              <p>면접시험 원서 접수 기간</p>
-              <p className="date">날짜</p>
-            </div>
-            <div>
-              <p>면접시험 기간</p>
-              <p className="date">날짜</p>
-            </div>
-          </Grid>
-          <div></div>
-          <div>
-            <p>최종 합격자 발표</p>
-            <p className="date">날짜</p>
-          </div>
+          <Name>{name}</Name>
+          <Table>
+            <thead className=".jIWcno">
+              <tr>
+                <td></td>
+                {newdata.map((info, index) => {
+                  return <th key={index}>{info.implSeq}회차</th>;
+                })}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <p>
+                  필기 시험 원서 접수 기간
+                  <br />
+                  (추가 접수일 포함)
+                </p>
+                {newdata.map((info, index) => {
+                  return (
+                    <td key={index}>
+                      {info.docRegStartDt}~{info.docRegEndDt}
+                    </td>
+                  );
+                })}
+              </tr>
+              <tr>
+                <p>필기 시험 일자</p>
+                {newdata.map((info, index) => {
+                  return (
+                    <td key={index}>
+                      {info.docExamStartDt}~{info.docExamEndDt}
+                    </td>
+                  );
+                })}
+              </tr>
+              <tr>
+                <p>필기 합격 예정자 발표</p>
+                {newdata.map((info, index) => {
+                  return <td key={index}>{info.docPassDt}</td>;
+                })}
+              </tr>
+              <tr>
+                <p>실기 시험 원서 접수 기간</p>
+                {newdata.map((info, index) => {
+                  return (
+                    <td key={index}>
+                      {info.pracRegStartDt}~{info.pracRegEndDt}
+                    </td>
+                  );
+                })}
+              </tr>
+              <tr>
+                <p>실기 시험 일자</p>
+                {newdata.map((info, index) => {
+                  return (
+                    <td key={index}>
+                      {info.pracExamStartDt}~{info.pracExamEndDt}
+                    </td>
+                  );
+                })}
+              </tr>
+              <tr>
+                <p>실기 시험 합격자 발표</p>
+                {newdata.map((info, index) => {
+                  return <td key={index}>{info.pracPassDt}</td>;
+                })}
+              </tr>
+            </tbody>
+          </Table>
+          <p>{newdata[0].description}</p>
         </Content>
       </ModalStyle>
     </>

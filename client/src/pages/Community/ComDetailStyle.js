@@ -12,6 +12,9 @@ const breakpoints = {
 export const DetailEntire = styled.div`
   display: flex;
   flex-direction: column;
+  .hidden {
+    display: none;
+  }
 `;
 
 export const Top = styled.div`

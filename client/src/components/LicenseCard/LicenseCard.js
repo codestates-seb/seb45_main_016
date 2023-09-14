@@ -1,25 +1,28 @@
 /* eslint-disable react/prop-types */
-import { InfoCardStyle, Title, ExamDate, ApplyDate } from './LicenseCardStyle';
+import { InfoCardStyle, Title } from './LicenseCardStyle';
 import Bookmark from '../Bookmark/Bookmark';
 
-const InfoCard = ({ title, onClick }) => {
+const InfoCard = ({ title, onClick, date }) => {
+  const allDate = [...date];
+
+  let count = 1;
+
+  const counting = (count) => {
+    for (let i = 1; i < date.length - 1; i++) {
+      if (allDate[i].implSeq !== allDate[i - 1].implSeq) {
+        count = count + 1;
+      }
+    }
+    return count;
+  };
+
   return (
     <InfoCardStyle onClick={onClick}>
       <Title>
         <div>{title}</div>
-        <p>회차</p>
+        <p>총 {counting(count)} 회</p>
       </Title>
-      <ExamDate>
-        <div>필기시험 일자</div>
-        <p>날짜</p>
-      </ExamDate>
-      <ApplyDate>
-        <div>
-          <div>필기시험 접수 기간</div>
-          <p>날짜</p>
-        </div>
-        <Bookmark />
-      </ApplyDate>
+      <Bookmark />
     </InfoCardStyle>
   );
 };
