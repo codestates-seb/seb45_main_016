@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
@@ -48,6 +49,7 @@ public class MemberController {
         return response;
     }
 
+
     @PatchMapping("/mypage/edit/{member-id}")
     public ResponseEntity patchMember(@PathVariable("member-id") @Positive Long memberId,
                                       @RequestBody MemberPatchDto memberPatchDto) {
@@ -58,6 +60,34 @@ public class MemberController {
         MemberResponseDto response = mapper.memberToMemberResponseDto(member);
 
         return new ResponseEntity(response, HttpStatus.OK);
+    }
+
+    @PatchMapping("/mypage/image/upload/{member-id}")
+    public ResponseEntity uploadImage(@PathVariable("member-id") @Positive Long memberId,
+                                      @RequestParam("file") MultipartFile file
+) {
+        // 사용자가 마우스로 조절하는 x, y, width, height 값
+        String imagePath = memberService.uploadImage(memberId, file);
+
+        URI location = UriCreator.createUri("/members/mypage/edit", memberId);
+
+        // 이미지 업로드 되면서 body에 수정된 이미지 URI 전송
+        ResponseEntity response = ResponseEntity.created(location).body(imagePath);
+
+        return response;
+    }
+
+    @DeleteMapping("/mypage/image/delete/{member-id}")
+    public ResponseEntity deleteImage(@PathVariable("member-id") @Positive Long memberId) {
+
+        String defaultImage = memberService.deleteProfileImage(memberId);
+
+        URI location = UriCreator.createUri("/members/mypage/edit", memberId);
+
+        // 기본 이미지로 다시 업로드 되면서 body에 수정된 이미지 URI 전송
+        ResponseEntity response = ResponseEntity.created(location).body(defaultImage);
+
+        return response;
     }
 
     @GetMapping("/mypage/{member-id}")
@@ -86,6 +116,5 @@ public class MemberController {
         memberService.deleteMember(memberId);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
-
     }
 }
