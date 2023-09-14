@@ -4,12 +4,11 @@
 
 ## 📜 프로젝트 소개
 
----
 ### 🖥️ 팀 이름 : 일단🌞보죠
 
 >프로젝트 이름 | **STUDY GROUND**  
 프로젝트 기간 | **2023.08.29**   
-프로젝트 설명 | 코드스테이츠 45기 수강생들이 모여서 만든 ✨**자격증 알림 서비스**✨ 입니다.
+프로젝트 설명 | 코드스테이츠 45기 수강생들이 모여서 만든 ✨**자격증 조회 서비스**✨ 입니다.
 
 <br />
 
@@ -24,7 +23,6 @@
 
 ## 🌎 배포 링크
 
----
 📃 배포 링크 : [Stack Over Flow](http://pre016client.s3-website.ap-northeast-2.amazonaws.com/ "stack over flow")
  
 <br/>
@@ -36,7 +34,6 @@
 
 ## 🧑‍💻 기술 스택
 
----
 ### <span style=""> ⚙️ **Tools** </span>
 |                                                   Github                                                    |                           Discord                            |                            Notion                            |
 |:-----------------------------------------------------------------------------------------------------------:| :----------------------------------------------------------: | :----------------------------------------------------------: |
@@ -47,7 +44,7 @@
 ### <span style=""> 🖥 **Front-end** </span>
 |                             Html                             |                             CSS                              |                          JavaScript                          |                            React                             |                    Styled-<br>Components                     |                            axios                             |                           Prittier                           |                            esLint                            |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| <img alt="Html" src ="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/440px-HTML5_logo_and_wordmark.svg.png" width="65" height="65" /> | <div style="display: flex; align-items: flex-start;"><img src="https://user-images.githubusercontent.com/111227745/210204643-4c3d065c-59ec-481d-ac13-cea795730835.png" alt="CSS" width="50" height="65" /></div> | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/js-icon.svg" alt="icon" width="75" height="75" /></div> | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/react-icon.svg" alt="icon" width="65" height="65" /></div> | <div style="display: flex; align-items: flex-start;"><img src="https://styled-components.com/logo.png" alt="styled-components icon" width="65" height="65" /></div> | <div style="display: flex; align-items: flex-start;"><img src="https://axios-http.com/assets/logo.svg" width="65" height="65"/></div> | <div style="display: flex; align-items: flex-start;"><img src="https://user-images.githubusercontent.com/81786662/210203759-1bd2d0ea-86b3-43c0-8e30-44436d73bb9f.png" width="65" height="65"/></div> | <div style="display: flex; align-items: flex-start;"><img src="https://user-images.githubusercontent.com/81786662/210204062-cb572e61-2027-4a9b-a52c-0eac83bcf703.jpeg" width="100" height="65"/></div> |
+| <img alt="Html" src ="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/440px-HTML5_logo_and_wordmark.svg.png" width="65" height="65" /> | <div style="display: flex; align-items: flex-start;"><img src="https://user-images.githubusercontent.com/111227745/210204643-4c3d065c-59ec-481d-ac13-cea795730835.png" alt="CSS" width="65" height="65" /></div> | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/js-icon.svg" alt="icon" width="65" height="65" /></div> | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/react-icon.svg" alt="icon" width="65" height="65" /></div> | <div style="display: flex; align-items: flex-start;"><img src="https://styled-components.com/logo.png" alt="styled-components icon" width="65" height="65" /></div> | <div style="display: flex; align-items: flex-start;"><img src="https://axios-http.com/assets/logo.svg" width="65" height="65"/></div> | <div style="display: flex; align-items: flex-start;"><img src="https://user-images.githubusercontent.com/81786662/210203759-1bd2d0ea-86b3-43c0-8e30-44436d73bb9f.png" width="65" height="65"/></div> | <div style="display: flex; align-items: flex-start;"><img src="https://user-images.githubusercontent.com/81786662/210204062-cb572e61-2027-4a9b-a52c-0eac83bcf703.jpeg" width="65" height="65"/></div> |
 
 <br/>
 
@@ -55,10 +52,13 @@
 
 ### </span>
 
-|                             Java                             |                             AWS                              |                            mySQL                             |                                                                            JWT                                                                            |                                                                        OAuth<br>2.0                                                                         |                        Spring<br>Boot                        |                                                                            H2                                                                            |
-| :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |:---------------------------------------------------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------:| :----------------------------------------------------------: |:--------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/java-icon.svg" alt="icon" width="65" height="65" /></div> | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/aws-icon.svg" alt="icon" width="65" height="65" /></div> | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/mysql-icon.svg" alt="icon" width="65" height="65" /></div> | <img alt="jwt logo" src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1569654347/noticon/mdujedvj9w8c9rz9phny.png" width="65" height="65" > | <img alt="oauth logo" src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566912632/noticon/konazfwbuwdnn43mcqux.png" height="50" width="50" > | <img alt="spring-boot logo" src="https://t1.daumcdn.net/cfile/tistory/27034D4F58E660F616" width="65" height="65" > | <img alt="h2 logo" src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1671751435/noticon/f2acjrbrdkr51kbizhoa.png" width="65" height="65" > |
+|                             Java                             |                             AWS                              |                            mySQL                             |                                                                            JWT                                                                            |                                                                        OAuth<br>2.0                                                                         |                        Spring<br>Boot                        |                                                                            H2                                                                            | Spring<br>Batch | Spring<br>Secrity |
+| :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |:---------------------------------------------------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------:| :----------------------------------------------------------: |:--------------------------------------------------------------------------------------------------------------------------------------------------------:| :----------------------------------------------------------: | :----------------------------------------------------------: |
+| <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/java-icon.svg" alt="icon" width="65" height="65" /></div> | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/aws-icon.svg" alt="icon" width="65" height="65" /></div> | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/mysql-icon.svg" alt="icon" width="65" height="65" /></div> | <img alt="jwt logo" src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1569654347/noticon/mdujedvj9w8c9rz9phny.png" width="65" height="65" > | <img alt="oauth logo" src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566912632/noticon/konazfwbuwdnn43mcqux.png" height="65" width="65" > | <img alt="spring-boot logo" src="https://t1.daumcdn.net/cfile/tistory/27034D4F58E660F616" width="65" height="65" > | <img alt="h2 logo" src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1671751435/noticon/f2acjrbrdkr51kbizhoa.png" width="65" height="65" > |<img alt="spring batch" src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1662807907/noticon/nnw6du8ytgdpu5ydmeqj.png" width="65" height="65">|<img alt="spring security" src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1686935854/noticon/r7w1ipwmdmhlfzqfw69h.png" width="65" height="65">|
 
+|JPA    | RDS | S3
+| :----: | :----: | :----: |
+|<img alt="Spring data jpa" src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1609094551/noticon/gkcjchloc7f7khlsyyyy.png" width="65" height="65">|<img alt="RDS" src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1683592944/noticon/plcvyiwmdh4adlt8dxgo.png" width="65" height="65">|<img alt="S3" src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567064876/noticon/sb5llmvfubuceldbkmx8.png" width="65" height="65">|
 <br/>
 
 
@@ -68,14 +68,12 @@
 
 ## 📒 일단해보죠 Notion 페이지
 
----
 📃 노션 링크 : [일단🌞보죠 Notion](https://www.notion.so/056ba51472444db194a6b6e7a8324b3e)
 
 <br/>
 
 ## ✏️ 커밋 규칙
 
----
 | 타입 | 설명 |
 | --- | --- |
 | feat | 새로운 기능 추가 |
