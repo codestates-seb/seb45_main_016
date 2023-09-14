@@ -11,10 +11,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -30,13 +33,20 @@ public class Answer {
 	@Column(name = "answerContent", length = 10000, nullable = false)
 	private String content;
 
+	@Column
+	private LocalDateTime modifiedAt = LocalDateTime.now();
+
 	@ManyToOne
 	@JoinColumn(name = "boardId")
+	@JsonIgnore
 	private Board board;
 
 	@ManyToOne
 	@JoinColumn(name = "memberId")
+	@JsonIgnore
 	private Member member;
+
+
 
 	// 대댓글하고 연관관계(매핑) 구성해야함.
 

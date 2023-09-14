@@ -1,7 +1,10 @@
 package com.codestates.server.domain.board.mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.codestates.server.domain.answer.dto.AnswerBoardResponseDto;
+import com.codestates.server.domain.answer.entity.Answer;
 import com.codestates.server.domain.member.dto.MemberBoardResponseDto;
 import com.codestates.server.domain.member.dto.MemberResponseDto;
 import org.mapstruct.Mapper;
@@ -48,12 +51,30 @@ public interface BoardMapper {
 		boardResponseDto.setViews(board.getViews());
 		boardResponseDto.setModifiedAt(board.getModifiedAt());
 
+		//board작성자를 mapping
 		MemberBoardResponseDto memberBoardResponseDto = new MemberBoardResponseDto(board.getMember().getMemberId(),
 				board.getMember().getEmail(),
 				board.getMember().getName(),
 				board.getMember().getProfileImage());
 
 		boardResponseDto.setBoardCreater(memberBoardResponseDto);
+
+		List<AnswerBoardResponseDto> answerBoardResponseDtos = new ArrayList<>();
+
+		for(Answer answer : board.getAnswers()){
+
+			AnswerBoardResponseDto answerBoardResponseDto = new AnswerBoardResponseDto(answer.getAnswerId(),
+					answer.getContent(),
+					answer.getModifiedAt(),
+					new MemberBoardResponseDto(answer.getMember().getMemberId(),
+							answer.getMember().getEmail(),
+							answer.getMember().getName(),
+							answer.getMember().getProfileImage()));
+			
+			answerBoardResponseDtos.add(answerBoardResponseDto);
+		}
+
+		boardResponseDto.setAnswers(answerBoardResponseDtos);
 
 		return boardResponseDto;
 	}

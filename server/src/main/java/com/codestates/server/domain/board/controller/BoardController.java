@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.codestates.server.domain.answer.service.AnswerService;
 import com.codestates.server.domain.board.dto.BoardPatchDto;
 import com.codestates.server.domain.board.dto.BoardResponseDto;
 import com.codestates.server.domain.board.dto.Response;
@@ -38,6 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardController {
 
 	private final BoardService boardService;
+	private final AnswerService answerService;
 	private final BoardMapper mapper;
 
 	// 게시글 등록
@@ -67,7 +69,7 @@ public class BoardController {
 	@GetMapping("/{board-id}")
 	public ResponseEntity getBoard(@PathVariable("board-id") Long boardId) {
 		Board board = boardService.findBoard(boardId);
-		BoardResponseDto response = mapper.boardToBoardResponseDto(board);	// response 수정
+		BoardResponseDto response = mapper.boardToBoardResponseDto(board);
 
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}

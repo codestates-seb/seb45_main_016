@@ -1,20 +1,17 @@
 package com.codestates.server.domain.board.entity;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
+import com.codestates.server.domain.answer.entity.Answer;
 import com.codestates.server.domain.member.entity.Member;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -41,5 +38,9 @@ public class Board {
 
 	@Column
 	private LocalDateTime modifiedAt = LocalDateTime.now();
+
+	@OneToMany(mappedBy = "board")
+	@JsonIgnore
+	private List<Answer> answers;
 
 }
