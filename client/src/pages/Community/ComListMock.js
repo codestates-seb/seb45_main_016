@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from 'react';
@@ -5,13 +6,12 @@ import * as Styled from './ComListStyle';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import ComCard from '../../components/Comcard';
-import { ComData } from './ComData';
 import { Link, useNavigate } from 'react-router-dom';
 import { LeftArrow, RightArrow } from '../../utils/svg';
 
 const ITEMS_PER_PAGE = 6; // 한 페이지에 보여줄 아이템 수
 
-const ComListMock = () => {
+const ComListMock = ({ ComData }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [comData, setComData] = useState([]);
 

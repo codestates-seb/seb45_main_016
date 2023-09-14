@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState, useCallback } from 'react';
 import * as Styled from './InfoStyle';
 import Header from '../../components/Header/Header';
@@ -5,11 +6,10 @@ import Footer from '../../components/Footer/Footer';
 import InfoCard from '../../components/LicenseCard/LicenseCard';
 import Modal from '../../components/Modal/Modal';
 import { LeftArrow, RightArrow } from '../../utils/svg';
-import { InfoData } from './infoDummydata';
 // import axios from 'axios';
 // import NotFound from '../../components/404/404notfound';
 
-const Info = () => {
+const Info = ({ InfoData }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setModalOpen] = useState(false);
   const [itemsPerPage, setItemsPerPage] = useState(calculateItemsPerPage());
@@ -133,6 +133,13 @@ const Info = () => {
       <Header />
       {/* {!isError ? ( */}
       <>
+        {isModalOpen === true && (
+          <Modal
+            date={InfoData[isIndex].date}
+            setModalOpen={setModalOpen}
+            name={InfoData[isIndex].name}
+          />
+        )}
         <Styled.AlertContainer>
           자격증 정보, 한눈에 확인해보세요
         </Styled.AlertContainer>
@@ -151,14 +158,6 @@ const Info = () => {
             />
           ))}
         </Styled.GridContainer>
-
-        {isModalOpen === true && (
-          <Modal
-            date={InfoData[isIndex].date}
-            setModalOpen={setModalOpen}
-            name={InfoData[isIndex].name}
-          />
-        )}
 
         <Styled.PaginationContainer>
           <LeftArrow onClick={handlePrevPage} />

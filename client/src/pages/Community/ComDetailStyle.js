@@ -12,9 +12,6 @@ const breakpoints = {
 export const DetailEntire = styled.div`
   display: flex;
   flex-direction: column;
-  .hidden {
-    display: none;
-  }
 `;
 
 export const Top = styled.div`
@@ -109,17 +106,17 @@ export const ReviewOpenBtn = styled.button`
   background-color: ${White.value};
   border: 1px solid
     ${(props) =>
-      props['data-isOpen'] || props['data-isContentLiked']
+      props['data-isopen'] || props['data-iscontentliked']
         ? Gray['600'].value
         : Gray['400'].value};
   border-radius: 83.3rem;
   font-size: 1.33333rem;
   font-style: normal;
   font-weight: ${(props) =>
-    props['data-isOpen'] || props['data-isContentLiked'] ? '700' : '400'};
+    props['data-isopen'] || props['data-iscontentliked'] ? '700' : '400'};
   line-height: normal;
   color: ${(props) =>
-    props['data-isOpen'] || props['data-isContentLiked']
+    props['data-isopen'] || props['data-iscontentliked']
       ? Gray['600'].value
       : Gray['400'].value};
   cursor: pointer;
@@ -128,7 +125,7 @@ export const ReviewOpenBtn = styled.button`
   }
   .num {
     color: ${(props) =>
-      props['data-isOpen']
+      props['data-isopen']
         ? Primary['Default'].value
         : Primary['Lighten-1'].value};
   }
@@ -145,7 +142,7 @@ export const ReviewOpenBtn = styled.button`
   }
   path {
     fill: ${(props) =>
-      props['data-isOpen'] || props['data-isContentLiked']
+      props['data-isopen'] || props['data-iscontentliked']
         ? Gray['600'].value
         : '#BDBDBD'};
   }

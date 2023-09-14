@@ -9,7 +9,7 @@ export const ModalStyle = styled.div`
   margin: 2% auto;
   height: 45%;
   width: 70%;
-  z-index: 1;
+  z-index: 999;
   p {
     font-size: 12px;
     font-weight: 500;

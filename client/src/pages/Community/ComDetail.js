@@ -14,7 +14,6 @@ import {
   SvgHeartPath,
   SvgReview,
 } from '../../utils/svg';
-// import { API } from '../../utils/API';
 
 import * as T from './ComDetailStyle';
 import { useNavigate } from 'react-router-dom';
