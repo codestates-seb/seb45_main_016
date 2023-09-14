@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -86,19 +87,22 @@ public class MemberService {
         return memberRepository.save(getMember);
     }
 
-    public String uploadImage(Long memberId, MultipartFile file) {
+//    public String uploadImage(Long memberId, MultipartFile file) {
+    public String uploadImage(Long memberId, MultipartFile file, int x, int y, int width, int height) throws IOException {
         // 회원 검증 하기
         Member member = getVerifiedMember(memberId);
         // 현재 프로필 이미지 가지고 오기
         String presentProfileImage = member.getProfileImage();
         // 만약에 현재 파일이 있으면 현재 파일 삭제
         if (presentProfileImage != null && presentProfileImage.equals(DEFAULT_IMAGE)) {
-            s3UploadService.deleteImageFromS3(presentProfileImage, MEMBER_IMAGE_PROCESS_TYPE);
+//            s3UploadService.deleteImageFromS3(presentProfileImage, MEMBER_IMAGE_PROCESS_TYPE);
+            s3UploadService.deleteImageFromS3(presentProfileImage);
         }
         // profileImage 새로운 imgae로 upload 하기
         String newProfileImage = null;
         // 새로운 파일 업로드 하는 메서드 (파일, x좌표, y좌표, 가로, 세로)
-        newProfileImage = s3UploadService.uploadProfileImage(file, MEMBER_IMAGE_PROCESS_TYPE);
+//        newProfileImage = s3UploadService.uploadProfileImage(file, MEMBER_IMAGE_PROCESS_TYPE);
+        newProfileImage = s3UploadService.uploadProfileImage(file, x, y, width, height);
         // 회원 profileImage에 set 하고 save
         member.setProfileImage(newProfileImage);
         // 새로운 이미지 URL을 멤버 객체에 설정
@@ -118,7 +122,8 @@ public class MemberService {
 
         // S3에서 현재 이미지 삭제
         if (currentProfileImage != null && !currentProfileImage.equals(DEFAULT_IMAGE)) {
-            s3UploadService.deleteImageFromS3(currentProfileImage, MEMBER_IMAGE_PROCESS_TYPE);
+//            s3UploadService.deleteImageFromS3(currentProfileImage, MEMBER_IMAGE_PROCESS_TYPE);
+            s3UploadService.deleteImageFromS3(currentProfileImage);
         }
 
         // DB에서 프로필 이미지 URL 기본 설정
