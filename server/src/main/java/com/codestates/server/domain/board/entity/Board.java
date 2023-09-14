@@ -34,6 +34,7 @@ public class Board {
 
 	@ManyToOne
 	@JoinColumn(name = "memberId")
+	@JsonIgnore
 	private Member member;
 
 	@Column

@@ -6,24 +6,15 @@ import java.util.List;
 import java.util.Map;
 
 import com.codestates.server.domain.answer.service.AnswerService;
-import com.codestates.server.domain.board.dto.BoardPatchDto;
-import com.codestates.server.domain.board.dto.BoardResponseDto;
-import com.codestates.server.domain.board.dto.Response;
+import com.codestates.server.domain.board.dto.*;
 import com.codestates.server.domain.board.entity.Board;
 
+import com.codestates.server.global.dto.MultiResponseDto;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.codestates.server.domain.board.dto.BoardPostDto;
 import com.codestates.server.domain.board.mapper.BoardMapper;
 import com.codestates.server.domain.board.service.BoardService;
 import com.codestates.server.global.uri.UriCreator;
@@ -74,14 +65,17 @@ public class BoardController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
-//	 게시글 목록 조회
+	//게시글 목록 조회(페이지네이션)
 	@GetMapping
-	public ResponseEntity getBoards(){
+	public ResponseEntity getBoards(@RequestParam int page){
 
-		List<Board> allBoards = boardService.findAllBoards();
-		List<BoardResponseDto> response = mapper.boardsToBoardResponseDto(allBoards);
+		Page<Board> pageBoards = boardService.findBoards(page);
+		List<Board> boards = pageBoards.getContent();
 
-		return new ResponseEntity<>(response, HttpStatus.OK);
+		List<BoardPageResponse> boardPageResponses = mapper.boardToBoardPageResponseDto(boards);
+
+		return new ResponseEntity<>(
+				new MultiResponseDto<>(boardPageResponses, pageBoards), HttpStatus.OK);
 	}
 
 

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.codestates.server.domain.answer.dto.AnswerBoardResponseDto;
 import com.codestates.server.domain.answer.entity.Answer;
+import com.codestates.server.domain.board.dto.BoardPageResponse;
 import com.codestates.server.domain.member.dto.MemberBoardResponseDto;
 import com.codestates.server.domain.member.dto.MemberResponseDto;
 import org.mapstruct.Mapper;
@@ -17,6 +18,34 @@ import com.codestates.server.domain.member.entity.Member;
 
 @Mapper(componentModel = "spring")
 public interface BoardMapper {
+
+	default List<BoardPageResponse> boardToBoardPageResponseDto(List<Board> board) {
+		if (board == null) {
+			return null;
+		}
+
+		List<BoardPageResponse> boardPageResponses = new ArrayList<>();
+
+		for(Board item : board) {
+
+			BoardPageResponse boardPageResponse = new BoardPageResponse();
+
+			boardPageResponse.setBoardId(item.getBoardId());
+			boardPageResponse.setTitle(item.getTitle());
+			boardPageResponse.setViews(item.getViews());
+			boardPageResponse.setContent(item.getContent());
+			boardPageResponse.setModifiedAt(item.getModifiedAt());
+
+			MemberBoardResponseDto memberBoardResponseDto = new MemberBoardResponseDto(item.getMember().getMemberId(),
+					item.getMember().getEmail(),
+					item.getMember().getName(),
+					item.getMember().getProfileImage());
+
+			boardPageResponse.setBoardCreator(memberBoardResponseDto);
+			boardPageResponses.add(boardPageResponse);
+		}
+		return boardPageResponses;
+	}
 
 	default Board boardPostDtoToBoard(BoardPostDto boardPostDto) {
 		if (boardPostDto == null) {

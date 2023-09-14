@@ -31,7 +31,6 @@ public class AnswerService {
 
 		Optional<Member> member = memberRepository.findById(memberId);
 		Member getMember = member.orElseThrow(() -> new RuntimeException("🚨 회원 정보를 찾을 수 없습니다. 🚨"));
-		// 🔴 로그인 파트 완료되면 로그인한 사용자 정보 가지고 오는걸로 수정해야함.
 		Board board = boardService.findBoard(boardId);
 		answer.setBoard(board);
 		answer.setMember(getMember);

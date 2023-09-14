@@ -18,5 +18,5 @@ public class AnswerBoardResponseDto {
 
     private LocalDateTime modifiedAt;
 
-    private MemberBoardResponseDto answerCreater;
+    private MemberBoardResponseDto answerCreator;
 }
