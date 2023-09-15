@@ -1,15 +1,9 @@
-<<<<<<< Updated upstream
 /* eslint-disable react/prop-types */
 // SearchFiltered.js
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-=======
-// SearchFiltered.js
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
->>>>>>> Stashed changes
 import {
   CommunityCategory,
   FilteredStyle,
@@ -23,36 +17,9 @@ import {
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import ComCard from '../../components/Comcard';
-<<<<<<< Updated upstream
 import InfoCard from '../../components/LicenseCard/LicenseCard';
 import Modal from '../../components/Modal/Modal';
 import { LeftArrow, RightArrow } from '../../utils/svg';
-=======
-import LicenseCard from '../../components/LicenseCard/LicenseCard';
-import Modal from '../../components/Modal/Modal';
-
-const InfoData = [
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 2', description: '자격증 1에 대한 설명' },
-];
-
-const comData = [
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 2', description: '자격증 1에 대한 설명' },
-  { title: '자격증 2', description: '자격증 1에 대한 설명' },
-  { title: '자격증 2', description: '자격증 1에 대한 설명' },
-];
->>>>>>> Stashed changes
 
 //테스트 시 주석해제
 // import { GetSearchedlicense } from '../../utils/API';
@@ -93,7 +60,6 @@ const SearchFiltered = ({ InfoData, ComData }) => {
   );
 
   const filteredCommunityData = ComData.filter((data) =>
-
     data.title.includes(query),
   );
 
@@ -140,7 +106,6 @@ const SearchFiltered = ({ InfoData, ComData }) => {
       }
     };
 
-
     return (
       <div>
         <Licensere>
@@ -150,7 +115,6 @@ const SearchFiltered = ({ InfoData, ComData }) => {
               title={license.name}
               onClick={() => modal(license)} // 클릭 시 모달 열기
               date={license.date}
-
             />
           ))}
         </Licensere>
@@ -169,7 +133,6 @@ const SearchFiltered = ({ InfoData, ComData }) => {
             );
           })}
           <RightArrow onClick={handleNextPage} />
-
         </Pagination>
       </div>
     );
@@ -222,7 +185,6 @@ const SearchFiltered = ({ InfoData, ComData }) => {
       }
     };
 
-
     return (
       <div>
         <Comresult>
@@ -251,7 +213,6 @@ const SearchFiltered = ({ InfoData, ComData }) => {
             );
           })}
           <RightArrow onClick={handleNextPage} />
-
         </Pagination>
       </div>
     );
@@ -266,7 +227,6 @@ const SearchFiltered = ({ InfoData, ComData }) => {
     noResultsMessage1 = (
       <div className="notting">앗! 등록된 정보가 없어요😅</div>
     );
-
   }
 
   let noResultsMessage2 = null;
@@ -274,7 +234,6 @@ const SearchFiltered = ({ InfoData, ComData }) => {
     noResultsMessage2 = (
       <div className="notting">앗! 등록된 정보가 없어요😅</div>
     );
-
   }
 
   return (
@@ -311,7 +270,6 @@ const SearchFiltered = ({ InfoData, ComData }) => {
           date={isSelectedLicenseDate}
           setModalOpen={setModalOpen}
           name={isSelectedLicenseName}
-
         />
       )}
     </FilteredStyle>
