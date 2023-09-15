@@ -22,6 +22,7 @@ public class LicenseReader implements ItemReader<LicenseInfo> {
 
     @Override
     public LicenseInfo read() {
+        log.info("license Reader 실행");
         if (licenseIterator == null) {
             licenseIterator = licenseInfoRepository.findAll().iterator();
         }

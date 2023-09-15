@@ -25,7 +25,7 @@ public class BoardResponseDto {
 
 	private LocalDateTime modifiedAt;
 
-	private MemberBoardResponseDto boardCreater;
+	private MemberBoardResponseDto boardCreator;
 
 	private List<AnswerBoardResponseDto> answers;
 }
