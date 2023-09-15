@@ -1,8 +1,5 @@
-<<<<<<< Updated upstream
 /* eslint-disable no-undef */
 
-=======
->>>>>>> Stashed changes
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';

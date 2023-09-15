@@ -21,7 +21,6 @@ export const signUp = async (data) => {
       method: 'post',
       data,
       url: `https://578a-222-96-41-224.ngrok-free.app/members/signup`,
-<<<<<<< Updated upstream
     });
     return res;
   } catch (e) {
@@ -56,8 +55,6 @@ export const GetAllCommunityPostsList = async (data) => {
       headers: {
         'ngrok-skip-browser-warning': '2',
       },
-=======
->>>>>>> Stashed changes
     });
     return res;
   } catch (e) {

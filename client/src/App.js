@@ -14,12 +14,9 @@ import Edit from './pages/Community/Edit';
 import ComDetailMock from './pages/Community/ComDetailMock';
 import ComListMock from './pages/Community/ComListMock';
 import Kakao from './pages/Login/Kakao';
-<<<<<<< Updated upstream
 import { infoData } from './utils/infoDummydata';
 import { comData } from './utils/ComData';
 // import { GetAllLicensesList,  GetAllCommunityPostsList } from './utils/API';
-=======
->>>>>>> Stashed changes
 
 function App() {
   const [InfoData, setInfoData] = useState([]);
@@ -60,7 +57,6 @@ function App() {
           />
           {/*  */}
           <Route path="/write" element={<PostContent />} />
-<<<<<<< Updated upstream
           <Route path="/edit/:id" element={<Edit ComData={ComData} />} />
           <Route
             path="/mypage"
@@ -71,11 +67,6 @@ function App() {
             element={<SearchFiltered InfoData={InfoData} ComData={ComData} />}
           />
 
-=======
-          {/* <Route path="/edit/:id" element={<Edit />} /> */}
-          <Route path="/mypage" element={<MyInfo />} />
-          <Route path="/search" element={<SearchFiltered />} />
->>>>>>> Stashed changes
           <Route path="/login/oauth/code/kakao" element={<Kakao />} />
         </Routes>
       </div>
