@@ -67,6 +67,8 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.GET, "/members").hasRole("ADMIN")
                         .antMatchers(HttpMethod.GET, "/members/**").hasAnyRole("ADMIN", "USER")
                         .antMatchers(HttpMethod.DELETE, "/members/delete/**").hasAnyRole("USER")
+                        .antMatchers(HttpMethod.PATCH, "/members/mypage/image/upload/**").hasRole("USER")
+                        .antMatchers(HttpMethod.PATCH, "/members/mypage/image/delete/**").hasRole("USER")
                 /** ---------------------------------- boards 접근 권한 설정 ---------------------------------- **/
                         .antMatchers(HttpMethod.POST, "/boards/create").hasAnyRole("ADMIN", "USER")
                         .antMatchers(HttpMethod.PATCH, "/boards/edit/**").hasAnyRole("ADMIN", "USER")
