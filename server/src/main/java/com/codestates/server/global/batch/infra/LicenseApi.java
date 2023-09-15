@@ -25,8 +25,8 @@ public class LicenseApi {
         LicenseDto licenseDto = new LicenseDto();
 
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B490007/qualExamSchd/getQualExamSchdList"); /*URL*/
-//        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=hN6HzankT%2Bi7Qds9PJjAjFb6R6xzw5DAvqBHMSOjw4yaA98ubFd6IRzWT8Kz5CcCiksKJz7qPFdZOsOcjjn4MA%3D%3D"); /*Service Key*/
-        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=IUYvmOEoViTK43IhVvS01eWEONK2Fs5xYW9OX%2BhJQixv%2FnkpNfdwXgF%2FK2RR6nPqHVqRIWuR%2Bkb8rJQtFs%2FLcA%3D%3D"); /*Service Key*/
+        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=hN6HzankT%2Bi7Qds9PJjAjFb6R6xzw5DAvqBHMSOjw4yaA98ubFd6IRzWT8Kz5CcCiksKJz7qPFdZOsOcjjn4MA%3D%3D"); /*Service Key*/
+//        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=IUYvmOEoViTK43IhVvS01eWEONK2Fs5xYW9OX%2BhJQixv%2FnkpNfdwXgF%2FK2RR6nPqHVqRIWuR%2Bkb8rJQtFs%2FLcA%3D%3D"); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); /*한 페이지 결과 수*/
         urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호*/
         urlBuilder.append("&" + URLEncoder.encode("dataFormat","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")); /*응답 데이터 표준 형식 - xml / json (대소문자 구분 없음)*/

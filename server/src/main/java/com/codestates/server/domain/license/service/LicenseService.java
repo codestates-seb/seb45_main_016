@@ -37,7 +37,7 @@ public class LicenseService {
      * @return
      */
     public LicenseInfo findLicenseInfo(String name){
-//
+
         LicenseInfo licenseInfo = licenseInfoRepository.findByName(name);
 
         return licenseInfo;
@@ -47,6 +47,12 @@ public class LicenseService {
         LicenseInfo licenseInfo = licenseInfoRepository.findById(code).orElseThrow();
 
         return licenseInfo;
+    }
+
+    public List<LicenseInfo> findLicenses(){
+        List<LicenseInfo> all = licenseInfoRepository.findAll();
+
+        return all;
     }
 
 
