@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { BookmarkStyle } from './BookmarkStyle';
+import { PostHeart } from '../../utils/API';
 // import { API } from '../../utils/API';
 
 const Bookmark = () => {
@@ -15,7 +16,7 @@ const Bookmark = () => {
   const pushHeart = (e) => {
     if (isLiked === false) {
       setLiked(true);
-      // const method = 'post';
+      PostHeart();
       console.log('해당 데이터에서 북마크 정보를 보냅니다');
       //   API(url, method, body);
       e.stopPropagation();

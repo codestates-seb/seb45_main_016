@@ -2,13 +2,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import writerprofile from '../../pages/Community/writerprofile.png';
 import profile1 from '../../pages/Community/profile1.png';
 import profile2 from '../../pages/Community/profile2.png';
 import profile3 from '../../pages/Community/profile3.png';
+// import { DeletePost } from '../../utils/API';
 import {
   BottomErrow,
   SvgDelete,
@@ -18,6 +19,7 @@ import {
   SvgReview,
 } from '../../utils/svg';
 import * as T from './ComDetailStyle';
+// import { DeletePost } from '../../utils/API';
 
 const ComDetailMock = ({ ComData }) => {
   const [isOpen, setOpen] = useState(false);
@@ -30,6 +32,7 @@ const ComDetailMock = ({ ComData }) => {
   const [comment, setComment] = useState([...data[boardId].comment]);
 
   const userId = localStorage.getItem('userId');
+  const navigator = useNavigate();
 
   useEffect(() => {
     setData(data);
@@ -45,14 +48,15 @@ const ComDetailMock = ({ ComData }) => {
     }
   };
 
-  const editReview = (e) => {
+  const editReview = (index) => {
     // const method = 'fetch';
     if (isReviewEdit === false) {
       setReviewEdit(true);
     } else {
       setReviewEdit(false);
-      comment[e.target.id].content = localStorage.getItem('editedReview');
-      console.log('댓글 수정을 완료합니다');
+      comment[index].content = localStorage.getItem('editedReview');
+      localStorage.setItem('commentId', index);
+      console.log(index);
     }
   };
 
@@ -98,6 +102,12 @@ const ComDetailMock = ({ ComData }) => {
     setOpenReviewIndex('');
   };
 
+  const deletePost = () => {
+    // DeletePost();
+    console.log(boardId);
+    navigator('/community/detail');
+  };
+
   return (
     <T.DetailEntire key={boardId}>
       <Header />
@@ -110,7 +120,7 @@ const ComDetailMock = ({ ComData }) => {
                   <SvgEdit />
                 </button>
               </Link>
-              <button name="content">
+              <button onClick={deletePost}>
                 <SvgDelete />
               </button>
             </div>
@@ -169,7 +179,7 @@ const ComDetailMock = ({ ComData }) => {
                               </div>
                               {userId === el.username && (
                                 <T.ReviewEditBtn>
-                                  <button onClick={editReview} id={index}>
+                                  <button onClick={() => editReview(index)}>
                                     {isReviewEdit === false ? '수정' : '저장'}
                                   </button>
                                   <button onClick={deleting} id={index}>
