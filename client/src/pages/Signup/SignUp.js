@@ -6,7 +6,6 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { signUp } from '../../utils/API';
 import Header from '../../components/Header/Header';
-import KakaoLogin from 'react-kakao-login';
 import * as Styled from '../Signup/SignUpStyle';
 
 const inputErrorClass = 'input-error';
@@ -42,44 +41,9 @@ function SignUp() {
     }
   };
 
-  const onKakaoLoginSuccess = (res) => {
-    console.log('카카오 로그인 성공:', res);
-
-    // 카카오로부터 받은 사용자 정보를 서버에 전송하고 회원 가입 처리를 수행할 수 있습니다.
-    // 여기에서 res.profile 등을 이용하여 필요한 정보를 추출하고 서버로 전송하는 로직을 추가하세요.
-
-    // 예시: 서버로 사용자 정보 전송
-    fetch('/api/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: res.profile.properties.nickname,
-        // 다른 필요한 정보도 추가하세요.
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          // 회원 가입 성공 시 페이지 이동 및 알림
-          alert('회원 가입이 완료되었습니다. 로그인 페이지로 이동합니다.');
-          navigate('/login');
-        } else {
-          alert(
-            '회원 가입 중에 문제가 발생했습니다. 나중에 다시 시도해주세요.',
-          );
-        }
-      })
-      .catch((error) => {
-        console.error('회원 가입 에러:', error);
-        alert('회원 가입 중에 문제가 발생했습니다. 나중에 다시 시도해주세요.');
-      });
-  };
-
-  // 카카오 로그인 실패 시 호출될 함수
-  const onKakaoLoginFail = (err) => {
-    console.error('카카오 로그인 실패:', err);
+  const handleKakaoLoginClick = () => {
+    // 카카오 로그인 클릭 시 /login 경로로 이동
+    navigate('/login');
   };
 
   return (
@@ -134,17 +98,10 @@ function SignUp() {
             SIGN UP
           </Styled.SignUpButton>
         </Styled.SignUpForm>
-
         <Styled.DivisionLine />
-
-        <KakaoLogin
-          token="c87f3be5672760404116af0672b10766"
-          onSuccess={onKakaoLoginSuccess}
-          onFail={onKakaoLoginFail}
-          style={{ background: 'none', border: 'none', padding: '0' }} // 스타일 추가
-        >
+        <Styled.KakaoLogin onClick={() => handleKakaoLoginClick()}>
           <img src={imageUrl} alt="카카오로 회원 가입" />
-        </KakaoLogin>
+        </Styled.KakaoLogin>
         <Styled.LoginWrap>
           <span>이미 아이디가 있나요? </span>
           <Styled.styledLink to="/login">Login</Styled.styledLink>

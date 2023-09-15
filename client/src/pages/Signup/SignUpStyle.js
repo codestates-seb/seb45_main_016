@@ -111,3 +111,8 @@ export const styledLink = styled(Link)`
   color: ${globalTokens.Secondary.Default.value};
   text-decoration: none; /* 올바른 속성 이름을 사용하세요 (예: 'text-decoration') */
 `;
+
+export const KakaoLogin = styled.div`
+  background: none;
+  border: none;
+`;

@@ -7,7 +7,7 @@ export const login = async (data) => {
       method: 'post',
       data,
 
-      url: `https://578a-222-96-41-224.ngrok-free.app/members/auth/login`,
+      url: `https://7827-116-125-236-74.ngrok-free.app/members/auth/login`,
     });
     return res;
   } catch (e) {
@@ -20,7 +20,7 @@ export const signUp = async (data) => {
     const res = await axios({
       method: 'post',
       data,
-      url: `https://578a-222-96-41-224.ngrok-free.app/members/signup`,
+      url: `https://7827-116-125-236-74.ngrok-free.app/members/signup`,
     });
     return res;
   } catch (e) {
@@ -33,13 +33,14 @@ export const GetAllLicensesList = async (data) => {
     const res = await axios({
       method: 'get',
       data,
-      url: `https://65a9-182-211-13-193.ngrok-free.app/licenses
+      memberId: 1,
+      url: `https://7827-116-125-236-74.ngrok-free.app/licenses/100
       `,
       headers: {
         'ngrok-skip-browser-warning': '2',
       },
     });
-    return res;
+    return res.data;
   } catch (e) {
     console.log(e);
   }
@@ -50,13 +51,13 @@ export const GetAllCommunityPostsList = async (data) => {
     const res = await axios({
       method: 'get',
       data,
-      url: `https://65a9-182-211-13-193.ngrok-free.app/boards
+      url: `https://7827-116-125-236-74.ngrok-free.app/boards
       `,
       headers: {
         'ngrok-skip-browser-warning': '2',
       },
     });
-    return res;
+    return res.data;
   } catch (e) {
     console.log(e);
   }
@@ -117,9 +118,28 @@ export const PostContents = async () => {
   return res;
 };
 
+export const PostHeart = async () => {
+  const res = await axios
+    .post(`https://7827-116-125-236-74.ngrok-free.app/bookmark`, {
+      memberId: 1,
+      code: 1320,
+      headers: {
+        'ngrok-skip-browser-warning': '2',
+      },
+    })
+
+    .then((res) => {
+      window.location.href = `/community/detail${res.headers.location}`;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  return res;
+};
+
 export const PostEdit = async () => {
   const res = await axios
-    .post(
+    .patch(
       `https://65a9-182-211-13-193.ngrok-free.app/boards/edit/${localStorage.getItem(
         'boardId',
       )}`,
@@ -127,6 +147,29 @@ export const PostEdit = async () => {
         memberId: localStorage.getItem('userId'),
         title: localStorage.getItem('editedTitle'),
         content: localStorage.getItem('editedContent'),
+        headers: {
+          'ngrok-skip-browser-warning': '2',
+        },
+      },
+    )
+
+    .then((res) => {
+      window.location.href = `/community/detail${res.headers.location}`;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  return res;
+};
+
+export const ReviewEdit = async () => {
+  const res = await axios
+    .patch(
+      `http://{{host}}/boards/${localStorage.getItem('boardId')}/answers/1,
+      )}`,
+      {
+        memberId: localStorage.getItem('userId'),
+        content: localStorage.getItem('editedReview'),
         headers: {
           'ngrok-skip-browser-warning': '2',
         },

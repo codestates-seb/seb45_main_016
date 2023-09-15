@@ -188,15 +188,19 @@ const SearchFiltered = ({ InfoData, ComData }) => {
     return (
       <div>
         <Comresult>
-          {currentData.map((community, index) => (
-            <Link to={'/community/detail/' + community.boardId} key={index}>
-              <ComCard
-                title={community.title}
-                username={community.username}
-                email={community.email}
-              />
-            </Link>
-          ))}
+          {currentData &&
+            currentData.slice(startIndex, endIndex).map((info) => (
+              <Link to={'/community/detail/' + info.boardId} key={info.boardId}>
+                <ComCard
+                  title={info.title}
+                  username={info.username}
+                  email={info.email}
+                  onClick={() => {
+                    localStorage.setItem('boardId', info.boardId);
+                  }}
+                />
+              </Link>
+            ))}
         </Comresult>
         <Pagination>
           <LeftArrow onClick={handlePrevPage} />

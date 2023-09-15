@@ -25,8 +25,8 @@ const Header = () => {
 
   const handleLogin = () => {
     // 여기서 실제 로그인 로직을 처리한 뒤, userId 값을 로컬 스토리지에 저장
-    const loggedInUserId = 'exampleUserId'; // 로그인 로직을 따라서 가져와야 함
-    localStorage.setItem('userId', loggedInUserId);
+    // const loggedInUserId = 'exampleUserId'; // 로그인 로직을 따라서 가져와야 함
+    localStorage.setItem('memberId', 1);
   };
 
   return (
