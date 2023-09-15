@@ -1,5 +1,8 @@
 package com.codestates.server.domain.member.entity;
 
+import com.codestates.server.domain.board.entity.Board;
+import com.codestates.server.domain.bookmark.entity.Bookmark;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -27,17 +30,17 @@ public class Member {
 
     private String profileImage;
 
-
-//    좋아요 리스트에는 자격증 이름, 날짜 다 갖고 있어야 함(날짜는 잘라서 줄 것)
-//    private List<Like> likeList;
-
-//    private List<Board> boardList;
-
-//    public List<MemberBoardInfo> getMemberBoardInfo() {}
-
     // 멤버 당 하나의 권한을 가지기 때문에 즉시 로딩 괜찮음 (즉시로딩 N : 1은 괜찮으나 1:N은 안됨)
     // 사용자 등록 시 사용자의 권한 등록을 위해 권한 테이블 생성
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "member")
+    private List<Board> boardList;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "member")
+    private List<Bookmark> Bookmarks;
 
 }
