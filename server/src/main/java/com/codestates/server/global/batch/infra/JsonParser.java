@@ -38,12 +38,11 @@ public class JsonParser {
                 return licenseDateList;
 
             }catch (Exception e){
-                System.out.println(e.getMessage());
-                log.info("작성 실패 ");
+                log.info("json parser 작성 실패 : {}", e.getMessage());
             }
 
         }catch (Exception e){
-            log.info("Json parser 실패 ");
+            log.info("json parser 작성 실패 : {}", e.getMessage());
             return licenseDateList;
         }
 

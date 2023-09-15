@@ -14,10 +14,10 @@ public class BoardPostDto {
 	@Positive
 	private Long memberId;
 
-	@NotBlank
+	@NotBlank(message = "제목을 적어주세요.")
 	private String title;
 
-	@NotBlank
+	@NotBlank(message = "내용을 적어주세요.")
 	private String content;
 
 	private int views;

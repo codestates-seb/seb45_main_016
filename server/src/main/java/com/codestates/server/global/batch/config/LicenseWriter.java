@@ -18,8 +18,7 @@ public class LicenseWriter implements ItemWriter<List<LicenseDate>> {
 
     @Override
     public void write(List<? extends List<LicenseDate>> items) throws Exception {
-        log.info("licenseWriter실행");
-        System.out.println("items:" +items);
+        log.info("license Writer 실행");
         licenseDateRepository.deleteAll();
 
         for(List<LicenseDate> item : items){

@@ -9,10 +9,10 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface LicenseDateMapper {
-    default LicenseResponseDto licensesToLicenseResponseDto(List<LicenseDate> licenseDates, LicenseInfo licenseInfo){
+    default LicenseResponseDto licensesToLicenseResponseDto(List<LicenseDate> licenseDates, LicenseInfo licenseInfo, Boolean bool){
         String name = licenseInfo.getName();
         Long code = licenseInfo.getCode();
 
-        return new LicenseResponseDto(code ,name, licenseDates);
+        return new LicenseResponseDto(code ,name, bool,licenseDates);
     }
 }
