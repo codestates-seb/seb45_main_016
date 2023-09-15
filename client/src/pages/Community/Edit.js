@@ -1,20 +1,27 @@
+/* eslint-disable react/prop-types */
 import { useRef, useState } from 'react';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import { PostContentStyle, TitleWrap } from './PostContentStyle';
+import { PostEdit } from '../../utils/API';
+import { useNavigate } from 'react-router-dom';
 // import { API } from '../../utils/API';
 
-const Edit = () => {
-  const [count, setCount] = useState(0);
+const Edit = ({ ComData }) => {
   const [title, setTitle] = useState();
   const [content, setContent] = useState();
   const focusRef = useRef();
 
-  // const url = "주소넣기";
+  const navigator = useNavigate();
+
+  let id = localStorage.getItem('boardId');
+
+  const ComFiltered = ComData.filter((el) => {
+    return el.boardId === Number(id);
+  });
 
   const titleHandler = (e) => {
     e.target.maxLength = 20;
-    setCount(e.target.value.length);
 
     if (e.keyCode === 13) {
       focusRef.current.focus();
@@ -31,11 +38,9 @@ const Edit = () => {
   localStorage.setItem('editedContent', content);
 
   const patch = () => {
-    // const method = 'fetch';
-    if (count > 0 && content.length > 0) {
-      console.log('fetch합니다');
-      // API(url,method);
-    }
+    console.log('patch합니다');
+    PostEdit();
+    navigator(`/community/detail/boards/${id}`);
   };
 
   return (
@@ -47,14 +52,15 @@ const Edit = () => {
           <input
             onKeyUp={titleHandler}
             name="input"
-            defaultValue="현재 페이지 수정의 제목"
+            defaultValue={ComFiltered[0].title}
           ></input>
         </TitleWrap>
+        {console.ComFiltered}
         <textarea
           ref={focusRef}
           onKeyUp={contentHandler}
           name="textarea"
-          defaultValue="현재 페이지 수정의 글 내용"
+          defaultValue={ComFiltered[0].content}
         ></textarea>
         <Footer />
       </PostContentStyle>

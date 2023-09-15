@@ -73,7 +73,7 @@ export const TitleWrap = styled.div`
     margin-left: 95%;
   }
 
-  :hover {
+  button:hover {
     border-color: ${Primary['Default'].value};
     color: ${Primary['Default'].value};
     cursor: pointer;

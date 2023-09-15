@@ -30,7 +30,6 @@ const SearchFiltered = ({ InfoData, ComData }) => {
   const [isModalOpen, setModalOpen] = useState(false); // 모달 열림 상태 관리
   const [isSelectedLicenseDate, setSelectedLicenseDate] = useState(); // 선택한 자격증 정보 - 날짜
   const [isSelectedLicenseName, setSelectedLicenseName] = useState(); // 선택한 자격증 정보 - 이름
-  const [isparam, setParam] = useState();
 
   //테스트 시 주석해제
   // const [InfoData, setInfoData] = useState();
@@ -46,10 +45,6 @@ const SearchFiltered = ({ InfoData, ComData }) => {
     }
     setSelectedLicenseDate(license.date);
     setSelectedLicenseName(license.name);
-  };
-
-  const openDetail = (community) => {
-    setParam(community.boardId);
   };
 
   useEffect(() => {
@@ -194,12 +189,11 @@ const SearchFiltered = ({ InfoData, ComData }) => {
       <div>
         <Comresult>
           {currentData.map((community, index) => (
-            <Link to={'/community/detail/' + isparam} key={index}>
+            <Link to={'/community/detail/' + community.boardId} key={index}>
               <ComCard
                 title={community.title}
                 username={community.username}
                 email={community.email}
-                onClick={openDetail(community)}
               />
             </Link>
           ))}
