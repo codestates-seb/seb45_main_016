@@ -66,7 +66,6 @@ function App() {
             path="/search"
             element={<SearchFiltered InfoData={InfoData} ComData={ComData} />}
           />
-
           <Route path="/login/oauth/code/kakao" element={<Kakao />} />
         </Routes>
       </div>

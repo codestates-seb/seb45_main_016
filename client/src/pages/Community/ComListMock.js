@@ -15,7 +15,7 @@ const ComListMock = ({ ComData }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [comData, setComData] = useState([]);
 
-  const totalItems = comData.length;
+  const totalItems = ComData.length;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
