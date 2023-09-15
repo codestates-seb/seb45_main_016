@@ -1,6 +1,9 @@
 package com.codestates.server.domain.member.service;
 
-import com.codestates.server.domain.member.entity.AuthUserUtils;
+import com.codestates.server.domain.board.entity.Board;
+import com.codestates.server.domain.board.repository.BoardRepository;
+import com.codestates.server.domain.bookmark.repository.BookmarkRepository;
+import com.codestates.server.global.security.utils.AuthUserUtils;
 import com.codestates.server.domain.member.entity.Member;
 import com.codestates.server.domain.member.repository.MemberRepository;
 import com.codestates.server.domain.member.s3.S3UploadService;
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,18 +27,16 @@ import java.util.Optional;
 @AllArgsConstructor
 public class MemberService {
 
-    // JpaRepository를 상속받은 memberReposiory
     private final MemberRepository memberRepository;
+    private final BoardRepository boardRepository;
+    private final BookmarkRepository bookmarkRepository;
 
-    // 비밀번호 암호화
-    private final PasswordEncoder passwordEncoder;
-    // 사용자 권한 설정
-    private final CustomAuthorityUtils customAuthorityUtils;
+    private final PasswordEncoder passwordEncoder;  // 비밀번호 암호화
+    private final CustomAuthorityUtils customAuthorityUtils;    // 사용자 권한 설정
     private final S3UploadService s3UploadService;
+
     private static final String DEFAULT_IMAGE = "http://bit.ly/46a2mSp";
     private static final String MEMBER_IMAGE_PROCESS_TYPE = "profile-image";
-
-
 
     /**
      * 회원 가입 로직
@@ -133,9 +135,13 @@ public class MemberService {
         return DEFAULT_IMAGE;
     }
 
-    // member 사용자 정보 가지고 오는 메서드
+    // member 마이페이지에서 사용자 정보 가지고 오는 메서드
     public Member getMember(Long memberId) {
         Member member = getVerifiedMember(memberId);
+
+        member.setBoardList(boardRepository.findAllbyMemberId(memberId));
+
+        member.setBookmarks(member.getBookmarks());
 
         return member;
     }
