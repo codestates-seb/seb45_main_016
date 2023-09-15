@@ -19,25 +19,25 @@ import {
   SvgReview,
 } from '../../utils/svg';
 import * as T from './ComDetailStyle';
+import { GetDetail } from '../../utils/API';
 // import { DeletePost } from '../../utils/API';
 
-const ComDetailMock = ({ ComData }) => {
+const ComDetail = () => {
   const [isOpen, setOpen] = useState(false);
   const [isReviewEdit, setReviewEdit] = useState(false);
   const [isContentLiked, setContentLiked] = useState(false);
-  const [data, setData] = useState([...ComData]);
+  const [data, setData] = useState([]);
   const [openReviewIndex, setOpenReviewIndex] = useState();
 
   let boardId = localStorage.getItem('boardId');
-  const [comment, setComment] = useState([...data[boardId].comment]);
+  const [comment, setComment] = useState([]);
 
   const userId = localStorage.getItem('userId');
   const navigator = useNavigate();
 
   useEffect(() => {
-    setData(data);
-    setComment(comment);
-  }, [...comment]);
+    GetDetail().then((res) => setData(res));
+  }, []);
   console.log(data);
 
   const openReview = () => {
@@ -113,7 +113,7 @@ const ComDetailMock = ({ ComData }) => {
       <Header />
       <T.Top>
         <T.EditBtn>
-          {userId === data[boardId].username && (
+          {userId === data[boardId].boardCreator && (
             <div>
               <Link to={'/edit/' + boardId}>
                 <button>
@@ -281,4 +281,4 @@ const ComDetailMock = ({ ComData }) => {
   );
 };
 
-export default ComDetailMock;
+export default ComDetail;

@@ -12,7 +12,7 @@ import {
   Table,
 } from './ModalStyle';
 
-const Modal = ({ setModalOpen, name, date }) => {
+const Modal = ({ setModalOpen, name, date, code }) => {
   const allDate = [...date, {}];
   let newdata = [];
 
@@ -46,12 +46,12 @@ const Modal = ({ setModalOpen, name, date }) => {
           <CloseBtn onClick={closeModal}>
             <SvgModalHeart />
           </CloseBtn>
-          <Bookmark />
+          <Bookmark code={code} />
         </ButtonWrap>
         <Content>
           <Name>{name}</Name>
           <Table>
-            <thead className=".jIWcno">
+            <thead>
               <tr>
                 <td></td>
                 {newdata.map((info, index) => {
