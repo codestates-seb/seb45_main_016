@@ -1,5 +1,11 @@
 import styled from 'styled-components';
-import globatoken from '../../styles/global.json';
+import globaltoken from '../../styles/global.json';
+
+const breakpoints = {
+  small: '756px',
+  medium: '992px',
+  large: '1200px',
+};
 
 export const MypageStyle = styled.div``;
 
@@ -8,9 +14,15 @@ export const Profile = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  border-bottom: 1px solid ${globatoken.Gray[300].value};
+  border-bottom: 1px solid ${globaltoken.Gray[300].value};
   padding-bottom: 100px;
   padding-top: 128px;
+
+  @media (max-width: ${breakpoints.medium}) {
+    padding-top: 388px;
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 export const ProfileLeft = styled.div`
@@ -19,15 +31,36 @@ export const ProfileLeft = styled.div`
   justify-content: center;
   align-items: center;
   flex-grow: 1;
+
   > img {
     flex-grow: 1;
     width: 150px;
     height: 150px;
     border-radius: 100%;
   }
-  p {
+
+  > .edit {
     flex-grow: 1;
-    color: ${globatoken.Gray[600].value};
+    color: ${globaltoken.Gray[600].value};
+    border: none;
+    background-color: ${globaltoken.White.value};
+    margin-top: 24px;
+    cursor: pointer;
+  }
+
+  .delBtn {
+    border: none;
+    border-radius: 100px;
+    background-color: ${globaltoken.White.value};
+    color: ${globaltoken.Gray[400].value};
+    font-size: 12px;
+    padding: 8px 12px;
+    margin-top: 8px;
+
+    &:hover {
+      background-color: ${globaltoken.Gray[100].value};
+      font-weight: bold;
+    }
   }
 `;
 
@@ -48,17 +81,20 @@ export const ProfileRight = styled.div`
     > input {
       width: 100%;
       border: none;
-      border-bottom: 0.5px solid ${globatoken.Primary.Default.value};
+      border-bottom: 0.5px solid ${globaltoken.Primary.Default.value};
       padding: 2px 8px 12px 8px;
     }
 
-    > img {
+    > button {
       position: absolute;
       margin-left: 95%;
+      border: none;
+      background-color: ${globaltoken.White.value};
+      cursor: pointer;
     }
 
     > input::placeholder {
-      color: ${globatoken.Gray[400].value};
+      color: ${globaltoken.Gray[400].value};
     }
   }
 
@@ -70,17 +106,20 @@ export const ProfileRight = styled.div`
     > input {
       width: 100%;
       border: none;
-      border-bottom: 0.5px solid ${globatoken.Primary.Default.value};
+      border-bottom: 0.5px solid ${globaltoken.Primary.Default.value};
       padding: 2px 8px 12px 8px;
     }
 
-    > img {
+    > button {
       position: absolute;
       margin-left: 95%;
+      border: none;
+      background-color: ${globaltoken.White.value};
+      cursor: pointer;
     }
 
     > input::placeholder {
-      color: ${globatoken.Gray[400].value};
+      color: ${globaltoken.Gray[400].value};
     }
   }
 
@@ -92,24 +131,35 @@ export const ProfileRight = styled.div`
     > input {
       width: 100%;
       border: none;
-      border-bottom: 0.5px solid ${globatoken.Primary.Default.value};
+      border-bottom: 0.5px solid ${globaltoken.Primary.Default.value};
       padding: 2px 8px 12px 8px;
     }
 
-    > img {
+    > button {
       position: absolute;
       margin-left: 95%;
+      border: none;
+      background-color: ${globaltoken.White.value};
+      cursor: pointer;
     }
 
     > input::placeholder {
-      color: ${globatoken.Gray[400].value};
+      color: ${globaltoken.Gray[400].value};
     }
   }
 
   input:focus {
     outline: none;
-    border-bottom: 1.5px solid ${globatoken.Primary.Default.value};
-    color: ${globatoken.Gray[900].value};
+    border-bottom: 1.5px solid ${globaltoken.Primary.Default.value};
+    color: ${globaltoken.Gray[900].value};
+  }
+
+  @media (max-width: ${breakpoints.medium}) {
+    padding-top: 64px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 10%;
+    width: 90%;
   }
 `;
 
@@ -134,9 +184,9 @@ export const CalendarContainer = styled.div`
     height: 100%;
     width: 100%;
     max-width: 594px;
-    border: 1px solid ${globatoken.Primary.Default.value};
-    border-radius: ${globatoken.Calendar.value}px;
-    font-family: ${globatoken.SubHeading.fontFamily.value};
+    border: 1px solid ${globaltoken.Primary.Default.value};
+    border-radius: ${globaltoken.Calendar.value}px;
+    font-family: ${globaltoken.SubHeading.fontFamily.value};
     padding: 44px 64px;
   }
 
@@ -167,7 +217,7 @@ export const CalendarContainer = styled.div`
     margin: 0;
     border: 0;
     outline: none;
-    color: ${globatoken.Gray[600].value};
+    color: ${globaltoken.Gray[600].value};
   }
 
   .react-calendar button:enabled:hover {
@@ -183,22 +233,26 @@ export const CalendarContainer = styled.div`
   .react-calendar__navigation button {
     min-width: 44px;
     background: none;
-    color: ${globatoken.Primary.Default.value};
+    color: ${globaltoken.Primary.Default.value};
     font-size: 16px;
 
     > .react-calendar__navigation__label__labelText {
       font-size: 22px;
       font-weight: 500;
+
+      @media (max-width: ${breakpoints.medium}) {
+        font-size: 16px;
+      }
     }
   }
 
   .react-calendar__navigation button:disabled {
-    background-color: ${globatoken.White.value};
+    background-color: ${globaltoken.White.value};
   }
 
   .react-calendar__navigation button:enabled:hover,
   .react-calendar__navigation button:enabled:focus {
-    background-color: ${globatoken.White.value};
+    background-color: ${globaltoken.White.value};
   }
 
   .react-calendar__month-view__weekdays {
@@ -207,7 +261,11 @@ export const CalendarContainer = styled.div`
     text-transform: uppercase;
     font-weight: 400;
     font-size: 16px;
-    color: ${globatoken.Gray[600].value};
+    color: ${globaltoken.Gray[600].value};
+
+    @media (max-width: ${breakpoints.medium}) {
+      font-size: 12px;
+    }
   }
 
   .react-calendar__month-view__weekdays__weekday {
@@ -224,11 +282,11 @@ export const CalendarContainer = styled.div`
 
   .react-calendar__month-view__days__day--weekend {
     font-size: 16px;
-    color: ${globatoken.Gray[600].value};
+    color: ${globaltoken.Gray[600].value};
   }
 
   .react-calendar__month-view__days__day--neighboringMonth {
-    color: ${globatoken.Gray[600].value};
+    color: ${globaltoken.Gray[600].value};
   }
 
   .react-calendar__year-view .react-calendar__tile,
@@ -244,64 +302,69 @@ export const CalendarContainer = styled.div`
     background: none;
     text-align: center;
     line-height: 16px;
-    color: ${globatoken.Gray[600].value};
+    color: ${globaltoken.Gray[600].value};
+
+    @media (max-width: ${breakpoints.medium}) {
+      padding: 12px 3px;
+      font-size: 12px;
+    }
   }
 
   .react-calendar__tile:disabled {
-    background-color: ${globatoken.White.value};
+    background-color: ${globaltoken.White.value};
   }
 
   .react-calendar__tile:enabled:hover,
   .react-calendar__tile:enabled:focus {
-    background-color: ${globatoken.White.value};
+    background-color: ${globaltoken.White.value};
   }
 
   .react-calendar__tile--now {
-    background: ${globatoken.Primary['Lighten-4'].value};
-    color: ${globatoken.Primary['Darken-2'].value};
+    background: ${globaltoken.Primary['Lighten-4'].value};
+    color: ${globaltoken.Primary['Darken-2'].value};
     border-radius: 100px;
   }
 
   .react-calendar__tile--now:enabled:hover {
-    background: ${globatoken.Primary['Lighten-4'].value};
-    color: ${globatoken.Primary['Darken-2']};
+    background: ${globaltoken.Primary['Lighten-4'].value};
+    color: ${globaltoken.Primary['Darken-2']};
     border-radius: 100px;
   }
   .react-calendar__tile--now:enabled:focus {
-    background: ${globatoken.Primary['Lighten-4'].value};
-    color: ${globatoken.White.value};
+    background: ${globaltoken.Primary['Lighten-4'].value};
+    color: ${globaltoken.White.value};
     border-radius: 100px;
   }
 
   .react-calendar__tile--hasActive {
-    background: ${globatoken.Primary.Default.value};
-    color: ${globatoken.White.value};
+    background: ${globaltoken.Primary.Default.value};
+    color: ${globaltoken.White.value};
     border-radius: 100px;
   }
 
   .react-calendar__tile--hasActive:enabled:hover,
   .react-calendar__tile--hasActive:enabled:focus {
-    background: ${globatoken.Primary.Default.value};
-    color: ${globatoken.White.value};
+    background: ${globaltoken.Primary.Default.value};
+    color: ${globaltoken.White.value};
     border-radius: 100px;
   }
 
   .react-calendar__tile--active {
-    background: ${globatoken.Primary.Default.value};
+    background: ${globaltoken.Primary.Default.value};
     color: white;
     border-radius: 100px;
   }
 
   .react-calendar__tile--active:enabled:hover,
   .react-calendar__tile--active:enabled:focus {
-    background: ${globatoken.Primary.Default.value};
-    color: ${globatoken.White.value};
+    background: ${globaltoken.Primary.Default.value};
+    color: ${globaltoken.White.value};
     border-radius: 100px;
   }
 
   .react-calendar--selectRange .react-calendar__tile--hover {
-    background-color: ${globatoken.Primary.Default.value};
-    color: ${globatoken.White.value};
+    background-color: ${globaltoken.Primary.Default.value};
+    color: ${globaltoken.White.value};
     border-radius: 100px;
   }
 `;
@@ -317,14 +380,14 @@ export const Log = styled.div`
 export const LikedInfo = styled.div`
   flex-grow: 2;
   font-size: 16px;
-  color: ${globatoken.Gray[600].value};
+  color: ${globaltoken.Gray[600].value};
   margin-top: 10%;
 `;
 
 export const Written = styled.div`
   flex-grow: 1;
   font-size: 16px;
-  color: ${globatoken.Gray[600].value};
+  color: ${globaltoken.Gray[600].value};
   margin-top: 36px;
   display: flex;
   flex-direction: column;
@@ -341,8 +404,8 @@ export const BookMarkContainer = styled.div`
 
   .bookmark {
     border: none;
-    background-color: ${globatoken.Secondary['Lighten-2'].value};
-    color: ${globatoken.Secondary['Darken-2'].value};
+    background-color: ${globaltoken.Secondary['Lighten-2'].value};
+    color: ${globaltoken.Secondary['Darken-2'].value};
     border-radius: 15px;
     align-items: center;
     padding: 8px 12px;
@@ -350,16 +413,16 @@ export const BookMarkContainer = styled.div`
     font-size: 12px;
 
     &:hover {
-      background-color: ${globatoken.Secondary['Darken-2'].value};
-      color: ${globatoken.White.value};
+      background-color: ${globaltoken.Secondary['Darken-2'].value};
+      color: ${globaltoken.White.value};
       font-weight: bold;
     }
   }
 `;
 
 export const WriteContents = styled.div`
-  border: 1px solid ${globatoken.Secondary.Default.value};
-  border-radius: ${globatoken.MainCommunityPreview.value}px;
+  border: 1px solid ${globaltoken.Secondary.Default.value};
+  border-radius: ${globaltoken.MainCommunityPreview.value}px;
   height: fit-content;
   padding: 36px;
   margin-top: 24px;
@@ -368,10 +431,14 @@ export const WriteContents = styled.div`
   overflow-y: auto;
   max-height: 150px;
 
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
   .write {
     border: none;
-    background-color: ${globatoken.White.value};
-    color: ${globatoken.Gray[600].value};
+    background-color: ${globaltoken.White.value};
+    color: ${globaltoken.Gray[600].value};
     margin: 24px 0 24px 0;
     padding: 0;
     width: 100%;
@@ -382,7 +449,7 @@ export const WriteContents = styled.div`
     word-wrap: break-word;
 
     &:hover {
-      color: ${globatoken.Secondary['Darken-2'].value};
+      color: ${globaltoken.Secondary['Darken-2'].value};
       font-weight: bold;
     }
   }

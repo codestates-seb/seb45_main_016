@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import Modal from '../../components/Modal/Modal';
+import DelModal from '../../components/DelModal/DelModal';
+import { deleteUser } from '../../utils/API';
 
 import {
   CalendarContainer,
@@ -28,6 +30,8 @@ const imageUrl = process.env.PUBLIC_URL + '/edit.png';
 const MyInfo = ({ InfoData, ComData }) => {
   const [isIndex, setIndex] = useState();
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isDelModalOpen, setDelModalOpen] = useState(false);
+  const [warningMessage, setWarningMessage] = useState('');
   const [date, setDate] = useState(new Date());
   const navigator = useNavigate();
   const userId = localStorage.getItem('userId');
@@ -41,6 +45,19 @@ const MyInfo = ({ InfoData, ComData }) => {
       setModalOpen(true);
     }
     setIndex(index);
+  };
+
+  const openDelModal = (message) => {
+    setWarningMessage(message);
+    setDelModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setDelModalOpen(false);
+  };
+
+  const handleDeleteUser = async () => {
+    openDelModal('이 작업은 되돌릴 수 없어요!');
   };
 
   useEffect(() => {
@@ -59,6 +76,20 @@ const MyInfo = ({ InfoData, ComData }) => {
     navigator('/community/Detail/');
   };
 
+  const confirmDeleteUser = async () => {
+    try {
+      await deleteUser();
+      alert('그동안 이용해주셔서 감사합니다.');
+      localStorage.clear();
+      navigator('/');
+    } catch (e) {
+      console.error('회원 탈퇴 실패:', e);
+      alert('탈퇴에 실패하였습니다.');
+    } finally {
+      closeModal();
+    }
+  };
+
   return (
     <MypageStyle>
       <Header />
@@ -73,23 +104,38 @@ const MyInfo = ({ InfoData, ComData }) => {
         )}
         <ProfileLeft>
           <img
-            src="https://dinotaeng.com/file_data/dinotaeng/2022/04/07/3e1a4215a71999cb828799e4da858012.png"
+            /*{useravatar}*/ src="https://dinotaeng.com/file_data/dinotaeng/2022/04/07/3e1a4215a71999cb828799e4da858012.png"
             alt="useravatar"
           />
-          <p>username</p>
+          <button className="edit">edit photo</button>
+          <button className="delBtn" onClick={handleDeleteUser}>
+            회원탈퇴하기
+          </button>
+          <DelModal
+            isOpen={isDelModalOpen}
+            onCancel={closeModal}
+            onConfirm={confirmDeleteUser}
+            warningMessage={warningMessage}
+          />
         </ProfileLeft>
         <ProfileRight>
           <div className="input-username">
             <input type="text" placeholder="username"></input>
-            <img src={imageUrl} alt="editlogo" />
+            <button>
+              <img src={imageUrl} alt="editlogo" />
+            </button>
           </div>
           <div className="input-email">
             <input type="text" placeholder="E-mail"></input>
-            <img src={imageUrl} alt="editlogo" />
+            <button>
+              <img src={imageUrl} alt="editlogo" />
+            </button>
           </div>
           <div className="input-phonenumber">
             <input type="text" placeholder="Phone number"></input>
-            <img src={imageUrl} alt="editlogo" />
+            <button>
+              <img src={imageUrl} alt="editlogo" />
+            </button>
           </div>
         </ProfileRight>
       </Profile>

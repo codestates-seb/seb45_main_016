@@ -4,6 +4,12 @@ import globalToken from '../../styles/global.json';
 
 const { Primary } = globalToken;
 
+const breakpoints = {
+  small: '756px',
+  medium: '992px',
+  large: '1200px',
+};
+
 export const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -16,14 +22,23 @@ export const AlertContainer = styled.div`
   line-height: normal;
   color: ${Primary['Default'].value};
   margin: 9% auto;
+
+  @media (max-width: ${breakpoints.medium}) {
+    padding-top: 260px;
+  }
 `;
 
 export const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(391px, 1fr));
+  grid-template-columns: repeat(3, minmax(391px, 1fr));
   width: 90%;
   margin: 0.5% 0 21% 0;
-  gap: 6.5% 1.5%;
+  gap: 24px;
+
+  @media (max-width: ${breakpoints.medium}) {
+    grid-template-columns: repeat(auto-fill, minmax(391px, 1fr));
+    gap: 35px;
+  }
 `;
 
 export const PaginationContainer = styled.div`

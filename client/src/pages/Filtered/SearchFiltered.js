@@ -229,12 +229,16 @@ const SearchFiltered = () => {
 
   let noResultsMessage1 = null;
   if (filteredLicenseData.length === 0) {
-    noResultsMessage1 = <div className="notting">해당 내용이 없습니다.</div>;
+    noResultsMessage1 = (
+      <div className="notting">앗! 등록된 정보가 없어요😅</div>
+    );
   }
 
   let noResultsMessage2 = null;
   if (filteredCommunityData.length === 0) {
-    noResultsMessage2 = <div className="notting">해당 내용이 없습니다.</div>;
+    noResultsMessage2 = (
+      <div className="notting">앗! 등록된 정보가 없어요😅</div>
+    );
   }
 
   return (

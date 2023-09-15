@@ -137,3 +137,15 @@ export const DeletePost = async () => {
     });
   return res;
 };
+
+export const deleteUser = async () => {
+  try {
+    const res = await axios({
+      method: 'delete',
+      url: `https://578a-222-96-41-224.ngrok-free.app/members/auth/delete`,
+    });
+    return res;
+  } catch (e) {
+    console.log(e);
+  }
+};

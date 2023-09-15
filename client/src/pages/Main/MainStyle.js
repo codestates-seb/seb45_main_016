@@ -37,13 +37,33 @@ export const TopContainer = styled.div`
 `;
 
 export const TopText = styled.span`
+  display: flex;
+  flex-direction: column;
   font-size: 32px;
   font-weight: ${globalTokens.Heading2.fontWeight.value};
   color: ${globalTokens.Primary.Default.value};
   margin-bottom: 52px;
+  width: 100%;
+  align-items: center;
+  gap: 12px;
 
   &.ComText {
     margin-top: 128px;
+  }
+
+  .more1,
+  .more2 {
+    margin: 0;
+    border: none;
+    background-color: ${globalTokens.White.value};
+    color: ${globalTokens.Gray[500].value};
+    font-size: 12px;
+    cursor: pointer;
+
+    &:hover {
+      font-weight: bold;
+      color: ${globalTokens.Gray[800].value};
+    }
   }
 `;
 
