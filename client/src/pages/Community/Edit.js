@@ -30,7 +30,7 @@ const Edit = () => {
   localStorage.setItem('editedTitle', title);
   localStorage.setItem('editedContent', content);
 
-  const fetch = () => {
+  const patch = () => {
     // const method = 'fetch';
     if (count > 0 && content.length > 0) {
       console.log('fetch합니다');
@@ -43,7 +43,7 @@ const Edit = () => {
       <Header />
       <PostContentStyle>
         <TitleWrap>
-          <button onClick={fetch}>저장하기</button>
+          <button onClick={patch}>저장하기</button>
           <span>{count}/20</span>
           <input
             onKeyUp={titleHandler}

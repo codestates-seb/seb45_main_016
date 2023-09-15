@@ -1,6 +1,8 @@
+/* eslint-disable react/prop-types */
 // SearchFiltered.js
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import {
   CommunityCategory,
   FilteredStyle,
@@ -17,30 +19,17 @@ import ComCard from '../../components/Comcard';
 import InfoCard from '../../components/LicenseCard/LicenseCard';
 import Modal from '../../components/Modal/Modal';
 import { LeftArrow, RightArrow } from '../../utils/svg';
-import { LicenseDummy } from './dummy';
+
 //테스트 시 주석해제
 // import { GetSearchedlicense } from '../../utils/API';
 
-//테스트 시 코드 삭제
-const InfoData = [...LicenseDummy];
-
-const comData = [
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 1', description: '자격증 1에 대한 설명' },
-  { title: '자격증 2', description: '자격증 1에 대한 설명' },
-  { title: '자격증 2', description: '자격증 1에 대한 설명' },
-  { title: '자격증 2', description: '자격증 1에 대한 설명' },
-];
-
-const SearchFiltered = () => {
+const SearchFiltered = ({ InfoData, ComData }) => {
   const query = localStorage.getItem('savedKeywords');
   const PageSize = 3;
   const [isModalOpen, setModalOpen] = useState(false); // 모달 열림 상태 관리
   const [isSelectedLicenseDate, setSelectedLicenseDate] = useState(); // 선택한 자격증 정보 - 날짜
   const [isSelectedLicenseName, setSelectedLicenseName] = useState(); // 선택한 자격증 정보 - 이름
+  const [isparam, setParam] = useState();
 
   //테스트 시 주석해제
   // const [InfoData, setInfoData] = useState();
@@ -58,6 +47,10 @@ const SearchFiltered = () => {
     setSelectedLicenseName(license.name);
   };
 
+  const openDetail = (community) => {
+    setParam(community.boardId);
+  };
+
   useEffect(() => {
     if (isModalOpen === true) {
       document.body.style = `overflow:hidden`;
@@ -70,7 +63,7 @@ const SearchFiltered = () => {
     data.name.includes(query),
   );
 
-  const filteredCommunityData = comData.filter((data) =>
+  const filteredCommunityData = ComData.filter((data) =>
     data.title.includes(query),
   );
 
@@ -200,7 +193,14 @@ const SearchFiltered = () => {
       <div>
         <Comresult>
           {currentData.map((community, index) => (
-            <ComCard key={index} title={community.title} />
+            <Link to={'/community/detail/' + isparam} key={index}>
+              <ComCard
+                title={community.title}
+                username={community.username}
+                email={community.email}
+                onClick={openDetail(community)}
+              />
+            </Link>
           ))}
         </Comresult>
         <Pagination>

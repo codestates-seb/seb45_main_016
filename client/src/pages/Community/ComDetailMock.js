@@ -2,6 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import writerprofile from '../../pages/Community/writerprofile.png';
@@ -17,7 +18,6 @@ import {
   SvgReview,
 } from '../../utils/svg';
 import * as T from './ComDetailStyle';
-import { useNavigate } from 'react-router-dom';
 
 const ComDetailMock = ({ ComData }) => {
   const [isOpen, setOpen] = useState(false);
@@ -26,12 +26,10 @@ const ComDetailMock = ({ ComData }) => {
   const [data, setData] = useState([...ComData]);
   const [openReviewIndex, setOpenReviewIndex] = useState();
 
-  let mockid = localStorage.getItem('mockid');
-  const [comment, setComment] = useState([...data[mockid].comment]);
+  let boardId = localStorage.getItem('boardId');
+  const [comment, setComment] = useState([...data[boardId].comment]);
 
   const userId = localStorage.getItem('userId');
-
-  const navigator = useNavigate();
 
   useEffect(() => {
     setData(data);
@@ -101,15 +99,17 @@ const ComDetailMock = ({ ComData }) => {
   };
 
   return (
-    <T.DetailEntire key={mockid}>
+    <T.DetailEntire key={boardId}>
       <Header />
       <T.Top>
         <T.EditBtn>
-          {userId === data[mockid].username && (
+          {userId === data[boardId].username && (
             <div>
-              <button onClick={() => navigator(`/edit/${mockid}`)}>
-                <SvgEdit />
-              </button>
+              <Link to={'/edit/' + boardId}>
+                <button>
+                  <SvgEdit />
+                </button>
+              </Link>
               <button name="content">
                 <SvgDelete />
               </button>
@@ -119,7 +119,7 @@ const ComDetailMock = ({ ComData }) => {
 
         <T.Title>
           <p>[후기]</p>
-          <p>{data[mockid].title}</p>
+          <p>{data[boardId].title}</p>
         </T.Title>
         <T.ImgWrap>
           <img src={writerprofile} alt="이미지" />
@@ -134,7 +134,7 @@ const ComDetailMock = ({ ComData }) => {
       </T.Top>
       <T.Body>
         <T.Content>
-          <p>{data[mockid].content}</p>
+          <p>{data[boardId].content}</p>
         </T.Content>
         <T.ButtonWrap>
           <T.ReviewOpenBtn onClick={openReview} data-isopen={isOpen}>
@@ -238,9 +238,7 @@ const ComDetailMock = ({ ComData }) => {
                               {userId === el.reply.username && (
                                 <T.ReviewEditBtn>
                                   <button
-                                    onClick={() => {
-                                      deleting();
-                                    }}
+                                    onClick={deleting}
                                     className="reply"
                                     id={index}
                                   >
