@@ -100,7 +100,7 @@ export const GetSearchedlicense = async (data) => {
 export const PostContents = async () => {
   const res = await axios
     .post('https://65a9-182-211-13-193.ngrok-free.app/boards/create', {
-      memberId: '1',
+      memberId: localStorage.getItem('userId'),
       title: localStorage.getItem('title'),
       content: localStorage.getItem('content'),
       headers: {
@@ -117,13 +117,36 @@ export const PostContents = async () => {
   return res;
 };
 
+export const PostEdit = async () => {
+  const res = await axios
+    .post(
+      `https://65a9-182-211-13-193.ngrok-free.app/boards/edit/${localStorage.getItem(
+        'boardId',
+      )}`,
+      {
+        memberId: localStorage.getItem('userId'),
+        title: localStorage.getItem('editedTitle'),
+        content: localStorage.getItem('editedContent'),
+        headers: {
+          'ngrok-skip-browser-warning': '2',
+        },
+      },
+    )
+
+    .then((res) => {
+      window.location.href = `/community/detail${res.headers.location}`;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  return res;
+};
+
 export const DeletePost = async () => {
   const { id } = useParams();
   const res = await axios
     .delete(`https://65a9-182-211-13-193.ngrok-free.app/boards/delete/${id}`, {
-      memberId: '1',
-      title: localStorage.getItem('title'),
-      content: localStorage.getItem('content'),
+      userrId: '1',
       headers: {
         'ngrok-skip-browser-warning': '2',
       },

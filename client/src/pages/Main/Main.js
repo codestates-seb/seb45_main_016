@@ -33,31 +33,6 @@ const Main = ({ InfoData, ComData }) => {
     }
   });
 
-  // const [certificationData, setCertificationData] = useState(LicenseData);
-  // const [communityData, setCommunityData] = useState(CommunityData);
-
-  // useEffect(() => {
-  //   // 자격증 데이터 가져오기
-  //   axios
-  //     .get('YOUR_CERTIFICATION_API_URL')
-  //     .then((response) => {
-  //       setCertificationData(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error fetching certification data:', error);
-  //     });
-
-  //   // 커뮤니티 데이터 가져오기
-  //   axios
-  //     .get('YOUR_COMMUNITY_API_URL')
-  //     .then((response) => {
-  //       setCommunityData(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error fetching community data:', error);
-  //     });
-  // }, []);
-
   const sortedInfo = [...InfoData]
     .sort((a, b) => b.count - a.count)
     .slice(0, 5);

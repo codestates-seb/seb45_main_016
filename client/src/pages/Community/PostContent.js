@@ -49,7 +49,9 @@ const PostContent = () => {
     //   .catch(function (error) {
     //     console.log(error);
     //   });
-    PostContents();
+    PostContents().then((res) => {
+      window.location.href = `/community/detail${res.headers.location}`;
+    });
   };
 
   return (
@@ -57,8 +59,9 @@ const PostContent = () => {
       <Header />
       <PostContentStyle>
         <TitleWrap>
-          <button onClick={post}>저장하기</button>
-          <span>{count}/20</span>
+          <button onClick={post}>
+            <p>저장하기</p>
+          </button>
           <input placeholder="제목을 입력하세요" onKeyUp={titleHandler}></input>
         </TitleWrap>
         <textarea

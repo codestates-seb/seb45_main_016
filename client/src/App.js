@@ -62,7 +62,11 @@ function App() {
             path="/mypage"
             element={<MyInfo InfoData={InfoData} ComData={ComData} />}
           />
-          <Route path="/search" element={<SearchFiltered />} />
+          <Route
+            path="/search"
+            element={<SearchFiltered InfoData={InfoData} ComData={ComData} />}
+          />
+
           <Route path="/login/oauth/code/kakao" element={<Kakao />} />
         </Routes>
       </div>
