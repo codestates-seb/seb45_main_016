@@ -10,6 +10,7 @@ const Kakao = () => {
         try {
           const response = await axios.get(
             `https://3f47-222-96-41-224.ngrok-free.app/login/oauth/code/kakao?code=${code}`,
+
             {
               headers: {
                 'Content-Type': 'application/json;charset=utf-8', // JSON 형태로 데이터를 보내겠다는 뜻

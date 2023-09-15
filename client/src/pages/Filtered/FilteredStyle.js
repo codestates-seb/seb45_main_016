@@ -33,6 +33,7 @@ export const Filteredform = styled.div`
     text-align: center;
     font-size: 36px;
     font-weight: 800;
+
     margin-bottom: 10%;
   }
 `;
@@ -89,6 +90,7 @@ export const CommunityCategory = styled.div`
     color: ${globalToken.Primary.Default.value};
     font-size: 32px;
     font-weight: 700;
+
     margin-bottom: 5%;
   }
   .div {

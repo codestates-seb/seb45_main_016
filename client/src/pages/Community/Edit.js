@@ -44,7 +44,6 @@ const Edit = () => {
       <PostContentStyle>
         <TitleWrap>
           <button onClick={patch}>저장하기</button>
-          <span>{count}/20</span>
           <input
             onKeyUp={titleHandler}
             name="input"
