@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h1 th:text="'안녕하세요, ' + ${name} + '님!'"></h1>
+<p th:text="${exam} + ' 시험 접수일 안내입니다.🙌'"></p>
+<br/>
+<br/>
+<p><span th:text="'필기 시험 접수일은 '"></span><strong th:text="${docRegStartDt} + ' ~ ' + ${docRegEndDt}" ></strong> <span th:text="'입니다.'"></span></p>
+<p><span th:text="'필기 시험 날짜는 '"></span><strong th:text="${docExamStartDt} + ' ~ ' + ${docExamEndDt}"></strong> <span th:text="'입니다.'"></span></p>
+<p th:text="'화이팅 하세요 👊✨'"></p>
+</body>
+</html>

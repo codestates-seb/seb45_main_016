@@ -45,7 +45,8 @@ dependencies {
 	implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
-	implementation 'org.quartz-scheduler:quartz:2.3.2'
+//	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
 }
 
 
