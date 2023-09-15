@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import globaltoken from '../../styles/global.json';
 
+const { CommunityCard, CommunityBorderDefault } = globaltoken;
+
 export const ComContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -29,10 +31,10 @@ export const ComCardContainer = styled.div`
   align-items: center;
   flex-shrink: 0;
   padding: 139px 81.5px;
-  border-radius: ${globaltoken.CommunityCard.value}px;
-  border: ${globaltoken.CommunityBorderDefault.width.value}px
-    ${globaltoken.CommunityBorderDefault.style.value}
-    ${globaltoken.CommunityBorderDefault.color.value};
+  border-radius: ${CommunityCard.value}px;
+  border: ${CommunityBorderDefault['width'].value}px${CommunityBorderDefault[
+      'style'
+    ].value}${CommunityBorderDefault['color'].value};
 
   cursor: pointer;
 
