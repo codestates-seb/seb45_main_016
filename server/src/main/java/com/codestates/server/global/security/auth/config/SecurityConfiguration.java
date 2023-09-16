@@ -62,6 +62,7 @@ public class SecurityConfiguration {
                 /** ---------------------------------- member 접근 권한 설정 ---------------------------------- **/
                         .antMatchers(HttpMethod.POST, "/members/signup").permitAll()
                         .antMatchers(HttpMethod.PATCH, "/members/mypage/edit/**").hasRole("USER")
+                        .antMatchers(HttpMethod.PATCH, "/members/mypage/**").hasRole("USER")
                         .antMatchers(HttpMethod.GET, "/members").hasRole("ADMIN")
                         .antMatchers(HttpMethod.GET, "/members/**").hasAnyRole("ADMIN", "USER")
                         .antMatchers(HttpMethod.DELETE, "/members/delete/**").hasAnyRole("USER")
