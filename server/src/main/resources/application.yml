@@ -47,7 +47,7 @@ spring:
     properties:
       mail:
         smtp:
-          auht: true
+          auth: true
           starttls:
             enable: true
 #    defer-datasource-initialization: true #삭제 필요
