@@ -3,6 +3,8 @@ package com.codestates.server.domain.member.service;
 import com.codestates.server.domain.board.entity.Board;
 import com.codestates.server.domain.board.repository.BoardRepository;
 import com.codestates.server.domain.bookmark.repository.BookmarkRepository;
+import com.codestates.server.global.mail.event.MemberRegistrationEvent;
+import com.codestates.server.global.mail.sevice.EmailService;
 import com.codestates.server.global.security.utils.AuthUserUtils;
 import com.codestates.server.domain.member.entity.Member;
 import com.codestates.server.domain.member.repository.MemberRepository;
@@ -11,6 +13,7 @@ import com.codestates.server.global.exception.BusinessLogicException;
 import com.codestates.server.global.exception.ExceptionCode;
 import com.codestates.server.global.security.auth.utils.CustomAuthorityUtils;
 import lombok.AllArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -18,10 +21,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -30,10 +32,12 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final BoardRepository boardRepository;
     private final BookmarkRepository bookmarkRepository;
+    private final EmailService emailService;
 
     private final PasswordEncoder passwordEncoder;  // 비밀번호 암호화
     private final CustomAuthorityUtils customAuthorityUtils;    // 사용자 권한 설정
     private final S3UploadService s3UploadService;
+    private final ApplicationEventPublisher eventPublisher;
 
     private static final String DEFAULT_IMAGE = "http://bit.ly/46a2mSp";
     private static final String MEMBER_IMAGE_PROCESS_TYPE = "profile-image";
@@ -45,7 +49,7 @@ public class MemberService {
      * @param member
      * @return
      */
-    public Member createMember(Member member){
+    public Member createMember(Member member) {
 
         // 가입된 이메일인지 확인
         verifiyExistedMember(member.getEmail());
@@ -66,6 +70,9 @@ public class MemberService {
 
         // 예외 발생 안 시키면 저장
         Member savedMember = memberRepository.save(member);
+
+        MemberRegistrationEvent event = new MemberRegistrationEvent(member);
+        eventPublisher.publishEvent(event);
 
         return savedMember;
     }
@@ -203,5 +210,6 @@ public class MemberService {
         return memberRepository.findByEmail(AuthUserUtils.getAuthUser().getName())
                 .orElseThrow(()-> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
     }
+
 
 }
