@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<body>
+<h1 th:text="'안녕하세요, ' + ${name} + '님!🙌✨'"></h1>
+<p th:text="'북마크하신 자격증 실기시험 정보 알림 메일입니다.'"></p>
+<p th:text="${description} ${licenseName} + '실기시험일은' + ${pracExamStartDate} + ' ~ ' + ${pracExamEndDate} + '입니다.'"></p>
+<p th:text="'남은 기간도 스터디 그라운드와 함께 화이팅 하세요! 💗' + ${name} + '님의 합격을 응원합니다🪄'"></p>
+</body>
+</html>
