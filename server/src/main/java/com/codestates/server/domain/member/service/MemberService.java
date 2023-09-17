@@ -2,6 +2,7 @@ package com.codestates.server.domain.member.service;
 
 import com.codestates.server.domain.board.entity.Board;
 import com.codestates.server.domain.board.repository.BoardRepository;
+import com.codestates.server.domain.bookmark.entity.Bookmark;
 import com.codestates.server.domain.bookmark.repository.BookmarkRepository;
 import com.codestates.server.global.mail.event.MemberRegistrationEvent;
 import com.codestates.server.global.mail.sevice.EmailService;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
@@ -27,6 +29,7 @@ import java.util.*;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -100,6 +103,11 @@ public class MemberService {
     public String uploadImage(Long memberId, MultipartFile file, int x, int y, int width, int height) throws IOException {
         // 회원 검증 하기
         Member member = getVerifiedMember(memberId);
+
+        // 현재 memberId랑 비교해서 동일한 사람인지 검증
+        if(!getLoginMember().getMemberId().equals(memberId))
+            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_USER);
+
         // 현재 프로필 이미지 가지고 오기
         String presentProfileImage = member.getProfileImage();
         // 만약에 현재 파일이 있으면 현재 파일 삭제
@@ -125,6 +133,9 @@ public class MemberService {
     public String deleteProfileImage(Long memberId) {
         // 회원 검증 하기
         Member member = getVerifiedMember(memberId);
+        // 현재 memberId랑 비교해서 동일한 사람인지 검증
+        if(!getLoginMember().getMemberId().equals(memberId))
+            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_USER);
 
         // 현재 프로필 이미지 URL을 가져옵니다.
         String currentProfileImage = member.getProfileImage();
@@ -145,10 +156,15 @@ public class MemberService {
     // member 마이페이지에서 사용자 정보 가지고 오는 메서드
     public Member getMember(Long memberId) {
         Member member = getVerifiedMember(memberId);
+        // 현재 memberId랑 비교해서 동일한 사람인지 검증
+        if(!getLoginMember().getMemberId().equals(memberId))
+            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_USER);
 
         member.setBoardList(boardRepository.findAllbyMemberId(memberId));
 
-        member.setBookmarks(member.getBookmarks());
+        member.getBookmarks().forEach(bookmark -> {
+            bookmark.getLicenseInfo().getLicenses().size();  // Lazy Loading을 강제로 로딩
+        });
 
         return member;
     }
