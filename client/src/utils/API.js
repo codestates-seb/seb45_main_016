@@ -171,7 +171,7 @@ export const DeletePost = async () => {
   const { id } = useParams();
   const res = await axios
     .delete(`https://65a9-182-211-13-193.ngrok-free.app/boards/delete/${id}`, {
-      userrId: '1',
+      memberId: localStorage.getItem('memberId'),
       headers: {
         'ngrok-skip-browser-warning': '2',
       },

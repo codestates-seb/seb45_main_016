@@ -41,7 +41,11 @@ const Main = () => {
   const fetchLicenseData = async () => {
     try {
       const response = await fetch(
+<<<<<<< Updated upstream
         'https://ef6b-116-125-236-74.ngrok-free.app/search/top5',
+=======
+        'https://17b3-116-125-236-74.ngrok-free.app/licenses/top5',
+>>>>>>> Stashed changes
         {
           headers: {
             'ngrok-skip-browser-warning': '2',
@@ -49,10 +53,15 @@ const Main = () => {
         },
       );
       const data = await response.json();
+<<<<<<< Updated upstream
 
       setLicenseData(data.licenses.data); // 데이터에서 licenses 배열을 사용
       setComData(data.boards);
       console.log('res:', data);
+=======
+      setLicenseData(data.licenses.data); // 데이터에서 licenses 배열을 사용
+      setComData(data.boards);
+>>>>>>> Stashed changes
       console.log('API Response:', data.licenses.data);
       console.log('API Response2:', data.boards);
     } catch (error) {

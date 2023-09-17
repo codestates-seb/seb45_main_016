@@ -21,11 +21,11 @@ const ComList = () => {
   const totalItems = comData.length;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
 
-  const userId = localStorage.getItem('userId');
+  const memberId = localStorage.getItem('memberId');
   const navigator = useNavigate();
 
   useEffect(() => {
-    GetAllCommunityPostsList().then((res) => setComData(res.data));
+    GetAllCommunityPostsList().then((res) => setComData({ ...res.data }));
   }, []);
   console.log(comData);
 
@@ -74,7 +74,7 @@ const ComList = () => {
   }
 
   const route = () => {
-    if (userId) {
+    if (memberId) {
       navigator('/write');
     } else {
       navigator('/login');
