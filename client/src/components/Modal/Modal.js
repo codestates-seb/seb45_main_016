@@ -118,7 +118,6 @@ const Modal = ({ setModalOpen, name, date, code }) => {
               </tr>
             </tbody>
           </Table>
-          <p>{newdata[0].description}</p>
         </Content>
       </ModalStyle>
     </>

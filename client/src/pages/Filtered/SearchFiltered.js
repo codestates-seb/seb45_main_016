@@ -1,9 +1,6 @@
-/* eslint-disable react/prop-types */
-// SearchFiltered.js
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-
 import {
   CommunityCategory,
   FilteredStyle,
@@ -20,31 +17,23 @@ import ComCard from '../../components/Comcard';
 import InfoCard from '../../components/LicenseCard/LicenseCard';
 import Modal from '../../components/Modal/Modal';
 import { LeftArrow, RightArrow } from '../../utils/svg';
+import axios from 'axios';
 
-//테스트 시 주석해제
-// import { GetSearchedlicense } from '../../utils/API';
-
-const SearchFiltered = ({ InfoData, ComData }) => {
+const SearchFiltered = () => {
   const query = localStorage.getItem('savedKeywords');
+  const meberId = localStorage.getItem('memberId');
   const PageSize = 3;
-  const [isModalOpen, setModalOpen] = useState(false); // 모달 열림 상태 관리
-  const [isSelectedLicenseDate, setSelectedLicenseDate] = useState(); // 선택한 자격증 정보 - 날짜
-  const [isSelectedLicenseName, setSelectedLicenseName] = useState(); // 선택한 자격증 정보 - 이름
-
-  //테스트 시 주석해제
-  // const [InfoData, setInfoData] = useState();
-
-  //테스트 시 주석해제
-  // useEffect(() => {
-  //   GetSearchedlicense().then((res) => setInfoData([...res.data]));
-  // });
-
-  const modal = (license) => {
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [isIndex, setIndex] = useState();
+  const [filteredLicenseData, setFilteredLicenseData] = useState([]); // 라이선스 데이터 상태
+  const [filteredCommunityData, setFilteredCommunityData] = useState([]); // 커뮤니티 데이터 상태
+  const [currentPageLicense, setCurrentPageLicense] = useState(1);
+  // const [currentPageCommunity, setCurrentPageCommunity] = useState(1);
+  const modal = (index) => {
     if (isModalOpen === false) {
       setModalOpen(true);
     }
-    setSelectedLicenseDate(license.date);
-    setSelectedLicenseName(license.name);
+    setIndex(index);
   };
 
   useEffect(() => {
@@ -55,24 +44,55 @@ const SearchFiltered = ({ InfoData, ComData }) => {
     }
   });
 
-  const filteredLicenseData = InfoData.filter((data) =>
-    data.name.includes(query),
-  );
+  useEffect(() => {
+    // 라이선스 데이터를 가져오는 함수 (예: API 호출)
+    const fetchLicenseData = async () => {
+      try {
+        // memberId 값을 서버에 보내기 위해 쿼리 매개변수로 추가합니다.
+        const params = {
+          keyword: query,
+          memberId: meberId, // 여기에 실제 memberId 값을 넣어주세요.
+        };
 
-  const filteredCommunityData = ComData.filter((data) =>
-    data.title.includes(query),
-  );
+        // 데이터를 가져오는 비동기 작업 수행
+        const res = await axios.get(
+          'https://ef6b-116-125-236-74.ngrok-free.app/search',
+          {
+            headers: {
+              'ngrok-skip-browser-warning': '2',
+            },
+            params: params, // memberId를 쿼리 매개변수로 추가합니다.
+          },
+        );
+
+        if (!res.data) {
+          throw new Error('데이터를 받아오지 못했습니다.');
+        }
+
+        // 라이선스 데이터와 커뮤니티 데이터를 설정합니다.
+        console.log('북마크', res.data.licenses.data);
+        setFilteredLicenseData(res.data.licenses.data);
+        setFilteredCommunityData(res.data.boards);
+      } catch (error) {
+        console.error('라이선스 데이터를 가져오는 중 오류 발생:', error);
+      }
+    };
+
+    // 라이선스 데이터 가져오기 함수 호출
+    fetchLicenseData();
+  }, [query]);
 
   const LicensereComponent = ({ data }) => {
     const [currentPage, setCurrentPage] = useState(1);
+    const PageSize = 3; // Number of items to display per page
     const totalPages = Math.ceil(data.length / PageSize);
     const startIndex = (currentPage - 1) * PageSize;
     const endIndex = startIndex + PageSize;
     const currentData = data.slice(startIndex, endIndex);
-
     const maxDisplayedPages = 5; // 최대 표시 페이지 수
     const halfDisplayedPages = Math.floor(maxDisplayedPages / 2);
     let startPage, endPage;
+    // const cpage = localStorage.getItem('page');
 
     if (totalPages <= maxDisplayedPages) {
       // 페이지가 5개 이하인 경우 모든 페이지를 표시
@@ -91,9 +111,12 @@ const SearchFiltered = ({ InfoData, ComData }) => {
         endPage = currentPage + halfDisplayedPages;
       }
     }
+
     const handlePageChange = (page) => {
       setCurrentPage(page);
+      localStorage.setItem('page', page);
     };
+
     const handlePrevPage = () => {
       if (currentPage > 1) {
         setCurrentPage(currentPage - 1);
@@ -109,12 +132,15 @@ const SearchFiltered = ({ InfoData, ComData }) => {
     return (
       <div>
         <Licensere>
-          {currentData.map((license, index) => (
+          {currentData.map((info, index) => (
             <InfoCard
               key={index}
-              title={license.name}
-              onClick={() => modal(license)} // 클릭 시 모달 열기
-              date={license.date}
+              title={info.name}
+              date={info.date}
+              isIndex={(currentPage - 1) * PageSize + index === isIndex}
+              onClick={() => {
+                modal((currentPage - 1) * PageSize + index); // Pass the updated index to modal
+              }}
             />
           ))}
         </Licensere>
@@ -152,7 +178,6 @@ const SearchFiltered = ({ InfoData, ComData }) => {
     const maxDisplayedPages = 5; // 최대 표시 페이지 수
     const halfDisplayedPages = Math.floor(maxDisplayedPages / 2);
     let startPage, endPage;
-
     if (totalPages <= maxDisplayedPages) {
       // 페이지가 5개 이하인 경우 모든 페이지를 표시
       startPage = 1;
@@ -188,19 +213,18 @@ const SearchFiltered = ({ InfoData, ComData }) => {
     return (
       <div>
         <Comresult>
-          {currentData &&
-            currentData.slice(startIndex, endIndex).map((info) => (
-              <Link to={'/community/detail/' + info.boardId} key={info.boardId}>
-                <ComCard
-                  title={info.title}
-                  username={info.username}
-                  email={info.email}
-                  onClick={() => {
-                    localStorage.setItem('boardId', info.boardId);
-                  }}
-                />
-              </Link>
-            ))}
+          {currentData.map((info) => (
+            <Link to={'/community/detail/' + info.boardId} key={info.boardId}>
+              <ComCard
+                title={info.title}
+                username={info.name}
+                email={info.email}
+                onClick={() => {
+                  localStorage.setItem('boardId', info.boardId);
+                }}
+              />
+            </Link>
+          ))}
         </Comresult>
         <Pagination>
           <LeftArrow onClick={handlePrevPage} />
@@ -249,7 +273,11 @@ const SearchFiltered = ({ InfoData, ComData }) => {
           <div className="subtitle1">자격증 정보</div>
           {filteredLicenseData.length > 0 ? (
             <>
-              <LicensereComponent data={filteredLicenseData} />
+              <LicensereComponent
+                data={filteredLicenseData}
+                currentPage={currentPageLicense}
+                setCurrentPage={setCurrentPageLicense}
+              />
               {noResultsMessage1}
             </>
           ) : (
@@ -271,9 +299,15 @@ const SearchFiltered = ({ InfoData, ComData }) => {
       <Footer />
       {isModalOpen === true && (
         <Modal
-          date={isSelectedLicenseDate}
+          date={
+            filteredLicenseData[(currentPageLicense - 1) * PageSize + isIndex]
+              ?.date
+          }
           setModalOpen={setModalOpen}
-          name={isSelectedLicenseName}
+          name={
+            filteredLicenseData[(currentPageLicense - 1) * PageSize + isIndex]
+              ?.name
+          }
         />
       )}
     </FilteredStyle>
