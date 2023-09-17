@@ -8,6 +8,10 @@ const InfoCard = ({ title, onClick, date }) => {
   let count = 1;
 
   const counting = (count) => {
+    if (date.length === 0) {
+      return 0; // date.length가 0일 때 0을 반환
+    }
+
     for (let i = 1; i < date.length - 1; i++) {
       if (allDate[i].implSeq !== allDate[i - 1].implSeq) {
         count = count + 1;

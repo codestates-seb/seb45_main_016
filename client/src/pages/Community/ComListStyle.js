@@ -133,5 +133,5 @@ export const PaginationButton = styled.button`
   :disabled {
     cursor: not-allowed;
   }
-  margin: 1rem 2rem;
+  margin: 2rem;
 `;

@@ -12,12 +12,10 @@ import SearchBar from '../Header/Searchbar'; // SearchBar 컴포넌트를 import
 
 // eslint-disable-next-line no-undef
 const imageUrl = process.env.PUBLIC_URL + '/Logo.png';
-// eslint-disable-next-line no-undef
-const imageUrl1 = process.env.PUBLIC_URL + '/ava.png';
 
 const Header = () => {
-  const userId = localStorage.getItem('userId');
-
+  const memberId = localStorage.getItem('memberId');
+  const name = localStorage.getItem('name');
   const onClickHandler = () => {
     localStorage.clear();
     window.location.reload();
@@ -27,6 +25,7 @@ const Header = () => {
     // 여기서 실제 로그인 로직을 처리한 뒤, userId 값을 로컬 스토리지에 저장
     // const loggedInUserId = 'exampleUserId'; // 로그인 로직을 따라서 가져와야 함
     localStorage.setItem('memberId', 1);
+    localStorage.setItem('name', '사람');
   };
 
   return (
@@ -45,7 +44,7 @@ const Header = () => {
           <Link to="/community/list">
             <button>COMMUNITY</button>
           </Link>
-          {userId ? (
+          {memberId ? (
             <Link to="/mypage">
               <button>MY PAGE</button>
             </Link>
@@ -59,15 +58,16 @@ const Header = () => {
       <HeaderRight>
         <SearchBar />
         <Loginform>
-          {userId ? (
+          {memberId ? (
             <>
-              <img className="useravatar" src={imageUrl1} alt="useravatar" />
+              <span>{name}님</span>
               <Link to="/" className="logout-button" onClick={onClickHandler}>
                 <button>Logout</button>
               </Link>
             </>
           ) : (
             <>
+              {/* 나중에 onClick 삭제 필요 현재는 로그인 버튼누르면 자동으로userid 생성되게 되어있음*/}
               <Link to="/login" className="login-button" onClick={handleLogin}>
                 <button>Login</button>
               </Link>
