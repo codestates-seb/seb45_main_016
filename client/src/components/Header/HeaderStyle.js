@@ -157,9 +157,16 @@ export const Loginform = styled.div`
     right: 12px;
   }
 
-  .useravatar {
-    width: 35px;
-    height: 35px;
+  span {
+    border: none;
+    cursor: pointer;
+    width: auto;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 8px 12px;
+    border-radius: 100px;
+    background-color: ${globalTokens.Secondary.Default.value};
+    color: ${globalTokens.White.value};
   }
 
   /* 버튼 스타일 */
