@@ -1,15 +1,12 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
-import * as T from './ComDetailStyle';
+import * as T from './CreateAnswer.Style';
 import { PostAnswer, PostComment } from '../../utils/API';
 
 const CreateAnswer = ({ className }) => {
-  const [writeValue, setWriteValue] = useState();
-
-  console.log(writeValue);
+  const [writeValue, setWriteValue] = useState('');
 
   const answerPost = (e) => {
-    console.log(e);
     if (e === 'board-focusing') {
       PostAnswer(writeValue);
     } else if (e === 'focusing-answer') {
@@ -39,7 +36,7 @@ const CreateAnswer = ({ className }) => {
           answerPost(e.target.classList[e.target.classList.length - 1])
         }
       >
-        등록하기
+        등록
       </T.AnswerPost>
     </T.CreateAnswerForm>
   );

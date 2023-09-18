@@ -28,7 +28,7 @@ const mockData = {
         content: '답변입니다.',
         modifiedAt: '2023-09-14T19:14:30.217731',
         answerCreater: {
-          memberId: 1,
+          memberId: 2,
           email: 'user1@example.com',
           name: '나는회원1',
           profileImage: null,
@@ -39,7 +39,7 @@ const mockData = {
         content: '답변입니다.',
         modifiedAt: '2023-09-14T19:14:30.82312',
         answerCreater: {
-          memberId: 1,
+          memberId: 3,
           email: 'user1@example.com',
           name: '나는회원1',
           profileImage: null,

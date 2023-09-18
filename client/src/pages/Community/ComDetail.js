@@ -1,26 +1,36 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import mockData from './ComData';
 import AnswerList from './AnswerList';
 import * as T from './ComDetailStyle';
 import Header from '../../components/Header/Header';
-import { SvgEdit, SvgDelete, SvgReview, SvgHeartPath } from '../../utils/svg';
+import {
+  SvgEdit,
+  SvgDelete,
+  SvgReview,
+  SvgHeartPath,
+  SvgHeartFill,
+} from '../../utils/svg';
 import CreateAnswer from './CreateAnswer';
-// import { GetDetail } from '../../utils/API';
+import { GetDetail } from '../../utils/API';
+import Footer from '../../components/Footer/Footer';
 
 const ComDetail = () => {
-  // const [board, setBoardData] = useState({ ...mockData.data });
-  const [board, setBoardData] = useState({ ...mockData.data });
+  const [boardData, setBoardData] = useState({
+    boardCreator: { memberId: 1 },
+    answers: [],
+  });
   const [isAnswerOpen, setAnswerOpen] = useState(false);
+  const [isLike, setIsLike] = useState(false);
   const { id } = useParams();
+
+  useEffect(() => {
+    GetDetail(id).then((res) => setBoardData({ ...res.data }));
+  }, []);
 
   const deletePost = () => {
     console.log('board delete');
   };
-
-  useEffect(() => setBoardData({ ...mockData.data }), []);
-  // useEffect(() => GetDetail().then((res) => setBoardData({ ...res.data })), []);
 
   const openAnswer = () => {
     if (isAnswerOpen === false) {
@@ -30,16 +40,21 @@ const ComDetail = () => {
     }
   };
 
-  console.log(board.boardCreater.memberId);
-  console.log(localStorage.getItem('memberId'));
+  const like = () => {
+    if (!isLike) {
+      setIsLike(true);
+    } else {
+      setIsLike(false);
+    }
+  };
 
   return (
     <T.ComDetailWrap>
       <Header />
       <T.BoardHeadWrap>
         <T.BoardEditBtnWrap>
-          {board.boardCreater.memberId ===
-            Number(localStorage.getItem('memberId')) && (
+          {boardData.boardCreator.memberId ===
+            parseInt(localStorage.getItem('memberId')) && (
             <>
               <Link to={'/edit/' + id}>
                 <button>
@@ -55,34 +70,46 @@ const ComDetail = () => {
           )}
         </T.BoardEditBtnWrap>
 
-        <T.BoardTitle>{board.title}</T.BoardTitle>
+        <T.BoardTitle>{boardData.title}</T.BoardTitle>
         <T.BoardCreatorInfo>
-          <div>
-            <img src={board.profileImage} alt="creator_image_board" />
-          </div>
-          <div>
-            <span>{board.boardCreater.name}</span>
-            <span>{board.modifiedAt}</span>
-          </div>
+          <T.InfoImgWrap>
+            <img
+              src={boardData.boardCreator.profileImage}
+              alt="creator_image_board"
+            />
+          </T.InfoImgWrap>
+          <T.InfoDescription>
+            <span>{boardData.boardCreator.name}</span>
+            <span>{boardData.modifiedAt}</span>
+          </T.InfoDescription>
         </T.BoardCreatorInfo>
       </T.BoardHeadWrap>
-      {board && (
+      {boardData && (
         <T.BoardBodyWrap>
-          <T.BoardContent>{board.content}</T.BoardContent>
+          <T.BoardContent>{boardData.content}</T.BoardContent>
           <T.BoardContentBtnWrap>
-            <button onClick={openAnswer}>
-              <SvgReview />
-              댓글 {board.answers.length}
-            </button>
-            <button>
-              <SvgHeartPath />
-              Like
-            </button>
+            <T.OpenAnswerBtn
+              data-isopen={isAnswerOpen}
+              onClick={() => openAnswer()}
+            >
+              <SvgReview className="open" />
+              <p>댓글</p>
+              <p className="amount">{boardData.answers.length}</p>
+            </T.OpenAnswerBtn>
+            <T.HeartBtn data-liked={isLike} onClick={() => like()}>
+              {!isLike ? <SvgHeartPath /> : <SvgHeartFill />}
+
+              <p>Like</p>
+            </T.HeartBtn>
           </T.BoardContentBtnWrap>
-          {isAnswerOpen && <AnswerList board={board} />}
-          <CreateAnswer answers={board.answers} className="board-focusing" />
+          {isAnswerOpen && <AnswerList board={boardData} />}
+          <CreateAnswer
+            answers={boardData.answers}
+            className="board-focusing"
+          />
         </T.BoardBodyWrap>
       )}
+      <Footer />
     </T.ComDetailWrap>
   );
 };

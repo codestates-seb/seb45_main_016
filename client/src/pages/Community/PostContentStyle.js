@@ -6,13 +6,14 @@ const { Gray, Primary } = globalToken;
 export const PostContentStyle = styled.div`
   display: flex;
   flex-direction: column;
-  height: 116.92rem;
+  height: 100%;
   textarea {
     height: 100%;
     resize: none;
     border: none;
     padding: 0.83rem 15.08rem;
     margin-top: 3rem;
+    margin-bottom: 20%;
 
     font-size: 2.66667rem;
     font-style: normal;
@@ -34,7 +35,7 @@ export const TitleWrap = styled.div`
   input {
     border: none;
     padding: 0.83rem 15.08rem;
-    margin-top: 20%;
+    margin-top: 10%;
     margin-bottom: 3rem;
 
     font-size: 2.66667rem;
@@ -68,9 +69,6 @@ export const TitleWrap = styled.div`
     p {
       margin: 0;
     }
-  }
-  span {
-    margin-left: 95%;
   }
 
   button:hover {

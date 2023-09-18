@@ -8,7 +8,12 @@ import { useNavigate } from 'react-router-dom';
 import mockData from './ComData';
 
 const Edit = () => {
+  // const [editData, setEditData] = useState();
+
+  // useEffect(() => GetDetail().then((res) => setEditData({ ...res.data })), []);
+
   const getBoard = mockData.data;
+  // const getBoard = editData;
 
   const [title, setTitle] = useState(getBoard.title);
   const [content, setContent] = useState(getBoard.content);

@@ -2,19 +2,15 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
 import AnswerForm from './AnswerForm';
-import * as T from './ComDetailStyle';
+import * as T from './AnswerList.Style';
 import { BottomErrow } from '../../utils/svg';
 import CreateAnswer from './CreateAnswer';
 
 const AnswerList = ({ board }) => {
-  const [answer, setAnswer] = useState([]);
+  const [answers, setAnswers] = useState([...board.answers]);
   const [isAnswerIndex, setAnswerIndex] = useState();
   const [isCreateCommentBoxOpen, setCreateCommentBoxOpen] = useState(false);
-  useEffect(() => setAnswer([...board.answers]), [...board.answers]);
-
-  console.log(answer);
-
-  localStorage.setItem('answerLength', answer.length);
+  useEffect(() => setAnswers([...board.answers]), []);
 
   const openControl = (index) => {
     setAnswerIndex(index);
@@ -27,38 +23,52 @@ const AnswerList = ({ board }) => {
     }
   };
 
-  console.log(isCreateCommentBoxOpen);
+  let length = answers.length;
+
+  // let comment = answers.map((el)=>el.comments.map((el)=>{}))
 
   return (
     <T.AnswerLists>
-      <p>댓글 {answer.length}</p>
-      {answer.map((answer, index) => (
-        <div key={answer.answerId}>
+      <p>댓글 {length}</p>
+      {answers.map((ans, index) => (
+        <div key={ans.answerId}>
           <AnswerForm
-            img={answer.profileImage}
-            name={answer.answerCreater.name}
-            modifiedAt={answer.modifiedAt}
-            content={answer.content}
-            answerId={answer.answerId}
+            img={ans.answerCreator.profileImage}
+            name={ans.answerCreator.name}
+            modifiedAt={ans.modifiedAt}
+            content={ans.content}
+            answerId={ans.answerId}
             className="answer"
+            id={ans.answerCreator.memberId}
+            length={length}
           ></AnswerForm>
-          <T.OpenCreateAnwerArea onClick={() => openControl(index)}>
-            답글달기 <BottomErrow />
-          </T.OpenCreateAnwerArea>
+          {isCreateCommentBoxOpen ? (
+            <T.OpenCreateAnwerArea onClick={() => openControl(index)}>
+              취소
+            </T.OpenCreateAnwerArea>
+          ) : (
+            <T.OpenCreateAnwerArea onClick={() => openControl(index)}>
+              답글달기 <BottomErrow />
+            </T.OpenCreateAnwerArea>
+          )}
+
           {isAnswerIndex === index && (
             <CreateAnswer className="focusing-answer" />
           )}
-          {/* {answer.comments.map((comment) => {
-            <AnswerForm
-              key={comment.answerId}
-              img={comment.profileImage}
-              name={comment.commentCreater.name}
-              modifiedAt={comment.modifiedAt}
-              content={comment.content}
-            commentId={comment.commentId}
-            className='comment'
-            ></AnswerForm>;
-          })} */}
+          {/* {ans.comments &&
+            ans.comments.map((comment) => {
+              <AnswerForm
+                key={comment.commentId}
+                img={comment.commentCreator.profileImage}
+                name={comment.commentCreator.name}
+                modifiedAt={comment.modifiedAt}
+                content={comment.content}
+                commentId={comment.commentId}
+                className="comment"
+                id={comment.commentCreator.memberID}
+              ></AnswerForm>;
+            })}
+          {console.log(comments)} */}
         </div>
       ))}
     </T.AnswerLists>

@@ -25,7 +25,7 @@ const ComList = () => {
   const navigator = useNavigate();
 
   useEffect(() => {
-    GetAllCommunityPostsList().then((res) => setComData({ ...res.data }));
+    GetAllCommunityPostsList().then((res) => setComData([...res.data]));
   }, []);
   console.log(comData);
 
@@ -92,12 +92,12 @@ const ComList = () => {
         {comData &&
           comData.map((info) => (
             <Link
-              to={'/community/detail/boards/' + info.boardCreator}
+              to={'/community/detail/boards/' + info.boardId}
               key={info.boardId}
             >
               <ComCard
                 title={info.title}
-                username={info.boardCreator}
+                username={info.boardCreator.name}
                 email={info.email}
                 onClick={() => {
                   localStorage.setItem('boardId', info.boardId);
