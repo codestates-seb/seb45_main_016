@@ -40,14 +40,15 @@ public class LicenseController {
      * @return
      */
     @GetMapping
-    public ResponseEntity getLicenses(@RequestParam int page,
-                                      @RequestBody(required = false)Optional<Map<String,Long>> body){
+    public ResponseEntity getLicenses(@RequestParam int page){
+
+        Long loginMemberId = memberService.getLoginMemberId();
 
         Page<LicenseInfo> pageLicenses = licenseService.findLicenses(page);
         List<LicenseInfo> licenses = pageLicenses.getContent();
 
         LicenseDto licenseList = licenseService.findLicenseDateList(licenses,
-                body.isPresent() ? body.get().get("memberId") : 0L);
+                loginMemberId);
 
         return new ResponseEntity<>(
                 new MultiResponseDto<>(licenseList.getData(),pageLicenses),HttpStatus.OK
@@ -56,13 +57,14 @@ public class LicenseController {
 
 
     @GetMapping("/find")
-    public ResponseEntity<LicenseResponseDto> getLicense(@RequestParam("name") String name,
-                                                         @RequestBody LicenseGetDto licenseGetDto) {
+    public ResponseEntity<LicenseResponseDto> getLicense(@RequestParam("name") String name) {
+
+        Long loginMemberId = memberService.getLoginMemberId();
 
         LicenseInfo licenseInfo = licenseService.findLicenseInfo(name);
         List<LicenseDate> licenseDates = licenseService.findLicenseDateToLicenseInfo(licenseInfo);
 
-        Member member = memberService.getMember(licenseGetDto.getMemberId());
+        Member member = memberService.findMember(loginMemberId);
         boolean bool = bookmarkService.existsBookmarkByLicenseInfoAndMember(licenseInfo, member);
 
         return new ResponseEntity<>(licenseDateMapper.licensesToLicenseResponseDto(licenseDates,licenseInfo, bool),HttpStatus.OK);
