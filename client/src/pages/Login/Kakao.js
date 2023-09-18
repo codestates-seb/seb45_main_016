@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
@@ -11,7 +12,7 @@ const Kakao = () => {
       if (code) {
         try {
           const response = await axios.get(
-            `https://a498-116-125-236-74.ngrok-free.app/login/oauth/code/kakao?code=${code}`,
+            `${process.env.REACT_APP_API}login/oauth/code/kakao?code=${code}`,
             {
               headers: {
                 'Content-Type': 'application/json;charset=utf-8',

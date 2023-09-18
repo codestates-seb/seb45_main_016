@@ -21,7 +21,7 @@ const ComList = () => {
   const totalItems = comData.length;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
 
-  const memberId = localStorage.getItem('memberId');
+  const authorization = localStorage.getItem('authorization');
   const navigator = useNavigate();
 
   useEffect(() => {
@@ -74,7 +74,7 @@ const ComList = () => {
   }
 
   const route = () => {
-    if (memberId) {
+    if (authorization) {
       navigator('/write');
     } else {
       navigator('/login');
