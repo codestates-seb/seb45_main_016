@@ -3,22 +3,16 @@ package com.codestates.server.domain.answer.entity;
 import com.codestates.server.domain.board.entity.Board;
 import com.codestates.server.domain.comment.entity.Comment;
 import com.codestates.server.domain.member.entity.Member;
-
 import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import lombok.Getter;
 import lombok.Setter;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@EntityListeners(AuditingEntityListener.class)
 public class Answer {
 
 	@Id
@@ -31,18 +25,16 @@ public class Answer {
 	@Column
 	private LocalDateTime modifiedAt = LocalDateTime.now();
 
-	@ManyToOne
 	@JoinColumn(name = "board_Id")
 	@JsonIgnore
+	@ManyToOne
 	private Board board;
 
-	@ManyToOne
 	@JoinColumn(name = "member_Id")
 	@JsonIgnore
+	@ManyToOne
 	private Member member;
 
 	@OneToMany(mappedBy = "answer")
 	private List<Comment> comments;
-
-
 }
