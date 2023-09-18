@@ -1,8 +1,6 @@
 package com.codestates.server.domain.member.service;
 
-import com.codestates.server.domain.board.entity.Board;
 import com.codestates.server.domain.board.repository.BoardRepository;
-import com.codestates.server.domain.bookmark.entity.Bookmark;
 import com.codestates.server.domain.bookmark.repository.BookmarkRepository;
 import com.codestates.server.global.mail.event.MemberRegistrationEvent;
 import com.codestates.server.global.mail.sevice.EmailService;
@@ -23,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.*;
 
@@ -34,15 +31,13 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final BoardRepository boardRepository;
-    private final BookmarkRepository bookmarkRepository;
-    private final EmailService emailService;
 
     private final PasswordEncoder passwordEncoder;  // 비밀번호 암호화
     private final CustomAuthorityUtils customAuthorityUtils;    // 사용자 권한 설정
     private final S3UploadService s3UploadService;
     private final ApplicationEventPublisher eventPublisher;
 
-    private static final String DEFAULT_IMAGE = "http://bit.ly/46a2mSp";
+    private static final String DEFAULT_IMAGE = "http://bit.ly/46a2mSp";    // 회원 기본 이미지
     private static final String MEMBER_IMAGE_PROCESS_TYPE = "profile-image";
 
     /**
@@ -213,7 +208,7 @@ public class MemberService {
      * 현재 멤버 아이디랑 로그인한 객체의 아이디랑 비교해서 같은지 확인하는 메서드
      * @param memberId
      */
-    private Member verifyAuthorizedUser(Long memberId) {
+    public Member verifyAuthorizedUser(Long memberId) {
         Member getMember = getVerifiedMember(memberId);
 
         if (!getLoginMember().getMemberId().equals(memberId)) {
