@@ -6,31 +6,20 @@ import { PostContentStyle, TitleWrap } from './PostContentStyle';
 import { PostContents } from '../../utils/API';
 
 const PostContent = () => {
-  const [count, setCount] = useState(0);
   const [title, setTitle] = useState();
   const [content, setContent] = useState();
   const focusRef = useRef();
 
-  const titleHandler = (e) => {
-    e.target.maxLength = 20;
-    setCount(e.target.value.length);
-
-    if (e.keyCode === 13) {
+  const enter = (e) => {
+    if (e.key === 'Enter') {
       focusRef.current.focus();
     }
-
-    setTitle(e.target.value);
   };
 
-  const contentHandler = (e) => {
-    setContent(e.target.value);
-  };
-
-  localStorage.setItem('title', title);
-  localStorage.setItem('content', content);
+  console.log(title, content);
 
   const post = () => {
-    if (count > 0 && content.length > 0) {
+    if (title.length > 0 && content.length > 0) {
       console.log('post합니다');
     }
     // axios
@@ -49,7 +38,7 @@ const PostContent = () => {
     //   .catch(function (error) {
     //     console.log(error);
     //   });
-    PostContents().then((res) => {
+    PostContents(title, content).then((res) => {
       window.location.href = `/community/detail${res.headers.location}`;
     });
   };
@@ -62,12 +51,16 @@ const PostContent = () => {
           <button onClick={post}>
             <p>저장하기</p>
           </button>
-          <input placeholder="제목을 입력하세요" onKeyUp={titleHandler}></input>
+          <input
+            placeholder="제목을 입력하세요"
+            onChange={(e) => setTitle(e.target.value)}
+            onKeyDown={(e) => enter(e)}
+          ></input>
         </TitleWrap>
         <textarea
           placeholder="내용을 입력하세요"
           ref={focusRef}
-          onKeyUp={contentHandler}
+          onChange={(e) => setContent(e.target.value)}
         ></textarea>
         <Footer />
       </PostContentStyle>

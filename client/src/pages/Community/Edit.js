@@ -5,41 +5,35 @@ import Header from '../../components/Header/Header';
 import { PostContentStyle, TitleWrap } from './PostContentStyle';
 import { PostEdit } from '../../utils/API';
 import { useNavigate } from 'react-router-dom';
-// import { API } from '../../utils/API';
+import mockData from './ComData';
 
-const Edit = ({ ComData }) => {
-  const [title, setTitle] = useState();
-  const [content, setContent] = useState();
+const Edit = () => {
+  // const [editData, setEditData] = useState();
+
+  // useEffect(() => GetDetail().then((res) => setEditData({ ...res.data })), []);
+
+  const getBoard = mockData.data;
+  // const getBoard = editData;
+
+  const [title, setTitle] = useState(getBoard.title);
+  const [content, setContent] = useState(getBoard.content);
   const focusRef = useRef();
+
+  console.log(title, content);
 
   const navigator = useNavigate();
 
   let id = localStorage.getItem('boardId');
 
-  const ComFiltered = ComData.filter((el) => {
-    return el.boardId === Number(id);
-  });
-
-  const titleHandler = (e) => {
-    e.target.maxLength = 20;
-
-    if (e.keyCode === 13) {
+  const enter = (e) => {
+    if (e.key === 'Enter') {
       focusRef.current.focus();
     }
-
-    setTitle(e.target.value);
   };
-
-  const contentHandler = (e) => {
-    setContent(e.target.value);
-  };
-
-  localStorage.setItem('editedTitle', title);
-  localStorage.setItem('editedContent', content);
 
   const patch = () => {
     console.log('patch합니다');
-    PostEdit();
+    PostEdit(title, content);
     navigator(`/community/detail/boards/${id}`);
   };
 
@@ -50,17 +44,18 @@ const Edit = ({ ComData }) => {
         <TitleWrap>
           <button onClick={patch}>저장하기</button>
           <input
-            onKeyUp={titleHandler}
+            onChange={(e) => setTitle(e.target.value)}
+            onKeyDown={enter}
             name="input"
-            defaultValue={ComFiltered[0].title}
+            defaultValue={getBoard.title}
           ></input>
         </TitleWrap>
         {console.ComFiltered}
         <textarea
           ref={focusRef}
-          onKeyUp={contentHandler}
+          onChange={(e) => setContent(e.target.value)}
           name="textarea"
-          defaultValue={ComFiltered[0].content}
+          defaultValue={getBoard.content}
         ></textarea>
         <Footer />
       </PostContentStyle>

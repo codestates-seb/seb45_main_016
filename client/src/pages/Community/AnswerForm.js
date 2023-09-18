@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-import * as T from './ComDetailStyle';
+import * as T from './AnswerForm.Style';
 import {
   DeleteAnswerlist,
   EditAnswerlist,
@@ -16,28 +17,28 @@ const AnswerForm = ({
   answerId,
   commentId,
   className,
+  id,
 }) => {
   const [isAnswerEditOpen, setAnswerEditOpen] = useState(false);
-  const [editedContent, setEditedContent] = useState(content);
-  const [writeValue, setWriteValue] = useState();
+  const [writeValue, setWriteValue] = useState(content);
 
-  useEffect(() => {
-    setEditedContent(content);
-  }, [content]);
+  const memberId = Number(localStorage.getItem('memberId'));
+
+  useEffect(() => setWriteValue(content), []);
 
   const clickEdit = (e) => {
     if (e.target.className === 'answer') {
       setAnswerEditOpen(true), localStorage.setItem('answerId', answerId);
     } else if (e.target.className === 'comment') {
-      setAnswerEditOpen(true), localStorage.setItem('commentrId', commentId);
+      setAnswerEditOpen(true), localStorage.setItem('commentId', commentId);
     }
   };
 
-  const saveEdit = async (e) => {
+  const saveEdit = (e) => {
     if (e === 'answer') {
-      await EditAnswerlist(writeValue);
+      EditAnswerlist(writeValue);
     } else if (e === 'comment') {
-      await EditCommentrlist(writeValue);
+      EditCommentrlist(writeValue);
     }
 
     setAnswerEditOpen(false);
@@ -57,35 +58,39 @@ const AnswerForm = ({
 
   return (
     <T.AnswerForm>
-      <T.AnswerEditBtn>
-        {!isAnswerEditOpen ? (
-          <>
-            <button className={className} onClick={clickEdit}>
-              수정
-            </button>
-            <button
-              className={className}
-              onClick={(e) =>
-                deleteAnswer(e.target.classList[e.target.classList.length - 1])
-              }
-            >
-              삭제
-            </button>
-          </>
-        ) : (
-          <>
-            <button onClick={() => setAnswerEditOpen(false)}>취소</button>
-            <button
-              className={className}
-              onClick={(e) =>
-                saveEdit(e.target.classList[e.target.classList.length - 1])
-              }
-            >
-              저장
-            </button>
-          </>
-        )}
-      </T.AnswerEditBtn>
+      {id === memberId && (
+        <T.AnswerEditBtn>
+          {!isAnswerEditOpen ? (
+            <>
+              <button className={className} onClick={clickEdit}>
+                수정
+              </button>
+              <button
+                className={className}
+                onClick={(e) =>
+                  deleteAnswer(
+                    e.target.classList[e.target.classList.length - 1],
+                  )
+                }
+              >
+                삭제
+              </button>
+            </>
+          ) : (
+            <>
+              <button onClick={() => setAnswerEditOpen(false)}>취소</button>
+              <button
+                className={className}
+                onClick={(e) =>
+                  saveEdit(e.target.classList[e.target.classList.length - 1])
+                }
+              >
+                저장
+              </button>
+            </>
+          )}
+        </T.AnswerEditBtn>
+      )}
 
       {isAnswerEditOpen ? (
         <T.AnswerEditArea
@@ -100,7 +105,7 @@ const AnswerForm = ({
             <T.AnswerDesCription>
               <p>{name}</p>
               <p>{modifiedAt}</p>
-              <p>{editedContent}</p>
+              <div>{writeValue}</div>
             </T.AnswerDesCription>
           </T.Answer>
         )
