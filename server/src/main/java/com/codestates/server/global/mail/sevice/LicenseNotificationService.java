@@ -175,6 +175,4 @@ public class LicenseNotificationService {
 
         return false;
     }
-
-
 }
