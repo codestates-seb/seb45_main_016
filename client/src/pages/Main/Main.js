@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 
 const Main = () => {
   const imageUrl = process.env.PUBLIC_URL + '/studyground.png';
-  const imageUrl1 = process.env.PUBLIC_URL + '/ava.png';
+  // const imageUrl1 = process.env.PUBLIC_URL + '/ava.png';
   const [isModalOpen, setModalOpen] = useState(false);
   const [isIndex, setIndex] = useState();
   const [licenseData, setLicenseData] = useState([]); // 자격증 데이터를 저장하는 상태
@@ -115,7 +115,7 @@ const Main = () => {
             onClick={() => openDetail(post.boardId)}
           >
             <Styled.Comuseravatar>
-              <img src={imageUrl1} alt="useravater" />
+              <img src={post.boardCreator.profileImage} alt="프로필 이미지" />
             </Styled.Comuseravatar>
             <Styled.ComText>
               <Styled.Comid>{post.boardCreator.name}</Styled.Comid>

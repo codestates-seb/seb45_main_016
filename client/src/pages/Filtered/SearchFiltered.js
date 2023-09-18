@@ -63,6 +63,7 @@ const SearchFiltered = () => {
           params: params, // memberId를 쿼리 매개변수로 추가합니다.
         }); // 라이선스 데이터와 커뮤니티 데이터를 설정합니다.
         setFilteredLicenseData(res.data.licenses.data);
+        console.log('북마크', res.data.licenses.data);
         setFilteredCommunityData(res.data.boards);
       } catch (error) {
         console.error('라이선스 데이터를 가져오는 중 오류 발생:', error);
