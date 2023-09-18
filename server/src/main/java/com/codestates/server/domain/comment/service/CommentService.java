@@ -61,8 +61,6 @@ public class CommentService {
             } else {
                 throw new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND);
             }
-        }else {
-            throw new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND);
         }
     }
 

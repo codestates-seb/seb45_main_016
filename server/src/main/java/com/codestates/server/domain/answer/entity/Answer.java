@@ -41,7 +41,7 @@ public class Answer {
 	@JsonIgnore
 	private Member member;
 
-	@OneToMany(mappedBy = "answer")
+	@OneToMany(mappedBy = "answer", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Comment> comments;
 
 

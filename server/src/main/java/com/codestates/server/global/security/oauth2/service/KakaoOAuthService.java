@@ -149,6 +149,8 @@ public class KakaoOAuthService {
         claims.put("memberId", member.getMemberId());
         claims.put("email", member.getEmail());
         claims.put("roles", member.getRoles());
+        claims.put("name", member.getName());
+        claims.put("profileImage", member.getProfileImage());
 
         Date expriration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
