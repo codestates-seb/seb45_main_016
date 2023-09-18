@@ -2,6 +2,9 @@ package com.codestates.server.domain.comment.service;
 
 import com.codestates.server.domain.comment.entity.Comment;
 import com.codestates.server.domain.comment.repository.CommentRepository;
+import com.codestates.server.domain.member.service.MemberService;
+import com.codestates.server.global.exception.BusinessLogicException;
+import com.codestates.server.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 public class CommentService {
 
     private final CommentRepository commentRepository;
+    private final MemberService memberService;
 
     /**
      * comment 등록
@@ -18,6 +22,7 @@ public class CommentService {
      * @return
      */
     public Comment createComment(Comment comment) {
+
         return commentRepository.save(comment);
     }
 
@@ -34,7 +39,7 @@ public class CommentService {
             Comment updatedComment = commentRepository.save(comment);
 
         }else {
-            throw new RuntimeException("comment가 없습니다.");
+            throw new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND);
         }
     }
 
@@ -46,16 +51,18 @@ public class CommentService {
      */
     public void deleteComment(long commentId, long answerId, long memberId) {
 
+        memberService.verifyAuthorizedUser(memberId);
+
         Comment existingComment = findCommentById(commentId);
 
         if (existingComment != null) {
-            if (existingComment.getAnswer().getAnswerId() == answerId && existingComment.getMember().getMemberId() == memberId) {
+            if (existingComment.getAnswer().getAnswerId() == answerId ) {
                 commentRepository.deleteById(commentId);
             } else {
-                throw new RuntimeException("에러발생");
+                throw new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND);
             }
         }else {
-            throw new RuntimeException("comment가 없습니다.");
+            throw new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND);
         }
     }
 
@@ -65,7 +72,6 @@ public class CommentService {
      * @return
      */
     public Comment findCommentById(long commentId) {
-        return commentRepository.findById(commentId).orElseThrow(()->new RuntimeException("없습니다."));
+        return commentRepository.findById(commentId).orElseThrow(()->new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
     }
-
 }

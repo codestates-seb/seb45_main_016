@@ -1,8 +1,9 @@
 package com.codestates.server.domain.board.service;
 
 import java.util.List;
-import java.util.Optional;
 
+import com.codestates.server.global.exception.BusinessLogicException;
+import com.codestates.server.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -17,10 +18,7 @@ import com.codestates.server.domain.member.entity.Member;
 import com.codestates.server.domain.member.repository.MemberRepository;
 import com.codestates.server.domain.member.service.MemberService;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Service
-@Slf4j
 @Transactional
 @RequiredArgsConstructor
 public class BoardService {
@@ -29,18 +27,9 @@ public class BoardService {
 	private final MemberRepository memberRepository;
 	private final MemberService memberService;
 
-	public Page<Board> findBoards(int page){
-		int size = 6;
-		Page<Board> boardPage = boardRepository.findAll(PageRequest.of(page - 1, size));
-		return boardPage;
-	}
-
 	public Board createBoard(Board board, Long memberId) {
-		// 권한 인증 security 구성 필요함.
-
-		// ✨(솔이님 첨삭) -> 저장된 멤버인지 확인하고 아니면 에러 발생 메서드 추가
-		Optional<Member> member = memberRepository.findById(memberId);
-		Member getMember = member.orElseThrow(() -> new RuntimeException("🚨 회원 정보를 찾을 수 없습니다. 🚨"));
+		// 회원인지 확인
+		Member getMember = memberService.getVerifiedMember(memberId);
 
 		board.setMember(getMember);
 		board.setViews(0L);
@@ -49,27 +38,24 @@ public class BoardService {
 	}
 
 	public Board updateBoard(Board board, Long memberId) {
+		// 회원아이디랑 로그인된 객체 정보랑 동일한지 확인
+		memberService.verifyAuthorizedUser(memberId);
 
 		Board findedBoard = boardRepository.findById(board.getBoardId())
-			.orElseThrow(RuntimeException::new);
+			.orElseThrow(() -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
 
-		long savedMemberId = findedBoard.getMember().getMemberId();
+		findedBoard.setTitle(board.getTitle());
+		findedBoard.setContent(board.getContent());
+		BeanUtils.copyProperties(findedBoard,board,"board-id");
 
-		if(memberId.equals(savedMemberId)) {
-			findedBoard.setTitle(board.getTitle());
-			findedBoard.setContent(board.getContent());
-			BeanUtils.copyProperties(findedBoard,board,"board-id");
-			return boardRepository.save(board);
-		} else {
-			throw new RuntimeException();
-		}
+		return boardRepository.save(board);
 	}
 
 	public Board findBoard(Long boardsId) {
-		Board board = boardRepository.findById(boardsId)
-			.orElseThrow(RuntimeException::new);
 
-		// ✨(솔이님 첨삭) 멤버 이미지 가지고와서 set
+		Board board = boardRepository.findById(boardsId)
+			.orElseThrow(() -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
+
 		Member member = board.getMember();
 		member.getName();
 		member.getEmail();
@@ -83,28 +69,34 @@ public class BoardService {
 		return board;
 	}
 
+	/**
+	 * 페이지 전체 조회
+	 * @param page : 조회할 페이지
+	 * @return
+	 */
+	public Page<Board> findBoards(int page){
+		int size = 6;
+		Page<Board> boardPage = boardRepository.findAll(PageRequest.of(page - 1, size));
+		return boardPage;
+	}
+
 	public List<Board> findAllBoards() {
 		return boardRepository.findAll();
 	}
 
-
-	// ✨(솔이님 첨삭) 메서드 전체 변경
 	public void deleteBoard(Long boardId, Long memberId) {
+		// 회원아이디랑 로그인된 객체 정보랑 동일한지 확인
+		memberService.verifyAuthorizedUser(memberId);
+
 		Board findBoard = boardRepository.findById(boardId)
-				.orElseThrow(RuntimeException::new);
+				.orElseThrow(() -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
 
-		long savedMemberId = findBoard.getMember().getMemberId();
+		boardRepository.delete(findBoard);
 
-		if(memberId.equals(savedMemberId)) {
-			boardRepository.delete(findBoard);
-		} else {
-			throw new RuntimeException();
-		}
 	}
 
 	private static void viewCountUp(Board board) {
 		Long view = board.getViews();
 		board.setViews(++view);
 	}
-
 }

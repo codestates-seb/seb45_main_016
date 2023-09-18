@@ -1,6 +1,8 @@
 package com.codestates.server.domain.member.service;
 
-import com.codestates.server.domain.member.entity.AuthUserUtils;
+import com.codestates.server.domain.board.repository.BoardRepository;
+import com.codestates.server.global.mail.event.MemberRegistrationEvent;
+import com.codestates.server.global.security.utils.AuthUserUtils;
 import com.codestates.server.domain.member.entity.Member;
 import com.codestates.server.domain.member.repository.MemberRepository;
 import com.codestates.server.domain.member.s3.S3UploadService;
@@ -8,33 +10,33 @@ import com.codestates.server.global.exception.BusinessLogicException;
 import com.codestates.server.global.exception.ExceptionCode;
 import com.codestates.server.global.security.auth.utils.CustomAuthorityUtils;
 import lombok.AllArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class MemberService {
 
-    // JpaRepository를 상속받은 memberReposiory
     private final MemberRepository memberRepository;
+    private final BoardRepository boardRepository;
 
-    // 비밀번호 암호화
-    private final PasswordEncoder passwordEncoder;
-    // 사용자 권한 설정
-    private final CustomAuthorityUtils customAuthorityUtils;
+    private final PasswordEncoder passwordEncoder;  // 비밀번호 암호화
+    private final CustomAuthorityUtils customAuthorityUtils;    // 사용자 권한 설정
     private final S3UploadService s3UploadService;
-    private static final String DEFAULT_IMAGE = "http://bit.ly/46a2mSp";
+    private final ApplicationEventPublisher eventPublisher;
+
+    private static final String DEFAULT_IMAGE = "http://bit.ly/46a2mSp";    // 회원 기본 이미지
     private static final String MEMBER_IMAGE_PROCESS_TYPE = "profile-image";
-
-
 
     /**
      * 회원 가입 로직
@@ -43,7 +45,7 @@ public class MemberService {
      * @param member
      * @return
      */
-    public Member createMember(Member member){
+    public Member createMember(Member member) {
 
         // 가입된 이메일인지 확인
         verifiyExistedMember(member.getEmail());
@@ -65,23 +67,21 @@ public class MemberService {
         // 예외 발생 안 시키면 저장
         Member savedMember = memberRepository.save(member);
 
+        MemberRegistrationEvent event = new MemberRegistrationEvent(member);
+        eventPublisher.publishEvent(event);
+
         return savedMember;
     }
 
     public Member updateMember(Member member){
 
-        // 없는 회원이면 예외 발생
-        Member getMember = getVerifiedMember(member.getMemberId());
+        Member getMember = verifyAuthorizedUser(member.getMemberId());
 
-        // 로그인한 MemberId랑 업데이트 하려는 마이페이지의 memberId랑 다르면 예외 발생
-        if(!getLoginMember().getMemberId().equals(getMember.getMemberId()))
-            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_USER);
-
-        Optional.ofNullable(member.getName())
+        Optional.ofNullable(getMember.getName())
                 .ifPresent(nickname -> getMember.setName(member.getName()));
-        Optional.ofNullable(member.getPassword())
+        Optional.ofNullable(getMember.getPassword())
                 .ifPresent(password -> getMember.setPassword(member.getPassword()));
-        Optional.ofNullable(member.getProfileImage())
+        Optional.ofNullable(getMember.getProfileImage())
                 .ifPresent(image -> getMember.setProfileImage(member.getProfileImage()));
 
         return memberRepository.save(getMember);
@@ -89,8 +89,9 @@ public class MemberService {
 
 //    public String uploadImage(Long memberId, MultipartFile file) {
     public String uploadImage(Long memberId, MultipartFile file, int x, int y, int width, int height) throws IOException {
-        // 회원 검증 하기
-        Member member = getVerifiedMember(memberId);
+
+        Member member = verifyAuthorizedUser(memberId);
+
         // 현재 프로필 이미지 가지고 오기
         String presentProfileImage = member.getProfileImage();
         // 만약에 현재 파일이 있으면 현재 파일 삭제
@@ -114,8 +115,8 @@ public class MemberService {
     }
 
     public String deleteProfileImage(Long memberId) {
-        // 회원 검증 하기
-        Member member = getVerifiedMember(memberId);
+
+        Member member = verifyAuthorizedUser(memberId);
 
         // 현재 프로필 이미지 URL을 가져옵니다.
         String currentProfileImage = member.getProfileImage();
@@ -133,9 +134,15 @@ public class MemberService {
         return DEFAULT_IMAGE;
     }
 
-    // member 사용자 정보 가지고 오는 메서드
+    // member 마이페이지에서 사용자 정보 가지고 오는 메서드
     public Member getMember(Long memberId) {
-        Member member = getVerifiedMember(memberId);
+        Member member = verifyAuthorizedUser(memberId);
+
+        member.setBoardList(boardRepository.findAllbyMemberId(memberId));
+
+        member.getBookmarks().forEach(bookmark -> {
+            bookmark.getLicenseInfo().getLicenses().size();  // Lazy Loading을 강제로 로딩
+        });
 
         return member;
     }
@@ -148,13 +155,11 @@ public class MemberService {
 
     // member 삭제하는 deleteMember 메서드
     public void deleteMember(Long memberId) {
-        Member getMember = getVerifiedMember(memberId);
 
-        // 만약 로그인 한 사용자랑 회원 삭제 하려는 회원이랑 memberId 다르면 예외 던지기
-        if(!getLoginMember().getMemberId().equals(getMember.getMemberId()))
-            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_USER);
+        Member member = verifyAuthorizedUser(memberId);
 
-        memberRepository.delete(getMember);
+        memberRepository.delete(member);
+
     }
 
     /**
@@ -163,7 +168,7 @@ public class MemberService {
      * @param memberId
      * @return
      */
-    private Member getVerifiedMember(Long memberId) {
+    public Member getVerifiedMember(Long memberId) {
 
         Optional<Member> member = memberRepository.findById(memberId);
 
@@ -186,7 +191,6 @@ public class MemberService {
 
         if(optionalMember.isPresent())
             throw new BusinessLogicException(ExceptionCode.USER_EXISTS);
-
     }
 
     /**
@@ -198,4 +202,16 @@ public class MemberService {
                 .orElseThrow(()-> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
     }
 
+    /**
+     * 현재 멤버 아이디랑 로그인한 객체의 아이디랑 비교해서 같은지 확인하는 메서드
+     * @param memberId
+     */
+    public Member verifyAuthorizedUser(Long memberId) {
+        Member getMember = getVerifiedMember(memberId);
+
+        if (!getLoginMember().getMemberId().equals(memberId)) {
+            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_USER);
+        }
+        return getMember;
+    }
 }
