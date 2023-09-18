@@ -7,7 +7,7 @@ export const login = async (data) => {
       method: 'post',
       data,
 
-      url: `https://7827-116-125-236-74.ngrok-free.app/members/auth/login`,
+      url: `https://c33e-222-96-41-224.ngrok-free.app/members/auth/login`,
     });
     return res;
   } catch (e) {
@@ -20,7 +20,7 @@ export const signUp = async (data) => {
     const res = await axios({
       method: 'post',
       data,
-      url: `https://7827-116-125-236-74.ngrok-free.app/members/signup`,
+      url: `https://c33e-222-96-41-224.ngrok-free.app/members/signup`,
     });
     return res;
   } catch (e) {
@@ -34,7 +34,7 @@ export const GetAllLicensesList = async (data) => {
     const res = await axios({
       method: 'get',
       data,
-      url: `https://17b3-116-125-236-74.ngrok-free.app/licenses?page=${id}
+      url: `https://c33e-222-96-41-224.ngrok-free.app/licenses?page=${id}
       `,
       headers: {
         'ngrok-skip-browser-warning': '2',
@@ -51,7 +51,7 @@ export const GetAllCommunityPostsList = async (data) => {
     const res = await axios({
       method: 'get',
       data,
-      url: `https://17b3-116-125-236-74.ngrok-free.app/boards?page=1
+      url: `https://c33e-222-96-41-224.ngrok-free.app/boards?page=1
       `,
       headers: {
         'ngrok-skip-browser-warning': '2',
@@ -70,7 +70,7 @@ export const GetDetail = async (data) => {
       method: 'get',
       data,
       memberId: 1,
-      url: `https://17b3-116-125-236-74.ngrok-free.app/boards/${boardId}`,
+      url: `https://c33e-222-96-41-224.ngrok-free.app/boards/${boardId}`,
       headers: {
         'ngrok-skip-browser-warning': '2',
       },
@@ -86,7 +86,7 @@ export const GetSearchedlicense = async (data) => {
     const res = await axios({
       method: 'get',
       data,
-      url: `https://65a9-182-211-13-193.ngrok-free.app/licenses/find?name=${localStorage.getItem(
+      url: `https://c33e-222-96-41-224.ngrok-free.app/licenses/find?name=${localStorage.getItem(
         'savedKeyWords',
       )}`,
       headers: {
@@ -101,7 +101,7 @@ export const GetSearchedlicense = async (data) => {
 
 export const PostContents = async () => {
   const res = await axios
-    .post('https://65a9-182-211-13-193.ngrok-free.app/boards/create', {
+    .post('https://c33e-222-96-41-224.ngrok-free.app/boards/create', {
       memberId: localStorage.getItem('userId'),
       title: localStorage.getItem('title'),
       content: localStorage.getItem('content'),
@@ -122,7 +122,7 @@ export const PostContents = async () => {
 export const PostEdit = async () => {
   const res = await axios
     .patch(
-      `https://65a9-182-211-13-193.ngrok-free.app/boards/edit/${localStorage.getItem(
+      `https://c33e-222-96-41-224.ngrok-free.app/boards/edit/${localStorage.getItem(
         'boardId',
       )}`,
       {
@@ -144,14 +144,118 @@ export const PostEdit = async () => {
   return res;
 };
 
-export const ReviewEdit = async () => {
+export const PostAnswer = async (writeValue) => {
   const res = await axios
-    .patch(
-      `http://{{host}}/boards/${localStorage.getItem('boardId')}/answers/1,
-      )}`,
+    .post(
+      `https://c33e-222-96-41-224.ngrok-free.app/boards/${localStorage.getItem(
+        'boardId',
+      )}/answers`,
       {
         memberId: localStorage.getItem('userId'),
-        content: localStorage.getItem('editedReview'),
+        content: writeValue,
+        headers: {
+          'ngrok-skip-browser-warning': '2',
+        },
+      },
+    )
+    .catch(function (error) {
+      console.log(error);
+    });
+  return res;
+};
+
+export const PostComment = async (writeValue) => {
+  let answerId = localStorage.getItem('answerId');
+  const res = await axios
+    .post(
+      `https://c33e-222-96-41-224.ngrok-free.app/answers/${answerId}/comments/create`,
+      {
+        memberId: localStorage.getItem('userId'),
+        content: writeValue,
+        headers: {
+          'ngrok-skip-browser-warning': '2',
+        },
+      },
+    )
+    .catch(function (error) {
+      console.log(error);
+    });
+  return res;
+};
+
+export const DeleteAnswerlist = async () => {
+  let boardId = localStorage.getItem('boardId');
+  let answerId = localStorage.getItem('answerId');
+  const res = await axios
+    .delete(
+      `https://c33e-222-96-41-224.ngrok-free.app/boards/${boardId}/answers/${answerId}/delete`,
+      {
+        memberId: localStorage.getItem('memberId'),
+      },
+    )
+
+    .then((res) => {
+      window.location.href = `/community/detail${res.headers.location}`;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  return res;
+};
+
+export const DeleteCommentlist = async () => {
+  let answerId = localStorage.getItem('answerId');
+  let commentId = localStorage.getItem('commentId');
+  const res = await axios
+    .delete(
+      `https://c33e-222-96-41-224.ngrok-free.app/answers/${answerId}/comments/${commentId}`,
+      {
+        memberId: localStorage.getItem('memberId'),
+      },
+    )
+
+    .then((res) => {
+      window.location.href = `/community/detail${res.headers.location}`;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  return res;
+};
+
+export const EditAnswerlist = async (writeValue) => {
+  let boardId = localStorage.getItem('boardId');
+  let answerId = localStorage.getItem('answerId');
+  const res = await axios
+    .patch(
+      `https://c33e-222-96-41-224.ngrok-free.app/boards/${boardId}/answers/${answerId}`,
+      {
+        memberId: localStorage.getItem('userId'),
+        content: writeValue,
+        headers: {
+          'ngrok-skip-browser-warning': '2',
+        },
+      },
+    )
+
+    .then((res) => {
+      window.location.href = `/community/detail${res.headers.location}`;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  return res;
+};
+
+export const EditCommentrlist = async (writeValue) => {
+  let answerId = localStorage.getItem('answerId');
+  let commentId = localStorage.getItem('commentId');
+  const res = await axios
+    .patch(
+      `https://c33e-222-96-41-224.ngrok-free.app/answers/${answerId}/comments/${commentId}`,
+      {
+        memberId: localStorage.getItem('userId'),
+        content: writeValue,
         headers: {
           'ngrok-skip-browser-warning': '2',
         },
@@ -170,7 +274,7 @@ export const ReviewEdit = async () => {
 export const DeletePost = async () => {
   const { id } = useParams();
   const res = await axios
-    .delete(`https://65a9-182-211-13-193.ngrok-free.app/boards/delete/${id}`, {
+    .delete(`https://c33e-222-96-41-224.ngrok-free.app/boards/delete/${id}`, {
       memberId: localStorage.getItem('memberId'),
       headers: {
         'ngrok-skip-browser-warning': '2',
@@ -190,7 +294,7 @@ export const deleteUser = async () => {
   try {
     const res = await axios({
       method: 'delete',
-      url: `https://578a-222-96-41-224.ngrok-free.app/members/auth/delete`,
+      url: `https://c33e-222-96-41-224.ngrok-free.app/members/auth/delete`,
     });
     return res;
   } catch (e) {
@@ -200,7 +304,7 @@ export const deleteUser = async () => {
 
 export const Postbookmark = async () => {
   const res = await axios
-    .post('https://17b3-116-125-236-74.ngrok-free.app/bookmark', {
+    .post('https://c33e-222-96-41-224.ngrok-free.app/bookmark', {
       data: {
         memberId: localStorage.getItem('memberId'),
         code: localStorage.getItem('code'),
@@ -218,7 +322,7 @@ export const Postbookmark = async () => {
 
 export const deleteBookmark = async () => {
   const res = await axios
-    .delete('https://17b3-116-125-236-74.ngrok-free.app/bookmark', {
+    .delete('https://c33e-222-96-41-224.ngrok-free.app/bookmark', {
       data: {
         memberId: localStorage.getItem('memberId'),
         code: localStorage.getItem('code'),

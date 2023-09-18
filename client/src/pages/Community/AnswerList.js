@@ -39,20 +39,26 @@ const AnswerList = ({ board }) => {
             name={answer.answerCreater.name}
             modifiedAt={answer.modifiedAt}
             content={answer.content}
+            answerId={answer.answerId}
+            className="answer"
           ></AnswerForm>
-          <T.CreateAnwer onClick={() => openControl(index)}>
+          <T.OpenCreateAnwerArea onClick={() => openControl(index)}>
             답글달기 <BottomErrow />
-          </T.CreateAnwer>
-          {isAnswerIndex === index && <CreateAnswer />}
-          {answer.comments.map((comment) => {
+          </T.OpenCreateAnwerArea>
+          {isAnswerIndex === index && (
+            <CreateAnswer className="focusing-answer" />
+          )}
+          {/* {answer.comments.map((comment) => {
             <AnswerForm
               key={comment.answerId}
               img={comment.profileImage}
               name={comment.commentCreater.name}
               modifiedAt={comment.modifiedAt}
               content={comment.content}
+            commentId={comment.commentId}
+            className='comment'
             ></AnswerForm>;
-          })}
+          })} */}
         </div>
       ))}
     </T.AnswerLists>

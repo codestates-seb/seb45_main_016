@@ -72,6 +72,8 @@ export const AnswerEditBtn = styled.div`
   }
 `;
 
+export const AnswerEditArea = styled.textarea``;
+
 export const Answer = styled.div`
   display: flex;
   flex-direction: row;
@@ -81,7 +83,7 @@ export const AnswerCreatorImg = styled.div``;
 
 export const AnswerDesCription = styled.div``;
 
-export const CreateAnwer = styled.button`
+export const OpenCreateAnwerArea = styled.button`
   margin: 0 0 0 10%;
   background-color: transparent;
   border: none;
@@ -112,4 +114,6 @@ export const Description = styled.div``;
 
 export const AnswerPost = styled.button`
   margin: 0 0 0 90%;
+  background-color: transparent;
+  border: none;
 `;
