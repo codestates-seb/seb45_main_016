@@ -21,6 +21,14 @@ public class EmailService {
     @Autowired
     private TemplateEngine templateEngine;
 
+    /**
+     * 템플릿으로 비동기 이메일을 보내는 sendDynamicEmail 메서드
+     * @param to : member
+     * @param subject   : 제목
+     * @param templateName : html 이름
+     * @param variables : template 내에 들어가는 변수
+     * @throws MessagingException
+     */
     @Async
     public void sendDynamicEmail(String to,
                                  String subject,
