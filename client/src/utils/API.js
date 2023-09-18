@@ -99,12 +99,12 @@ export const GetSearchedlicense = async (data) => {
   }
 };
 
-export const PostContents = async () => {
+export const PostContents = async (title, content) => {
   const res = await axios
     .post('https://c33e-222-96-41-224.ngrok-free.app/boards/create', {
       memberId: localStorage.getItem('userId'),
-      title: localStorage.getItem('title'),
-      content: localStorage.getItem('content'),
+      title: title,
+      content: content,
       headers: {
         'ngrok-skip-browser-warning': '1',
       },
