@@ -1,5 +1,7 @@
 package com.codestates.server.domain.member.mapper;
 
+import com.codestates.server.domain.board.entity.Board;
+import com.codestates.server.domain.bookmark.entity.Bookmark;
 import com.codestates.server.domain.member.dto.MemberBoardResponseDto;
 import com.codestates.server.domain.member.dto.MemberImagePatchDto;
 import com.codestates.server.domain.member.dto.MemberPatchDto;
@@ -13,8 +15,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-09-15T19:16:01+0900",
-    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.20 (Azul Systems, Inc.)"
+    date = "2023-09-18T22:15:22+0900",
+    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.18 (Azul Systems, Inc.)"
 )
 @Component
 public class MemberMapperImpl implements MemberMapper {
@@ -85,7 +87,15 @@ public class MemberMapperImpl implements MemberMapper {
         phone = member.getPhone();
         profileImage = member.getProfileImage();
 
-        MemberResponseDto memberResponseDto = new MemberResponseDto( memberId, email, name, phone, profileImage );
+        List<Bookmark> bookmarks = null;
+        List<Board> boards = null;
+
+        MemberResponseDto memberResponseDto = new MemberResponseDto( memberId, email, name, phone, profileImage, bookmarks, boards );
+
+        List<Bookmark> list = member.getBookmarks();
+        if ( list != null ) {
+            memberResponseDto.setBookmarks( new ArrayList<Bookmark>( list ) );
+        }
 
         return memberResponseDto;
     }

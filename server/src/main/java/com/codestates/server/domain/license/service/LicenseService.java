@@ -11,15 +11,16 @@ import com.codestates.server.domain.license.licenseinfo.repository.LicenseInfoRe
 import com.codestates.server.domain.member.entity.Member;
 import com.codestates.server.domain.member.repository.MemberRepository;
 import com.codestates.server.domain.member.service.MemberService;
+import com.codestates.server.global.exception.BusinessLogicException;
+import com.codestates.server.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Base64Utils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -44,7 +45,8 @@ public class LicenseService {
     }
 
     public LicenseInfo findLicenseInfoByCode(Long code){
-        LicenseInfo licenseInfo = licenseInfoRepository.findById(code).orElseThrow();
+        LicenseInfo licenseInfo = licenseInfoRepository.findById(code).orElseThrow(
+                ()->new BusinessLogicException(ExceptionCode.LICENSE_NOT_FOUND));
 
         return licenseInfo;
     }
@@ -53,6 +55,13 @@ public class LicenseService {
         List<LicenseInfo> all = licenseInfoRepository.findAll();
 
         return all;
+    }
+
+    public List<LicenseInfo> findLicenseInfosByKeyword(String keyword){
+
+        List<LicenseInfo> licenseInfos = licenseInfoRepository.findByNameContaining(keyword);
+
+        return licenseInfos;
     }
 
 
@@ -100,6 +109,15 @@ public class LicenseService {
         licenseDto.setData(licenseResponseDtos);
 
         return licenseDto;
+    }
+
+    public static void authorizationToMemberId(String authorization) {
+        Base64.Decoder decoder = Base64.getUrlDecoder();
+
+        ;
+
+        System.out.println(Arrays.toString(Base64Utils.decodeFromUrlSafeString(authorization.replace('-', '+')
+                .replace('_', '/'))));
     }
 
 /**

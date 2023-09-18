@@ -102,6 +102,7 @@ public interface BoardMapper {
 
 
 		for(Answer answer : board.getAnswers()){
+
 			List<CommentAnswerDto> commentAnswerDtos = new ArrayList<>();
 			for(Comment comment : answer.getComments()){
 				if(answer.getAnswerId().equals(comment.getAnswer().getAnswerId())) {

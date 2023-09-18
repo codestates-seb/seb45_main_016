@@ -25,5 +25,6 @@ public interface LicenseInfoRepository extends JpaRepository<LicenseInfo,Long> {
      */
     public List<LicenseInfo> findTop5ByOrderByMarkCountDesc();
 
+    public List<LicenseInfo> findByNameContaining(String keyword);
 
 }

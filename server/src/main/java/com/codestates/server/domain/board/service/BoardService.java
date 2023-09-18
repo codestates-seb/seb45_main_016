@@ -27,6 +27,12 @@ public class BoardService {
 	private final MemberRepository memberRepository;
 	private final MemberService memberService;
 
+	public List<Board> findTop5Boards(){
+		List<Board> top6ByOrderByBoardIdDesc = boardRepository.findTop6ByOrderByBoardIdDesc();
+
+		return top6ByOrderByBoardIdDesc;
+	}
+
 	public Board createBoard(Board board, Long memberId) {
 		// 회원인지 확인
 		Member getMember = memberService.getVerifiedMember(memberId);
@@ -98,5 +104,11 @@ public class BoardService {
 	private static void viewCountUp(Board board) {
 		Long view = board.getViews();
 		board.setViews(++view);
+	}
+
+	public List<Board> findBoardsByKeyword(String keyword) {
+		List<Board> byTitleContaining = boardRepository.findByTitleContaining(keyword);
+
+		return byTitleContaining;
 	}
 }
