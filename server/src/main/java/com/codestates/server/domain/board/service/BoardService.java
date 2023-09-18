@@ -25,6 +25,7 @@ public class BoardService {
 
 	private final BoardRepository boardRepository;
 	private final MemberRepository memberRepository;
+	private final MemberService memberService;
 
 	public List<Board> findTop5Boards(){
 		List<Board> top6ByOrderByBoardIdDesc = boardRepository.findTop6ByOrderByBoardIdDesc();
@@ -58,12 +59,9 @@ public class BoardService {
 
 	public Board findBoard(Long boardsId) {
 
-<<<<<<< HEAD
-=======
 		Board board = boardRepository.findById(boardsId)
 			.orElseThrow(() -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
 
->>>>>>> e1949d482e29e3fe5307888b1a11c6e1676cc237
 		Member member = board.getMember();
 		member.getName();
 		member.getEmail();
@@ -107,13 +105,10 @@ public class BoardService {
 		Long view = board.getViews();
 		board.setViews(++view);
 	}
-<<<<<<< HEAD
 
 	public List<Board> findBoardsByKeyword(String keyword) {
 		List<Board> byTitleContaining = boardRepository.findByTitleContaining(keyword);
 
 		return byTitleContaining;
 	}
-=======
->>>>>>> e1949d482e29e3fe5307888b1a11c6e1676cc237
 }

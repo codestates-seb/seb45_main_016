@@ -26,7 +26,7 @@ public class BookmarkController {
     @PostMapping()
     public ResponseEntity postBookmark(@RequestBody BookmarkDto bookmarkDto){
 
-        Member member = memberService.getMember(bookmarkDto.getMemberId());
+        Member member = memberService.findMember(bookmarkDto.getMemberId());
         LicenseInfo licenseInfo = licenseService.findLicenseInfoByCode(bookmarkDto.getCode());
 
         bookmarkService.saveBookmark(member,licenseInfo);
@@ -37,7 +37,7 @@ public class BookmarkController {
     @DeleteMapping()
     public ResponseEntity deleteBookmark(@RequestBody BookmarkDto bookmarkDto){
 
-        Member member = memberService.getMember(bookmarkDto.getMemberId());
+        Member member = memberService.findMember(bookmarkDto.getMemberId());
         LicenseInfo licenseInfo = licenseService.findLicenseInfoByCode(bookmarkDto.getCode());
 
         bookmarkService.cancelBookmark(member,licenseInfo);

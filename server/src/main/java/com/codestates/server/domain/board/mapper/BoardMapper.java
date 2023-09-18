@@ -102,20 +102,7 @@ public interface BoardMapper {
 
 
 		for(Answer answer : board.getAnswers()){
-<<<<<<< HEAD
 
-			List<CommentAnswerDto> commentAnswerDtos = new ArrayList<>();
-
-			for(Comment comment : answer.getComments()){
-				if(answer.getAnswerId().equals(comment.getAnswer().getAnswerId())) {
-					CommentAnswerDto commentAnswerDto = new CommentAnswerDto(comment.getId(),
-							comment.getContent(),
-							new MemberBoardResponseDto(comment.getMember().getMemberId(),
-									comment.getMember().getEmail(),
-									comment.getMember().getName(),
-									comment.getMember().getProfileImage()));
-
-=======
 			List<CommentAnswerDto> commentAnswerDtos = new ArrayList<>();
 			for(Comment comment : answer.getComments()){
 				if(answer.getAnswerId().equals(comment.getAnswer().getAnswerId())) {
@@ -126,7 +113,6 @@ public interface BoardMapper {
 									comment.getMember().getName(),
 									comment.getMember().getProfileImage()));
 
->>>>>>> e1949d482e29e3fe5307888b1a11c6e1676cc237
 					commentAnswerDtos.add(commentAnswerDto);
 				}
 			}

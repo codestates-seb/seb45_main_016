@@ -11,6 +11,8 @@ import com.codestates.server.domain.license.licenseinfo.repository.LicenseInfoRe
 import com.codestates.server.domain.member.entity.Member;
 import com.codestates.server.domain.member.repository.MemberRepository;
 import com.codestates.server.domain.member.service.MemberService;
+import com.codestates.server.global.exception.BusinessLogicException;
+import com.codestates.server.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -43,7 +45,8 @@ public class LicenseService {
     }
 
     public LicenseInfo findLicenseInfoByCode(Long code){
-        LicenseInfo licenseInfo = licenseInfoRepository.findById(code).orElseThrow();
+        LicenseInfo licenseInfo = licenseInfoRepository.findById(code).orElseThrow(
+                ()->new BusinessLogicException(ExceptionCode.LICENSE_NOT_FOUND));
 
         return licenseInfo;
     }

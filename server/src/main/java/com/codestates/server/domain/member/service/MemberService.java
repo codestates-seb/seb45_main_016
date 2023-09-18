@@ -202,6 +202,25 @@ public class MemberService {
                 .orElseThrow(()-> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
     }
 
+    public Long getLoginMemberId(){
+
+        try {
+            Member member = memberRepository.findByEmail(AuthUserUtils.getAuthUser().getName()).orElseThrow(() ->
+                    new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+            Long memberId = member.getMemberId();
+            return memberId;
+
+        }catch (Exception e){
+            return 0L;
+        }
+    }
+
+    public Member findMember(Long memberId){
+        Member member = memberRepository.findById(memberId).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+        return member;
+    }
+
     /**
      * 현재 멤버 아이디랑 로그인한 객체의 아이디랑 비교해서 같은지 확인하는 메서드
      * @param memberId
