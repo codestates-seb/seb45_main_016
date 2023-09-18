@@ -1,9 +1,10 @@
+/* eslint-disable react/prop-types */
 import { useState } from 'react';
 import { BookmarkStyle } from './BookmarkStyle';
-import { PostHeart } from '../../utils/API';
+import { Postbookmark, deleteBookmark } from '../../utils/API';
 // import { API } from '../../utils/API';
 
-const Bookmark = () => {
+const Bookmark = ({ code }) => {
   const [isLiked, setLiked] = useState(false);
 
   //   const url = '북마크 요청 주소';
@@ -16,15 +17,12 @@ const Bookmark = () => {
   const pushHeart = (e) => {
     if (isLiked === false) {
       setLiked(true);
-      PostHeart();
-      console.log('해당 데이터에서 북마크 정보를 보냅니다');
-      //   API(url, method, body);
+      localStorage.setItem('code', code);
+      Postbookmark();
       e.stopPropagation();
     } else {
       setLiked(false);
-      // const method = 'delete';
-      console.log('해당 데이터에서 북마크 정보를 삭제합니다');
-      //API(url, method, body);
+      deleteBookmark();
       e.stopPropagation();
     }
   };

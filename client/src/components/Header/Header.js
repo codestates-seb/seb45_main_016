@@ -41,7 +41,7 @@ const Header = () => {
             <button>LICENSE</button>
           </Link>
           {/* 임시로 목업페이지에 링크 걸었습니다 실제 페이지는 list제거하면 됩니다! */}
-          <Link to="/community/list">
+          <Link to="/community">
             <button>COMMUNITY</button>
           </Link>
           {memberId ? (

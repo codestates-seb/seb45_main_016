@@ -10,25 +10,24 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { LeftArrow } from '../../utils/svg';
 import { RightArrow } from '../../utils/svg';
+import { GetAllCommunityPostsList } from '../../utils/API';
 
 const ITEMS_PER_PAGE = 6; // 한 페이지에 보여줄 아이템 수
 
-const ComListMock = ({ ComData }) => {
+const ComList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [comData, setComData] = useState([]);
 
-  const totalItems = ComData.length;
+  const totalItems = comData.length;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
 
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, totalItems);
-
-  const userId = localStorage.getItem('userId');
+  const memberId = localStorage.getItem('memberId');
   const navigator = useNavigate();
 
   useEffect(() => {
-    setComData([...ComData]);
+    GetAllCommunityPostsList().then((res) => setComData({ ...res.data }));
   }, []);
+  console.log(comData);
 
   const handleChangePage = (page) => {
     setCurrentPage(page);
@@ -75,7 +74,7 @@ const ComListMock = ({ ComData }) => {
   }
 
   const route = () => {
-    if (userId) {
+    if (memberId) {
       navigator('/write');
     } else {
       navigator('/login');
@@ -91,11 +90,14 @@ const ComListMock = ({ ComData }) => {
 
       <Styled.GridContainer>
         {comData &&
-          comData.slice(startIndex, endIndex).map((info) => (
-            <Link to={'/community/detail/' + info.boardId} key={info.boardId}>
+          comData.map((info) => (
+            <Link
+              to={'/community/detail/boards/' + info.boardCreator}
+              key={info.boardId}
+            >
               <ComCard
                 title={info.title}
-                username={info.username}
+                username={info.boardCreator}
                 email={info.email}
                 onClick={() => {
                   localStorage.setItem('boardId', info.boardId);
@@ -124,4 +126,4 @@ const ComListMock = ({ ComData }) => {
   );
 };
 
-export default ComListMock;
+export default ComList;

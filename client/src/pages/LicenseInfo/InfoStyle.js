@@ -37,7 +37,6 @@ export const GridContainer = styled.div`
 
   @media (max-width: ${breakpoints.medium}) {
     grid-template-columns: repeat(auto-fill, minmax(391px, 1fr));
-    gap: 35px;
   }
 `;
 

@@ -42,6 +42,7 @@ const Main = () => {
     try {
       const response = await fetch(
         'https://ef6b-116-125-236-74.ngrok-free.app/search/top5',
+
         {
           headers: {
             'ngrok-skip-browser-warning': '2',
@@ -53,6 +54,7 @@ const Main = () => {
       setLicenseData(data.licenses.data); // 데이터에서 licenses 배열을 사용
       setComData(data.boards);
       console.log('res:', data);
+
       console.log('API Response:', data.licenses.data);
       console.log('API Response2:', data.boards);
     } catch (error) {
