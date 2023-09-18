@@ -1,14 +1,13 @@
 package com.codestates.server.domain.board.controller;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.codestates.server.domain.answer.service.AnswerService;
 import com.codestates.server.domain.board.dto.*;
 import com.codestates.server.domain.board.entity.Board;
 
+import com.codestates.server.domain.member.service.MemberService;
 import com.codestates.server.global.dto.MultiResponseDto;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -26,12 +25,11 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/boards")
 @Slf4j
 @RequiredArgsConstructor
-@CrossOrigin(origins = "", allowedHeaders = "")
 public class BoardController {
 
 	private final BoardService boardService;
-	private final AnswerService answerService;
 	private final BoardMapper mapper;
+	private final MemberService memberService;
 
 	// 게시글 등록
 	@PostMapping("/create")
@@ -80,12 +78,11 @@ public class BoardController {
 
 	//게시글 삭제
 	@DeleteMapping("/delete/{board-id}")
-	public ResponseEntity<?> deleteBoard(@PathVariable("board-id") Long boardId,
-		 							     @RequestBody Map<String, Long> data) {
-		Long memberId = data.get("memberId");
-		boardService.deleteBoard(boardId, memberId);
+	public ResponseEntity<?> deleteBoard(@PathVariable("board-id") Long boardId) {
+
+		Long loginMemberId = memberService.getLoginMemberId();
+		boardService.deleteBoard(boardId, loginMemberId);
 
 		return new ResponseEntity(HttpStatus.NO_CONTENT);
 	}
-
 }
