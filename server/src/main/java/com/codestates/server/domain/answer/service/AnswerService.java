@@ -71,7 +71,7 @@ public class AnswerService {
 }
 
 	public Answer findAnswerById(long answerId) {
-		return answerRepository.findById(answerId).orElse(null);
+		return answerRepository.findById(answerId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
 	}
 
 }

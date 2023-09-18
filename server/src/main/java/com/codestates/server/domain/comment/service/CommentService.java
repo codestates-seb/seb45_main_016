@@ -72,7 +72,6 @@ public class CommentService {
      * @return
      */
     public Comment findCommentById(long commentId) {
-        return commentRepository.findById(commentId).orElseThrow(()->new RuntimeException("없습니다."));
+        return commentRepository.findById(commentId).orElseThrow(()->new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
     }
-
 }
