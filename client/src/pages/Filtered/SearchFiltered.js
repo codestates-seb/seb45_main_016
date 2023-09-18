@@ -21,7 +21,7 @@ import axios from 'axios';
 
 const SearchFiltered = () => {
   const query = localStorage.getItem('savedKeywords');
-  const meberId = localStorage.getItem('memberId');
+  const token = localStorage.getItem('authorization');
   const PageSize = 3;
   const [isModalOpen, setModalOpen] = useState(false);
   const [isIndex, setIndex] = useState();
@@ -48,31 +48,42 @@ const SearchFiltered = () => {
     // 라이선스 데이터를 가져오는 함수 (예: API 호출)
     const fetchLicenseData = async () => {
       try {
-        // memberId 값을 서버에 보내기 위해 쿼리 매개변수로 추가합니다.
-        const params = {
-          keyword: query,
-          memberId: meberId, // 여기에 실제 memberId 값을 넣어주세요.
-        };
+        if (token) {
+          const params = {
+            keyword: query,
+          };
 
-        // 데이터를 가져오는 비동기 작업 수행
-        const res = await axios.get(
-          'https://ef6b-116-125-236-74.ngrok-free.app/search',
-          {
-            headers: {
-              'ngrok-skip-browser-warning': '2',
+          // 데이터를 가져오는 비동기 작업 수행
+          const res = await axios.get(
+            'https://ef6b-116-125-236-74.ngrok-free.app/search',
+            {
+              headers: {
+                authorization: token,
+                'ngrok-skip-browser-warning': '2',
+              },
+              params: params, // memberId를 쿼리 매개변수로 추가합니다.
             },
-            params: params, // memberId를 쿼리 매개변수로 추가합니다.
-          },
-        );
+          ); // 라이선스 데이터와 커뮤니티 데이터를 설정합니다.
+          setFilteredLicenseData(res.data.licenses.data);
+          setFilteredCommunityData(res.data.boards);
+        } else {
+          const params = {
+            keyword: query,
+          };
 
-        if (!res.data) {
-          throw new Error('데이터를 받아오지 못했습니다.');
+          // 데이터를 가져오는 비동기 작업 수행
+          const res = await axios.get(
+            'https://ef6b-116-125-236-74.ngrok-free.app/search',
+            {
+              headers: {
+                'ngrok-skip-browser-warning': '2',
+              },
+              params: params, // memberId를 쿼리 매개변수로 추가합니다.
+            },
+          ); // 라이선스 데이터와 커뮤니티 데이터를 설정합니다.
+          setFilteredLicenseData(res.data.licenses.data);
+          setFilteredCommunityData(res.data.boards);
         }
-
-        // 라이선스 데이터와 커뮤니티 데이터를 설정합니다.
-        console.log('북마크', res.data.licenses.data);
-        setFilteredLicenseData(res.data.licenses.data);
-        setFilteredCommunityData(res.data.boards);
       } catch (error) {
         console.error('라이선스 데이터를 가져오는 중 오류 발생:', error);
       }
