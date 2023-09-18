@@ -22,10 +22,9 @@ const Kakao = () => {
           console.log('data', response.headers);
           if (response.status === 200) {
             const accessToken = response.headers.accesstoken;
-            const memberId = jwt_decode(accessToken).memberId;
             const name = jwt_decode(accessToken).name;
+            localStorage.setItem('authorization', accessToken);
             localStorage.setItem('name', name);
-            localStorage.setItem('memberId', memberId);
             alert('로그인이 성공했습니다.');
             // navigate('/');
           } else {
