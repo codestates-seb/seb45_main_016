@@ -28,10 +28,9 @@ function Login() {
       console.log(res);
       if (res?.status === 200) {
         const accessToken = res.headers.get('authorization');
-        const memberId = jwt_decode(accessToken).memberId;
         const name = jwt_decode(accessToken).name;
+        localStorage.setItem('authorization', accessToken);
         localStorage.setItem('name', name);
-        localStorage.setItem('memberId', memberId);
         alert('로그인이 성공했습니다.');
         navigate('/');
       } else {

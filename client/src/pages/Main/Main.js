@@ -11,11 +11,11 @@ import { Link } from 'react-router-dom';
 const Main = () => {
   const imageUrl = process.env.PUBLIC_URL + '/studyground.png';
   const imageUrl1 = process.env.PUBLIC_URL + '/ava.png';
-
   const [isModalOpen, setModalOpen] = useState(false);
   const [isIndex, setIndex] = useState();
   const [licenseData, setLicenseData] = useState([]); // 자격증 데이터를 저장하는 상태
   const [ComData, setComData] = useState([]);
+  const token = localStorage.getItem('memberId');
   const modal = (index) => {
     if (isModalOpen === false) {
       setModalOpen(true);
@@ -40,23 +40,38 @@ const Main = () => {
   // 자격증 데이터를 가져오는 함수 (예: API 호출)
   const fetchLicenseData = async () => {
     try {
-      const response = await fetch(
-        'https://ef6b-116-125-236-74.ngrok-free.app/search/top5',
+      if (token) {
+        const response = await fetch(
+          'https://ef6b-116-125-236-74.ngrok-free.app/search/top5',
 
-        {
-          headers: {
-            'ngrok-skip-browser-warning': '2',
+          {
+            headers: {
+              authorization: token,
+              'ngrok-skip-browser-warning': '2',
+            },
           },
-        },
-      );
-      const data = await response.json();
+        );
+        const data = await response.json();
 
-      setLicenseData(data.licenses.data); // 데이터에서 licenses 배열을 사용
-      setComData(data.boards);
-      console.log('res:', data);
+        setLicenseData(data.licenses.data); // 데이터에서 licenses 배열을 사용
+        setComData(data.boards);
+        console.log('res:', data);
+      } else {
+        const response = await fetch(
+          'https://ef6b-116-125-236-74.ngrok-free.app/search/top5',
 
-      console.log('API Response:', data.licenses.data);
-      console.log('API Response2:', data.boards);
+          {
+            headers: {
+              'ngrok-skip-browser-warning': '2',
+            },
+          },
+        );
+        const data = await response.json();
+
+        setLicenseData(data.licenses.data); // 데이터에서 licenses 배열을 사용
+        setComData(data.boards);
+        console.log('res:', data);
+      }
     } catch (error) {
       console.error('Error fetching license data:', error);
     }

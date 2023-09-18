@@ -14,18 +14,11 @@ import SearchBar from '../Header/Searchbar'; // SearchBar 컴포넌트를 import
 const imageUrl = process.env.PUBLIC_URL + '/Logo.png';
 
 const Header = () => {
-  const memberId = localStorage.getItem('memberId');
+  const token = localStorage.getItem('authorization');
   const name = localStorage.getItem('name');
   const onClickHandler = () => {
     localStorage.clear();
     window.location.reload();
-  };
-
-  const handleLogin = () => {
-    // 여기서 실제 로그인 로직을 처리한 뒤, userId 값을 로컬 스토리지에 저장
-    // const loggedInUserId = 'exampleUserId'; // 로그인 로직을 따라서 가져와야 함
-    localStorage.setItem('memberId', 1);
-    localStorage.setItem('name', '사람');
   };
 
   return (
@@ -44,7 +37,7 @@ const Header = () => {
           <Link to="/community">
             <button>COMMUNITY</button>
           </Link>
-          {memberId ? (
+          {token ? (
             <Link to="/mypage">
               <button>MY PAGE</button>
             </Link>
@@ -58,7 +51,7 @@ const Header = () => {
       <HeaderRight>
         <SearchBar />
         <Loginform>
-          {memberId ? (
+          {token ? (
             <>
               <span>{name}님</span>
               <Link to="/" className="logout-button" onClick={onClickHandler}>
@@ -68,7 +61,7 @@ const Header = () => {
           ) : (
             <>
               {/* 나중에 onClick 삭제 필요 현재는 로그인 버튼누르면 자동으로userid 생성되게 되어있음*/}
-              <Link to="/login" className="login-button" onClick={handleLogin}>
+              <Link to="/login" className="login-button">
                 <button>Login</button>
               </Link>
 
