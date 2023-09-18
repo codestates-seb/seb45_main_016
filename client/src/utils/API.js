@@ -256,7 +256,7 @@ export const EditAnswerlist = async (writeValue) => {
   return res;
 };
 
-export const EditCommentrlist = async (writeValue) => {
+export const EditCommentlist = async (writeValue) => {
   let answerId = localStorage.getItem('answerId');
   let commentId = localStorage.getItem('commentId');
   const res = await axios

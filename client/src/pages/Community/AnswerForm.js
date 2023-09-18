@@ -5,7 +5,7 @@ import * as T from './AnswerForm.Style';
 import {
   DeleteAnswerlist,
   EditAnswerlist,
-  EditCommentrlist,
+  EditCommentlist,
   DeleteCommentlist,
 } from '../../utils/API';
 
@@ -38,7 +38,7 @@ const AnswerForm = ({
     if (e === 'answer') {
       EditAnswerlist(writeValue);
     } else if (e === 'comment') {
-      EditCommentrlist(writeValue);
+      EditCommentlist(writeValue);
     }
 
     setAnswerEditOpen(false);
