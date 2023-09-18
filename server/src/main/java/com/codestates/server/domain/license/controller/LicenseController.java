@@ -54,21 +54,6 @@ public class LicenseController {
         );
     }
 
-//
-//    @GetMapping("/top5")
-//    public ResponseEntity<BoardLicenseTopDto> getLicenseTop5(@RequestBody(required = false)Optional<Map<String,Long>> body){
-//        List<LicenseInfo> top5LicenseInfo = licenseService.findTop5LicenseInfoList();
-//        LicenseDto top5License = licenseService.findLicenseDateList(top5LicenseInfo,
-//                body.isPresent() ? body.get().get("memberId") : 0L);
-//
-//        List<Board> top5Boards = boardService.findTop5Boards();
-//        List<BoardPageResponse> boardPageResponses = boardMapper.boardToBoardPageResponseDto(top5Boards);
-//
-//        BoardLicenseTopDto boardLicenseTopDto = new BoardLicenseTopDto(top5License,boardPageResponses);
-//
-//        return new ResponseEntity<>(boardLicenseTopDto,HttpStatus.OK);
-//    }
-
 
     @GetMapping("/find")
     public ResponseEntity<LicenseResponseDto> getLicense(@RequestParam("name") String name,
