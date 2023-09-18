@@ -8,7 +8,6 @@ import com.codestates.server.domain.board.service.BoardService;
 import com.codestates.server.domain.license.licensedate.dto.LicenseDto;
 import com.codestates.server.domain.license.licenseinfo.entity.LicenseInfo;
 import com.codestates.server.domain.license.service.LicenseService;
-import com.codestates.server.domain.member.entity.Member;
 import com.codestates.server.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,8 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/search")
@@ -32,16 +29,16 @@ public class SearchController {
 
     @GetMapping("/top5")
     public ResponseEntity<BoardLicenseDto> getSearchTop5(){
-        List<LicenseInfo> top5LicenseInfo = licenseService.findTop5LicenseInfoList();
-        Long memberId = memberService.getLoginMemberId();
+        List<LicenseInfo> top5LicenseInfo = licenseService.findTop5LicenseInfoList(); //5개의 licenseInfo를 뽑아온다.
+        Long memberId = memberService.getLoginMemberId(); //현재 로그인된 유저의 memberId를 받아온다.
 
         LicenseDto top5License = licenseService.findLicenseDateList(top5LicenseInfo,
-                memberId);
+                memberId); //licenseDate를 리스트로 받아온다.
 
-        List<Board> top5Boards = boardService.findTop5Boards();
-        List<BoardPageResponse> top5BoardPage = boardMapper.boardToBoardPageResponseDto(top5Boards);
+        List<Board> top5Boards = boardService.findTop5Boards(); //5개의 board를 받아온다.
+        List<BoardPageResponse> top5BoardPage = boardMapper.boardToBoardPageResponseDto(top5Boards); //5개의 board를 boardPageResponse 리스트로 받아온다.
 
-        BoardLicenseDto boardLicenseDto = new BoardLicenseDto(top5License,top5BoardPage);
+        BoardLicenseDto boardLicenseDto = new BoardLicenseDto(top5License,top5BoardPage); //5개의 정보와 보드리스트를 매핑시킨다.
 
         return new ResponseEntity<>(boardLicenseDto, HttpStatus.OK);
     }

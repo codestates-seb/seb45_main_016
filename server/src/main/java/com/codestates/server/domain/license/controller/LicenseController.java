@@ -2,7 +2,6 @@ package com.codestates.server.domain.license.controller;
 
 import com.codestates.server.domain.bookmark.service.BookmarkService;
 import com.codestates.server.domain.license.licensedate.dto.LicenseDto;
-import com.codestates.server.domain.license.licensedate.dto.LicenseGetDto;
 import com.codestates.server.domain.license.licensedate.dto.LicenseResponseDto;
 import com.codestates.server.domain.license.licensedate.entity.LicenseDate;
 import com.codestates.server.domain.license.licensedate.mapper.LicenseDateMapper;
@@ -31,7 +30,7 @@ public class LicenseController {
     private final BookmarkService bookmarkService;
     private final MemberService memberService;
 
-    //memberId가 있으면 태그 가능. 없으면 불가능.
+    //memberId가 있으면 태그 가능. 없으면 불가능으로 구현해야한다.
 
     /**
      * 스프링에서는 기본적으로 페이지 번호를 0부터 시작한다. -> 이를 위해서 controller쪽에서 page-1 을 해서 올바른 번호를 조회할수있게 해줌.
@@ -56,6 +55,11 @@ public class LicenseController {
     }
 
 
+    /**
+     * name값을 파라미터로 받고, 자격증정보를 리턴한다.
+     * @param name
+     * @return
+     */
     @GetMapping("/find")
     public ResponseEntity<LicenseResponseDto> getLicense(@RequestParam("name") String name) {
 
