@@ -2,10 +2,10 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Kakao = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   useEffect(() => {
     const getCodeFromURL = async () => {
       const code = new URL(window.location.href).searchParams.get('code');
@@ -24,16 +24,18 @@ const Kakao = () => {
           if (response.status === 200) {
             const accessToken = response.headers.accesstoken;
             const name = jwt_decode(accessToken).name;
+            const memberId = jwt_decode(accessToken).memberId;
             localStorage.setItem('authorization', accessToken);
+            localStorage.stItem('memberId', memberId);
             localStorage.setItem('name', name);
             alert('로그인이 성공했습니다.');
-            // navigate('/');
+            navigate('/');
           } else {
             console.error('API 호출 실패:', response.statusText);
           }
         } catch (error) {
           console.error('API 호출 오류:', error);
-          // navigate('/login');
+          navigate('/login');
         }
       } else {
         console.log('URL에서 코드를 찾을 수 없습니다.');
