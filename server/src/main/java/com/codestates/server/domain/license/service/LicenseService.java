@@ -55,6 +55,13 @@ public class LicenseService {
         return all;
     }
 
+    public List<LicenseInfo> findLicenseInfosByKeyword(String keyword){
+
+        List<LicenseInfo> licenseInfos = licenseInfoRepository.findByNameContaining(keyword);
+
+        return licenseInfos;
+    }
+
 
     /**
      * licenseDate를 licenseinfo로 조회한다.

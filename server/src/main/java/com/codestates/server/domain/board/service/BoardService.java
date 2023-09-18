@@ -27,7 +27,12 @@ public class BoardService {
 
 	private final BoardRepository boardRepository;
 	private final MemberRepository memberRepository;
-	private final MemberService memberService;
+
+	public List<Board> findTop5Boards(){
+		List<Board> top6ByOrderByBoardIdDesc = boardRepository.findTop6ByOrderByBoardIdDesc();
+
+		return top6ByOrderByBoardIdDesc;
+	}
 
 	public Page<Board> findBoards(int page){
 		int size = 6;
@@ -69,7 +74,6 @@ public class BoardService {
 		Board board = boardRepository.findById(boardsId)
 			.orElseThrow(RuntimeException::new);
 
-		// ✨(솔이님 첨삭) 멤버 이미지 가지고와서 set
 		Member member = board.getMember();
 		member.getName();
 		member.getEmail();
@@ -107,4 +111,9 @@ public class BoardService {
 		board.setViews(++view);
 	}
 
+	public List<Board> findBoardsByKeyword(String keyword) {
+		List<Board> byTitleContaining = boardRepository.findByTitleContaining(keyword);
+
+		return byTitleContaining;
+	}
 }
