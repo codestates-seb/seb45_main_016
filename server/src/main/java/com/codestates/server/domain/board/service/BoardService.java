@@ -2,6 +2,8 @@ package com.codestates.server.domain.board.service;
 
 import java.util.List;
 
+import com.codestates.server.global.exception.BusinessLogicException;
+import com.codestates.server.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -40,7 +42,7 @@ public class BoardService {
 		memberService.verifyAuthorizedUser(memberId);
 
 		Board findedBoard = boardRepository.findById(board.getBoardId())
-			.orElseThrow(RuntimeException::new);
+			.orElseThrow(() -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
 
 		findedBoard.setTitle(board.getTitle());
 		findedBoard.setContent(board.getContent());
@@ -52,7 +54,7 @@ public class BoardService {
 	public Board findBoard(Long boardsId) {
 
 		Board board = boardRepository.findById(boardsId)
-			.orElseThrow(RuntimeException::new);
+			.orElseThrow(() -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
 
 		Member member = board.getMember();
 		member.getName();
@@ -87,7 +89,7 @@ public class BoardService {
 		memberService.verifyAuthorizedUser(memberId);
 
 		Board findBoard = boardRepository.findById(boardId)
-				.orElseThrow(RuntimeException::new);
+				.orElseThrow(() -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
 
 		boardRepository.delete(findBoard);
 

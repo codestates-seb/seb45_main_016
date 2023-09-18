@@ -12,6 +12,8 @@ import com.codestates.server.domain.board.repository.BoardRepository;
 import com.codestates.server.domain.board.service.BoardService;
 import com.codestates.server.domain.member.entity.Member;
 import com.codestates.server.domain.member.service.MemberService;
+import com.codestates.server.global.exception.BusinessLogicException;
+import com.codestates.server.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +30,7 @@ public class AnswerService {
 		// 가입된 회원인지 검증하기
 		Member getMember = memberService.getVerifiedMember(memberId);
 
-		Board board = boardRepository.findById(boardId).orElseThrow(() -> new RuntimeException("board가 없습니다."));
+		Board board = boardRepository.findById(boardId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
 		answer.setBoard(board);
 		answer.setMember(getMember);
 		answerRepository.save(answer);
@@ -48,7 +50,7 @@ public class AnswerService {
 			answerRepository.save(existingAnswer);
 
 			return existingAnswer;
-		} else throw new EntityNotFoundException("답변이 확인되지 않습니다.");
+		} else throw new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND);
 	}
 
 	public List<Answer> findByBoardId(long boardId){
@@ -64,8 +66,8 @@ public class AnswerService {
 		if(existingAnswer != null) {
 			if(existingAnswer.getBoard().getBoardId() == boardId) {
 				answerRepository.deleteById(answerId);
-			} else throw new RuntimeException("게시글이 존재하지 않습니다");
-		} throw new RuntimeException("answer가 없습니다.");
+			} else throw new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND);
+		} throw new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND);
 }
 
 	public Answer findAnswerById(long answerId) {

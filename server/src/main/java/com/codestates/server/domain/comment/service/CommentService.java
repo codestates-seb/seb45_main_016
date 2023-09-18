@@ -2,8 +2,9 @@ package com.codestates.server.domain.comment.service;
 
 import com.codestates.server.domain.comment.entity.Comment;
 import com.codestates.server.domain.comment.repository.CommentRepository;
-import com.codestates.server.domain.member.entity.Member;
 import com.codestates.server.domain.member.service.MemberService;
+import com.codestates.server.global.exception.BusinessLogicException;
+import com.codestates.server.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +39,7 @@ public class CommentService {
             Comment updatedComment = commentRepository.save(comment);
 
         }else {
-            throw new RuntimeException("comment가 없습니다.");
+            throw new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND);
         }
     }
 
@@ -58,10 +59,10 @@ public class CommentService {
             if (existingComment.getAnswer().getAnswerId() == answerId ) {
                 commentRepository.deleteById(commentId);
             } else {
-                throw new RuntimeException("에러발생");
+                throw new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND);
             }
         }else {
-            throw new RuntimeException("comment가 없습니다.");
+            throw new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND);
         }
     }
 
