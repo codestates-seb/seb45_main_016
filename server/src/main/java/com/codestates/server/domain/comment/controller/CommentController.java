@@ -33,6 +33,7 @@ public class CommentController {
                                              @PathVariable("answer-id") Long answerId) {
 
         Answer answer = answerService.findAnswerById(answerId);
+        //회원 검증 진행함
         Member member = memberService.getMember(commentPostDto.getMemberId());
 
         commentPostDto.setMember(member);
@@ -52,7 +53,7 @@ public class CommentController {
                                         @Valid @RequestBody CommentPatchDto commentPatchDto) {
 
         Answer answer = answerService.findAnswerById(answerId);
-        Member member = memberService.getMember(commentPatchDto.getMemberId());
+        Member member = memberService.verifyAuthorizedUser(commentPatchDto.getMemberId());
 
         commentPatchDto.setMember(member);
         commentPatchDto.setAnswer(answer);

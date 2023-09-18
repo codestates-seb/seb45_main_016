@@ -4,6 +4,10 @@ spring:
       enabled: true
       path: /h2
   datasource:
+#    url: jdbc:mysql://main016-db.ctrkkuxa3llg.ap-northeast-2.rds.amazonaws.com:3306/main016-db
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    username: admin
+#    password: ${MYSQL_PASSWORD}
     url: jdbc:h2:mem:test
     driver-class-name: org.h2.Driver
     username: sa
@@ -20,9 +24,9 @@ spring:
       client:
         registration:
           kakao:
-            client-id: b05b33f9ad8c9790f4281e18ebd1e7fc
-            client-secret: VzgmpqYMMMbgXPq9HXPRQUhUtOJRUWcY
-            redirect-uri: http://localhost:3000/login/oauth/code/kakao
+            client-id: ${KAKAO_CLIENT_ID}
+            client-secret: ${KAKAO_CLIENT_SECRET}
+            redirect-uri: ${KAKAO_REDIRECT_URI}
             authorization-grant-type: authorization_code
             client-authentication-method: POST, GET
             client-name: Kakao
@@ -39,6 +43,17 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: studyground77@gmail.com
+    password: ${EMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 #    defer-datasource-initialization: true #삭제 필요
 #  sql:
 #    init:
@@ -56,12 +71,12 @@ logging:
         util:
           EC2MetadataUtils: error
 secret:
-  key: "=hN6HzankT%2Bi7Qds9PJjAjFb6R6xzw5DAvqBHMSOjw4yaA98ubFd6IRzWT8Kz5CcCiksKJz7qPFdZOsOcjjn4MA%3D%3D"
+  key: ${SCRET_KEY}
 mail:
   address:
-    admin: "admin@gmail.com" # admin:'${ADMIN_EMAIL}' 나중에 변경하기
+    admin: ${ADMIN_EMAIL}
 jwt:
-  key : dlfeksgo16@dlfeksgo16@dlfeksgo16@goqhwk16@ #  key: '${JWT_SECRET_KEY}' 나중에 변경하기
+  key : ${JWT_SECRET_KEY}
   access-token-expiration-minutes: 60
   refresh-token-expiration-minutes: 420
 cloud:

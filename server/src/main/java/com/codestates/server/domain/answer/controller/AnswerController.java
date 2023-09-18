@@ -70,7 +70,4 @@ public class AnswerController {
 
 		return ResponseEntity.noContent().build();
 	}
-
-
-
 }

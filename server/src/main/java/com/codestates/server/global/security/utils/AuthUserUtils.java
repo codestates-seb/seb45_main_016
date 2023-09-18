@@ -1,4 +1,4 @@
-package com.codestates.server.domain.member.entity;
+package com.codestates.server.global.security.utils;
 
 import com.codestates.server.global.exception.BusinessLogicException;
 import com.codestates.server.global.exception.ExceptionCode;

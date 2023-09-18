@@ -37,8 +37,6 @@ public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils; // 사용자 권한 관련 유틸리티 클래스
 
-
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -64,9 +62,12 @@ public class SecurityConfiguration {
                 /** ---------------------------------- member 접근 권한 설정 ---------------------------------- **/
                         .antMatchers(HttpMethod.POST, "/members/signup").permitAll()
                         .antMatchers(HttpMethod.PATCH, "/members/mypage/edit/**").hasRole("USER")
+                        .antMatchers(HttpMethod.PATCH, "/members/mypage/**").hasRole("USER")
                         .antMatchers(HttpMethod.GET, "/members").hasRole("ADMIN")
                         .antMatchers(HttpMethod.GET, "/members/**").hasAnyRole("ADMIN", "USER")
                         .antMatchers(HttpMethod.DELETE, "/members/delete/**").hasAnyRole("USER")
+                        .antMatchers(HttpMethod.PATCH, "/members/mypage/image/upload/**").hasRole("USER")
+                        .antMatchers(HttpMethod.PATCH, "/members/mypage/image/delete/**").hasRole("USER")
                 /** ---------------------------------- boards 접근 권한 설정 ---------------------------------- **/
                         .antMatchers(HttpMethod.POST, "/boards/create").permitAll()//.hasAnyRole("ADMIN", "USER")
                         .antMatchers(HttpMethod.PATCH, "/boards/edit/**").permitAll()//.hasAnyRole("ADMIN", "USER")
