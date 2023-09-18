@@ -34,7 +34,7 @@ public class CommentController {
 
         Answer answer = answerService.findAnswerById(answerId);
         //회원 검증 진행함
-        Member member = memberService.getMember(commentPostDto.getMemberId());
+        Member member = memberService.findMember(commentPostDto.getMemberId());
 
         commentPostDto.setMember(member);
         commentPostDto.setAnswer(answer);
