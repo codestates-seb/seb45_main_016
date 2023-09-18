@@ -1,11 +1,9 @@
-package com.codestates.server.global.mail.handler;
+package com.codestates.server.global.mail.sevice;
 
 import com.codestates.server.domain.member.entity.Member;
 import com.codestates.server.global.mail.event.MemberRegistrationEvent;
-import com.codestates.server.global.mail.sevice.EmailService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -17,7 +15,7 @@ import java.util.Map;
  */
 @Service
 @AllArgsConstructor
-public class MemberRegistrationEventListener {
+public class MemberRegistrationService {
 
     private final EmailService emailService;
 
