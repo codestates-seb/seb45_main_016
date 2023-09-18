@@ -2,7 +2,6 @@ package com.codestates.server.domain.answer.service;
 
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -12,12 +11,9 @@ import com.codestates.server.domain.board.entity.Board;
 import com.codestates.server.domain.board.repository.BoardRepository;
 import com.codestates.server.domain.board.service.BoardService;
 import com.codestates.server.domain.member.entity.Member;
-import com.codestates.server.domain.member.repository.MemberRepository;
 import com.codestates.server.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import com.codestates.server.domain.answer.dto.AnswerResponseDto;
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +38,7 @@ public class AnswerService {
 	public Answer updateAnswer(Answer answer, long boardId, long memberId) {
 
 		// 로그인한 회원 객체랑 현재 회원 아이디랑 비교해서 확인
-		Member getMember = memberService.verifyAuthorizedUser(memberId);
+		memberService.verifyAuthorizedUser(memberId);
 
 		Board board = boardService.findBoard(boardId);
 		Answer existingAnswer = findAnswerById(answer.getAnswerId());

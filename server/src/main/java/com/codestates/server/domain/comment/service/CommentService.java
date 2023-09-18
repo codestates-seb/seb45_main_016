@@ -2,6 +2,8 @@ package com.codestates.server.domain.comment.service;
 
 import com.codestates.server.domain.comment.entity.Comment;
 import com.codestates.server.domain.comment.repository.CommentRepository;
+import com.codestates.server.domain.member.entity.Member;
+import com.codestates.server.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class CommentService {
 
     private final CommentRepository commentRepository;
+    private final MemberService memberService;
 
     /**
      * comment 등록
@@ -18,6 +21,7 @@ public class CommentService {
      * @return
      */
     public Comment createComment(Comment comment) {
+
         return commentRepository.save(comment);
     }
 
@@ -46,10 +50,12 @@ public class CommentService {
      */
     public void deleteComment(long commentId, long answerId, long memberId) {
 
+        memberService.verifyAuthorizedUser(memberId);
+
         Comment existingComment = findCommentById(commentId);
 
         if (existingComment != null) {
-            if (existingComment.getAnswer().getAnswerId() == answerId && existingComment.getMember().getMemberId() == memberId) {
+            if (existingComment.getAnswer().getAnswerId() == answerId ) {
                 commentRepository.deleteById(commentId);
             } else {
                 throw new RuntimeException("에러발생");

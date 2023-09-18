@@ -1,9 +1,7 @@
 package com.codestates.server.domain.member.service;
 
 import com.codestates.server.domain.board.repository.BoardRepository;
-import com.codestates.server.domain.bookmark.repository.BookmarkRepository;
 import com.codestates.server.global.mail.event.MemberRegistrationEvent;
-import com.codestates.server.global.mail.sevice.EmailService;
 import com.codestates.server.global.security.utils.AuthUserUtils;
 import com.codestates.server.domain.member.entity.Member;
 import com.codestates.server.domain.member.repository.MemberRepository;
