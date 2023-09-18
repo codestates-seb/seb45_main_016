@@ -53,7 +53,7 @@ const Header = () => {
         <Loginform>
           {token ? (
             <>
-              <span>{name}님</span>
+              <span>{name}</span>
               <Link to="/" className="logout-button" onClick={onClickHandler}>
                 <button>Logout</button>
               </Link>

@@ -15,7 +15,7 @@ const Main = () => {
   const [isIndex, setIndex] = useState();
   const [licenseData, setLicenseData] = useState([]); // 자격증 데이터를 저장하는 상태
   const [ComData, setComData] = useState([]);
-  const token = localStorage.getItem('memberId');
+  const token = localStorage.getItem('authorization');
   const modal = (index) => {
     if (isModalOpen === false) {
       setModalOpen(true);
@@ -34,44 +34,27 @@ const Main = () => {
   const navigator = useNavigate();
 
   const openDetail = (boardId) => {
-    navigator(`/community/detail/${boardId}`);
+    navigator(`/community/detail/boards/${boardId}`);
   };
 
   // 자격증 데이터를 가져오는 함수 (예: API 호출)
   const fetchLicenseData = async () => {
     try {
-      if (token) {
-        const response = await fetch(
-          'https://ef6b-116-125-236-74.ngrok-free.app/search/top5',
+      const response = await fetch(
+        `${process.env.REACT_APP_API}search/top5`,
 
-          {
-            headers: {
-              authorization: token,
-              'ngrok-skip-browser-warning': '2',
-            },
+        {
+          headers: {
+            Authorization: token,
+            'ngrok-skip-browser-warning': '2',
           },
-        );
-        const data = await response.json();
+        },
+      );
+      const data = await response.json();
 
-        setLicenseData(data.licenses.data); // 데이터에서 licenses 배열을 사용
-        setComData(data.boards);
-        console.log('res:', data);
-      } else {
-        const response = await fetch(
-          'https://ef6b-116-125-236-74.ngrok-free.app/search/top5',
-
-          {
-            headers: {
-              'ngrok-skip-browser-warning': '2',
-            },
-          },
-        );
-        const data = await response.json();
-
-        setLicenseData(data.licenses.data); // 데이터에서 licenses 배열을 사용
-        setComData(data.boards);
-        console.log('res:', data);
-      }
+      setLicenseData(data.licenses.data); // 데이터에서 licenses 배열을 사용
+      setComData(data.boards);
+      console.log('res:', data);
     } catch (error) {
       console.error('Error fetching license data:', error);
     }

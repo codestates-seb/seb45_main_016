@@ -1,5 +1,8 @@
+/* eslint-disable no-undef */
 import axios from 'axios';
 import { json, useParams } from 'react-router-dom';
+
+// const token = localStorage.getItem('authorization');
 
 export const login = async (data) => {
   try {
@@ -7,7 +10,7 @@ export const login = async (data) => {
       method: 'post',
       data,
 
-      url: `https://c553-222-96-41-224.ngrok-free.app/members/auth/login`,
+      url: `${process.env.REACT_APP_API}members/auth/login`,
     });
     return res;
   } catch (e) {
@@ -20,7 +23,7 @@ export const signUp = async (data) => {
     const res = await axios({
       method: 'post',
       data,
-      url: `https://c553-222-96-41-224.ngrok-free.app/members/signup`,
+      url: `${process.env.REACT_APP_API}members/signup`,
     });
     return res;
   } catch (e) {
@@ -34,7 +37,7 @@ export const GetAllLicensesList = async (data) => {
     const res = await axios({
       method: 'get',
       data,
-      url: `https://c553-222-96-41-224.ngrok-free.app/licenses?page=${id}
+      url: `${process.env.REACT_APP_API}licenses?page=${id}
       `,
       headers: {
         'ngrok-skip-browser-warning': '2',
@@ -52,7 +55,7 @@ export const GetAllCommunityPostsList = async (data) => {
     const res = await axios({
       method: 'get',
       data,
-      url: `https://c553-222-96-41-224.ngrok-free.app/boards?page=1
+      url: `${process.env.REACT_APP_API}boards?page=1
       `,
       headers: {
         'ngrok-skip-browser-warning': '2',
@@ -68,7 +71,7 @@ export const GetDetail = async (id) => {
   try {
     const res = await axios({
       method: 'get',
-      url: `https://c553-222-96-41-224.ngrok-free.app/boards/${id}`,
+      url: `${process.env.REACT_APP_API}boards/${id}`,
       headers: {
         'ngrok-skip-browser-warning': '2',
       },
@@ -84,9 +87,9 @@ export const GetSearchedlicense = async (data) => {
     const res = await axios({
       method: 'get',
       data,
-      url: `https://c553-222-96-41-224.ngrok-free.app/licenses/find?name=${localStorage.getItem(
-        'savedKeyWords',
-      )}`,
+      url: `${
+        process.env.REACT_APP_API
+      }licenses/find?name=${localStorage.getItem('savedKeyWords')}`,
       headers: {
         'ngrok-skip-browser-warning': '2',
       },
@@ -99,7 +102,7 @@ export const GetSearchedlicense = async (data) => {
 
 export const PostContents = async (title, content) => {
   const res = await axios
-    .post('https://c553-222-96-41-224.ngrok-free.app/boards/create', {
+    .post(`${process.env.REACT_APP_API}boards/create`, {
       memberId: 1,
       title: title,
       content: content,
@@ -120,7 +123,7 @@ export const PostContents = async (title, content) => {
 export const PostEdit = async () => {
   const res = await axios
     .patch(
-      `https://c553-222-96-41-224.ngrok-free.app/boards/edit/${localStorage.getItem(
+      `${process.env.REACT_APP_API}boards/edit/${localStorage.getItem(
         'boardId',
       )}`,
       {
@@ -147,7 +150,7 @@ export const PostEdit = async () => {
 export const PostAnswer = async (writeValue) => {
   const res = await axios
     .post(
-      `https://c553-222-96-41-224.ngrok-free.app/boards/${localStorage.getItem(
+      `${process.env.REACT_APP_API}boards/${localStorage.getItem(
         'boardId',
       )}/answers`,
       {
@@ -167,16 +170,13 @@ export const PostAnswer = async (writeValue) => {
 export const PostComment = async (writeValue) => {
   let answerId = localStorage.getItem('answerId');
   const res = await axios
-    .post(
-      `https://c553-222-96-41-224.ngrok-free.app/answers/${answerId}/comments/create`,
-      {
-        memberId: 1,
-        content: writeValue,
-        headers: {
-          'ngrok-skip-browser-warning': '2',
-        },
+    .post(`${process.env.REACT_APP_API}answers/${answerId}/comments/create`, {
+      memberId: 1,
+      content: writeValue,
+      headers: {
+        'ngrok-skip-browser-warning': '2',
       },
-    )
+    })
     .catch(function (error) {
       console.log(error);
     });
@@ -188,7 +188,7 @@ export const DeleteAnswerlist = async () => {
   let answerId = localStorage.getItem('answerId');
   const res = await axios
     .delete(
-      `https://c553-222-96-41-224.ngrok-free.app/boards/${boardId}/answers/delete/${answerId} `,
+      `${process.env.REACT_APP_API}boards/${boardId}/answers/delete/${answerId} `,
       {
         memberId: 1,
         headers: {
@@ -213,7 +213,7 @@ export const DeleteCommentlist = async () => {
   let commentId = localStorage.getItem('commentId');
   const res = await axios
     .delete(
-      `https://c553-222-96-41-224.ngrok-free.app/answers/${answerId}/comments/${commentId}`,
+      `${process.env.REACT_APP_API}answers/${answerId}/comments/${commentId}`,
       {
         memberId: 1,
         headers: {
@@ -237,7 +237,7 @@ export const EditAnswerlist = async (writeValue) => {
   // let boardId = localStorage.getItem('boardId');
   // let answerId = localStorage.getItem('answerId');
   const res = await axios
-    .patch(`https://c553-222-96-41-224.ngrok-free.app/boards/1/answers/3`, {
+    .patch(`${process.env.REACT_APP_API}boards/1/answers/3`, {
       memberId: 1,
       content: writeValue,
       headers: {
@@ -261,7 +261,7 @@ export const EditCommentrlist = async (writeValue) => {
   let commentId = localStorage.getItem('commentId');
   const res = await axios
     .patch(
-      `https://c553-222-96-41-224.ngrok-free.app/answers/${answerId}/comments/${commentId}`,
+      `${process.env.REACT_APP_API}answers/${answerId}/comments/${commentId}`,
       {
         memberId: 1,
         content: writeValue,
@@ -285,7 +285,7 @@ export const EditCommentrlist = async (writeValue) => {
 export const DeletePost = async () => {
   const { id } = useParams();
   const res = await axios
-    .delete(`https://c553-222-96-41-224.ngrok-free.app/boards/delete/${id}`, {
+    .delete(`${process.env.REACT_APP_API}boards/delete/${id}`, {
       memberId: 1,
       headers: {
         'ngrok-skip-browser-warning': '2',
@@ -307,7 +307,7 @@ export const deleteUser = async () => {
   try {
     const res = await axios({
       method: 'delete',
-      url: `https://c553-222-96-41-224.ngrok-free.app/members/auth/delete`,
+      url: `${process.env.REACT_APP_API}members/auth/delete`,
     });
     return res;
   } catch (e) {
@@ -317,7 +317,7 @@ export const deleteUser = async () => {
 
 export const Postbookmark = async () => {
   const res = await axios
-    .post('https://c553-222-96-41-224.ngrok-free.app/bookmark', {
+    .post(`${process.env.REACT_APP_API}bookmark`, {
       data: {
         memberId: 1,
         code: localStorage.getItem('code'),
@@ -335,7 +335,7 @@ export const Postbookmark = async () => {
 
 export const deleteBookmark = async () => {
   const res = await axios
-    .delete('https://c553-222-96-41-224.ngrok-free.app/bookmark', {
+    .delete(`${process.env.REACT_APP_API}bookmark`, {
       data: {
         memberId: 1,
         code: localStorage.getItem('code'),

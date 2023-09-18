@@ -9,9 +9,9 @@ import { login } from '../../utils/API';
 import Header from '../../components/Header/Header';
 
 const imageUrl = process.env.PUBLIC_URL + '/KaKaoLogo.png';
-const KAKAO_CLIENT_ID = 'b05b33f9ad8c9790f4281e18ebd1e7fc';
-const KAKAO_REDIRECT_URI = 'http://localhost:3000/login/oauth/code/kakao';
-const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
+const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
+const KAKAO_REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
+const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
 
 function Login() {
   const {
