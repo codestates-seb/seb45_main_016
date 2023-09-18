@@ -8,7 +8,10 @@ import com.codestates.server.domain.board.service.BoardService;
 import com.codestates.server.domain.license.licensedate.dto.LicenseDto;
 import com.codestates.server.domain.license.licenseinfo.entity.LicenseInfo;
 import com.codestates.server.domain.license.service.LicenseService;
+import com.codestates.server.domain.member.entity.Member;
+import com.codestates.server.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,12 +28,29 @@ public class SearchController {
     private final LicenseService licenseService;
     private final BoardService boardService;
     private final BoardMapper boardMapper;
+    private final MemberService memberService;
 
     @GetMapping("/top5")
     public ResponseEntity<BoardLicenseDto> getSearchTop5(@RequestBody(required = false) Optional<Map<String,Long>> body){
         List<LicenseInfo> top5LicenseInfo = licenseService.findTop5LicenseInfoList();
         LicenseDto top5License = licenseService.findLicenseDateList(top5LicenseInfo,
                 body.isPresent() ? body.get().get("memberId") : 0L);
+
+        List<Board> top5Boards = boardService.findTop5Boards();
+        List<BoardPageResponse> top5BoardPage = boardMapper.boardToBoardPageResponseDto(top5Boards);
+
+        BoardLicenseDto boardLicenseDto = new BoardLicenseDto(top5License,top5BoardPage);
+
+        return new ResponseEntity<>(boardLicenseDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/top5/1")
+    public ResponseEntity<BoardLicenseDto> getSearchTop5(){
+        List<LicenseInfo> top5LicenseInfo = licenseService.findTop5LicenseInfoList();
+        Member loginMember = memberService.getLoginMember();
+        Long memberId = loginMember.getMemberId();
+        LicenseDto top5License = licenseService.findLicenseDateList(top5LicenseInfo,
+                memberId);
 
         List<Board> top5Boards = boardService.findTop5Boards();
         List<BoardPageResponse> top5BoardPage = boardMapper.boardToBoardPageResponseDto(top5Boards);

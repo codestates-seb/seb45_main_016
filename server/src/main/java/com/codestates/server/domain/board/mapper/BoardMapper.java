@@ -99,19 +99,23 @@ public interface BoardMapper {
 
 	private static List<AnswerBoardResponseDto> getAnswerBoardResponseDtos(Board board) {
 		List<AnswerBoardResponseDto> answerBoardResponseDtos = new ArrayList<>();
-		List<CommentAnswerDto> commentAnswerDtos = new ArrayList<>();
+
 
 		for(Answer answer : board.getAnswers()){
 
-			for(Comment comment : answer.getComments()){
-				CommentAnswerDto commentAnswerDto = new CommentAnswerDto(comment.getId(),
-						comment.getContent(),
-						new MemberBoardResponseDto(comment.getMember().getMemberId(),
-								comment.getMember().getEmail(),
-								comment.getMember().getName(),
-								comment.getMember().getProfileImage()));
+			List<CommentAnswerDto> commentAnswerDtos = new ArrayList<>();
 
-				commentAnswerDtos.add(commentAnswerDto);
+			for(Comment comment : answer.getComments()){
+				if(answer.getAnswerId().equals(comment.getAnswer().getAnswerId())) {
+					CommentAnswerDto commentAnswerDto = new CommentAnswerDto(comment.getId(),
+							comment.getContent(),
+							new MemberBoardResponseDto(comment.getMember().getMemberId(),
+									comment.getMember().getEmail(),
+									comment.getMember().getName(),
+									comment.getMember().getProfileImage()));
+
+					commentAnswerDtos.add(commentAnswerDto);
+				}
 			}
 
 			AnswerBoardResponseDto answerBoardResponseDto = new AnswerBoardResponseDto(answer.getAnswerId(),

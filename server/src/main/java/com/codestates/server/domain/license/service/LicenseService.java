@@ -16,10 +16,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Base64Utils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -107,6 +106,15 @@ public class LicenseService {
         licenseDto.setData(licenseResponseDtos);
 
         return licenseDto;
+    }
+
+    public static void authorizationToMemberId(String authorization) {
+        Base64.Decoder decoder = Base64.getUrlDecoder();
+
+        ;
+
+        System.out.println(Arrays.toString(Base64Utils.decodeFromUrlSafeString(authorization.replace('-', '+')
+                .replace('_', '/'))));
     }
 
 /**
