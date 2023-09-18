@@ -25,13 +25,13 @@ public class AnswerService {
 
 	private final AnswerRepository answerRepository;
 	private final BoardService boardService;
-	private final MemberRepository memberRepository;
 	private final BoardRepository boardRepository;
+	private final MemberService memberService;
 
 	public Answer createAnswer(Answer answer, Long boardId, Long memberId) {
+		// 가입된 회원인지 검증하기
+		Member getMember = memberService.getVerifiedMember(memberId);
 
-		Optional<Member> member = memberRepository.findById(memberId);
-		Member getMember = member.orElseThrow(() -> new RuntimeException("🚨 회원 정보를 찾을 수 없습니다. 🚨"));
 		Board board = boardRepository.findById(boardId).orElseThrow(() -> new RuntimeException("board가 없습니다."));
 		answer.setBoard(board);
 		answer.setMember(getMember);
@@ -40,19 +40,19 @@ public class AnswerService {
 	}
 
 	public Answer updateAnswer(Answer answer, long boardId, long memberId) {
+
+		// 로그인한 회원 객체랑 현재 회원 아이디랑 비교해서 확인
+		Member getMember = memberService.verifyAuthorizedUser(memberId);
+
 		Board board = boardService.findBoard(boardId);
 		Answer existingAnswer = findAnswerById(answer.getAnswerId());
 
 		if(existingAnswer != null) {
+			existingAnswer.setContent(answer.getContent());
+			answerRepository.save(existingAnswer);
 
-			if(existingAnswer.getMember().getMemberId().equals(memberId)) {
-				existingAnswer.setContent(answer.getContent());
-				answerRepository.save(existingAnswer);
-				return existingAnswer;
-			} else throw new RuntimeException("본인이 작성한 댓글만 수정﹒삭제가 가능합니다.");
-		}
-
-		throw new EntityNotFoundException("답변이 확인되지 않습니다.");
+			return existingAnswer;
+		} else throw new EntityNotFoundException("답변이 확인되지 않습니다.");
 	}
 
 	public List<Answer> findByBoardId(long boardId){
@@ -60,20 +60,17 @@ public class AnswerService {
 	}
 
 	public void deleteAnswer(long boardId, long answerId, long memberId) {
+
+		memberService.verifyAuthorizedUser(memberId);
+
 		Answer existingAnswer = findAnswerById(answerId);
 
-
-		if (existingAnswer != null) {
-			if (existingAnswer.getBoard().getBoardId() == boardId && existingAnswer.getMember().getMemberId() == memberId) {
+		if(existingAnswer != null) {
+			if(existingAnswer.getBoard().getBoardId() == boardId) {
 				answerRepository.deleteById(answerId);
-			} else {
-				throw new RuntimeException("에러발생");
-		}
-	}else {
-			throw new RuntimeException("answer가 없습니다.");
-		}
+			} else throw new RuntimeException("게시글이 존재하지 않습니다");
+		} throw new RuntimeException("answer가 없습니다.");
 }
-
 
 	public Answer findAnswerById(long answerId) {
 		return answerRepository.findById(answerId).orElse(null);
