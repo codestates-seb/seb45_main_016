@@ -82,18 +82,13 @@ public class MemberService {
 
     public Member updateMember(Member member){
 
-        // 없는 회원이면 예외 발생
-        Member getMember = getVerifiedMember(member.getMemberId());
+        Member getMember = verifyAuthorizedUser(member.getMemberId());
 
-        // 로그인한 MemberId랑 업데이트 하려는 마이페이지의 memberId랑 다르면 예외 발생
-        if(!getLoginMember().getMemberId().equals(getMember.getMemberId()))
-            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_USER);
-
-        Optional.ofNullable(member.getName())
+        Optional.ofNullable(getMember.getName())
                 .ifPresent(nickname -> getMember.setName(member.getName()));
-        Optional.ofNullable(member.getPassword())
+        Optional.ofNullable(getMember.getPassword())
                 .ifPresent(password -> getMember.setPassword(member.getPassword()));
-        Optional.ofNullable(member.getProfileImage())
+        Optional.ofNullable(getMember.getProfileImage())
                 .ifPresent(image -> getMember.setProfileImage(member.getProfileImage()));
 
         return memberRepository.save(getMember);
@@ -101,12 +96,8 @@ public class MemberService {
 
 //    public String uploadImage(Long memberId, MultipartFile file) {
     public String uploadImage(Long memberId, MultipartFile file, int x, int y, int width, int height) throws IOException {
-        // 회원 검증 하기
-        Member member = getVerifiedMember(memberId);
 
-        // 현재 memberId랑 비교해서 동일한 사람인지 검증
-        if(!getLoginMember().getMemberId().equals(memberId))
-            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_USER);
+        Member member = verifyAuthorizedUser(memberId);
 
         // 현재 프로필 이미지 가지고 오기
         String presentProfileImage = member.getProfileImage();
@@ -131,11 +122,8 @@ public class MemberService {
     }
 
     public String deleteProfileImage(Long memberId) {
-        // 회원 검증 하기
-        Member member = getVerifiedMember(memberId);
-        // 현재 memberId랑 비교해서 동일한 사람인지 검증
-        if(!getLoginMember().getMemberId().equals(memberId))
-            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_USER);
+
+        Member member = verifyAuthorizedUser(memberId);
 
         // 현재 프로필 이미지 URL을 가져옵니다.
         String currentProfileImage = member.getProfileImage();
@@ -155,10 +143,7 @@ public class MemberService {
 
     // member 마이페이지에서 사용자 정보 가지고 오는 메서드
     public Member getMember(Long memberId) {
-        Member member = getVerifiedMember(memberId);
-        // 현재 memberId랑 비교해서 동일한 사람인지 검증
-        if(!getLoginMember().getMemberId().equals(memberId))
-            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_USER);
+        Member member = verifyAuthorizedUser(memberId);
 
         member.setBoardList(boardRepository.findAllbyMemberId(memberId));
 
@@ -177,13 +162,11 @@ public class MemberService {
 
     // member 삭제하는 deleteMember 메서드
     public void deleteMember(Long memberId) {
-        Member getMember = getVerifiedMember(memberId);
 
-        // 만약 로그인 한 사용자랑 회원 삭제 하려는 회원이랑 memberId 다르면 예외 던지기
-        if(!getLoginMember().getMemberId().equals(getMember.getMemberId()))
-            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_USER);
+        Member member = verifyAuthorizedUser(memberId);
 
-        memberRepository.delete(getMember);
+        memberRepository.delete(member);
+
     }
 
     /**
@@ -192,7 +175,7 @@ public class MemberService {
      * @param memberId
      * @return
      */
-    private Member getVerifiedMember(Long memberId) {
+    public Member getVerifiedMember(Long memberId) {
 
         Optional<Member> member = memberRepository.findById(memberId);
 
@@ -215,7 +198,6 @@ public class MemberService {
 
         if(optionalMember.isPresent())
             throw new BusinessLogicException(ExceptionCode.USER_EXISTS);
-
     }
 
     /**
@@ -227,5 +209,16 @@ public class MemberService {
                 .orElseThrow(()-> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
     }
 
+    /**
+     * 현재 멤버 아이디랑 로그인한 객체의 아이디랑 비교해서 같은지 확인하는 메서드
+     * @param memberId
+     */
+    private Member verifyAuthorizedUser(Long memberId) {
+        Member getMember = getVerifiedMember(memberId);
 
+        if (!getLoginMember().getMemberId().equals(memberId)) {
+            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_USER);
+        }
+        return getMember;
+    }
 }
