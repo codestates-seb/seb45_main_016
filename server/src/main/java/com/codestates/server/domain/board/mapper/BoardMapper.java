@@ -99,19 +99,21 @@ public interface BoardMapper {
 
 	private static List<AnswerBoardResponseDto> getAnswerBoardResponseDtos(Board board) {
 		List<AnswerBoardResponseDto> answerBoardResponseDtos = new ArrayList<>();
-		List<CommentAnswerDto> commentAnswerDtos = new ArrayList<>();
+
 
 		for(Answer answer : board.getAnswers()){
-
+			List<CommentAnswerDto> commentAnswerDtos = new ArrayList<>();
 			for(Comment comment : answer.getComments()){
-				CommentAnswerDto commentAnswerDto = new CommentAnswerDto(comment.getId(),
-						comment.getContent(),
-						new MemberBoardResponseDto(comment.getMember().getMemberId(),
-								comment.getMember().getEmail(),
-								comment.getMember().getName(),
-								comment.getMember().getProfileImage()));
+				if(answer.getAnswerId().equals(comment.getAnswer().getAnswerId())) {
+					CommentAnswerDto commentAnswerDto = new CommentAnswerDto(comment.getId(),
+							comment.getContent(),
+							new MemberBoardResponseDto(comment.getMember().getMemberId(),
+									comment.getMember().getEmail(),
+									comment.getMember().getName(),
+									comment.getMember().getProfileImage()));
 
-				commentAnswerDtos.add(commentAnswerDto);
+					commentAnswerDtos.add(commentAnswerDto);
+				}
 			}
 
 			AnswerBoardResponseDto answerBoardResponseDto = new AnswerBoardResponseDto(answer.getAnswerId(),
@@ -121,8 +123,8 @@ public interface BoardMapper {
 							answer.getMember().getEmail(),
 							answer.getMember().getName(),
 							answer.getMember().getProfileImage()),
-							commentAnswerDtos
-							);
+					commentAnswerDtos
+			);
 
 			answerBoardResponseDtos.add(answerBoardResponseDto);
 		}
