@@ -28,7 +28,7 @@ public class LicenseInfo {
     @Column
     private Long markCount;
 
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "licenseInfo")
     private List<LicenseDate> licenses;
 
 }
