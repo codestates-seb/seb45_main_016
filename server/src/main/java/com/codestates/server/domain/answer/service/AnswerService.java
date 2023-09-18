@@ -60,6 +60,7 @@ public class AnswerService {
 	public void deleteAnswer(long boardId, long answerId, long memberId) {
 
 		memberService.verifyAuthorizedUser(memberId);
+		boardService.getBoard(boardId);
 
 		Answer existingAnswer = findAnswerById(answerId);
 
@@ -67,7 +68,7 @@ public class AnswerService {
 			if(existingAnswer.getBoard().getBoardId() == boardId) {
 				answerRepository.deleteById(answerId);
 			} else throw new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND);
-		} throw new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND);
+		}
 }
 
 	public Answer findAnswerById(long answerId) {

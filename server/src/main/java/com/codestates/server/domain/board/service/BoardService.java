@@ -75,6 +75,11 @@ public class BoardService {
 		return board;
 	}
 
+	public void getBoard(Long boardId) {
+		boardRepository.findById(boardId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
+
+	}
+
 	/**
 	 * 페이지 전체 조회
 	 * @param page : 조회할 페이지

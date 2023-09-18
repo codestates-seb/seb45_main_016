@@ -11,6 +11,7 @@ import com.codestates.server.domain.answer.dto.AnswerPostDto;
 import com.codestates.server.domain.answer.entity.Answer;
 import com.codestates.server.domain.answer.mapper.AnswerMapper;
 import com.codestates.server.domain.answer.service.AnswerService;
+import com.codestates.server.domain.member.service.MemberService;
 import com.codestates.server.global.uri.UriCreator;
 
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AnswerController {
 
 	private final AnswerService answerService;
+	private final MemberService memberService;
 	private final AnswerMapper mapper;
 
 	@PostMapping
@@ -59,13 +61,13 @@ public class AnswerController {
 		return ResponseEntity.accepted().build();
 	}
 
-	@DeleteMapping("/{answer-id}")
+	@DeleteMapping("/delete/{answer-id}")
 	public ResponseEntity deleteAnswer(
 		@PathVariable("answer-id") @Positive Long answerId,
-		@PathVariable("board-id") @Positive Long boardId,
-		@RequestBody Map<String, Long> data) {
+		@PathVariable("board-id") @Positive Long boardId) {
 
-		Long memberId = data.get("memberId");
+		Long memberId = memberService.getLoginMemberId();
+
 		answerService.deleteAnswer(boardId, answerId, memberId);
 
 		return ResponseEntity.noContent().build();
