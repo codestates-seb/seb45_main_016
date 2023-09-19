@@ -53,11 +53,12 @@ export const GetAllLicensesList = async (data) => {
 
 export const GetAllCommunityPostsList = async (data) => {
   // let id = localStorage.getItem('boardId');
+  let id = localStorage.getItem('comId');
   try {
     const res = await axios({
       method: 'get',
       data,
-      url: `${process.env.REACT_APP_API}boards?page=1
+      url: `${process.env.REACT_APP_API}boards?page=${id}
       `,
       headers: {
         'ngrok-skip-browser-warning': '2',

@@ -53,7 +53,6 @@ const Main = () => {
 
       setLicenseData(data.licenses.data); // 데이터에서 licenses 배열을 사용
       setComData(data.boards);
-      console.log('res:', data);
     } catch (error) {
       console.error('Error fetching license data:', error);
     }

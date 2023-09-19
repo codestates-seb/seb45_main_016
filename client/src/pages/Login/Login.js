@@ -33,6 +33,8 @@ function Login() {
         localStorage.setItem('authorization', accessToken);
         localStorage.setItem('memberId', memberId);
         localStorage.setItem('name', name);
+        localStorage.setItem('licenseListId', 1);
+        localStorage.setItem('comId', 1);
         alert('로그인이 성공했습니다.');
         navigate('/');
         location.reload();
