@@ -168,25 +168,12 @@ export const PostAnswer = async (writeValue) => {
 export const PostComment = async (writeValue) => {
   let answerId = localStorage.getItem('answerId');
   const res = await axios
-<<<<<<< Updated upstream
     .post(`${process.env.REACT_APP_API}answers/${answerId}/comments/create`, {
       content: writeValue,
       memberId: memberId,
       headers: {
         'ngrok-skip-browser-warning': '2',
         Authorization: token,
-=======
-    .post(
-      `https://c553-222-96-41-224.ngrok-free.app/answers/${answerId}/comments/create`,
-      {
-        memberId: 1,
-        content: writeValue,
-        headers: {
-          'ngrok-skip-browser-warning': '2',
-          Authorization:
-            'Bearer eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6WyJVU0VSIiwiQURNSU4iXSwiZW1haWwiOiJ1c2VyMUBleGFtcGxlLmNvbSIsIm1lbWJlcklkIjoxLCJzdWIiOiJ1c2VyMUBleGFtcGxlLmNvbSIsImlhdCI6MTY5NTA0NDkzNSwiZXhwIjoxNjk1MDQ4NTM1fQ.t0oIawdX779qdlwdr02aZiJhjwQZZzKueD_PtlorrVo8CRBPq6xdIoQJPSQds2uC',
-        },
->>>>>>> Stashed changes
       },
     })
     .catch(function (error) {
