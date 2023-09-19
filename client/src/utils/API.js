@@ -41,9 +41,6 @@ export const GetAllLicensesList = async (data) => {
       data,
       url: `${process.env.REACT_APP_API}licenses?page=${id}
       `,
-      headers: {
-        'ngrok-skip-browser-warning': '2',
-      },
     });
     return res;
   } catch (e) {
@@ -60,9 +57,6 @@ export const GetAllCommunityPostsList = async (data) => {
       data,
       url: `${process.env.REACT_APP_API}boards?page=${id}
       `,
-      headers: {
-        'ngrok-skip-browser-warning': '2',
-      },
     });
     return res.data;
   } catch (e) {
@@ -75,9 +69,6 @@ export const GetDetail = async (id) => {
     const res = await axios({
       method: 'get',
       url: `${process.env.REACT_APP_API}boards/${id}`,
-      headers: {
-        'ngrok-skip-browser-warning': '2',
-      },
     });
     return res;
   } catch (e) {
@@ -93,9 +84,6 @@ export const GetSearchedlicense = async (data) => {
       url: `${
         process.env.REACT_APP_API
       }licenses/find?name=${localStorage.getItem('savedKeyWords')}`,
-      headers: {
-        'ngrok-skip-browser-warning': '2',
-      },
     });
     return res;
   } catch (e) {
@@ -110,7 +98,6 @@ export const PostContents = async (title, content) => {
       content: content,
       memberId: memberId,
       headers: {
-        'ngrok-skip-browser-warning': '1',
         Authorization: token,
       },
     })
@@ -131,7 +118,6 @@ export const PostEdit = async (title, content, id) => {
       content: content,
       memberId: memberId,
       headers: {
-        'ngrok-skip-browser-warning': '2',
         Authorization: token,
       },
     })
@@ -154,9 +140,7 @@ export const PostAnswer = async (writeValue) => {
       {
         content: writeValue,
         memberId: memberId,
-        headers: {
-          'ngrok-skip-browser-warning': '2',
-        },
+        headers: {},
       },
     )
     .catch(function (error) {
@@ -170,11 +154,7 @@ export const PostComment = async (writeValue) => {
   const res = await axios
     .post(`${process.env.REACT_APP_API}answers/${answerId}/comments/create`, {
       content: writeValue,
-      headers: {
-        'ngrok-skip-browser-warning': '2',
-        Authorization: token,
-        memberId: memberId,
-      },
+      memberId: memberId,
     })
     .catch(function (error) {
       console.log(error);
@@ -191,7 +171,6 @@ export const DeleteAnswerlist = async () => {
       {
         memberId: memberId,
         headers: {
-          'ngrok-skip-browser-warning': '2',
           Authorization: token,
         },
       },
@@ -215,7 +194,6 @@ export const DeleteCommentlist = async () => {
       {
         memberId: memberId,
         headers: {
-          'ngrok-skip-browser-warning': '2',
           Authorization: token,
         },
       },
@@ -240,7 +218,6 @@ export const EditAnswerlist = async (writeValue) => {
         content: writeValue,
         memberId: memberId,
         headers: {
-          'ngrok-skip-browser-warning': '2',
           Authorization: token,
         },
       },
@@ -262,7 +239,6 @@ export const EditCommentlist = async (writeValue) => {
         content: writeValue,
         memberId: memberId,
         headers: {
-          'ngrok-skip-browser-warning': '2',
           Authorization: token,
         },
       },
@@ -282,7 +258,6 @@ export const DeletePost = async (id) => {
     .delete(`${process.env.REACT_APP_API}boards/delete/${id}`, {
       memberId: memberId,
       headers: {
-        'ngrok-skip-browser-warning': '2',
         Authorization: token,
       },
     })
@@ -313,7 +288,6 @@ export const Postbookmark = async () => {
         memberId: memberId,
       },
       headers: {
-        'ngrok-skip-browser-warning': '2',
         type: json,
       },
     })
@@ -329,9 +303,6 @@ export const deleteBookmark = async () => {
       data: {
         memberId: memberId,
         code: localStorage.getItem('code'),
-      },
-      headers: {
-        'ngrok-skip-browser-warning': '2',
       },
     })
     .catch(function (error) {
