@@ -2,15 +2,16 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
 import AnswerForm from './AnswerForm';
+import CommentForm from './CommentsForm ';
 import * as T from './AnswerList.Style';
 import { BottomErrow } from '../../utils/svg';
 import CreateAnswer from './CreateAnswer';
 
-const AnswerList = ({ board }) => {
-  const [answers, setAnswers] = useState([...board.answers]);
+const AnswerList = ({ answers }) => {
+  const [answer, setAnswers] = useState([...answers]);
   const [isAnswerIndex, setAnswerIndex] = useState();
   const [isCreateCommentBoxOpen, setCreateCommentBoxOpen] = useState(false);
-  useEffect(() => setAnswers([...board.answers]), []);
+  useEffect(() => setAnswers([...answers]), []);
 
   const openControl = (index) => {
     setAnswerIndex(index);
@@ -23,14 +24,14 @@ const AnswerList = ({ board }) => {
     }
   };
 
-  let length = answers.length;
+  let length = answer.length;
 
   // let comment = answers.map((el)=>el.comments.map((el)=>{}))
 
   return (
     <T.AnswerLists>
       <p>댓글 {length}</p>
-      {answers.map((ans, index) => (
+      {answer.map((ans, index) => (
         <div key={ans.answerId}>
           <AnswerForm
             img={ans.answerCreator.profileImage}
@@ -42,6 +43,11 @@ const AnswerList = ({ board }) => {
             id={ans.answerCreator.memberId}
             length={length}
           ></AnswerForm>
+          <CommentForm
+            key={index}
+            answerId={ans.answerId}
+            comments={ans.comments}
+          />
           {isCreateCommentBoxOpen ? (
             <T.OpenCreateAnwerArea onClick={() => openControl(index)}>
               취소
@@ -51,26 +57,14 @@ const AnswerList = ({ board }) => {
               답글달기 <BottomErrow />
             </T.OpenCreateAnwerArea>
           )}
-
           {isAnswerIndex === index && (
             <CreateAnswer className="focusing-answer" />
           )}
-          {/* {ans.comments &&
-            ans.comments.map((comment) => {
-              <AnswerForm
-                key={comment.commentId}
-                img={comment.commentCreator.profileImage}
-                name={comment.commentCreator.name}
-                modifiedAt={comment.modifiedAt}
-                content={comment.content}
-                commentId={comment.commentId}
-                className="comment"
-                id={comment.commentCreator.memberID}
-              ></AnswerForm>;
-            })}
-          {console.log(comments)} */}
         </div>
       ))}
+      {answer[0].comments.map((el, index) => {
+        <div key={index}>{el.commentId}</div>;
+      })}
     </T.AnswerLists>
   );
 };

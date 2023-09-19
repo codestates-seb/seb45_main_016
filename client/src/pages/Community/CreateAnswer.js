@@ -1,7 +1,16 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
 import * as T from './CreateAnswer.Style';
+import jwt_decode from 'jwt-decode';
 import { PostAnswer, PostComment } from '../../utils/API';
+
+const token = localStorage.getItem('authorization');
+let img;
+if (token) {
+  img = jwt_decode(token).profileImage;
+} else {
+  img = '';
+}
 
 const CreateAnswer = ({ className }) => {
   const [writeValue, setWriteValue] = useState('');
@@ -17,10 +26,7 @@ const CreateAnswer = ({ className }) => {
   return (
     <T.CreateAnswerForm>
       <T.AnswerCratorInfo>
-        <T.CreatorImg
-          src="current user img"
-          alt="current user img"
-        ></T.CreatorImg>
+        <T.CreatorImg src={img} alt="current user img"></T.CreatorImg>
         <T.Description>
           <p>current user nickname</p>
           <p>current user email</p>

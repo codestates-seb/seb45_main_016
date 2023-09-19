@@ -31,3 +31,5 @@ export const OpenCreateAnwerArea = styled.button`
   align-items: center;
   cursor: pointer;
 `;
+
+export const CommentForm = styled.div``;

@@ -1,8 +1,10 @@
 /* eslint-disable no-undef */
 import axios from 'axios';
-import { json, useParams } from 'react-router-dom';
+import { json } from 'react-router-dom';
 
-// const token = localStorage.getItem('authorization');
+const token = localStorage.getItem('authorization');
+
+const memberId = parseInt(localStorage.getItem('memberId'));
 
 export const login = async (data) => {
   try {
@@ -103,11 +105,12 @@ export const GetSearchedlicense = async (data) => {
 export const PostContents = async (title, content) => {
   const res = await axios
     .post(`${process.env.REACT_APP_API}boards/create`, {
-      memberId: 1,
       title: title,
       content: content,
+      memberId: memberId,
       headers: {
         'ngrok-skip-browser-warning': '1',
+        Authorization: token,
       },
     })
 
@@ -120,23 +123,17 @@ export const PostContents = async (title, content) => {
   return res;
 };
 
-export const PostEdit = async () => {
+export const PostEdit = async (title, content, id) => {
   const res = await axios
-    .patch(
-      `${process.env.REACT_APP_API}boards/edit/${localStorage.getItem(
-        'boardId',
-      )}`,
-      {
-        memberId: 1,
-        title: localStorage.getItem('editedTitle'),
-        content: localStorage.getItem('editedContent'),
-        headers: {
-          'ngrok-skip-browser-warning': '2',
-          Authorization:
-            'Bearer eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6WyJVU0VSIiwiQURNSU4iXSwiZW1haWwiOiJ1c2VyMUBleGFtcGxlLmNvbSIsIm1lbWJlcklkIjoxLCJzdWIiOiJ1c2VyMUBleGFtcGxlLmNvbSIsImlhdCI6MTY5NTA0NDkzNSwiZXhwIjoxNjk1MDQ4NTM1fQ.t0oIawdX779qdlwdr02aZiJhjwQZZzKueD_PtlorrVo8CRBPq6xdIoQJPSQds2uC',
-        },
+    .patch(`${process.env.REACT_APP_API}boards/edit/${id}`, {
+      title: title,
+      content: content,
+      memberId: memberId,
+      headers: {
+        'ngrok-skip-browser-warning': '2',
+        Authorization: token,
       },
-    )
+    })
 
     .then((res) => {
       window.location.href = `/community/detail${res.headers.location}`;
@@ -154,8 +151,8 @@ export const PostAnswer = async (writeValue) => {
         'boardId',
       )}/answers`,
       {
-        memberId: 1,
         content: writeValue,
+        memberId: memberId,
         headers: {
           'ngrok-skip-browser-warning': '2',
         },
@@ -171,10 +168,11 @@ export const PostComment = async (writeValue) => {
   let answerId = localStorage.getItem('answerId');
   const res = await axios
     .post(`${process.env.REACT_APP_API}answers/${answerId}/comments/create`, {
-      memberId: 1,
       content: writeValue,
+      memberId: memberId,
       headers: {
         'ngrok-skip-browser-warning': '2',
+        Authorization: token,
       },
     })
     .catch(function (error) {
@@ -190,11 +188,9 @@ export const DeleteAnswerlist = async () => {
     .delete(
       `${process.env.REACT_APP_API}boards/${boardId}/answers/delete/${answerId} `,
       {
-        memberId: 1,
         headers: {
           'ngrok-skip-browser-warning': '2',
-          Authorization:
-            'Bearer eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6WyJVU0VSIiwiQURNSU4iXSwiZW1haWwiOiJ1c2VyMUBleGFtcGxlLmNvbSIsIm1lbWJlcklkIjoxLCJzdWIiOiJ1c2VyMUBleGFtcGxlLmNvbSIsImlhdCI6MTY5NTA0ODM5OCwiZXhwIjoxNjk1MDUxOTk4fQ.K3kEr-MfoHlHKhgCJbaHsQKpJ2HlNT_-385Cs1p4bltYSAzIKBRYXYZCglAHllIn',
+          Authorization: token,
         },
       },
     )
@@ -215,7 +211,6 @@ export const DeleteCommentlist = async () => {
     .delete(
       `${process.env.REACT_APP_API}answers/${answerId}/comments/${commentId}`,
       {
-        memberId: 1,
         headers: {
           'ngrok-skip-browser-warning': '2',
           Authorization:
@@ -234,41 +229,39 @@ export const DeleteCommentlist = async () => {
 };
 
 export const EditAnswerlist = async (writeValue) => {
-  // let boardId = localStorage.getItem('boardId');
-  // let answerId = localStorage.getItem('answerId');
+  let boardId = localStorage.getItem('boardId');
+  let answerId = localStorage.getItem('answerId');
   const res = await axios
-    .patch(`${process.env.REACT_APP_API}boards/1/answers/3`, {
-      memberId: 1,
-      content: writeValue,
-      headers: {
-        'ngrok-skip-browser-warning': '2',
-        Authorization:
-          'Bearer eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6WyJVU0VSIiwiQURNSU4iXSwiZW1haWwiOiJ1c2VyMUBleGFtcGxlLmNvbSIsIm1lbWJlcklkIjoxLCJzdWIiOiJ1c2VyMUBleGFtcGxlLmNvbSIsImlhdCI6MTY5NTA0ODM5OCwiZXhwIjoxNjk1MDUxOTk4fQ.K3kEr-MfoHlHKhgCJbaHsQKpJ2HlNT_-385Cs1p4bltYSAzIKBRYXYZCglAHllIn',
+    .patch(
+      `${process.env.REACT_APP_API}boards/${boardId}/answers/${answerId}`,
+      {
+        content: writeValue,
+        memberId: memberId,
+        headers: {
+          'ngrok-skip-browser-warning': '2',
+          Authorization: token,
+        },
       },
-    })
+    )
 
-    .then((res) => {
-      window.location.href = `/community/detail${res.headers.location}`;
-    })
     .catch(function (error) {
       console.log(error);
     });
   return res;
 };
 
-export const EditCommentrlist = async (writeValue) => {
+export const EditCommentlist = async (writeValue) => {
   let answerId = localStorage.getItem('answerId');
   let commentId = localStorage.getItem('commentId');
   const res = await axios
     .patch(
       `${process.env.REACT_APP_API}answers/${answerId}/comments/${commentId}`,
       {
-        memberId: 1,
         content: writeValue,
+        memberId: memberId,
         headers: {
           'ngrok-skip-browser-warning': '2',
-          Authorization:
-            'Bearer eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6WyJVU0VSIiwiQURNSU4iXSwiZW1haWwiOiJ1c2VyMUBleGFtcGxlLmNvbSIsIm1lbWJlcklkIjoxLCJzdWIiOiJ1c2VyMUBleGFtcGxlLmNvbSIsImlhdCI6MTY5NTA0ODM5OCwiZXhwIjoxNjk1MDUxOTk4fQ.K3kEr-MfoHlHKhgCJbaHsQKpJ2HlNT_-385Cs1p4bltYSAzIKBRYXYZCglAHllIn',
+          Authorization: token,
         },
       },
     )
@@ -282,21 +275,15 @@ export const EditCommentrlist = async (writeValue) => {
   return res;
 };
 
-export const DeletePost = async () => {
-  const { id } = useParams();
+export const DeletePost = async (id) => {
   const res = await axios
     .delete(`${process.env.REACT_APP_API}boards/delete/${id}`, {
-      memberId: 1,
       headers: {
         'ngrok-skip-browser-warning': '2',
-        Authorization:
-          'Bearer eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6WyJVU0VSIiwiQURNSU4iXSwiZW1haWwiOiJ1c2VyMUBleGFtcGxlLmNvbSIsIm1lbWJlcklkIjoxLCJzdWIiOiJ1c2VyMUBleGFtcGxlLmNvbSIsImlhdCI6MTY5NTA0NDkzNSwiZXhwIjoxNjk1MDQ4NTM1fQ.t0oIawdX779qdlwdr02aZiJhjwQZZzKueD_PtlorrVo8CRBPq6xdIoQJPSQds2uC',
+        Authorization: token,
       },
     })
 
-    .then((res) => {
-      window.location.href = `/community/detail${res.headers.location}`;
-    })
     .catch(function (error) {
       console.log(error);
     });
@@ -319,8 +306,8 @@ export const Postbookmark = async () => {
   const res = await axios
     .post(`${process.env.REACT_APP_API}bookmark`, {
       data: {
-        memberId: 1,
         code: localStorage.getItem('code'),
+        memberId: memberId,
       },
       headers: {
         'ngrok-skip-browser-warning': '2',
@@ -337,7 +324,7 @@ export const deleteBookmark = async () => {
   const res = await axios
     .delete(`${process.env.REACT_APP_API}bookmark`, {
       data: {
-        memberId: 1,
+        memberId: memberId,
         code: localStorage.getItem('code'),
       },
       headers: {

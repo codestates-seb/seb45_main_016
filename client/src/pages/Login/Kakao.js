@@ -26,7 +26,7 @@ const Kakao = () => {
             const name = jwt_decode(accessToken).name;
             const memberId = jwt_decode(accessToken).memberId;
             localStorage.setItem('authorization', accessToken);
-            localStorage.stItem('memberId', memberId);
+            localStorage.setItem('memberId', memberId);
             localStorage.setItem('name', name);
             alert('로그인이 성공했습니다.');
             navigate('/');

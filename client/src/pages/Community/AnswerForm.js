@@ -2,12 +2,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
 import * as T from './AnswerForm.Style';
-import {
-  DeleteAnswerlist,
-  EditAnswerlist,
-  EditCommentrlist,
-  DeleteCommentlist,
-} from '../../utils/API';
+import { DeleteAnswerlist, EditAnswerlist } from '../../utils/API';
 
 const AnswerForm = ({
   img,
@@ -15,7 +10,6 @@ const AnswerForm = ({
   modifiedAt,
   content,
   answerId,
-  commentId,
   className,
   id,
 }) => {
@@ -26,34 +20,20 @@ const AnswerForm = ({
 
   useEffect(() => setWriteValue(content), []);
 
-  const clickEdit = (e) => {
-    if (e.target.className === 'answer') {
-      setAnswerEditOpen(true), localStorage.setItem('answerId', answerId);
-    } else if (e.target.className === 'comment') {
-      setAnswerEditOpen(true), localStorage.setItem('commentId', commentId);
-    }
+  const clickEdit = () => {
+    setAnswerEditOpen(true), localStorage.setItem('answerId', answerId);
   };
 
-  const saveEdit = (e) => {
-    if (e === 'answer') {
-      EditAnswerlist(writeValue);
-    } else if (e === 'comment') {
-      EditCommentrlist(writeValue);
-    }
+  const saveEdit = () => {
+    EditAnswerlist(writeValue);
 
     setAnswerEditOpen(false);
   };
 
-  const deleteAnswer = async (e) => {
-    if (e === 'answer') {
-      localStorage.setItem('answerId', answerId);
-      await DeleteAnswerlist();
-      console.log('답글삭제');
-    } else if (e === 'commnet') {
-      localStorage.setItem('commentId', commentId);
-      await DeleteCommentlist();
-      console.log('답글삭제');
-    }
+  const deleteAnswer = async () => {
+    localStorage.setItem('answerId', answerId);
+    await DeleteAnswerlist();
+    console.log('답글삭제');
   };
 
   return (
@@ -79,14 +59,7 @@ const AnswerForm = ({
           ) : (
             <>
               <button onClick={() => setAnswerEditOpen(false)}>취소</button>
-              <button
-                className={className}
-                onClick={(e) =>
-                  saveEdit(e.target.classList[e.target.classList.length - 1])
-                }
-              >
-                저장
-              </button>
+              <button onClick={() => saveEdit()}>저장</button>
             </>
           )}
         </T.AnswerEditBtn>

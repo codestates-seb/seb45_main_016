@@ -1,29 +1,26 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import { PostContentStyle, TitleWrap } from './PostContentStyle';
-import { PostEdit } from '../../utils/API';
-import { useNavigate } from 'react-router-dom';
-import mockData from './ComData';
+import { PostEdit, GetDetail } from '../../utils/API';
+import { useNavigate, useParams } from 'react-router-dom';
+// import mockData from './ComData';
 
 const Edit = () => {
-  // const [editData, setEditData] = useState();
+  const [editData, setEditData] = useState({ title: '', content: '' });
+  let { id } = useParams();
 
-  // useEffect(() => GetDetail().then((res) => setEditData({ ...res.data })), []);
+  useEffect(() => {
+    GetDetail(id).then((res) => setEditData({ ...res.data }));
+  }, []);
 
-  const getBoard = mockData.data;
-  // const getBoard = editData;
-
-  const [title, setTitle] = useState(getBoard.title);
-  const [content, setContent] = useState(getBoard.content);
+  const [title, setTitle] = useState(editData.title);
+  const [content, setContent] = useState(editData.content);
   const focusRef = useRef();
 
-  console.log(title, content);
-
   const navigator = useNavigate();
-
-  let id = localStorage.getItem('boardId');
 
   const enter = (e) => {
     if (e.key === 'Enter') {
@@ -32,8 +29,7 @@ const Edit = () => {
   };
 
   const patch = () => {
-    console.log('patch합니다');
-    PostEdit(title, content);
+    PostEdit(title, content, id);
     navigator(`/community/detail/boards/${id}`);
   };
 
@@ -47,15 +43,14 @@ const Edit = () => {
             onChange={(e) => setTitle(e.target.value)}
             onKeyDown={enter}
             name="input"
-            defaultValue={getBoard.title}
+            defaultValue={editData.title}
           ></input>
         </TitleWrap>
-        {console.ComFiltered}
         <textarea
           ref={focusRef}
           onChange={(e) => setContent(e.target.value)}
           name="textarea"
-          defaultValue={getBoard.content}
+          defaultValue={editData.content}
         ></textarea>
         <Footer />
       </PostContentStyle>
