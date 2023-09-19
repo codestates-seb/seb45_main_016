@@ -9,7 +9,7 @@ import Modal from '../../components/Modal/Modal';
 import { LeftArrow, RightArrow } from '../../utils/svg';
 import { GetAllLicensesList } from '../../utils/API';
 // import NotFound from '../../components/404/404notfound';
-const itemsPerPage = 9;
+// const itemsPerPage = 9;
 
 const Info = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -18,26 +18,32 @@ const Info = () => {
   const [InfoData, setInfoData] = useState([]);
   const [totalItems, setTotalItems] = useState();
   // const [isError, setError] = useState();
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-
+  // const totalPages = Math.ceil(totalItems / itemsPerPage);
   // 중간 페이지 번호 표시에 사용할 변수
   const pagesToShow = 5; // 항상 5개의 페이지 번호를 표시
   const halfPagesToShow = Math.floor(pagesToShow / 2); // 현재 페이지 기준 양쪽에 표시할 페이지 번호 수의 절반
-
   useEffect(() => {
-    GetAllLicensesList().then((res) => {
-      setInfoData(res.data.data), setTotalItems(res.data);
-    });
-    if (isModalOpen === true) {
-      document.body.style = `overflow:hidden`;
-    } else {
-      document.body.style = `overflow:display`;
+    async function fetchData() {
+      try {
+        const res = await GetAllLicensesList(currentPage); // currentPage를 API 호출에 전달
+        console.log('info', res.data);
+        setInfoData(res.data.data);
+        setTotalItems(res.data.pageInfo.totalPage);
+        // if (isModalOpen === true) {
+        //   document.body.style = `overflow:hidden`;
+        // } else {
+        //   document.body.style = `overflow:auto`;
+        // }
+        console.log(InfoData);
+        console.log(totalItems);
+        console.log('page', res.data.pageInfo.totalPage);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
     }
-  }, []);
-  localStorage.setItem('licenseListId', 1);
-  console.log(InfoData);
-  console.log(totalItems);
 
+    fetchData();
+  }, [currentPage]);
   const modal = (index) => {
     if (isModalOpen === false) {
       setModalOpen(true);
@@ -49,16 +55,17 @@ const Info = () => {
     setCurrentPage(page);
     localStorage.setItem('licenseListId', page);
   };
-
   const handlePrevPage = () => {
     if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+      setCurrentPage((prevPage) => prevPage - 1);
+      localStorage.setItem('licenseListId', currentPage - 1); // 이전 페이지 값으로 업데이트
     }
   };
 
   const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
+    if (currentPage < totalItems) {
+      setCurrentPage((prevPage) => prevPage + 1);
+      localStorage.setItem('licenseListId', currentPage + 1); // 다음 페이지 값으로 업데이트
     }
   };
 
@@ -69,7 +76,7 @@ const Info = () => {
     i <= currentPage + halfPagesToShow;
     i++
   ) {
-    if (i > 0 && i <= totalPages) {
+    if (i > 0 && i <= totalItems) {
       middlePages.push(i);
     }
   }
@@ -82,7 +89,7 @@ const Info = () => {
   // 중간 페이지 번호 목록이 부족할 경우 페이지 번호를 뒤쪽에 추가
   while (
     middlePages.length < pagesToShow &&
-    middlePages[middlePages.length - 1] < totalPages
+    middlePages[middlePages.length - 1] < totalItems
   ) {
     middlePages.push(middlePages[middlePages.length - 1] + 1);
   }
@@ -90,7 +97,6 @@ const Info = () => {
   return (
     <Styled.InfoContainer>
       <Header />
-      {/* {!isError ? ( */}
       <>
         {isModalOpen === true && (
           <Modal

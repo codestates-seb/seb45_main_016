@@ -12,36 +12,44 @@ import { LeftArrow } from '../../utils/svg';
 import { RightArrow } from '../../utils/svg';
 import { GetAllCommunityPostsList } from '../../utils/API';
 
-const ITEMS_PER_PAGE = 6; // 한 페이지에 보여줄 아이템 수
-
 const ComList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [comData, setComData] = useState([]);
-
-  const totalItems = comData.length;
-  const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+  const [totalItems, setTotalItems] = useState();
 
   const authorization = localStorage.getItem('authorization');
   const navigator = useNavigate();
 
   useEffect(() => {
-    GetAllCommunityPostsList().then((res) => setComData([...res.data]));
-  }, []);
-  console.log(comData);
+    async function fetchData() {
+      try {
+        const res = await GetAllCommunityPostsList(currentPage); // currentPage를 API 호출에 전달
+        setComData(res.data);
+        setTotalItems(res.pageInfo.totalPage);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+
+    fetchData();
+  }, [currentPage]);
 
   const handleChangePage = (page) => {
     setCurrentPage(page);
+    localStorage.setItem('comId', page);
   };
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+      setCurrentPage((prevPage) => prevPage - 1);
+      localStorage.setItem('comId', currentPage - 1); // 이전 페이지 값으로 업데이트
     }
   };
 
   const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
+    if (currentPage < totalItems) {
+      setCurrentPage((prevPage) => prevPage + 1);
+      localStorage.setItem('comId', currentPage + 1); // 다음 페이지 값으로 업데이트
     }
   };
 
@@ -55,7 +63,7 @@ const ComList = () => {
     i <= currentPage + halfPagesToShow;
     i++
   ) {
-    if (i > 0 && i <= totalPages) {
+    if (i > 0 && i <= totalItems) {
       middlePages.push(i);
     }
   }
@@ -68,7 +76,7 @@ const ComList = () => {
   // 중간 페이지 번호 목록이 부족할 경우 페이지 번호를 뒤쪽에 추가
   while (
     middlePages.length < pagesToShow &&
-    middlePages[middlePages.length - 1] < totalPages
+    middlePages[middlePages.length - 1] < totalItems
   ) {
     middlePages.push(middlePages[middlePages.length - 1] + 1);
   }
@@ -116,7 +124,7 @@ const ComList = () => {
             data-currentpage={currentPage === page}
             disabled={currentPage === page}
           >
-            {currentPage}
+            {page}
           </Styled.PaginationButton>
         ))}
         <RightArrow onClick={handleNextPage} />
