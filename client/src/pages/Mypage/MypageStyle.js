@@ -68,29 +68,55 @@ export const ProfileRight = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  /* flex-wrap: wrap; */
   align-items: center;
-  gap: 40px;
+  gap: 24px;
   margin-right: 10%;
+
+  .display {
+    color: ${globaltoken.Gray[600].value};
+    text-align: center;
+    width: 80%;
+    margin-top: 5%;
+    padding: 24px;
+
+    > .text {
+      font-size: 12px;
+      text-align: left;
+
+      p {
+        border-bottom: 0.5px solid ${globaltoken.Primary.Default.value};
+        padding: 2px 12px 12px 12px;
+        margin: 24px 0 24px 0;
+      }
+    }
+  }
+
+  .editinfo {
+    border: none;
+    border-radius: 100px;
+    background-color: ${globaltoken.Primary.Default.value};
+    color: ${globaltoken.White.value};
+    font-size: 12px;
+    padding: 8px 12px;
+    margin-top: 24px;
+
+    &:hover {
+      background-color: ${globaltoken.Primary['Darken-1'].value};
+      font-weight: bold;
+    }
+  }
 
   .input-username {
     display: flex;
-    position: relative;
-    width: 100%;
+    width: 80%;
 
     > input {
       width: 100%;
       border: none;
       border-bottom: 0.5px solid ${globaltoken.Primary.Default.value};
+      color: ${globaltoken.Gray[600].value};
+      font-size: 12px;
       padding: 2px 8px 12px 8px;
-    }
-
-    > button {
-      position: absolute;
-      margin-left: 95%;
-      border: none;
-      background-color: ${globaltoken.White.value};
-      cursor: pointer;
     }
 
     > input::placeholder {
@@ -100,22 +126,15 @@ export const ProfileRight = styled.div`
 
   .input-email {
     display: flex;
-    position: relative;
-    width: 100%;
+    width: 80%;
 
     > input {
       width: 100%;
       border: none;
       border-bottom: 0.5px solid ${globaltoken.Primary.Default.value};
+      color: ${globaltoken.Gray[600].value};
+      font-size: 12px;
       padding: 2px 8px 12px 8px;
-    }
-
-    > button {
-      position: absolute;
-      margin-left: 95%;
-      border: none;
-      background-color: ${globaltoken.White.value};
-      cursor: pointer;
     }
 
     > input::placeholder {
@@ -125,22 +144,15 @@ export const ProfileRight = styled.div`
 
   .input-phonenumber {
     display: flex;
-    position: relative;
-    width: 100%;
+    width: 80%;
 
     > input {
       width: 100%;
       border: none;
       border-bottom: 0.5px solid ${globaltoken.Primary.Default.value};
+      color: ${globaltoken.Gray[600].value};
+      font-size: 12px;
       padding: 2px 8px 12px 8px;
-    }
-
-    > button {
-      position: absolute;
-      margin-left: 95%;
-      border: none;
-      background-color: ${globaltoken.White.value};
-      cursor: pointer;
     }
 
     > input::placeholder {
@@ -179,6 +191,12 @@ export const CalendarContainer = styled.div`
   align-items: center;
   margin-left: 10%;
   margin-top: 5%;
+
+  .licensedate {
+    background-color: ${globaltoken.Secondary['Lighten-2'].value};
+    color: ${globaltoken.Secondary['Darken-2'].value};
+  }
+
   .react-calendar {
     flex-grow: 1;
     height: 100%;
@@ -192,6 +210,11 @@ export const CalendarContainer = styled.div`
 
   .react-calendar--doubleView {
     width: 700px;
+  }
+
+  .react-calendar__tile--now {
+    background: ${globaltoken.Primary['Lighten-4'].value};
+    color: ${globaltoken.White.value};
   }
 
   .react-calendar--doubleView .react-calendar__viewContainer {
@@ -325,7 +348,14 @@ export const CalendarContainer = styled.div`
     border-radius: 100px;
   }
 
-  .react-calendar__tile--now:enabled:hover {
+  .react-calendar__tile:enabled:hover,
+  .react-calendar__tile:enabled:focus {
+    background: ${globaltoken.Primary['Lighten-4'].value};
+    color: ${globaltoken.Primary['Darken-2']};
+    border-radius: 100px;
+  }
+
+  /* .react-calendar__tile--now:enabled:hover {
     background: ${globaltoken.Primary['Lighten-4'].value};
     color: ${globaltoken.Primary['Darken-2']};
     border-radius: 100px;
@@ -334,7 +364,7 @@ export const CalendarContainer = styled.div`
     background: ${globaltoken.Primary['Lighten-4'].value};
     color: ${globaltoken.White.value};
     border-radius: 100px;
-  }
+  } */
 
   .react-calendar__tile--hasActive {
     background: ${globaltoken.Primary.Default.value};

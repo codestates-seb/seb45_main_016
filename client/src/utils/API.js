@@ -268,7 +268,7 @@ export const DeletePost = async (id) => {
   return res;
 };
 
-export const deleteUser = async () => {
+export const DeleteUser = async () => {
   try {
     const res = await axios({
       method: 'delete',
@@ -309,4 +309,40 @@ export const deleteBookmark = async () => {
       console.log(error);
     });
   return res;
+};
+
+export const GetUserInfo = async () => {
+  // memberId와 token을 매개변수로 추가
+  try {
+    const res = await axios({
+      method: 'get',
+      url: `${process.env.REACT_APP_API}members/mypage/${memberId}`,
+      headers: {
+        Authorization: token,
+        'ngrok-skip-browser-warning': '2',
+      },
+    });
+    console.log(res); // 응답을 로그로 출력
+    console.log(token); // 응답을 로그로 출력
+    return res;
+  } catch (e) {
+    console.log('제발좀', e);
+  }
+};
+
+export const EditUser = async (updatedUserInfo) => {
+  try {
+    const res = await axios({
+      method: 'patch',
+      url: `${process.env.REACT_APP_API}members/mypage/edit/${memberId}`,
+      headers: {
+        Authorization: token,
+        'ngrok-skip-browser-warning': '2',
+      },
+      data: { updatedUserInfo },
+    });
+    return res;
+  } catch (e) {
+    console.log('실패다 요녀석', e);
+  }
 };

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import * as Styled from '../pages/Community/ComListStyle';
+import * as Styled from './ComCard.Style';
 
 const ComCard = ({ username, email, tag, title, onClick }) => {
   return (
