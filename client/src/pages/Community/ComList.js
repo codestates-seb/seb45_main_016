@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import * as Styled from './ComListStyle';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
-import ComCard from '../../components/Comcard';
+import ComCard from '../../components/ComCard/Comcard';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { LeftArrow } from '../../utils/svg';

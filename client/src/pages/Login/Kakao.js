@@ -2,10 +2,13 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
+import * as S from './kakaoStyle';
+
 import { useNavigate } from 'react-router-dom';
 
 const Kakao = () => {
   const navigate = useNavigate();
+
   useEffect(() => {
     const getCodeFromURL = async () => {
       const code = new URL(window.location.href).searchParams.get('code');
@@ -45,16 +48,19 @@ const Kakao = () => {
     };
 
     getCodeFromURL();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <div className="LoginHandler">
+    <S.KaKaoContainer>
       <div className="notice">
+        <div className="spinner">
+          <img src={imageUrl} alt="spinner" />
+        </div>
         <p>로그인 중입니다.</p>
-        <p>잠시만 기다려주세요.</p>
-        <div className="spinner"></div>
+        <p>잠시만 기다려주세요!</p>
       </div>
-    </div>
+    </S.KaKaoContainer>
   );
 };
 

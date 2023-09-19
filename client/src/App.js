@@ -11,11 +11,14 @@ import PostContent from './pages/Community/PostContent';
 import Edit from './pages/Community/Edit';
 import Kakao from './pages/Login/Kakao';
 import ComDetail from './pages/Community/ComDetail';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
     <Router>
       <div className="App">
+        <ToastContainer />
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/signup" element={<SignUp />} />

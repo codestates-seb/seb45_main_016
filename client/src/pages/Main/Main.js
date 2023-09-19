@@ -14,7 +14,9 @@ const Main = () => {
   const [isIndex, setIndex] = useState();
   const [licenseData, setLicenseData] = useState([]); // 자격증 데이터를 저장하는 상태
   const [ComData, setComData] = useState([]);
+
   const token = localStorage.getItem('authorization');
+
   const modal = (index) => {
     if (isModalOpen === false) {
       setModalOpen(true);
@@ -61,6 +63,7 @@ const Main = () => {
   // Fetch license data when the component mounts
   useEffect(() => {
     fetchLicenseData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // 페이지가 마운트될 때 한 번만 실행
 
   return (

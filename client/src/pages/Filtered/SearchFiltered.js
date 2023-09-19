@@ -15,7 +15,7 @@ import {
 } from './FilteredStyle';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
-import ComCard from '../../components/Comcard';
+import ComCard from '../../components/ComCard/Comcard';
 import InfoCard from '../../components/LicenseCard/LicenseCard';
 import Modal from '../../components/Modal/Modal';
 import { LeftArrow, RightArrow } from '../../utils/svg';
@@ -71,6 +71,7 @@ const SearchFiltered = () => {
 
     // 라이선스 데이터 가져오기 함수 호출
     fetchLicenseData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
   const LicensereComponent = ({ data }) => {
