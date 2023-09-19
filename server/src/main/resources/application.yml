@@ -4,7 +4,7 @@ spring:
       enabled: true
       path: /h2
   datasource:
-    url: jdbc:mysql://main016-db.ctrkkuxa3llg.ap-northeast-2.rds.amazonaws.com:3306/main016-db
+    url: jdbc:mysql://studyground:ctrkkuxa3llg:ap-northeast-2:rds:amazonaws:com:3306/StudyGround_db
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: admin
     password: ${MYSQL_PASSWORD}
