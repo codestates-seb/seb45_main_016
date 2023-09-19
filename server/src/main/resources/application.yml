@@ -71,7 +71,7 @@ logging:
         util:
           EC2MetadataUtils: error
 secret:
-  key: ${SCRET_KEY}
+  key: ${SECRET_KEY}
 mail:
   address:
     admin: ${ADMIN_EMAIL}
