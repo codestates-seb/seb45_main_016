@@ -2,7 +2,6 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
 import AnswerForm from './AnswerForm';
-import CommentForm from './CommentsForm ';
 import * as T from './AnswerList.Style';
 import { BottomErrow } from '../../utils/svg';
 import CreateAnswer from './CreateAnswer';
@@ -39,15 +38,38 @@ const AnswerList = ({ answers }) => {
             modifiedAt={ans.modifiedAt}
             content={ans.content}
             answerId={ans.answerId}
+            comments={ans.comments}
             className="answer"
             id={ans.answerCreator.memberId}
             length={length}
-          ></AnswerForm>
-          <CommentForm
-            key={index}
+          />
+          {ans.comments.map((comment) => {
+            return (
+              <AnswerForm
+                key={comment.commentId}
+                img={comment.commentCreator.profileImage}
+                name={comment.commentCreator.name}
+                modifiedAt={comment.modifiedAt}
+                content={comment.content}
+                answerId={ans.answerId}
+                comments={comment.comments}
+                className="comment"
+                id={comment.commentCreator.memberId}
+                length={length}
+              />
+            );
+          })}
+          {/* <AnswerForm
+            img={ans.answerCreator.profileImage}
+            name={ans.answerCreator.name}
+            modifiedAt={ans.modifiedAt}
+            content={ans.content}
             answerId={ans.answerId}
             comments={ans.comments}
-          />
+            className="answer"
+            id={ans.answerCreator.memberId}
+            length={length}
+          /> */}
           {isCreateCommentBoxOpen ? (
             <T.OpenCreateAnwerArea onClick={() => openControl(index)}>
               취소
@@ -62,9 +84,6 @@ const AnswerList = ({ answers }) => {
           )}
         </div>
       ))}
-      {answer[0].comments.map((el, index) => {
-        <div key={index}>{el.commentId}</div>;
-      })}
     </T.AnswerLists>
   );
 };

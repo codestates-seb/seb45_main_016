@@ -11,7 +11,7 @@ export const CreateAnswerForm = styled.div`
   padding: 4%;
   textarea {
     width: 90%;
-    padding: 5%;
+    padding: 7% 0 0 10%;
     resize: none;
     border: none;
     outline: none;
@@ -33,11 +33,14 @@ export const CreatorImg = styled.img`
 `;
 
 export const Description = styled.div`
-  color: ${Gray['500'].value};
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 100%; /* 12px */
+  p {
+    color: ${Gray['500'].value};
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 100%; /* 12px */
+    margin: 0;
+  }
 `;
 
 export const AnswerPost = styled.button`

@@ -170,10 +170,10 @@ export const PostComment = async (writeValue) => {
   const res = await axios
     .post(`${process.env.REACT_APP_API}answers/${answerId}/comments/create`, {
       content: writeValue,
-      memberId: memberId,
       headers: {
         'ngrok-skip-browser-warning': '2',
         Authorization: token,
+        memberId: memberId,
       },
     })
     .catch(function (error) {
@@ -189,6 +189,7 @@ export const DeleteAnswerlist = async () => {
     .delete(
       `${process.env.REACT_APP_API}boards/${boardId}/answers/delete/${answerId} `,
       {
+        memberId: memberId,
         headers: {
           'ngrok-skip-browser-warning': '2',
           Authorization: token,
@@ -196,8 +197,8 @@ export const DeleteAnswerlist = async () => {
       },
     )
 
-    .then((res) => {
-      window.location.href = `/community/detail${res.headers.location}`;
+    .then(() => {
+      window.location.href = `/community/detail/boards/${boardId}`;
     })
     .catch(function (error) {
       console.log(error);
@@ -212,10 +213,10 @@ export const DeleteCommentlist = async () => {
     .delete(
       `${process.env.REACT_APP_API}answers/${answerId}/comments/${commentId}`,
       {
+        memberId: memberId,
         headers: {
           'ngrok-skip-browser-warning': '2',
-          Authorization:
-            'Bearer eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6WyJVU0VSIiwiQURNSU4iXSwiZW1haWwiOiJ1c2VyMUBleGFtcGxlLmNvbSIsIm1lbWJlcklkIjoxLCJzdWIiOiJ1c2VyMUBleGFtcGxlLmNvbSIsImlhdCI6MTY5NTA0NDkzNSwiZXhwIjoxNjk1MDQ4NTM1fQ.t0oIawdX779qdlwdr02aZiJhjwQZZzKueD_PtlorrVo8CRBPq6xdIoQJPSQds2uC',
+          Authorization: token,
         },
       },
     )
@@ -279,6 +280,7 @@ export const EditCommentlist = async (writeValue) => {
 export const DeletePost = async (id) => {
   const res = await axios
     .delete(`${process.env.REACT_APP_API}boards/delete/${id}`, {
+      memberId: memberId,
       headers: {
         'ngrok-skip-browser-warning': '2',
         Authorization: token,

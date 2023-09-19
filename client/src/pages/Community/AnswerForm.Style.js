@@ -6,6 +6,7 @@ const { Gray } = globaltoken;
 export const AnswerForm = styled.div`
   border-top: 1px solid ${Gray['300'].value};
   padding: 4%;
+  padding-left: ${(props) => (props['classname'] === 'comment' ? '60px' : 0)};
 `;
 
 export const AnswerEditBtn = styled.div`
@@ -42,10 +43,10 @@ export const AnswerCreatorImg = styled.div`
   margin-right: 2%;
   width: 40px;
   height: 40px;
-  border-radius: 100px;
   img {
     width: 40px;
     height: 40px;
+    border-radius: 100px;
   }
 `;
 

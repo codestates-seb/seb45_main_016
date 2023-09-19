@@ -28,6 +28,10 @@ const ComDetail = () => {
     GetDetail(id).then((res) => setBoardData({ ...res.data }));
   }, []);
 
+  const answerAppender = async () => {
+    await GetDetail(id).then((res) => setBoardData({ ...res.data }));
+  };
+
   const deletePost = () => {
     DeletePost(id);
     window.location.href = `/community`;
@@ -109,6 +113,7 @@ const ComDetail = () => {
           <CreateAnswer
             answers={boardData.answers}
             className="board-focusing"
+            answerAppender={answerAppender}
           />
         </T.BoardBodyWrap>
       )}
