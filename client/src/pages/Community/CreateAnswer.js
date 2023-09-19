@@ -12,12 +12,12 @@ if (token) {
   img = '';
 }
 
-const CreateAnswer = ({ className }) => {
+const CreateAnswer = ({ className, answerAppender }) => {
   const [writeValue, setWriteValue] = useState('');
 
   const answerPost = (e) => {
     if (e === 'board-focusing') {
-      PostAnswer(writeValue);
+      PostAnswer(writeValue).then(() => answerAppender());
     } else if (e === 'focusing-answer') {
       PostComment(writeValue);
     }
@@ -28,7 +28,7 @@ const CreateAnswer = ({ className }) => {
       <T.AnswerCratorInfo>
         <T.CreatorImg src={img} alt="current user img"></T.CreatorImg>
         <T.Description>
-          <p>current user nickname</p>
+          <p>{localStorage.getItem('name')}</p>
           <p>current user email</p>
         </T.Description>
       </T.AnswerCratorInfo>
