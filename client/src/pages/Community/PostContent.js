@@ -17,30 +17,9 @@ const PostContent = () => {
   };
 
   console.log(title, content);
-
+  console.log(localStorage.getItem('authorization'));
   const post = () => {
-    if (title.length > 0 && content.length > 0) {
-      console.log('post합니다');
-    }
-    // axios
-    //   .post('https://65a9-182-211-13-193.ngrok-free.app/boards/create', {
-    //     memberId: '1',
-    //     title: localStorage.getItem('title'),
-    //     content: localStorage.getItem('content'),
-    //     headers: {
-    //       'ngrok-skip-browser-warning': '2',
-    //     },
-    //   })
-
-    //   .then((res) => {
-    //     window.location.href = `/community/detail${res.headers.location}`;
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
-    PostContents(title, content).then((res) => {
-      window.location.href = `/community/detail${res.headers.location}`;
-    });
+    PostContents(title, content);
   };
 
   return (

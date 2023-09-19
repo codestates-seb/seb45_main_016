@@ -133,10 +133,6 @@ const Info = () => {
           <RightArrow onClick={handleNextPage} />
         </Styled.PaginationContainer>
       </>
-      {/* ) : (
-        <NotFound />
-      )} */}
-
       <Footer />
     </Styled.InfoContainer>
   );

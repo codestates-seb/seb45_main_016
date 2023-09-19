@@ -3,12 +3,12 @@ import globaltoken from '../../styles/global.json';
 
 const { Gray } = globaltoken;
 
-export const AnswerForm = styled.div`
+export const CommentForm = styled.div`
   border-top: 1px solid ${Gray['300'].value};
   padding: 4%;
 `;
 
-export const AnswerEditBtn = styled.div`
+export const CommentEditBtn = styled.div`
   display: flex;
   flex-direction: row;
   margin-left: 90%;
@@ -24,21 +24,21 @@ export const AnswerEditBtn = styled.div`
   }
 `;
 
-export const AnswerEditArea = styled.textarea`
+export const CommentEditArea = styled.textarea`
   width: 90%;
   border: 1px solid ${Gray['300'].value};
   border-radius: 5px;
   resize: none;
 `;
 
-export const Answer = styled.div`
+export const Comment = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   margin-bottom: 3%;
 `;
 
-export const AnswerCreatorImg = styled.div`
+export const CommentCreatorImg = styled.div`
   margin-right: 2%;
   width: 40px;
   height: 40px;
@@ -49,7 +49,7 @@ export const AnswerCreatorImg = styled.div`
   }
 `;
 
-export const AnswerDesCription = styled.div`
+export const CommentDesCription = styled.div`
   color: ${Gray['500'].value};
   font-size: 12px;
   font-style: normal;

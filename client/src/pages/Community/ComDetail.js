@@ -12,7 +12,7 @@ import {
   SvgHeartFill,
 } from '../../utils/svg';
 import CreateAnswer from './CreateAnswer';
-import { GetDetail } from '../../utils/API';
+import { DeletePost, GetDetail } from '../../utils/API';
 import Footer from '../../components/Footer/Footer';
 
 const ComDetail = () => {
@@ -29,7 +29,8 @@ const ComDetail = () => {
   }, []);
 
   const deletePost = () => {
-    console.log('board delete');
+    DeletePost(id);
+    window.location.href = `/community`;
   };
 
   const openAnswer = () => {
@@ -102,7 +103,9 @@ const ComDetail = () => {
               <p>Like</p>
             </T.HeartBtn>
           </T.BoardContentBtnWrap>
-          {isAnswerOpen && <AnswerList board={boardData} />}
+          {isAnswerOpen && (
+            <AnswerList board={boardData} answers={boardData.answers} />
+          )}
           <CreateAnswer
             answers={boardData.answers}
             className="board-focusing"
