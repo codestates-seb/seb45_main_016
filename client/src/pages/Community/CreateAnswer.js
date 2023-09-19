@@ -20,6 +20,7 @@ const CreateAnswer = ({ className, answerAppender }) => {
       PostAnswer(writeValue).then(() => answerAppender());
     } else if (e === 'focusing-answer') {
       PostComment(writeValue);
+      console.log(e);
     }
   };
 
