@@ -9,7 +9,7 @@ import Modal from '../../components/Modal/Modal';
 import { Link } from 'react-router-dom';
 
 const Main = () => {
-  const imageUrl = process.env.PUBLIC_URL + '/studyground.png';
+  const imageUrl = process.env.PUBLIC_URL + '/studyground_main.png';
   const [isModalOpen, setModalOpen] = useState(false);
   const [isIndex, setIndex] = useState();
   const [licenseData, setLicenseData] = useState([]); // 자격증 데이터를 저장하는 상태
