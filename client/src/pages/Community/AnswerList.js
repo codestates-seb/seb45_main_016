@@ -12,6 +12,8 @@ const AnswerList = ({ answers }) => {
   const [isCreateCommentBoxOpen, setCreateCommentBoxOpen] = useState(false);
   useEffect(() => setAnswers([...answers]), []);
 
+  const memberId = localStorage.getItem('memebrId');
+
   const openControl = (index) => {
     setAnswerIndex(index);
 
@@ -70,15 +72,16 @@ const AnswerList = ({ answers }) => {
             id={ans.answerCreator.memberId}
             length={length}
           /> */}
-          {isCreateCommentBoxOpen ? (
-            <T.OpenCreateAnwerArea onClick={() => openControl(index)}>
-              취소
-            </T.OpenCreateAnwerArea>
-          ) : (
-            <T.OpenCreateAnwerArea onClick={() => openControl(index)}>
-              답글달기 <BottomErrow />
-            </T.OpenCreateAnwerArea>
-          )}
+          {memberId &&
+            (isCreateCommentBoxOpen ? (
+              <T.OpenCreateAnwerArea onClick={() => openControl(index)}>
+                취소
+              </T.OpenCreateAnwerArea>
+            ) : (
+              <T.OpenCreateAnwerArea onClick={() => openControl(index)}>
+                답글달기 <BottomErrow />
+              </T.OpenCreateAnwerArea>
+            ))}
           {isAnswerIndex === index && (
             <CreateAnswer className="focusing-answer" />
           )}
