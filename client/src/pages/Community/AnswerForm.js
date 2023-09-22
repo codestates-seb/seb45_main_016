@@ -93,6 +93,7 @@ const AnswerForm = ({
       {isAnswerEditOpen ? (
         <T.AnswerEditArea
           onChange={(e) => setWriteValue(e.target.value)}
+          defaultValue={content}
         ></T.AnswerEditArea>
       ) : (
         content && (

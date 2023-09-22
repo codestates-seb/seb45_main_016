@@ -14,6 +14,8 @@ const AnswerList = ({ answers }) => {
 
   const memberId = localStorage.getItem('memebrId');
 
+  const profileImage = localStorage.getItem('profileImg');
+
   const openControl = (index) => {
     setAnswerIndex(index);
 
@@ -35,7 +37,7 @@ const AnswerList = ({ answers }) => {
       {answer.map((ans, index) => (
         <div key={ans.answerId}>
           <AnswerForm
-            img={ans.answerCreator.profileImage}
+            img={profileImage}
             name={ans.answerCreator.name}
             modifiedAt={ans.modifiedAt}
             content={ans.content}
@@ -49,7 +51,7 @@ const AnswerList = ({ answers }) => {
             return (
               <AnswerForm
                 key={comment.commentId}
-                img={comment.commentCreator.profileImage}
+                img={profileImage}
                 name={comment.commentCreator.name}
                 modifiedAt={comment.modifiedAt}
                 content={comment.content}
