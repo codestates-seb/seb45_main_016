@@ -24,6 +24,8 @@ const ComDetail = () => {
   const [isLike, setIsLike] = useState(false);
   const { id } = useParams();
 
+  const profileImg = localStorage.getItem('profileImg');
+
   useEffect(() => {
     GetDetail(id).then((res) => setBoardData({ ...res.data }));
   }, []);
@@ -78,10 +80,7 @@ const ComDetail = () => {
         <T.BoardTitle>{boardData.title}</T.BoardTitle>
         <T.BoardCreatorInfo>
           <T.InfoImgWrap>
-            <img
-              src={boardData.boardCreator.profileImage}
-              alt="creator_image_board"
-            />
+            <img src={profileImg} alt="creator_image_board" />
           </T.InfoImgWrap>
           <T.InfoDescription>
             <span>{boardData.boardCreator.name}</span>
@@ -107,9 +106,7 @@ const ComDetail = () => {
               <p>Like</p>
             </T.HeartBtn>
           </T.BoardContentBtnWrap>
-          {isAnswerOpen && (
-            <AnswerList board={boardData} answers={boardData.answers} />
-          )}
+          {isAnswerOpen && <AnswerList answers={boardData.answers} />}
           <CreateAnswer
             answers={boardData.answers}
             className="board-focusing"

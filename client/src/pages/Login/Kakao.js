@@ -53,7 +53,7 @@ const Kakao = () => {
     <S.KaKaoContainer>
       <div className="notice">
         <div className="spinner">
-          <img src={imageUrl} alt="spinner" />
+          <img src="/spinner.gif" alt="spinner" />
         </div>
         <p>로그인 중입니다.</p>
         <p>잠시만 기다려주세요!</p>

@@ -6,6 +6,7 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import InfoCard from '../../components/LicenseCard/LicenseCard';
 import Modal from '../../components/Modal/Modal';
+import { infoData } from '../../utils/licenseMock';
 import { Link } from 'react-router-dom';
 
 const Main = () => {
@@ -51,9 +52,9 @@ const Main = () => {
           },
         },
       );
-      const data = await response.json();
+      const data = await response.json(); // 데이터에서 licenses 배열을 사용
 
-      setLicenseData(data.licenses.data); // 데이터에서 licenses 배열을 사용
+      // setLicenseData(data.licenses.data); // 데이터에서 licenses 배열을 사용
       setComData(data.boards);
     } catch (error) {
       console.error('Error fetching license data:', error);
@@ -62,6 +63,7 @@ const Main = () => {
 
   // Fetch license data when the component mounts
   useEffect(() => {
+    setLicenseData(infoData.slice(0, 5)); //mock data
     fetchLicenseData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // 페이지가 마운트될 때 한 번만 실행
