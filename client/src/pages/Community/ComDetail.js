@@ -107,9 +107,7 @@ const ComDetail = () => {
               <p>Like</p>
             </T.HeartBtn>
           </T.BoardContentBtnWrap>
-          {isAnswerOpen && (
-            <AnswerList board={boardData} answers={boardData.answers} />
-          )}
+          {isAnswerOpen && <AnswerList answers={boardData.answers} />}
           <CreateAnswer
             answers={boardData.answers}
             className="board-focusing"

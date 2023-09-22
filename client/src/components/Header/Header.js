@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect } from 'react';
 import {
   HeaderStyle,
   Logo,
@@ -20,6 +21,14 @@ const Header = () => {
     localStorage.clear();
     window.location.reload();
   };
+
+  useEffect(() => {
+    function clearLocalStorage() {
+      localStorage.clear();
+    }
+    const delayMilliseconds = 60 * 60 * 1000;
+    setTimeout(clearLocalStorage, delayMilliseconds);
+  }, []);
 
   const onClickHandlerin = () => {
     localStorage.setItem('licenseListId', 1);
