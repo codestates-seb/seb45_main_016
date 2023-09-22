@@ -51,7 +51,7 @@ public class BatchConfig {
     public Job job() throws IOException {
         return jobBuilderFactory.get("job")
                 .start(step01())
-//                .next(step02())
+                .next(step02())
                 .build();
     }
 
@@ -59,7 +59,7 @@ public class BatchConfig {
     public Step step01(){
         return stepBuilderFactory.get("step01")
                 //<rader에 넘길 타입, writer에 넘길 타입>
-                .<CsvDto, CsvDto>chunk(5000)
+                .<CsvDto, CsvDto>chunk(500)
                 .reader(csvReader()) //csv파일 읽고 넘기는 로직
                 .writer(items -> csvWriter(items).write(items)) //받은 데이터 DB에 저장 로직
                 .build();

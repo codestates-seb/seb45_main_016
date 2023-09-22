@@ -39,9 +39,6 @@ public class AnswerService {
 
 	public Answer updateAnswer(Answer answer, long boardId, long memberId) {
 
-		// 로그인한 회원 객체랑 현재 회원 아이디랑 비교해서 확인
-		memberService.verifyAuthorizedUser(memberId);
-
 		Board board = boardService.findBoard(boardId);
 		Answer existingAnswer = findAnswerById(answer.getAnswerId());
 
