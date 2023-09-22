@@ -10,7 +10,8 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { LeftArrow } from '../../utils/svg';
 import { RightArrow } from '../../utils/svg';
-import { GetAllCommunityPostsList } from '../../utils/API';
+import ComData from '../../utils/commock';
+// import { GetAllCommunityPostsList } from '../../utils/API';
 
 const ComList = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,13 +23,15 @@ const ComList = () => {
 
   useEffect(() => {
     async function fetchData() {
-      try {
-        const res = await GetAllCommunityPostsList(currentPage); // currentPage를 API 호출에 전달
-        setComData(res.data);
-        setTotalItems(res.pageInfo.totalPage);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
+      //   try {
+      //     const res = await GetAllCommunityPostsList(currentPage); // currentPage를 API 호출에 전달
+      //     setComData(res.data);
+      //     setTotalItems(res.pageInfo.totalPage);
+      //   } catch (error) {
+      //     console.error('Error fetching data:', error);
+      //   }
+      setComData(ComData); //mock
+      setTotalItems(ComData.length); //mock
     }
 
     fetchData();
