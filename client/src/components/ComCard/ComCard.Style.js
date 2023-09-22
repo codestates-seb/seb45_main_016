@@ -6,7 +6,7 @@ export const ComCardContainer = styled.div`
   flex-direction: column;
   align-items: center;
   flex-shrink: 0;
-  padding: 139px 81.5px;
+  padding: 110px 71px;
   border-radius: 20px;
   border: 1px solid ${globaltoken.CommunityBorderDefault['color'].value};
 
