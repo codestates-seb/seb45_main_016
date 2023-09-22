@@ -6,8 +6,8 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import InfoCard from '../../components/LicenseCard/LicenseCard';
 import Modal from '../../components/Modal/Modal';
-import { infoData } from '../../utils/licenseMock';
-import ComData from '../../utils/commock';
+// import { infoData } from '../../utils/licenseMock';
+// import ComData from '../../utils/commock';
 import { Link } from 'react-router-dom';
 
 const Main = () => {
@@ -17,7 +17,7 @@ const Main = () => {
   const [licenseData, setLicenseData] = useState([]); // 자격증 데이터를 저장하는 상태
   const [comData, setComData] = useState([]);
 
-  // const token = localStorage.getItem('authorization');
+  const token = localStorage.getItem('authorization');
 
   const modal = (index) => {
     if (isModalOpen === false) {
@@ -41,32 +41,32 @@ const Main = () => {
   };
 
   // 자격증 데이터를 가져오는 함수 (예: API 호출)
-  // const fetchLicenseData = async () => {
-  //   try {
-  //     const response = await fetch(
-  //       `${process.env.REACT_APP_API}search/top5`,
+  const fetchLicenseData = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API}search/top5`,
 
-  //       {
-  //         headers: {
-  //           Authorization: token,
-  //           'ngrok-skip-browser-warning': '2',
-  //         },
-  //       },
-  //     );
-  //     const data = await response.json(); // 데이터에서 licenses 배열을 사용
+        {
+          headers: {
+            Authorization: token,
+            'ngrok-skip-browser-warning': '2',
+          },
+        },
+      );
+      const data = await response.json(); // 데이터에서 licenses 배열을 사용
 
-  //     setLicenseData(data.licenses.data); // 데이터에서 licenses 배열을 사용
-  //     setComData(data.boards);
-  //   } catch (error) {
-  //     console.error('Error fetching license data:', error);
-  //   }
-  // };
+      setLicenseData(data.licenses.data); // 데이터에서 licenses 배열을 사용
+      setComData(data.boards);
+    } catch (error) {
+      console.error('Error fetching license data:', error);
+    }
+  };
 
   // Fetch license data when the component mounts
   useEffect(() => {
-    setLicenseData(infoData.slice(0, 5)); //mock data
-    setComData(ComData);
-    // fetchLicenseData();
+    // setLicenseData(infoData.slice(0, 5)); //mock data
+    // setComData(ComData);
+    fetchLicenseData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // 페이지가 마운트될 때 한 번만 실행
 
