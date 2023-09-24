@@ -1,23 +1,18 @@
 spring:
-  h2:
-    console:
-      enabled: true
-      path: /h2
   datasource:
-#    url: jdbc:mysql://main016-db.ctrkkuxa3llg.ap-northeast-2.rds.amazonaws.com:3306/main016-db
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    username: admin
-#    password: ${MYSQL_PASSWORD}
-    url: jdbc:h2:mem:test
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    url: jdbc:mysql://studyground.ctrkkuxa3llg.ap-northeast-2.rds.amazonaws.com:3306/StudyGround_db
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: student
+    password: ${MYSQL_PASSWORD}
+  batch:
+    jdbc:
+      initialize-schema: never
   jpa:
     hibernate:
       naming:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-      ddl-auto: create-drop #update로 다시 변경해야함.
+      ddl-auto: none #서버환경에서는 none 으로 고정
     show-sql: true
   security:
     oauth2:
@@ -54,6 +49,8 @@ spring:
           auth: true
           starttls:
             enable: true
+  thymeleaf:
+    prefix: classpath:/templates/
 #    defer-datasource-initialization: true #삭제 필요
 #  sql:
 #    init:
@@ -71,7 +68,7 @@ logging:
         util:
           EC2MetadataUtils: error
 secret:
-  key: ${SCRET_KEY}
+  key: ${SECRET_KEY}
 mail:
   address:
     admin: ${ADMIN_EMAIL}
@@ -85,7 +82,7 @@ cloud:
       access-key: ${AWS_ACCESS_KEY}
       secret-key: ${AWS_SECRET_KEY}
     s3:
-      bucket: main016
+      bucket: studyground
     region:
       static: ap-northeast-2
     stack:
