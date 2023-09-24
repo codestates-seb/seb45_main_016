@@ -30,7 +30,6 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardController {
 
 	private final BoardService boardService;
-	private final AnswerService answerService;
 	private final BoardMapper mapper;
 
 	// 게시글 등록

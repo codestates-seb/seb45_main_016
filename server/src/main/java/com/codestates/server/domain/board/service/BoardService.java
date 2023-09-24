@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.stereotype.Service;
@@ -24,7 +25,6 @@ import com.codestates.server.domain.member.service.MemberService;
 public class BoardService {
 
 	private final BoardRepository boardRepository;
-	private final MemberRepository memberRepository;
 	private final MemberService memberService;
 
 	public List<Board> findTop5Boards(){
@@ -87,7 +87,8 @@ public class BoardService {
 	 */
 	public Page<Board> findBoards(int page){
 		int size = 6;
-		Page<Board> boardPage = boardRepository.findAll(PageRequest.of(page - 1, size));
+		Page<Board> boardPage = boardRepository.findAll(PageRequest.of(page - 1, size,
+				Sort.by("boardId").descending())); // 게시글을 작성 최신순으로 적용
 		return boardPage;
 	}
 
