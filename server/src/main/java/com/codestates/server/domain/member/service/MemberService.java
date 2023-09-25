@@ -138,12 +138,6 @@ public class MemberService {
     public Member getMember(Long memberId) {
         Member member = verifyAuthorizedUser(memberId);
 
-        member.setBoardList(boardRepository.findAllByMemberId(memberId));
-
-        member.getBookmarks().forEach(bookmark -> {
-            bookmark.getLicenseInfo().getLicenses().size();  // Lazy Loading을 강제로 로딩
-        });
-
         return member;
     }
 

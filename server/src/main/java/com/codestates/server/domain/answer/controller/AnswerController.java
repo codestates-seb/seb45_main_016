@@ -54,9 +54,9 @@ public class AnswerController {
 
 		answerPatchDto.setAnswerId(answerId);
 
-		Long memberId = answerPatchDto.getMemberId();
+		Long loginMemberId = memberService.getLoginMemberId();
 		answerService.updateAnswer(
-			mapper.answerPatchDtoToAnswer(answerPatchDto), boardId, memberId);
+			mapper.answerPatchDtoToAnswer(answerPatchDto), boardId, loginMemberId);
 
 		return ResponseEntity.accepted().build();
 	}
