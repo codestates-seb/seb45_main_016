@@ -2,7 +2,6 @@ package com.codestates.server.domain.board.controller;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
 
 import com.codestates.server.domain.board.dto.*;
 import com.codestates.server.domain.board.entity.Board;
@@ -74,7 +73,6 @@ public class BoardController {
 		return new ResponseEntity<>(
 				new MultiResponseDto<>(boardPageResponses, pageBoards), HttpStatus.OK);
 	}
-
 
 	//게시글 삭제
 	@DeleteMapping("/delete/{board-id}")
