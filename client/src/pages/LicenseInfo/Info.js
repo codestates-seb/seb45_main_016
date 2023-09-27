@@ -27,7 +27,6 @@ const Info = () => {
     async function fetchData() {
       try {
         const res = await GetAllLicensesList(currentPage); // currentPage를 API 호출에 전달
-        console.log('info', res.data);
         setInfoData(res.data.data);
         setTotalItems(res.data.pageInfo.totalPage);
         // if (isModalOpen === true) {
@@ -35,9 +34,6 @@ const Info = () => {
         // } else {
         //   document.body.style = `overflow:auto`;
         // }
-        console.log(InfoData);
-        console.log(totalItems);
-        console.log('page', res.data.pageInfo.totalPage);
       } catch (error) {
         console.error('Error fetching data:', error);
       }

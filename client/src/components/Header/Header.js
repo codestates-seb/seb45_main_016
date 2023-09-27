@@ -20,6 +20,7 @@ const Header = () => {
   const onClickHandler = () => {
     localStorage.clear();
     window.location.reload();
+    localStorage.setItem('comId', 1);
   };
 
   useEffect(() => {

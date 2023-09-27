@@ -24,8 +24,6 @@ const ComDetail = () => {
   const [isLike, setIsLike] = useState(false);
   const { id } = useParams();
 
-  const profileImg = localStorage.getItem('profileImg');
-
   useEffect(() => {
     GetDetail(id).then((res) => setBoardData({ ...res.data }));
   }, []);
@@ -36,7 +34,6 @@ const ComDetail = () => {
 
   const deletePost = () => {
     DeletePost(id);
-    window.location.href = `/community`;
   };
 
   const openAnswer = () => {
@@ -68,11 +65,9 @@ const ComDetail = () => {
                   <SvgEdit />
                 </button>
               </Link>
-              <Link to={'/community'}>
-                <button onClick={deletePost}>
-                  <SvgDelete />
-                </button>
-              </Link>
+              <button onClick={deletePost}>
+                <SvgDelete />
+              </button>
             </>
           )}
         </T.BoardEditBtnWrap>
@@ -80,7 +75,10 @@ const ComDetail = () => {
         <T.BoardTitle>{boardData.title}</T.BoardTitle>
         <T.BoardCreatorInfo>
           <T.InfoImgWrap>
-            <img src={profileImg} alt="creator_image_board" />
+            <img
+              src={boardData.boardCreator.profileImage}
+              alt="creator_image_board"
+            />
           </T.InfoImgWrap>
           <T.InfoDescription>
             <span>{boardData.boardCreator.name}</span>
