@@ -34,6 +34,7 @@ const ComDetail = () => {
 
   const deletePost = () => {
     DeletePost(id);
+    window.location.href = `/community`;
   };
 
   const openAnswer = () => {
@@ -65,9 +66,11 @@ const ComDetail = () => {
                   <SvgEdit />
                 </button>
               </Link>
-              <button onClick={deletePost}>
-                <SvgDelete />
-              </button>
+              <Link to={'/community'}>
+                <button onClick={deletePost}>
+                  <SvgDelete />
+                </button>
+              </Link>
             </>
           )}
         </T.BoardEditBtnWrap>
@@ -104,7 +107,9 @@ const ComDetail = () => {
               <p>Like</p>
             </T.HeartBtn>
           </T.BoardContentBtnWrap>
-          {isAnswerOpen && <AnswerList answers={boardData.answers} />}
+          {isAnswerOpen && (
+            <AnswerList board={boardData} answers={boardData.answers} />
+          )}
           <CreateAnswer
             answers={boardData.answers}
             className="board-focusing"
