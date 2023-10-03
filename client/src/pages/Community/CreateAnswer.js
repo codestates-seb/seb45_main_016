@@ -14,15 +14,26 @@ import { PostAnswer, PostComment } from '../../utils/API';
 
 const CreateAnswer = ({ className, answerAppender }) => {
   const [writeValue, setWriteValue] = useState('');
+  const [isPosted, setPosted] = useState(false);
   const memberId = localStorage.getItem('memberId');
   const img = localStorage.getItem('profileImg');
 
   const answerPost = (e) => {
-    if (e === 'board-focusing') {
+    if (e === 'board-focusing' && isPosted === false) {
       PostAnswer(writeValue).then(() => answerAppender());
-    } else if (e === 'focusing-answer') {
+      setPosted(true);
+    } else if (e === 'focusing-answer' && isPosted === false) {
       PostComment(writeValue);
-      console.log(e);
+      setPosted(true);
+    }
+  };
+
+  const valueHandler = (e) => {
+    if (isPosted === true) {
+      e.target.value = '';
+      setPosted(false);
+    } else {
+      setWriteValue(e.target.value);
     }
   };
 
@@ -38,7 +49,7 @@ const CreateAnswer = ({ className, answerAppender }) => {
           </T.AnswerCratorInfo>
           <textarea
             placeholder="댓글을 입력하세요"
-            onChange={(e) => setWriteValue(e.target.value)}
+            onChange={valueHandler}
           ></textarea>
           <T.AnswerPost
             className={className}
