@@ -10,7 +10,6 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { LeftArrow } from '../../utils/svg';
 import { RightArrow } from '../../utils/svg';
-// import ComData from '../../utils/commock';
 import { GetAllCommunityPostsList } from '../../utils/API';
 
 const ComList = () => {
@@ -30,8 +29,6 @@ const ComList = () => {
       } catch (error) {
         console.error('Error fetching data:', error);
       }
-      // setComData(ComData); //mock
-      // setTotalItems(ComData.length); //mock
     }
 
     fetchData();

@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import axios from 'axios';
+import { json } from 'react-router-dom';
 
 const token = localStorage.getItem('authorization');
 
@@ -32,7 +33,6 @@ export const signUp = async (data) => {
   }
 };
 
-//자격 정보 전체 조회
 export const GetAllLicensesList = async (data) => {
   let id = localStorage.getItem('licenseListId');
   try {
@@ -48,7 +48,6 @@ export const GetAllLicensesList = async (data) => {
   }
 };
 
-//커뮤니티 정보 전체 조회
 export const GetAllCommunityPostsList = async (data) => {
   // let id = localStorage.getItem('boardId');
   let id = localStorage.getItem('comId');
@@ -65,7 +64,6 @@ export const GetAllCommunityPostsList = async (data) => {
   }
 };
 
-//게시글 상세페이지 조회
 export const GetDetail = async (id) => {
   try {
     const res = await axios({
@@ -78,7 +76,6 @@ export const GetDetail = async (id) => {
   }
 };
 
-//검색된 자격 정보 조회
 export const GetSearchedlicense = async (data) => {
   try {
     const res = await axios({
@@ -94,7 +91,6 @@ export const GetSearchedlicense = async (data) => {
   }
 };
 
-//게시글 post
 export const PostContents = async (title, content) => {
   const res = await axios
     .post(`${process.env.REACT_APP_API}boards/create`, {
@@ -112,29 +108,22 @@ export const PostContents = async (title, content) => {
     .catch(function (error) {
       console.log(error);
     });
-  console.log(res);
   return res;
 };
 
-//게시글 수정
 export const PostEdit = async (title, content, id) => {
   const res = await axios
-    .patch(
-      `${process.env.REACT_APP_API}boards/edit/${id}`,
-      {
-        memberId: memberId,
-        title: title,
-        content: content,
+    .patch(`${process.env.REACT_APP_API}boards/edit/${id}`, {
+      title: title,
+      content: content,
+      memberId: memberId,
+      headers: {
+        Authorization: token,
       },
-      {
-        headers: {
-          Authorization: token,
-        },
-      },
-    )
+    })
 
-    .then(() => {
-      window.location.href = `/community/detail/boards/${id}`;
+    .then((res) => {
+      window.location.href = `/community/detail${res.headers.location}`;
     })
     .catch(function (error) {
       console.log(error);
@@ -142,25 +131,6 @@ export const PostEdit = async (title, content, id) => {
   return res;
 };
 
-//게시글 삭제
-export const DeletePost = async (id) => {
-  const res = await axios
-    .delete(`${process.env.REACT_APP_API}boards/delete/${id}`, {
-      headers: { Authorization: token },
-      data: { memberId: memberId },
-    })
-
-    .then(() => {
-      window.location.href = `/community`;
-    })
-
-    .catch(function (error) {
-      console.log(error);
-    });
-  return res;
-};
-
-//답변 작성
 export const PostAnswer = async (writeValue) => {
   const res = await axios
     .post(
@@ -170,6 +140,7 @@ export const PostAnswer = async (writeValue) => {
       {
         content: writeValue,
         memberId: memberId,
+        headers: {},
       },
     )
     .catch(function (error) {
@@ -178,31 +149,19 @@ export const PostAnswer = async (writeValue) => {
   return res;
 };
 
-//답변 수정
-export const EditAnswerlist = async (writeValue) => {
-  let boardId = localStorage.getItem('boardId');
+export const PostComment = async (writeValue) => {
   let answerId = localStorage.getItem('answerId');
   const res = await axios
-    .patch(
-      `${process.env.REACT_APP_API}boards/${boardId}/answers/${answerId}`,
-      {
-        content: writeValue,
-        memberId: memberId,
-      },
-      {
-        headers: {
-          Authorization: token,
-        },
-      },
-    )
-
+    .post(`${process.env.REACT_APP_API}answers/${answerId}/comments/create`, {
+      content: writeValue,
+      memberId: memberId,
+    })
     .catch(function (error) {
       console.log(error);
     });
   return res;
 };
 
-//답변 삭제
 export const DeleteAnswerlist = async () => {
   let boardId = localStorage.getItem('boardId');
   let answerId = localStorage.getItem('answerId');
@@ -210,12 +169,10 @@ export const DeleteAnswerlist = async () => {
     .delete(
       `${process.env.REACT_APP_API}boards/${boardId}/answers/delete/${answerId} `,
       {
+        memberId: memberId,
         headers: {
           Authorization: token,
         },
-      },
-      {
-        memberId: memberId,
       },
     )
 
@@ -228,25 +185,50 @@ export const DeleteAnswerlist = async () => {
   return res;
 };
 
-//댓글 작성
-export const PostComment = async (writeValue) => {
+export const DeleteCommentlist = async () => {
   let answerId = localStorage.getItem('answerId');
+  let commentId = localStorage.getItem('commentId');
   const res = await axios
-    .post(
-      `${process.env.REACT_APP_API}answers/${answerId}/comments/create`,
+    .delete(
+      `${process.env.REACT_APP_API}answers/${answerId}/comments/${commentId}`,
       {
         memberId: memberId,
-        content: writeValue,
+        headers: {
+          Authorization: token,
+        },
       },
-      { headers: { Authorization: token } },
     )
+
+    .then((res) => {
+      window.location.href = `/community/detail${res.headers.location}`;
+    })
     .catch(function (error) {
       console.log(error);
     });
   return res;
 };
 
-//댓글 수정
+export const EditAnswerlist = async (writeValue) => {
+  let boardId = localStorage.getItem('boardId');
+  let answerId = localStorage.getItem('answerId');
+  const res = await axios
+    .patch(
+      `${process.env.REACT_APP_API}boards/${boardId}/answers/${answerId}`,
+      {
+        content: writeValue,
+        memberId: memberId,
+        headers: {
+          Authorization: token,
+        },
+      },
+    )
+
+    .catch(function (error) {
+      console.log(error);
+    });
+  return res;
+};
+
 export const EditCommentlist = async (writeValue) => {
   let answerId = localStorage.getItem('answerId');
   let commentId = localStorage.getItem('commentId');
@@ -256,8 +238,6 @@ export const EditCommentlist = async (writeValue) => {
       {
         content: writeValue,
         memberId: memberId,
-      },
-      {
         headers: {
           Authorization: token,
         },
@@ -273,26 +253,15 @@ export const EditCommentlist = async (writeValue) => {
   return res;
 };
 
-//댓글 삭제
-export const DeleteCommentlist = async () => {
-  let answerId = localStorage.getItem('answerId');
-  let commentId = localStorage.getItem('commentId');
+export const DeletePost = async (id) => {
   const res = await axios
-    .delete(
-      `${process.env.REACT_APP_API}answers/${answerId}/comments/${commentId}`,
-      {
-        headers: {
-          Authorization: token,
-        },
+    .delete(`${process.env.REACT_APP_API}boards/delete/${id}`, {
+      memberId: memberId,
+      headers: {
+        Authorization: token,
       },
-      {
-        memberId: memberId,
-      },
-    )
-
-    .then((res) => {
-      window.location.href = `/community/detail${res.headers.location}`;
     })
+
     .catch(function (error) {
       console.log(error);
     });
@@ -311,33 +280,29 @@ export const DeleteUser = async () => {
   }
 };
 
-//북마킹
-export const Postbookmark = async (code) => {
+export const Postbookmark = async () => {
   const res = await axios
-    .post(
-      `${process.env.REACT_APP_API}bookmark`,
-      {
-        code: code,
+    .post(`${process.env.REACT_APP_API}bookmark`, {
+      data: {
+        code: localStorage.getItem('code'),
+        memberId: memberId,
       },
-      {
-        headers: {
-          Authorization: token,
-        },
+      headers: {
+        type: json,
       },
-    )
+    })
     .catch(function (error) {
       console.log(error);
     });
   return res;
 };
 
-//북마크 해제
-export const deleteBookmark = async (code) => {
+export const deleteBookmark = async () => {
   const res = await axios
     .delete(`${process.env.REACT_APP_API}bookmark`, {
       data: {
         memberId: memberId,
-        code: code,
+        code: localStorage.getItem('code'),
       },
     })
     .catch(function (error) {

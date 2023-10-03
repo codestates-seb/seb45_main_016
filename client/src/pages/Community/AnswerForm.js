@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as T from './AnswerForm.Style';
 import {
   DeleteAnswerlist,
@@ -23,6 +23,8 @@ const AnswerForm = ({
   const [writeValue, setWriteValue] = useState(content);
 
   const memberId = Number(localStorage.getItem('memberId'));
+
+  useEffect(() => setWriteValue(content), []);
 
   const clickEdit = (e) => {
     if (e.target.className === 'answer') {
@@ -93,7 +95,6 @@ const AnswerForm = ({
       {isAnswerEditOpen ? (
         <T.AnswerEditArea
           onChange={(e) => setWriteValue(e.target.value)}
-          defaultValue={content}
         ></T.AnswerEditArea>
       ) : (
         content && (

@@ -6,8 +6,6 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import InfoCard from '../../components/LicenseCard/LicenseCard';
 import Modal from '../../components/Modal/Modal';
-// import { infoData } from '../../utils/licenseMock';
-// import ComData from '../../utils/commock';
 import { Link } from 'react-router-dom';
 
 const Main = () => {
@@ -15,7 +13,7 @@ const Main = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isIndex, setIndex] = useState();
   const [licenseData, setLicenseData] = useState([]); // 자격증 데이터를 저장하는 상태
-  const [comData, setComData] = useState([]);
+  const [ComData, setComData] = useState([]);
 
   const token = localStorage.getItem('authorization');
 
@@ -53,7 +51,7 @@ const Main = () => {
           },
         },
       );
-      const data = await response.json(); // 데이터에서 licenses 배열을 사용
+      const data = await response.json();
 
       setLicenseData(data.licenses.data); // 데이터에서 licenses 배열을 사용
       setComData(data.boards);
@@ -64,8 +62,6 @@ const Main = () => {
 
   // Fetch license data when the component mounts
   useEffect(() => {
-    // setLicenseData(infoData.slice(0, 5)); //mock data
-    // setComData(ComData);
     fetchLicenseData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // 페이지가 마운트될 때 한 번만 실행
@@ -114,7 +110,7 @@ const Main = () => {
         </Link>
       </Styled.TopText>
       <Styled.ComContainer>
-        {comData.map((post) => (
+        {ComData.map((post) => (
           <Styled.Box
             key={post.boardId}
             onClick={() => openDetail(post.boardId)}

@@ -13,7 +13,6 @@ import Kakao from './pages/Login/Kakao';
 import ComDetail from './pages/Community/ComDetail';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import InfoMock from './pages/LicenseInfo/Infomock';
 
 function App() {
   return (
@@ -25,7 +24,6 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/info" element={<Info />} />
-          {/* <Route path="/info" element={<InfoMock />} /> */}
           <Route path="/community" element={<ComList />} />
           <Route path="/write" element={<PostContent />} />
           <Route path="/edit/:id" element={<Edit />} />
