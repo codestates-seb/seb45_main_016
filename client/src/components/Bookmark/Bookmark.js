@@ -1,35 +1,22 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
 import { BookmarkStyle } from './BookmarkStyle';
 import { Postbookmark, deleteBookmark } from '../../utils/API';
 // import { API } from '../../utils/API';
 
-const Bookmark = ({ code }) => {
-  const [isLiked, setLiked] = useState(false);
-
-  //   const url = '북마크 요청 주소';
-
-  // const body = {
-  //     userId:"",
-  //     licenseId:"",
-  // }
-
+const Bookmark = ({ code, bookmark }) => {
   const pushHeart = (e) => {
-    if (isLiked === false) {
-      setLiked(true);
-      localStorage.setItem('code', code);
-      Postbookmark();
+    if (bookmark === false) {
+      Postbookmark(code);
       e.stopPropagation();
     } else {
-      setLiked(false);
-      deleteBookmark();
+      deleteBookmark(code);
       e.stopPropagation();
     }
   };
 
   return (
     <BookmarkStyle onClick={pushHeart}>
-      {isLiked === false ? (
+      {bookmark === false ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="37px"

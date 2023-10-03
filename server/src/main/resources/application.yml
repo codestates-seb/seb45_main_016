@@ -1,0 +1,89 @@
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2
+  datasource:
+    url: jdbc:mysql://studyground:ctrkkuxa3llg:ap-northeast-2:rds:amazonaws:com:3306/StudyGround_db
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: student
+    password: ${MYSQL_PASSWORD}
+
+  jpa:
+    hibernate:
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: create-drop #update로 다시 변경해야함.
+    show-sql: true
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: ${KAKAO_CLIENT_ID}
+            client-secret: ${KAKAO_CLIENT_SECRET}
+            redirect-uri: ${KAKAO_REDIRECT_URI}
+            authorization-grant-type: authorization_code
+            client-authentication-method: POST, GET
+            client-name: Kakao
+            scope:
+              - profile_nickname
+              - profile_image
+              - account_email
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+    properties:
+      hibernate:
+        format_sql: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: studyground77@gmail.com
+    password: ${EMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+#    defer-datasource-initialization: true #삭제 필요
+#  sql:
+#    init:
+#      data-locations: classpath:database/data.sql  # 자격증 더미데이터 입력
+#      mode: always
+#      platform: h2
+logging:
+  level:
+    org:
+      springframework:
+        orm:
+          jpa: debug
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
+secret:
+  key: ${SECRET_KEY}
+mail:
+  address:
+    admin: ${ADMIN_EMAIL}
+jwt:
+  key : ${JWT_SECRET_KEY}
+  access-token-expiration-minutes: 60
+  refresh-token-expiration-minutes: 420
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_KEY}
+    s3:
+      bucket: main016
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false

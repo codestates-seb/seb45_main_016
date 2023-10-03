@@ -7,6 +7,13 @@ import jwt_decode from 'jwt-decode';
 import * as Styled from './LoginStyle';
 import { login } from '../../utils/API';
 import Header from '../../components/Header/Header';
+import profile1 from './profileImage/profile1.png';
+import profile2 from './profileImage/profile2.png';
+import profile3 from './profileImage/profile3.png';
+import profile4 from './profileImage/profile4.png';
+import profile5 from './profileImage/profile5.png';
+import profile6 from './profileImage/profile6.png';
+import profile7 from './profileImage/profile7.png';
 
 const imageUrl = process.env.PUBLIC_URL + '/KaKaoLogo.png';
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
@@ -19,6 +26,16 @@ function Login() {
     handleSubmit,
     formState: { isSubmitting },
   } = useForm();
+
+  const profile = [
+    profile1,
+    profile2,
+    profile3,
+    profile4,
+    profile5,
+    profile6,
+    profile7,
+  ];
 
   const navigate = useNavigate();
 
@@ -33,8 +50,10 @@ function Login() {
         localStorage.setItem('authorization', accessToken);
         localStorage.setItem('memberId', memberId);
         localStorage.setItem('name', name);
-        localStorage.setItem('licenseListId', 1);
-        localStorage.setItem('comId', 1);
+        localStorage.setItem(
+          'profileImg',
+          profile[Math.floor(Math.random() * profile.length)],
+        );
         alert('로그인이 성공했습니다.');
         navigate('/');
         location.reload();
