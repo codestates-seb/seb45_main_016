@@ -113,6 +113,7 @@ const Info = () => {
               key={index}
               title={info.name}
               date={info.date}
+              bookmark={info.bookmark}
               isIndex={isIndex}
               onClick={() => {
                 modal(index);

@@ -12,7 +12,7 @@ const AnswerList = ({ answers }) => {
   const [isCreateCommentBoxOpen, setCreateCommentBoxOpen] = useState(false);
   useEffect(() => setAnswers([...answers]), []);
 
-  const memberId = localStorage.getItem('memebrId');
+  const memberId = localStorage.getItem('memberId');
 
   const profileImage = localStorage.getItem('profileImg');
 

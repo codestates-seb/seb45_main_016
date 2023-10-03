@@ -16,8 +16,6 @@ const PostContent = () => {
     }
   };
 
-  console.log(title, content);
-  console.log(localStorage.getItem('authorization'));
   const post = () => {
     PostContents(title, content);
   };
