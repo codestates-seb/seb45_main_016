@@ -40,7 +40,7 @@ public class Board {
 	@Column
 	private LocalDateTime modifiedAt = LocalDateTime.now();
 
-	@OneToMany(mappedBy = "board")
+	@OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnore
 	private List<Answer> answers;
 

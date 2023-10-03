@@ -32,9 +32,9 @@ public class Answer {
 
 	@JoinColumn(name = "member_Id")
 	@JsonIgnore
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.REMOVE)
 	private Member member;
 
-	@OneToMany(mappedBy = "answer", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "answer", cascade = CascadeType.ALL)
 	private List<Comment> comments;
 }
