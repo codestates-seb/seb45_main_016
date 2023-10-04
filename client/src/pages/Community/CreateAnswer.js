@@ -1,22 +1,23 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
 import * as T from './CreateAnswer.Style';
-// import jwt_decode from 'jwt-decode';
+import jwt_decode from 'jwt-decode';
 import { PostAnswer, PostComment } from '../../utils/API';
 
-// const token = localStorage.getItem('authorization');
-// let img;
-// if (token) {
-//   img = jwt_decode(token).profileImage;
-// } else {
-//   img = '';
-// }
+const token = localStorage.getItem('authorization');
+let img;
+if (token) {
+  img = jwt_decode(token).profileImage;
+} else {
+  img = '';
+}
 
 const CreateAnswer = ({ className, answerAppender }) => {
   const [writeValue, setWriteValue] = useState('');
   const [isPosted, setPosted] = useState(false);
   const memberId = localStorage.getItem('memberId');
   const img = localStorage.getItem('profileImg');
+
 
   const answerPost = (e) => {
     if (e === 'board-focusing' && isPosted === false) {
@@ -62,6 +63,7 @@ const CreateAnswer = ({ className, answerAppender }) => {
         </T.CreateAnswerForm>
       ) : null}
     </>
+
   );
 };
 

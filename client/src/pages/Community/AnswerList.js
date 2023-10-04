@@ -12,10 +12,6 @@ const AnswerList = ({ answers }) => {
   const [isCreateCommentBoxOpen, setCreateCommentBoxOpen] = useState(false);
   useEffect(() => setAnswers([...answers]), []);
 
-  const memberId = localStorage.getItem('memberId');
-
-  const profileImage = localStorage.getItem('profileImg');
-
   const openControl = (index) => {
     setAnswerIndex(index);
 
@@ -37,7 +33,7 @@ const AnswerList = ({ answers }) => {
       {answer.map((ans, index) => (
         <div key={ans.answerId}>
           <AnswerForm
-            img={profileImage}
+            img={ans.answerCreator.profileImage}
             name={ans.answerCreator.name}
             modifiedAt={ans.modifiedAt}
             content={ans.content}
@@ -51,7 +47,7 @@ const AnswerList = ({ answers }) => {
             return (
               <AnswerForm
                 key={comment.commentId}
-                img={profileImage}
+                img={comment.commentCreator.profileImage}
                 name={comment.commentCreator.name}
                 modifiedAt={comment.modifiedAt}
                 content={comment.content}
@@ -74,16 +70,15 @@ const AnswerList = ({ answers }) => {
             id={ans.answerCreator.memberId}
             length={length}
           /> */}
-          {memberId &&
-            (isCreateCommentBoxOpen ? (
-              <T.OpenCreateAnwerArea onClick={() => openControl(index)}>
-                취소
-              </T.OpenCreateAnwerArea>
-            ) : (
-              <T.OpenCreateAnwerArea onClick={() => openControl(index)}>
-                답글달기 <BottomErrow />
-              </T.OpenCreateAnwerArea>
-            ))}
+          {isCreateCommentBoxOpen ? (
+            <T.OpenCreateAnwerArea onClick={() => openControl(index)}>
+              취소
+            </T.OpenCreateAnwerArea>
+          ) : (
+            <T.OpenCreateAnwerArea onClick={() => openControl(index)}>
+              답글달기 <BottomErrow />
+            </T.OpenCreateAnwerArea>
+          )}
           {isAnswerIndex === index && (
             <CreateAnswer className="focusing-answer" />
           )}
