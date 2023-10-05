@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect } from 'react';
 import {
   HeaderStyle,
   Logo,
@@ -19,8 +20,24 @@ const Header = () => {
   const onClickHandler = () => {
     localStorage.clear();
     window.location.reload();
+    localStorage.setItem('comId', 1);
   };
 
+  useEffect(() => {
+    function clearLocalStorage() {
+      localStorage.clear();
+    }
+    const delayMilliseconds = 60 * 60 * 1000;
+    setTimeout(clearLocalStorage, delayMilliseconds);
+  }, []);
+
+  const onClickHandlerin = () => {
+    localStorage.setItem('licenseListId', 1);
+  };
+
+  const onClickHandlercom = () => {
+    localStorage.setItem('comId', 1);
+  };
   return (
     <HeaderStyle>
       <HeaderLeft>
@@ -30,11 +47,11 @@ const Header = () => {
           </Link>
         </Logo>
         <Linkform>
-          <Link to="/info">
+          <Link to="/info" onClick={onClickHandlerin}>
             <button>LICENSE</button>
           </Link>
           {/* 임시로 목업페이지에 링크 걸었습니다 실제 페이지는 list제거하면 됩니다! */}
-          <Link to="/community">
+          <Link to="/community" onClick={onClickHandlercom}>
             <button>COMMUNITY</button>
           </Link>
           {token ? (
