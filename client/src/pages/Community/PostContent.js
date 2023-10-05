@@ -29,7 +29,7 @@ const PostContent = () => {
             <p>저장하기</p>
           </button>
           <input
-            placeholder="제목을 입력하세요"
+            placeholder="제목은 [질문/후기] 형식으로 남겨주세요 : )"
             onChange={(e) => setTitle(e.target.value)}
             onKeyDown={(e) => enter(e)}
           ></input>

@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 // Import necessary modules and components
 /* eslint-disable no-undef */
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -50,18 +50,6 @@ const SignUp = () => {
     <Styled.Wrap>
       <Header />
       <Styled.SignUpContainer>
-        <ToastContainer
-          position="bottom-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop
-          closeOnClick
-          rtl
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
-
         <Styled.SignUpForm onSubmit={handleSubmit(onSubmit)}>
           <Styled.SignUpInput
             type="text"

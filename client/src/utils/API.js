@@ -7,12 +7,13 @@ const memberId = parseInt(localStorage.getItem('memberId'));
 
 export const login = async (data) => {
   try {
-    const res = await axios({
-      method: 'post',
-      data,
-
-      url: `${process.env.REACT_APP_API}members/auth/login`,
-    });
+    const res = await axios.post(
+      `${process.env.REACT_APP_API}members/auth/login`,
+      {
+        data,
+        headers: { 'ngrok-skip-browser-warning': '1' },
+      },
+    );
     return res;
   } catch (e) {
     console.log(e);
@@ -21,10 +22,12 @@ export const login = async (data) => {
 
 export const signUp = async (data) => {
   try {
-    const res = await axios({
-      method: 'post',
+    const res = await axios.post(`${process.env.REACT_APP_API}members/signup`, {
       data,
-      url: `${process.env.REACT_APP_API}members/signup`,
+      headers: {
+        'ngrok-skip-browser-warning': '1',
+        'Access-Control-Allow-Origin': '*',
+      },
     });
     return res;
   } catch (e) {
@@ -36,12 +39,15 @@ export const signUp = async (data) => {
 export const GetAllLicensesList = async (data) => {
   let id = localStorage.getItem('licenseListId');
   try {
-    const res = await axios({
-      method: 'get',
-      data,
-      url: `${process.env.REACT_APP_API}licenses?page=${id}
-      `,
-    });
+    const res = await axios.get(
+      `${process.env.REACT_APP_API}licenses?page=${id}
+    `,
+      {
+        data,
+        headers: { 'ngrok-skip-browser-warning': '1' },
+      },
+    );
+    console.log(res);
     return res;
   } catch (e) {
     console.log(e);

@@ -14,7 +14,7 @@ import profile4 from './profileImage/profile4.png';
 import profile5 from './profileImage/profile5.png';
 import profile6 from './profileImage/profile6.png';
 import profile7 from './profileImage/profile7.png';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const imageUrl = process.env.PUBLIC_URL + '/KaKaoLogo.png';
@@ -76,18 +76,6 @@ function Login() {
 
   return (
     <Styled.Wrap>
-      <ToastContainer
-        position="bottom-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        rtl
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-
       <Header />
       <Header />
       <Styled.LoginContainer>
