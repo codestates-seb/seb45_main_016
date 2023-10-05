@@ -38,6 +38,7 @@ const Header = () => {
   const onClickHandlercom = () => {
     localStorage.setItem('comId', 1);
   };
+
   return (
     <HeaderStyle>
       <HeaderLeft>
