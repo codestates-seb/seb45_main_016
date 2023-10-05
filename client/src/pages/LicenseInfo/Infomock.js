@@ -7,12 +7,13 @@ import Footer from '../../components/Footer/Footer';
 import InfoCard from '../../components/LicenseCard/LicenseCard';
 import Modal from '../../components/Modal/Modal';
 import { LeftArrow, RightArrow } from '../../utils/svg';
-import { GetAllLicensesList } from '../../utils/API';
+// import { GetAllLicensesList } from '../../utils/API';
+import { infoData } from '../../utils/licenseMock';
 
 // import NotFound from '../../components/404/404notfound';
 // const itemsPerPage = 9;
 
-const Info = () => {
+const InfoMock = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setModalOpen] = useState(false);
   const [isIndex, setIndex] = useState();
@@ -25,19 +26,25 @@ const Info = () => {
   const halfPagesToShow = Math.floor(pagesToShow / 2); // 현재 페이지 기준 양쪽에 표시할 페이지 번호 수의 절반
   useEffect(() => {
     async function fetchData() {
-      try {
-        const res = await GetAllLicensesList(currentPage); // currentPage를 API 호출에 전달
-        setInfoData(res.data.data);
-        setTotalItems(res.data.pageInfo.totalPage);
-        // if (isModalOpen === true) {
-        //   document.body.style = `overflow:hidden`;
-        // } else {
-        //   document.body.style = `overflow:auto`;
-        // }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
+      // try {
+      //   const res = await GetAllLicensesList(currentPage); // currentPage를 API 호출에 전달
+      //   console.log('info', res.data);
+      //   setInfoData(res.data.data);
+      //   setTotalItems(res.data.pageInfo.totalPage);
+      //   // if (isModalOpen === true) {
+      //   //   document.body.style = `overflow:hidden`;
+      //   // } else {
+      //   //   document.body.style = `overflow:auto`;
+      //   // }
+      //   console.log(InfoData);
+      //   console.log(totalItems);
+      //   console.log('page', res.data.pageInfo.totalPage);
+      // } catch (error) {
+      //   console.error('Error fetching data:', error);
+      // }
     }
+    setInfoData(infoData);
+    setTotalItems(infoData.length);
 
     fetchData();
   }, [currentPage]);
@@ -113,7 +120,6 @@ const Info = () => {
               key={index}
               title={info.name}
               date={info.date}
-              bookmark={info.bookmark}
               isIndex={isIndex}
               onClick={() => {
                 modal(index);
@@ -142,4 +148,4 @@ const Info = () => {
   );
 };
 
-export default Info;
+export default InfoMock;

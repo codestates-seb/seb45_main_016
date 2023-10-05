@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SearchBox, Searchform } from './HeaderStyle'; // HeaderStyle 스타일들을 import
+import { SearchIcon } from '../../utils/svg';
 
 // eslint-disable-next-line no-undef
-const imageUrl = process.env.PUBLIC_URL + '/Searchlogo.png';
 
 function SearchBar() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -38,7 +38,7 @@ function SearchBar() {
         onKeyPress={handleKeyPress} // 엔터 키 이벤트 처리
       />
       <button onClick={saveKeywordAndNavigate}>
-        <img className="searchIcon" src={imageUrl} alt="검색" />
+        <SearchIcon />
       </button>
     </Searchform>
   );
