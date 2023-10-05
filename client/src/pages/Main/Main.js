@@ -53,7 +53,7 @@ const Main = () => {
           },
         },
       );
-      const data = await response.json(); // 데이터에서 licenses 배열을 사용
+      const data = await response.json();
 
       setLicenseData(data.licenses.data); // 데이터에서 licenses 배열을 사용
       setComData(data.boards);

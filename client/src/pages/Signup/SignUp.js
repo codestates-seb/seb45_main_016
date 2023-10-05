@@ -1,6 +1,8 @@
 /* eslint-disable no-undef */
 // Import necessary modules and components
 /* eslint-disable no-undef */
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +13,7 @@ import * as Styled from '../Signup/SignUpStyle';
 const inputErrorClass = 'input-error';
 const imageUrl = process.env.PUBLIC_URL + '/KaKaoLogo.png';
 
-function SignUp() {
+const SignUp = () => {
   const {
     register,
     handleSubmit,
@@ -31,18 +33,16 @@ function SignUp() {
       });
 
       if (response?.status === 201) {
-        alert('회원 가입이 완료되었습니다. 로그인 페이지로 이동합니다.');
         navigate('/login');
       } else {
-        alert('회원 가입에 실패했습니다.');
+        toast.error('회원 가입에 실패했습니다.');
       }
     } catch (error) {
-      alert('회원 가입 중에 문제가 발생했습니다. 다시 시도해주세요.');
+      toast.error('회원 가입에 실패했습니다.');
     }
   };
 
   const handleKakaoLoginClick = () => {
-    // 카카오 로그인 클릭 시 /login 경로로 이동
     navigate('/login');
   };
 
@@ -50,6 +50,18 @@ function SignUp() {
     <Styled.Wrap>
       <Header />
       <Styled.SignUpContainer>
+        <ToastContainer
+          position="bottom-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          rtl
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+
         <Styled.SignUpForm onSubmit={handleSubmit(onSubmit)}>
           <Styled.SignUpInput
             type="text"
@@ -75,13 +87,22 @@ function SignUp() {
           <Styled.SignUpInput
             type="password"
             name="password"
-            placeholder="비밀번호는 8자리 이상 숫자,문자,특수문자 조합입니다."
+            placeholder="비밀번호는 8자리 이상 숫자, 문자, 특수문자 조합입니다."
             {...register('password', {
               required: '비밀번호는 필수 입력입니다.',
             })}
-            onBlur={() => trigger('password')}
             className={errors.password ? inputErrorClass : ''}
           />
+          <Styled.SignUpInput
+            type="password"
+            name="password2"
+            placeholder="비밀번호를 다시 입력해주세요."
+            {...register('password2', {
+              required: '비밀번호 확인은 필수 입력입니다.',
+            })}
+            className={errors.password2 ? inputErrorClass : ''}
+          />
+          {errors.password2 && <p>{errors.password2.message}</p>}
 
           <Styled.SignUpInput
             type="tel"
@@ -109,6 +130,6 @@ function SignUp() {
       </Styled.SignUpContainer>
     </Styled.Wrap>
   );
-}
+};
 
 export default SignUp;
