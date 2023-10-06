@@ -7,12 +7,12 @@ const memberId = parseInt(localStorage.getItem('memberId'));
 
 export const login = async (data) => {
   try {
-    const res = await axios.post(
-      `${process.env.REACT_APP_API}members/auth/login`,
-      {
-        data,
-      },
-    );
+    const res = await axios({
+      method: 'post',
+      data,
+
+      url: `${process.env.REACT_APP_API}members/auth/login`,
+    });
     return res;
   } catch (e) {
     console.log(e);
@@ -21,9 +21,10 @@ export const login = async (data) => {
 
 export const signUp = async (data) => {
   try {
-    const res = await axios.post(`${process.env.REACT_APP_API}members/signup`, {
+    const res = await axios({
+      method: 'post',
       data,
-      headers: {},
+      url: `${process.env.REACT_APP_API}members/signup`,
     });
     return res;
   } catch (e) {
