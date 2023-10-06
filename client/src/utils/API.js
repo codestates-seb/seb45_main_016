@@ -11,7 +11,6 @@ export const login = async (data) => {
       `${process.env.REACT_APP_API}members/auth/login`,
       {
         data,
-        headers: { 'ngrok-skip-browser-warning': '1' },
       },
     );
     return res;
@@ -24,10 +23,7 @@ export const signUp = async (data) => {
   try {
     const res = await axios.post(`${process.env.REACT_APP_API}members/signup`, {
       data,
-      headers: {
-        'ngrok-skip-browser-warning': '1',
-        'Access-Control-Allow-Origin': '*',
-      },
+      headers: {},
     });
     return res;
   } catch (e) {
@@ -44,7 +40,6 @@ export const GetAllLicensesList = async (data) => {
     `,
       {
         data,
-        headers: { 'ngrok-skip-browser-warning': '1' },
       },
     );
     console.log(res);
@@ -103,14 +98,19 @@ export const GetSearchedlicense = async (data) => {
 //게시글 post
 export const PostContents = async (title, content) => {
   const res = await axios
-    .post(`${process.env.REACT_APP_API}boards/create`, {
-      title: title,
-      content: content,
-      memberId: memberId,
-      headers: {
-        Authorization: token,
+    .post(
+      `${process.env.REACT_APP_API}boards/create`,
+      {
+        title: title,
+        content: content,
+        memberId: memberId,
       },
-    })
+      {
+        headers: {
+          Authorization: token,
+        },
+      },
+    )
 
     .then((res) => {
       window.location.href = `/community/detail${res.headers.location}`;
