@@ -168,17 +168,15 @@ export const DeletePost = async (id) => {
 };
 
 //답변 작성
-export const PostAnswer = async (writeValue) => {
+export const PostAnswer = async (writeValue, id) => {
   const res = await axios
-    .post(
-      `${process.env.REACT_APP_API}boards/${localStorage.getItem(
-        'boardId',
-      )}/answers`,
-      {
-        content: writeValue,
-        memberId: memberId,
-      },
-    )
+    .post(`${process.env.REACT_APP_API}boards/${id}/answers`, {
+      content: writeValue,
+      memberId: memberId,
+    })
+    .then(() => {
+      window.location.reload();
+    })
     .catch(function (error) {
       console.log(error);
     });
@@ -261,18 +259,14 @@ export const EditCommentlist = async (writeValue) => {
     .patch(
       `${process.env.REACT_APP_API}answers/${answerId}/comments/${commentId}`,
       {
-        content: writeValue,
         memberId: memberId,
+        content: writeValue,
       },
-      {
-        headers: {
-          Authorization: token,
-        },
-      },
+      { headers: { Authorization: token } },
     )
 
-    .then((res) => {
-      window.location.href = `/community/detail${res.headers.location}`;
+    .then(() => {
+      window.location.reload();
     })
     .catch(function (error) {
       console.log(error);
@@ -297,8 +291,8 @@ export const DeleteCommentlist = async () => {
       },
     )
 
-    .then((res) => {
-      window.location.href = `/community/detail${res.headers.location}`;
+    .then(() => {
+      window.location.reload();
     })
     .catch(function (error) {
       console.log(error);
@@ -349,6 +343,7 @@ export const deleteBookmark = async (code) => {
     })
     .catch(function (error) {
       console.log(error);
+      console.log(code);
     });
   return res;
 };

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import * as T from './CreateAnswer.Style';
 // import jwt_decode from 'jwt-decode';
 import { PostAnswer, PostComment } from '../../utils/API';
+import { useParams } from 'react-router-dom';
 
 // const token = localStorage.getItem('authorization');
 // let img;
@@ -17,10 +18,11 @@ const CreateAnswer = ({ className, answerAppender }) => {
   const [isPosted, setPosted] = useState(false);
   const memberId = localStorage.getItem('memberId');
   const img = localStorage.getItem('profileImg');
+  const { id } = useParams();
 
   const answerPost = (e) => {
     if (e === 'board-focusing' && isPosted === false) {
-      PostAnswer(writeValue).then(() => answerAppender());
+      PostAnswer(writeValue, id).then(() => answerAppender());
       setPosted(true);
     } else if (e === 'focusing-answer' && isPosted === false) {
       PostComment(writeValue);

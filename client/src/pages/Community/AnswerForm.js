@@ -10,6 +10,7 @@ import {
 } from '../../utils/API';
 
 const AnswerForm = ({
+  index,
   img,
   name,
   modifiedAt,
@@ -28,7 +29,8 @@ const AnswerForm = ({
     if (e.target.className === 'answer') {
       setAnswerEditOpen(true), localStorage.setItem('answerId', answerId);
     } else if (e.target.className === 'comment') {
-      setAnswerEditOpen(true), localStorage.setItem('commentId', commentId);
+      setAnswerEditOpen(true), localStorage.setItem('answerId', answerId);
+      setAnswerEditOpen(true), localStorage.setItem('commentId', index + 1);
     }
   };
 
@@ -47,7 +49,7 @@ const AnswerForm = ({
       localStorage.setItem('answerId', answerId);
       await DeleteAnswerlist();
       console.log('답글삭제');
-    } else if (e === 'commnet') {
+    } else if (e === 'comment') {
       localStorage.setItem('commentId', commentId);
       await DeleteCommentlist();
       console.log('답글삭제');

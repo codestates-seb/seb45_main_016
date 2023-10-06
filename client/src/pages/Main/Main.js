@@ -100,6 +100,8 @@ const Main = () => {
               title={info.name}
               date={info.date}
               isIndex={isIndex}
+              bookmark={info.bookmark}
+              code={info.code}
               onClick={() => {
                 modal(index);
               }}
