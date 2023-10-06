@@ -114,7 +114,7 @@ export const PostContents = async (title, content) => {
     )
 
     .then((res) => {
-      window.location.href = `/community/detail${res.headers.location}`;
+      window.location.href = `/community${res.headers.location}`;
     })
     .catch(function (error) {
       console.log(error);
@@ -141,7 +141,7 @@ export const PostEdit = async (title, content, id) => {
     )
 
     .then(() => {
-      window.location.href = `/community/detail/boards/${id}`;
+      window.location.href = `/community/boards/${id}`;
     })
     .catch(function (error) {
       console.log(error);
@@ -152,10 +152,15 @@ export const PostEdit = async (title, content, id) => {
 //게시글 삭제
 export const DeletePost = async (id) => {
   const res = await axios
-    .delete(`${process.env.REACT_APP_API}boards/delete/${id}`, {
-      headers: { Authorization: token },
-      data: { memberId: memberId },
-    })
+    .delete(
+      `${process.env.REACT_APP_API}boards/delete/${id}`,
+      {
+        headers: { Authorization: token },
+      },
+      {
+        data: { memberId: memberId },
+      },
+    )
 
     .then(() => {
       window.location.href = `/community`;
