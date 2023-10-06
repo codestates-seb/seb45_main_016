@@ -104,10 +104,7 @@ const ComList = () => {
       <Styled.GridContainer>
         {comData &&
           comData.map((info) => (
-            <Link
-              to={'/community/detail/boards/' + info.boardId}
-              key={info.boardId}
-            >
+            <Link to={'/community/boards/' + info.boardId} key={info.boardId}>
               <ComCard
                 title={info.title}
                 username={info.boardCreator.name}

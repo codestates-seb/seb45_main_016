@@ -31,9 +31,9 @@ const AnswerList = ({ answers }) => {
 
   // let comment = answers.map((el)=>el.comments.map((el)=>{}))
 
-  const buttonControl = (index) => {
+  const buttonControl = (index, ans) => {
     openControl(index);
-    localStorage.setItem('answerId', index + 1);
+    localStorage.setItem('answerId', ans.answerId);
   };
 
   return (
@@ -86,7 +86,7 @@ const AnswerList = ({ answers }) => {
                 취소
               </T.OpenCreateAnwerArea>
             ) : (
-              <T.OpenCreateAnwerArea onClick={() => buttonControl(index)}>
+              <T.OpenCreateAnwerArea onClick={() => buttonControl(index, ans)}>
                 답글달기 <BottomErrow />
               </T.OpenCreateAnwerArea>
             ))}

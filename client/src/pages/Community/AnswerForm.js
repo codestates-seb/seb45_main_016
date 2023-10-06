@@ -10,7 +10,6 @@ import {
 } from '../../utils/API';
 
 const AnswerForm = ({
-  index,
   img,
   name,
   modifiedAt,
@@ -27,18 +26,18 @@ const AnswerForm = ({
 
   const clickEdit = (e) => {
     if (e.target.className === 'answer') {
-      setAnswerEditOpen(true), localStorage.setItem('answerId', answerId);
+      setAnswerEditOpen(true);
     } else if (e.target.className === 'comment') {
-      setAnswerEditOpen(true), localStorage.setItem('answerId', answerId);
-      setAnswerEditOpen(true), localStorage.setItem('commentId', index + 1);
+      setAnswerEditOpen(true);
     }
   };
 
   const saveEdit = (e) => {
     if (e === 'answer') {
-      EditAnswerlist(writeValue);
+      localStorage.setItem('answerId', answerId);
+      EditAnswerlist(writeValue, answerId);
     } else if (e === 'comment') {
-      EditCommentlist(writeValue);
+      EditCommentlist(writeValue, commentId);
     }
 
     setAnswerEditOpen(false);
@@ -46,12 +45,10 @@ const AnswerForm = ({
 
   const deleteAnswer = async (e) => {
     if (e === 'answer') {
-      localStorage.setItem('answerId', answerId);
-      await DeleteAnswerlist();
+      await DeleteAnswerlist(answerId);
       console.log('답글삭제');
     } else if (e === 'comment') {
-      localStorage.setItem('commentId', commentId);
-      await DeleteCommentlist();
+      await DeleteCommentlist(commentId);
       console.log('답글삭제');
     }
   };

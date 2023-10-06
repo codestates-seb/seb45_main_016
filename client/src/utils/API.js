@@ -184,9 +184,8 @@ export const PostAnswer = async (writeValue, id) => {
 };
 
 //답변 수정
-export const EditAnswerlist = async (writeValue) => {
+export const EditAnswerlist = async (writeValue, answerId) => {
   let boardId = localStorage.getItem('boardId');
-  let answerId = localStorage.getItem('answerId');
   const res = await axios
     .patch(
       `${process.env.REACT_APP_API}boards/${boardId}/answers/${answerId}`,
@@ -208,9 +207,8 @@ export const EditAnswerlist = async (writeValue) => {
 };
 
 //답변 삭제
-export const DeleteAnswerlist = async () => {
+export const DeleteAnswerlist = async (answerId) => {
   let boardId = localStorage.getItem('boardId');
-  let answerId = localStorage.getItem('answerId');
   const res = await axios
     .delete(
       `${process.env.REACT_APP_API}boards/${boardId}/answers/delete/${answerId} `,
@@ -225,7 +223,7 @@ export const DeleteAnswerlist = async () => {
     )
 
     .then(() => {
-      window.location.href = `/community/detail/boards/${boardId}`;
+      window.location.reload();
     })
     .catch(function (error) {
       console.log(error);
@@ -245,6 +243,9 @@ export const PostComment = async (writeValue) => {
       },
       { headers: { Authorization: token } },
     )
+    .then(() => {
+      window.location.reload();
+    })
     .catch(function (error) {
       console.log(error);
     });
@@ -252,9 +253,8 @@ export const PostComment = async (writeValue) => {
 };
 
 //댓글 수정
-export const EditCommentlist = async (writeValue) => {
-  let answerId = localStorage.getItem('answerId');
-  let commentId = localStorage.getItem('commentId');
+export const EditCommentlist = async (writeValue, commentId) => {
+  const answerId = localStorage.getItem('answerId');
   const res = await axios
     .patch(
       `${process.env.REACT_APP_API}answers/${answerId}/comments/${commentId}`,
@@ -275,9 +275,8 @@ export const EditCommentlist = async (writeValue) => {
 };
 
 //댓글 삭제
-export const DeleteCommentlist = async () => {
-  let answerId = localStorage.getItem('answerId');
-  let commentId = localStorage.getItem('commentId');
+export const DeleteCommentlist = async (commentId) => {
+  const answerId = localStorage.getItem('answerId');
   const res = await axios
     .delete(
       `${process.env.REACT_APP_API}answers/${answerId}/comments/${commentId}`,
