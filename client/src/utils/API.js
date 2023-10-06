@@ -253,7 +253,7 @@ export const PostComment = async (writeValue) => {
 };
 
 //댓글 수정
-export const EditCommentlist = async (writeValue, commentId, answerId) => {
+export const EditCommentlist = async (writeValue, answerId, commentId) => {
   const res = await axios
     .patch(
       `${process.env.REACT_APP_API}answers/${answerId}/comments/${commentId}`,
