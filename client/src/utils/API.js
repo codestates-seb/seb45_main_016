@@ -253,8 +253,7 @@ export const PostComment = async (writeValue) => {
 };
 
 //댓글 수정
-export const EditCommentlist = async (writeValue, commentId) => {
-  const answerId = localStorage.getItem('answerId');
+export const EditCommentlist = async (writeValue, commentId, answerId) => {
   const res = await axios
     .patch(
       `${process.env.REACT_APP_API}answers/${answerId}/comments/${commentId}`,
@@ -275,8 +274,7 @@ export const EditCommentlist = async (writeValue, commentId) => {
 };
 
 //댓글 삭제
-export const DeleteCommentlist = async (commentId) => {
-  const answerId = localStorage.getItem('answerId');
+export const DeleteCommentlist = async (commentId, answerId) => {
   const res = await axios
     .delete(
       `${process.env.REACT_APP_API}answers/${answerId}/comments/${commentId}`,

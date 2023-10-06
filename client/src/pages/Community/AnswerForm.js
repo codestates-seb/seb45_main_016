@@ -34,21 +34,20 @@ const AnswerForm = ({
 
   const saveEdit = (e) => {
     if (e === 'answer') {
-      localStorage.setItem('answerId', answerId);
       EditAnswerlist(writeValue, answerId);
     } else if (e === 'comment') {
-      EditCommentlist(writeValue, commentId);
+      EditCommentlist(writeValue, answerId, commentId);
     }
 
     setAnswerEditOpen(false);
   };
 
-  const deleteAnswer = async (e) => {
+  const deleteAnswer = (e) => {
     if (e === 'answer') {
-      await DeleteAnswerlist(answerId);
+      DeleteAnswerlist(answerId);
       console.log('답글삭제');
     } else if (e === 'comment') {
-      await DeleteCommentlist(commentId);
+      DeleteCommentlist(answerId, commentId);
       console.log('답글삭제');
     }
   };

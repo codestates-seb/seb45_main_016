@@ -62,6 +62,7 @@ const AnswerList = ({ answers }) => {
                 modifiedAt={comment.modifiedAt}
                 content={comment.content}
                 commentId={comment.commentId}
+                answerId={ans.answerId}
                 comments={comment.comments}
                 className="comment"
                 id={comment.commentCreator.memberId}
