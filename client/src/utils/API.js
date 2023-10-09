@@ -158,7 +158,7 @@ export const DeletePost = async (id) => {
         headers: { Authorization: token },
       },
       {
-        memberId: memberId,
+        data: { memberId: memberId },
       },
     )
 
@@ -279,7 +279,7 @@ export const EditCommentlist = async (writeValue, answerId, commentId) => {
 };
 
 //댓글 삭제
-export const DeleteCommentlist = async (commentId, answerId) => {
+export const DeleteCommentlist = async (answerId, commentId) => {
   const res = await axios
     .delete(
       `${process.env.REACT_APP_API}answers/${answerId}/comments/${commentId}`,
@@ -321,6 +321,7 @@ export const Postbookmark = async (code) => {
       `${process.env.REACT_APP_API}bookmark`,
       {
         code: code,
+        memberId: memberId,
       },
       {
         headers: {

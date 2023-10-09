@@ -37,7 +37,7 @@ const Main = () => {
   const navigator = useNavigate();
 
   const openDetail = (boardId) => {
-    navigator(`/community/detail/boards/${boardId}`);
+    navigator(`/community/boards/${boardId}`);
   };
 
   // 자격증 데이터를 가져오는 함수 (예: API 호출)
