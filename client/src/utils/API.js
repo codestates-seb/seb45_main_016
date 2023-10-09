@@ -158,7 +158,7 @@ export const DeletePost = async (id) => {
         headers: { Authorization: token },
       },
       {
-        data: { memberId: memberId },
+        memberId: memberId,
       },
     )
 

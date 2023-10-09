@@ -101,6 +101,7 @@ const Info = () => {
             setModalOpen={setModalOpen}
             name={InfoData[isIndex].name}
             code={InfoData[isIndex].code}
+            bookmark={InfoData[isIndex].bookmark}
           />
         )}
         <Styled.AlertContainer>
