@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Styled from './MainStyle';
 import Header from '../../components/Header/Header';
@@ -63,7 +63,7 @@ const Main = () => {
   };
 
   // Fetch license data when the component mounts
-  useEffect(() => {
+  useLayoutEffect(() => {
     // setLicenseData(infoData.slice(0, 5)); //mock data
     // setComData(ComData);
     fetchLicenseData();
@@ -78,6 +78,8 @@ const Main = () => {
           date={licenseData[isIndex].date}
           setModalOpen={setModalOpen}
           name={licenseData[isIndex].name}
+          code={licenseData[isIndex].code}
+          bookmark={licenseData[isIndex].bookmark}
         />
       )}
 

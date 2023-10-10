@@ -329,6 +329,7 @@ export const Postbookmark = async (code) => {
         },
       },
     )
+    .then(() => window.location.reload())
     .catch(function (error) {
       console.log(error);
     });
@@ -344,6 +345,7 @@ export const deleteBookmark = async (code) => {
         code: code,
       },
     })
+    .then(() => window.location.reload())
     .catch(function (error) {
       console.log(error);
       console.log(code);

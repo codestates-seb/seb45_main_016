@@ -6,6 +6,7 @@ import { useState } from 'react';
 
 const Bookmark = ({ code, bookmark }) => {
   const [isLiked, setLike] = useState(false);
+  const memberId = localStorage.getItem('memberId');
 
   const pushHeart = (e) => {
     if (bookmark === false) {
@@ -23,7 +24,7 @@ const Bookmark = ({ code, bookmark }) => {
   };
 
   return (
-    <BookmarkStyle onClick={pushHeart}>
+    <BookmarkStyle onClick={memberId && pushHeart}>
       {bookmark === false && isLiked === false ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
