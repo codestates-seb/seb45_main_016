@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import * as Styled from './InfoStyle';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
@@ -23,7 +23,7 @@ const Info = () => {
   // 중간 페이지 번호 표시에 사용할 변수
   const pagesToShow = 5; // 항상 5개의 페이지 번호를 표시
   const halfPagesToShow = Math.floor(pagesToShow / 2); // 현재 페이지 기준 양쪽에 표시할 페이지 번호 수의 절반
-  useEffect(() => {
+  useLayoutEffect(() => {
     async function fetchData() {
       try {
         const res = await GetAllLicensesList(currentPage); // currentPage를 API 호출에 전달
@@ -101,6 +101,7 @@ const Info = () => {
             setModalOpen={setModalOpen}
             name={InfoData[isIndex].name}
             code={InfoData[isIndex].code}
+            bookmark={InfoData[isIndex].bookmark}
           />
         )}
         <Styled.AlertContainer>
@@ -114,6 +115,7 @@ const Info = () => {
               title={info.name}
               date={info.date}
               bookmark={info.bookmark}
+              code={info.code}
               isIndex={isIndex}
               onClick={() => {
                 modal(index);

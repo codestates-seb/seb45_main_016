@@ -32,7 +32,7 @@ function App() {
           <Route path="/mypage" element={<MyInfo />} />
           <Route path="/search" element={<SearchFiltered />} />
           <Route path="/login/oauth/code/kakao" element={<Kakao />} />
-          <Route path="/community/detail/boards/:id" element={<ComDetail />} />
+          <Route path="/community/boards/:id" element={<ComDetail />} />
         </Routes>
       </div>
     </Router>

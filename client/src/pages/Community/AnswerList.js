@@ -31,6 +31,11 @@ const AnswerList = ({ answers }) => {
 
   // let comment = answers.map((el)=>el.comments.map((el)=>{}))
 
+  const buttonControl = (index, ans) => {
+    openControl(index);
+    localStorage.setItem('answerId', ans.answerId);
+  };
+
   return (
     <T.AnswerLists>
       <p>댓글 {length}</p>
@@ -47,14 +52,16 @@ const AnswerList = ({ answers }) => {
             id={ans.answerCreator.memberId}
             length={length}
           />
-          {ans.comments.map((comment) => {
+          {ans.comments.map((comment, index) => {
             return (
               <AnswerForm
+                index={index}
                 key={comment.commentId}
                 img={profileImage}
                 name={comment.commentCreator.name}
                 modifiedAt={comment.modifiedAt}
                 content={comment.content}
+                commentId={comment.commentId}
                 answerId={ans.answerId}
                 comments={comment.comments}
                 className="comment"
@@ -80,7 +87,7 @@ const AnswerList = ({ answers }) => {
                 취소
               </T.OpenCreateAnwerArea>
             ) : (
-              <T.OpenCreateAnwerArea onClick={() => openControl(index)}>
+              <T.OpenCreateAnwerArea onClick={() => buttonControl(index, ans)}>
                 답글달기 <BottomErrow />
               </T.OpenCreateAnwerArea>
             ))}

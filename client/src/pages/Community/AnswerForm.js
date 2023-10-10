@@ -26,30 +26,28 @@ const AnswerForm = ({
 
   const clickEdit = (e) => {
     if (e.target.className === 'answer') {
-      setAnswerEditOpen(true), localStorage.setItem('answerId', answerId);
+      setAnswerEditOpen(true);
     } else if (e.target.className === 'comment') {
-      setAnswerEditOpen(true), localStorage.setItem('commentId', commentId);
+      setAnswerEditOpen(true);
     }
   };
 
   const saveEdit = (e) => {
     if (e === 'answer') {
-      EditAnswerlist(writeValue);
+      EditAnswerlist(writeValue, answerId);
     } else if (e === 'comment') {
-      EditCommentlist(writeValue);
+      EditCommentlist(writeValue, answerId, commentId);
     }
 
     setAnswerEditOpen(false);
   };
 
-  const deleteAnswer = async (e) => {
+  const deleteAnswer = (e) => {
     if (e === 'answer') {
-      localStorage.setItem('answerId', answerId);
-      await DeleteAnswerlist();
+      DeleteAnswerlist(answerId);
       console.log('답글삭제');
-    } else if (e === 'commnet') {
-      localStorage.setItem('commentId', commentId);
-      await DeleteCommentlist();
+    } else if (e === 'comment') {
+      DeleteCommentlist(answerId, commentId);
       console.log('답글삭제');
     }
   };

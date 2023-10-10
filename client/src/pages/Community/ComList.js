@@ -12,6 +12,8 @@ import { LeftArrow } from '../../utils/svg';
 import { RightArrow } from '../../utils/svg';
 // import ComData from '../../utils/commock';
 import { GetAllCommunityPostsList } from '../../utils/API';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ComList = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -89,7 +91,7 @@ const ComList = () => {
       navigator('/write');
     } else {
       navigator('/login');
-      alert('로그인이 필요합니다');
+      toast.error('로그인이 필요합니다');
     }
   };
 
@@ -102,10 +104,7 @@ const ComList = () => {
       <Styled.GridContainer>
         {comData &&
           comData.map((info) => (
-            <Link
-              to={'/community/detail/boards/' + info.boardId}
-              key={info.boardId}
-            >
+            <Link to={'/community/boards/' + info.boardId} key={info.boardId}>
               <ComCard
                 title={info.title}
                 username={info.boardCreator.name}

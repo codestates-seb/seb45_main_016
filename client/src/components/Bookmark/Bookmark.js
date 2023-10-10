@@ -1,22 +1,31 @@
 /* eslint-disable react/prop-types */
 import { BookmarkStyle } from './BookmarkStyle';
 import { Postbookmark, deleteBookmark } from '../../utils/API';
+import { useState } from 'react';
 // import { API } from '../../utils/API';
 
 const Bookmark = ({ code, bookmark }) => {
+  const [isLiked, setLike] = useState(false);
+  const memberId = localStorage.getItem('memberId');
+
   const pushHeart = (e) => {
     if (bookmark === false) {
+      setLike(true);
       Postbookmark(code);
       e.stopPropagation();
     } else {
+      setLike(false);
       deleteBookmark(code);
       e.stopPropagation();
+    }
+    if (isLiked === true) {
+      setLike(false);
     }
   };
 
   return (
-    <BookmarkStyle onClick={pushHeart}>
-      {bookmark === false ? (
+    <BookmarkStyle onClick={memberId && pushHeart}>
+      {bookmark === false && isLiked === false ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="37px"

@@ -36,12 +36,14 @@ export const signUp = async (data) => {
 export const GetAllLicensesList = async (data) => {
   let id = localStorage.getItem('licenseListId');
   try {
-    const res = await axios({
-      method: 'get',
-      data,
-      url: `${process.env.REACT_APP_API}licenses?page=${id}
-      `,
-    });
+    const res = await axios.get(
+      `${process.env.REACT_APP_API}licenses?page=${id}
+    `,
+      {
+        data,
+      },
+    );
+    console.log(res);
     return res;
   } catch (e) {
     console.log(e);
@@ -97,17 +99,22 @@ export const GetSearchedlicense = async (data) => {
 //게시글 post
 export const PostContents = async (title, content) => {
   const res = await axios
-    .post(`${process.env.REACT_APP_API}boards/create`, {
-      title: title,
-      content: content,
-      memberId: memberId,
-      headers: {
-        Authorization: token,
+    .post(
+      `${process.env.REACT_APP_API}boards/create`,
+      {
+        title: title,
+        content: content,
+        memberId: memberId,
       },
-    })
+      {
+        headers: {
+          Authorization: token,
+        },
+      },
+    )
 
     .then((res) => {
-      window.location.href = `/community/detail${res.headers.location}`;
+      window.location.href = `/community${res.headers.location}`;
     })
     .catch(function (error) {
       console.log(error);
@@ -134,7 +141,7 @@ export const PostEdit = async (title, content, id) => {
     )
 
     .then(() => {
-      window.location.href = `/community/detail/boards/${id}`;
+      window.location.href = `/community/boards/${id}`;
     })
     .catch(function (error) {
       console.log(error);
@@ -145,10 +152,15 @@ export const PostEdit = async (title, content, id) => {
 //게시글 삭제
 export const DeletePost = async (id) => {
   const res = await axios
-    .delete(`${process.env.REACT_APP_API}boards/delete/${id}`, {
-      headers: { Authorization: token },
-      data: { memberId: memberId },
-    })
+    .delete(
+      `${process.env.REACT_APP_API}boards/delete/${id}`,
+      {
+        headers: { Authorization: token },
+      },
+      {
+        memberId: memberId,
+      },
+    )
 
     .then(() => {
       window.location.href = `/community`;
@@ -161,17 +173,15 @@ export const DeletePost = async (id) => {
 };
 
 //답변 작성
-export const PostAnswer = async (writeValue) => {
+export const PostAnswer = async (writeValue, id) => {
   const res = await axios
-    .post(
-      `${process.env.REACT_APP_API}boards/${localStorage.getItem(
-        'boardId',
-      )}/answers`,
-      {
-        content: writeValue,
-        memberId: memberId,
-      },
-    )
+    .post(`${process.env.REACT_APP_API}boards/${id}/answers`, {
+      content: writeValue,
+      memberId: memberId,
+    })
+    .then(() => {
+      window.location.reload();
+    })
     .catch(function (error) {
       console.log(error);
     });
@@ -179,9 +189,8 @@ export const PostAnswer = async (writeValue) => {
 };
 
 //답변 수정
-export const EditAnswerlist = async (writeValue) => {
+export const EditAnswerlist = async (writeValue, answerId) => {
   let boardId = localStorage.getItem('boardId');
-  let answerId = localStorage.getItem('answerId');
   const res = await axios
     .patch(
       `${process.env.REACT_APP_API}boards/${boardId}/answers/${answerId}`,
@@ -203,9 +212,8 @@ export const EditAnswerlist = async (writeValue) => {
 };
 
 //답변 삭제
-export const DeleteAnswerlist = async () => {
+export const DeleteAnswerlist = async (answerId) => {
   let boardId = localStorage.getItem('boardId');
-  let answerId = localStorage.getItem('answerId');
   const res = await axios
     .delete(
       `${process.env.REACT_APP_API}boards/${boardId}/answers/delete/${answerId} `,
@@ -220,7 +228,7 @@ export const DeleteAnswerlist = async () => {
     )
 
     .then(() => {
-      window.location.href = `/community/detail/boards/${boardId}`;
+      window.location.reload();
     })
     .catch(function (error) {
       console.log(error);
@@ -240,6 +248,9 @@ export const PostComment = async (writeValue) => {
       },
       { headers: { Authorization: token } },
     )
+    .then(() => {
+      window.location.reload();
+    })
     .catch(function (error) {
       console.log(error);
     });
@@ -247,25 +258,19 @@ export const PostComment = async (writeValue) => {
 };
 
 //댓글 수정
-export const EditCommentlist = async (writeValue) => {
-  let answerId = localStorage.getItem('answerId');
-  let commentId = localStorage.getItem('commentId');
+export const EditCommentlist = async (writeValue, answerId, commentId) => {
   const res = await axios
     .patch(
       `${process.env.REACT_APP_API}answers/${answerId}/comments/${commentId}`,
       {
-        content: writeValue,
         memberId: memberId,
+        content: writeValue,
       },
-      {
-        headers: {
-          Authorization: token,
-        },
-      },
+      { headers: { Authorization: token } },
     )
 
-    .then((res) => {
-      window.location.href = `/community/detail${res.headers.location}`;
+    .then(() => {
+      window.location.reload();
     })
     .catch(function (error) {
       console.log(error);
@@ -274,9 +279,7 @@ export const EditCommentlist = async (writeValue) => {
 };
 
 //댓글 삭제
-export const DeleteCommentlist = async () => {
-  let answerId = localStorage.getItem('answerId');
-  let commentId = localStorage.getItem('commentId');
+export const DeleteCommentlist = async (answerId, commentId) => {
   const res = await axios
     .delete(
       `${process.env.REACT_APP_API}answers/${answerId}/comments/${commentId}`,
@@ -290,8 +293,8 @@ export const DeleteCommentlist = async () => {
       },
     )
 
-    .then((res) => {
-      window.location.href = `/community/detail${res.headers.location}`;
+    .then(() => {
+      window.location.reload();
     })
     .catch(function (error) {
       console.log(error);
@@ -318,6 +321,7 @@ export const Postbookmark = async (code) => {
       `${process.env.REACT_APP_API}bookmark`,
       {
         code: code,
+        memberId: memberId,
       },
       {
         headers: {
@@ -325,6 +329,7 @@ export const Postbookmark = async (code) => {
         },
       },
     )
+    .then(() => window.location.reload())
     .catch(function (error) {
       console.log(error);
     });
@@ -340,8 +345,10 @@ export const deleteBookmark = async (code) => {
         code: code,
       },
     })
+    .then(() => window.location.reload())
     .catch(function (error) {
       console.log(error);
+      console.log(code);
     });
   return res;
 };
