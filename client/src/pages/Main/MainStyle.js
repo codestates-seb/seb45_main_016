@@ -157,6 +157,7 @@ export const Comuseravatar = styled.div`
   img {
     width: 120px;
     height: 120px;
+    border-radius: 1000px;
 
     @media (max-width: ${breakpoints.medium}) {
       width: 80px;
