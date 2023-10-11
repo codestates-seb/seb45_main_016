@@ -49,7 +49,6 @@ const Main = () => {
         {
           headers: {
             Authorization: token,
-            'ngrok-skip-browser-warning': '2',
           },
         },
       );

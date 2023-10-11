@@ -12,12 +12,14 @@ import {
 const AnswerForm = ({
   img,
   name,
+  email,
   modifiedAt,
   content,
   answerId,
   commentId,
   className,
   id,
+  timeChange,
 }) => {
   const [isAnswerEditOpen, setAnswerEditOpen] = useState(false);
   const [writeValue, setWriteValue] = useState(content);
@@ -100,8 +102,10 @@ const AnswerForm = ({
               <img src={img} alt="answer_creator_image" />
             </T.AnswerCreatorImg>
             <T.AnswerDesCription>
-              <p>{name}</p>
-              <p>{modifiedAt}</p>
+              <p>
+                {name} / {email}
+              </p>
+              <p>{className === 'answer' && timeChange(modifiedAt)}</p>
               <div>{writeValue}</div>
             </T.AnswerDesCription>
           </T.Answer>

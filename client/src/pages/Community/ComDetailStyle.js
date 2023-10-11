@@ -51,6 +51,10 @@ export const InfoImgWrap = styled.div`
 `;
 
 export const InfoDescription = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   color: ${Gray['600'].value};
   text-align: center;
@@ -59,6 +63,12 @@ export const InfoDescription = styled.div`
   font-weight: 700;
   line-height: 100%;
   margin-top: 2%;
+
+  .user {
+    display: flex;
+    flex-direction: column;
+  }
+
   :nth-child(2) {
     margin-left: 2%;
   }

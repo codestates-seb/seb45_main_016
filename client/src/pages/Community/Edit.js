@@ -9,7 +9,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 // import mockData from './ComData';
 
 const Edit = () => {
-  const [editData, setEditData] = useState({ title: '', content: '' });
+  const [editData, setEditData] = useState({
+    title: localStorage.getItem('beforeTitle'),
+    content: localStorage.getItem('beforeContent'),
+  });
   let { id } = useParams();
 
   useEffect(() => {

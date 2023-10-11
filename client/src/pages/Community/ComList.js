@@ -107,8 +107,9 @@ const ComList = () => {
             <Link to={'/community/boards/' + info.boardId} key={info.boardId}>
               <ComCard
                 title={info.title}
+                img={info.boardCreator.profileImage}
                 username={info.boardCreator.name}
-                email={info.email}
+                email={info.boardCreator.email}
                 onClick={() => {
                   localStorage.setItem('boardId', info.boardId);
                 }}

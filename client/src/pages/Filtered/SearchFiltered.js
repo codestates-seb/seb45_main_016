@@ -129,6 +129,8 @@ const SearchFiltered = () => {
               key={index}
               title={info.name}
               date={info.date}
+              bookmark={info.bookmark}
+              code={info.code}
               isIndex={(currentPage - 1) * PageSize + index === isIndex}
               onClick={() => {
                 modal((currentPage - 1) * PageSize + index); // Pass the updated index to modal
@@ -206,10 +208,7 @@ const SearchFiltered = () => {
       <div>
         <Comresult>
           {currentData.map((info) => (
-            <Link
-              to={'/community/detail/boards/' + info.boardId}
-              key={info.boardId}
-            >
+            <Link to={'/community/boards/' + info.boardId} key={info.boardId}>
               <ComCard
                 title={info.title}
                 username={info.name}

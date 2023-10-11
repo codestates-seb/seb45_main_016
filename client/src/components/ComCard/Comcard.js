@@ -2,13 +2,10 @@
 import React from 'react';
 import * as Styled from './ComCard.Style';
 
-const ComCard = ({ username, email, tag, title, onClick }) => {
+const ComCard = ({ username, email, tag, title, onClick, img }) => {
   return (
     <Styled.ComCardContainer onClick={onClick}>
-      <img
-        src="https://dinotaeng.com/file_data/dinotaeng/2022/04/07/3e1a4215a71999cb828799e4da858012.png"
-        alt="useravatar"
-      />
+      <img src={img} alt="useravatar" />
       <Styled.Username>{username}</Styled.Username>
       <Styled.Email>{email}</Styled.Email>
       <Styled.Tag>{tag}</Styled.Tag>
