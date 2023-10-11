@@ -32,8 +32,7 @@ const Edit = () => {
   };
 
   const patch = () => {
-    PostEdit(title, content, id);
-    navigator(`/community/detail/boards/${id}`);
+    PostEdit(title, content, id).then(navigator(`/community/boards/${id}`));
   };
 
   return (

@@ -212,7 +212,8 @@ const SearchFiltered = () => {
               <ComCard
                 title={info.title}
                 username={info.name}
-                email={info.email}
+                img={info.boardCreator.profileImage}
+                email={info.boardCreator.email}
                 onClick={() => {
                   localStorage.setItem('boardId', info.boardId);
                 }}

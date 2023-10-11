@@ -41,12 +41,12 @@ export const BoardCreatorInfo = styled.div`
 `;
 
 export const InfoImgWrap = styled.div`
-  width: 40px;
-  height: 40px;
-  border-radius: 100px;
+  width: 70px;
+  height: 70px;
   img {
-    width: 40px;
-    height: 40px;
+    width: 100%;
+    height: 100%;
+    border-radius: 100px;
   }
 `;
 
