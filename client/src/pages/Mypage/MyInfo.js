@@ -1,202 +1,3 @@
-// /* eslint-disable no-unused-vars */
-// /* eslint-disable react/prop-types */
-// import React, { useState, useEffect } from 'react';
-// import { Calendar } from 'react-calendar';
-// import 'react-calendar/dist/Calendar.css';
-// import { useNavigate } from 'react-router-dom';
-// import Header from '../../components/Header/Header';
-// import Footer from '../../components/Footer/Footer';
-// import Modal from '../../components/Modal/Modal';
-// import DelModal from '../../components/DelModal/DelModal';
-// import { GetUserInfo, DeleteUser, UpdateUserInfo } from '../../utils/API';
-
-// import {
-//   CalendarContainer,
-//   LikedInfo,
-//   MypageStyle,
-//   Profile,
-//   ProfileLeft,
-//   ProfileRight,
-//   SchedulePlusLog,
-//   Log,
-//   Written,
-//   BookMarkContainer,
-//   WriteContents,
-// } from './MypageStyle';
-
-// // eslint-disable-next-line no-undef
-// const imageUrl = process.env.PUBLIC_URL + '/edit.png';
-
-// const MyInfo = ({ InfoData, ComData }) => {
-//   const [userInfo, setUserInfo] = useState({});
-//   const [isIndex, setIndex] = useState();
-//   const [isModalOpen, setModalOpen] = useState(false);
-//   const [isDelModalOpen, setDelModalOpen] = useState(false);
-//   const [warningMessage, setWarningMessage] = useState('');
-//   const [date, setDate] = useState(new Date());
-//   const navigator = useNavigate();
-//   const userId = localStorage.getItem('userId');
-
-//   const WriteData = ComData.filter((info) => {
-//     return info.username === userId;
-//   });
-
-//   // 유저 정보 가져오기
-//   useEffect(() => {
-//     const fetchUserInfo = async () => {
-//       try {
-//         const response = await GetUserInfo();
-//         setUserInfo(response.data);
-//       } catch (error) {
-//         console.error('유저 정보 가져오기 실패:', error);
-//       }
-//     };
-
-//     fetchUserInfo();
-//   }, []);
-
-//   const modal = (index) => {
-//     if (isModalOpen === false) {
-//       setModalOpen(true);
-//     }
-//     setIndex(index);
-//   };
-
-//   const openDelModal = (message) => {
-//     setWarningMessage(message);
-//     setDelModalOpen(true);
-//   };
-
-//   const closeModal = () => {
-//     setDelModalOpen(false);
-//   };
-
-//   const handleDeleteUser = async () => {
-//     openDelModal('이 작업은 되돌릴 수 없어요!');
-//   };
-
-//   useEffect(() => {
-//     if (isModalOpen === true) {
-//       document.body.style = `overflow:hidden`;
-//     } else {
-//       document.body.style = `overflow:display`;
-//     }
-//   });
-
-//   const handleDateChange = (date) => {
-//     setDate(date);
-//   };
-
-//   const openDetail = () => {
-//     navigator('/community/Detail/');
-//   };
-
-//   const confirmDeleteUser = async () => {
-//     try {
-//       await DeleteUser();
-//       alert('그동안 이용해주셔서 감사합니다.');
-//       localStorage.clear();
-//       navigator('/');
-//     } catch (e) {
-//       console.error('회원 탈퇴 실패:', e);
-//       alert('탈퇴에 실패하였습니다.');
-//     } finally {
-//       closeModal();
-//     }
-//   };
-
-//   return (
-//     <MypageStyle>
-//       <Header />
-
-//       <Profile>
-//         {isModalOpen === true && (
-//           <Modal
-//             date={InfoData[isIndex].date}
-//             setModalOpen={setModalOpen}
-//             name={InfoData[isIndex].name}
-//           />
-//         )}
-//         <ProfileLeft>
-//           <img
-//             /*{useravatar}*/ src="https://dinotaeng.com/file_data/dinotaeng/2022/04/07/3e1a4215a71999cb828799e4da858012.png"
-//             alt="useravatar"
-//           />
-//           <button className="edit">edit photo</button>
-//           <button className="delBtn" onClick={handleDeleteUser}>
-//             회원탈퇴하기
-//           </button>
-//           <DelModal
-//             isOpen={isDelModalOpen}
-//             onCancel={closeModal}
-//             onConfirm={confirmDeleteUser}
-//             warningMessage={warningMessage}
-//           />
-//         </ProfileLeft>
-//         <ProfileRight>
-//           <div className="input-username">
-//             <input type="text" placeholder="username"></input>
-//             <button>
-//               <img src={imageUrl} alt="editlogo" />
-//             </button>
-//           </div>
-//           <div className="input-email">
-//             <input type="text" placeholder="E-mail"></input>
-//             <button>
-//               <img src={imageUrl} alt="editlogo" />
-//             </button>
-//           </div>
-//           <div className="input-phonenumber">
-//             <input type="text" placeholder="Phone number"></input>
-//             <button>
-//               <img src={imageUrl} alt="editlogo" />
-//             </button>
-//           </div>
-//         </ProfileRight>
-//       </Profile>
-//       <SchedulePlusLog>
-//         <CalendarContainer className="calendar-container">
-//           <Calendar
-//             onChange={handleDateChange}
-//             value={date}
-//             showNeighboringMonth={false} //  이전, 이후 달의 날짜는 보이지 않도록 설정
-//           />
-//         </CalendarContainer>
-//         <Log>
-//           <LikedInfo>
-//             나의 관심 자격증
-//             <BookMarkContainer>
-//               {/* {InfoData 배열 순회하여 버튼 렌더링} */}
-//               {InfoData.map((item, index) => (
-//                 <button
-//                   className="bookmark"
-//                   key={index}
-//                   onClick={() => modal(index)}
-//                 >
-//                   {item.name}
-//                 </button>
-//               ))}
-//             </BookMarkContainer>
-//           </LikedInfo>
-//           <Written>
-//             내가 작성한 글
-//             <WriteContents>
-//               {WriteData.map((item, index) => (
-//                 <button className="write" key={index} onClick={openDetail}>
-//                   {item.title}
-//                 </button>
-//               ))}
-//             </WriteContents>
-//           </Written>
-//         </Log>
-//       </SchedulePlusLog>
-//       <Footer />
-//     </MypageStyle>
-//   );
-// };
-
-// export default MyInfo;
-
 import React, { useState, useEffect } from 'react';
 import { Calendar } from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -228,7 +29,7 @@ import {
 
 const MyInfo = () => {
   const [userInfo, setUserInfo] = useState([]);
-  // const [isIndex, setIndex] = useState();
+  const [isIndex, setIndex] = useState();
   const [isModalOpen, setModalOpen] = useState(false);
   const [isDelModalOpen, setDelModalOpen] = useState(false);
   const [warningMessage, setWarningMessage] = useState('');
@@ -237,9 +38,6 @@ const MyInfo = () => {
   const [date, setDate] = useState(new Date());
   const navigator = useNavigate();
   // const userId = localStorage.getItem('userId');
-  // const [username, setUsername] = useState(userInfo.name);
-  // const [email, setEmail] = useState(userInfo.email);
-  // const [phone, setPhone] = useState(userInfo.phone);
 
   console.log(userInfo.name);
 
@@ -250,7 +48,7 @@ const MyInfo = () => {
     const fetchUserInfo = async () => {
       try {
         const response = await GetUserInfo();
-        console.log('dlfma', response.data);
+        console.log('유저정보', response.data);
         setUserInfo(response.data);
       } catch (error) {
         console.error('유저 정보 가져오기 실패:', error);
@@ -288,22 +86,18 @@ const MyInfo = () => {
     }
   };
 
-  const openDetail = (boardId) => {
-    navigator(`/community/detail/${boardId}`);
-  };
-  const route = () => {
+  const route = (index) => {
     if (isModalOpen === false) {
       setModalOpen(true);
     }
+    setIndex(index);
   };
 
-  const [newUsername, setNewUsername] = useState('');
-  const [newEmail, setNewEmail] = useState('');
-  const [newPhone, setNewPhone] = useState('');
+  const [newUsername, setNewUsername] = useState(userInfo.name);
+  const [newPhone, setNewPhone] = useState(userInfo.phone);
 
-  const onUpdateUserInfo = (newUsername, newEmail, newPhone) => {
+  const onUpdateUserInfo = (newUsername, newPhone) => {
     setNewUsername(newUsername);
-    setNewEmail(newEmail);
     setNewPhone(newPhone);
   };
 
@@ -311,17 +105,15 @@ const MyInfo = () => {
     try {
       const updatedUserInfo = {
         username: newUsername,
-        email: newEmail,
         phone: newPhone,
       };
 
       await EditUser(updatedUserInfo);
-      onUpdateUserInfo(newUsername, newEmail, newPhone);
+      onUpdateUserInfo(newUsername, newPhone);
 
       console.log('수정 완료');
       toast.success('수정이 완료되었습니다.');
       localStorage.setItem('name', newUsername);
-      localStorage.setItem('email', newEmail);
       localStorage.setItem('phone', newPhone);
       setIsEditMode(false);
     } catch (e) {
@@ -334,7 +126,7 @@ const MyInfo = () => {
     setWarningMessage(message);
     setDelModalOpen(true);
   };
-  const closeModal = () => {
+  const closeDelModal = () => {
     setDelModalOpen(false);
   };
   const handleDeleteUser = async () => {
@@ -353,8 +145,12 @@ const MyInfo = () => {
       console.error('회원 탈퇴 실패:', e);
       toast.error('탈퇴에 실패하였습니다.');
     } finally {
-      closeModal();
+      closeDelModal();
     }
+  };
+
+  const openDetail = (boardId) => {
+    navigator(`/community/boards/${boardId}`);
   };
 
   // const extractEventDates = () => {
@@ -397,7 +193,7 @@ const MyInfo = () => {
           </button>
           <DelModal
             isOpen={isDelModalOpen}
-            onCancel={closeModal}
+            onCancel={closeDelModal}
             onConfirm={confirmDeleteUser}
             warningMessage={warningMessage}
           />
@@ -408,23 +204,14 @@ const MyInfo = () => {
               <div className="input-username">
                 <input
                   type="text"
-                  // value={name}
                   placeholder={userInfo.name}
                   onChange={(e) => setNewUsername(e.target.value)}
                 />
               </div>
-              <div className="input-email">
-                <input
-                  type="text"
-                  // value={email}
-                  placeholder={userInfo.email}
-                  onChange={(e) => setNewEmail(e.target.value)}
-                />
-              </div>
+
               <div className="input-phonenumber">
                 <input
                   type="text"
-                  // value={phone}
                   placeholder={userInfo.phone}
                   onChange={(e) => setNewPhone(e.target.value)}
                 />
@@ -436,9 +223,8 @@ const MyInfo = () => {
           ) : (
             <div className="display">
               <div className="text">
-                <p>{userInfo.name}</p>
-                <p>{userInfo.email}</p>
-                <p>{userInfo.phone}</p>
+                닉네임<p>{userInfo.name}</p>
+                전화번호<p>{userInfo.phone}</p>
               </div>
               <button className="editinfo" onClick={() => setIsEditMode(true)}>
                 수정하기
@@ -490,30 +276,50 @@ const MyInfo = () => {
         <Log>
           <LikedInfo>
             나의 관심 자격증
-            <BookMarkContainer>
-              {/* {InfoData 배열 순회하여 버튼 렌더링} */}
-              {userInfo?.bookmarks?.map((bookmark, index) => (
-                <button className="bookmark" key={index} onClick={route}>
-                  {bookmark.licenseInfo.name}
-                </button>
-              ))}
-            </BookMarkContainer>
-            {isModalOpen === true && <Modal setModalOpen={setModalOpen} />}
+            {userInfo?.bookmarks?.length > 0 && (
+              <BookMarkContainer>
+                {isModalOpen === true && (
+                  <Modal
+                    date={userInfo.bookmarks[isIndex].licenseInfo.licenses}
+                    setModalOpen={setModalOpen}
+                    name={userInfo.bookmarks[isIndex].licenseInfo.name}
+                    code={userInfo.bookmarks[isIndex].licenseInfo.code}
+                    bookmark={userInfo.bookmarks[isIndex].licenseInfo.bookmark}
+                  />
+                )}
+                {userInfo?.bookmarks?.map((bookmark, index) => (
+                  <button
+                    className="bookmark"
+                    key={index}
+                    onClick={() => route(index)}
+                  >
+                    {bookmark.licenseInfo.name}
+                  </button>
+                ))}
+              </BookMarkContainer>
+            )}
           </LikedInfo>
           <Written>
             내가 작성한 글
-            <WriteContents>
-              {/* <Link
+            {userInfo?.boards?.length > 0 ? (
+              <WriteContents>
+                {/* <Link
                 to={('/community/detail/' + board, index.boardId)}
                 key={(board, index.boardId)}
               > */}
-              {userInfo?.boards?.map((board, index) => (
-                <button className="write" key={index} onClick={openDetail}>
-                  {board.title}
-                </button>
-              ))}
-              {/* </Link> */}
-            </WriteContents>
+                {userInfo?.boards?.map((board, index) => (
+                  <button className="write" key={index}>
+                    {board.title} onClick=
+                    {() => {
+                      openDetail(board.boardId);
+                    }}
+                  </button>
+                ))}
+                {/* </Link> */}
+              </WriteContents>
+            ) : (
+              <p>아직 작성한 글이 없어요😅</p>
+            )}
           </Written>
         </Log>
       </SchedulePlusLog>
