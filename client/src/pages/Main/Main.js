@@ -61,6 +61,8 @@ const Main = () => {
     }
   };
 
+  console.log(licenseData);
+
   // Fetch license data when the component mounts
   useLayoutEffect(() => {
     // setLicenseData(infoData.slice(0, 5)); //mock data
