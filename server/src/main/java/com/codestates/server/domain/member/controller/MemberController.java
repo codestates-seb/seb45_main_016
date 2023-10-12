@@ -53,7 +53,7 @@ public class MemberController {
 
     @PatchMapping("/mypage/edit/{member-id}")
     public ResponseEntity patchMember(@PathVariable("member-id") @Positive Long memberId,
-                                      @RequestBody MemberPatchDto memberPatchDto) {
+                                      @Valid @RequestBody MemberPatchDto memberPatchDto) {
 
         memberPatchDto.setMemberId(memberId);
 
