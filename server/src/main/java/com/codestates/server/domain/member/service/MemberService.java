@@ -77,12 +77,17 @@ public class MemberService {
 
         Member getMember = verifyAuthorizedUser(member.getMemberId());
 
-        Optional.ofNullable(getMember.getName())
-                .ifPresent(nickname -> getMember.setName(member.getName()));
-        Optional.ofNullable(getMember.getPassword())
-                .ifPresent(password -> getMember.setPassword(member.getPassword()));
-        Optional.ofNullable(getMember.getProfileImage())
-                .ifPresent(image -> getMember.setProfileImage(member.getProfileImage()));
+        if(member.getName() != null) {  // 입력받은 닉네임이 null 이 아니면
+            getMember.setName(member.getName());    // getMember 에 입력받은 name 대체 -> null 이면 유지
+        }
+        if(member.getPhone() != null) { // 입력받은 폰이 null이 아니면
+            getMember.setPhone(member.getPhone());  // getMember에 입력받은 phone 대체
+        }
+        if(member.getPassword() != null) {  // 입력받은 password null 이 아니면
+            getMember.setPassword(passwordEncoder.encode(member.getPassword()));    // getPassword에 입력받은 password 대체 -> 인코딩
+        }
+
+        else throw new RuntimeException("다른 값은 수정이 불가합니다.");
 
         return memberRepository.save(getMember);
     }
@@ -101,13 +106,18 @@ public class MemberService {
         }
         // profileImage 새로운 imgae로 upload 하기
         String newProfileImage = null;
-        // 새로운 파일 업로드 하는 메서드 (파일, x좌표, y좌표, 가로, 세로)
-        newProfileImage = s3UploadService.uploadProfileImage(file, MEMBER_IMAGE_PROCESS_TYPE);
-//        newProfileImage = s3UploadService.uploadProfileImage(file, x, y, width, height);
+        if(newProfileImage != null) {
+            // 새로운 파일 업로드 하는 메서드 (파일, x좌표, y좌표, 가로, 세로)
+            newProfileImage = s3UploadService.uploadProfileImage(file, MEMBER_IMAGE_PROCESS_TYPE);
+            //        newProfileImage = s3UploadService.uploadProfileImage(file, x, y, width, height);
+        } else {
+            newProfileImage = DEFAULT_IMAGE;
+        }
         // 회원 profileImage에 set 하고 save
         member.setProfileImage(newProfileImage);
         // 새로운 이미지 URL을 멤버 객체에 설정
         member.setProfileImage(newProfileImage);
+
         // 회원 정보 업데이트
         memberRepository.save(member);
 
@@ -136,7 +146,7 @@ public class MemberService {
 
     // member 마이페이지에서 사용자 정보 가지고 오는 메서드
     public Member getMember(Long memberId) {
-        Member member = verifyAuthorizedUser(memberId);
+        Member member = getVerifiedMember(memberId);
 
         return member;
     }
