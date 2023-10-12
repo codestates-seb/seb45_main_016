@@ -39,18 +39,7 @@ spring:
       hibernate:
         format_sql: true
   mail:
-    host: smtp.gmail.com
-    port: 587
-    username: studyground77@gmail.com
     password: ${EMAIL_PASSWORD}
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-  thymeleaf:
-    prefix: classpath:/templates/
 #    defer-datasource-initialization: true #삭제 필요
 #  sql:
 #    init:

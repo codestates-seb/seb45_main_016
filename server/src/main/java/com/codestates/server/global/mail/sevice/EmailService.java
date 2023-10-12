@@ -36,7 +36,7 @@ public class EmailService {
                                  Map<String, Object> variables) throws MessagingException {
 
         MimeMessage mimeMessage = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
         helper.setTo(to);   // 보낼 사람
         helper.setSubject(subject); // 제목
@@ -46,6 +46,8 @@ public class EmailService {
 
         String html = templateEngine.process(templateName, context);  // template 이름 작성
         helper.setText(html, true);
+
+        mimeMessage.setHeader("Content-Transfer-Encoding", "base64");// Base64 인코딩 설정 추가
 
         mailSender.send(mimeMessage);
     }

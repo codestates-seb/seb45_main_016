@@ -76,7 +76,6 @@ public class BoardController {
 				new MultiResponseDto<>(boardPageResponses, pageBoards), HttpStatus.OK);
 	}
 
-
 	//게시글 삭제
 	@DeleteMapping("/delete/{board-id}")
 	public ResponseEntity<?> deleteBoard(@PathVariable("board-id") Long boardId,

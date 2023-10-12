@@ -30,6 +30,7 @@ public class MailConfig {
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");
         properties.put("mail.debug", "true");
+        properties.put("mail.mime.charset", "UTF-8");
 
         return mailSender;
     }
