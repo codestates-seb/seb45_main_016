@@ -38,16 +38,16 @@ public class Member {
     private List<String> roles = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Board> boardList;
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Board> boards;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Answer> answerList;
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Answer> answers;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> commentList;
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Comment> comments;
 
     @JsonIgnore
     @OneToMany(mappedBy = "member")
