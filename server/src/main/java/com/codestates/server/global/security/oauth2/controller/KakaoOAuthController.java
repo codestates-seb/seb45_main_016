@@ -46,7 +46,7 @@ public class KakaoOAuthController {
 
             // 5. 토큰을 응답 헤더에 추가
             HttpHeaders headers = new HttpHeaders();
-            headers.add("accessToken", accessToken);
+            headers.add("accessToken", "Bearer " + accessToken);
             headers.add("refreshToken", refreshToken);
 
             return ResponseEntity.ok().headers(headers).body(kakaoMemberInfoDto);
