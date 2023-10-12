@@ -16,6 +16,7 @@ import java.security.Key;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
+import java.util.TimeZone;
 
 /**
  * 로그인 인증에 성공한 클라이언트에게 JWT를 생성,발급하고
@@ -33,7 +34,7 @@ public class JwtTokenizer {
     private int originMinutes;
 
     @Getter
-    private final int accessTokenExpirationMinutes = originMinutes * 6;
+    private final int accessTokenExpirationMinutes = originMinutes * 24;
 
     @Getter
     @Value("${jwt.refresh-token-expiration-minutes}")
@@ -125,7 +126,7 @@ public class JwtTokenizer {
      * @return
      */
     public Date getTokenExpiration(int expriationMinutes) {
-        Calendar calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         calendar.add(Calendar.MINUTE, expriationMinutes);   // 현재 시간에 토큰 만료 시간 더하기
         Date expiration = calendar.getTime();   // 캘린더 객체(expiration)를 Date 객체로 바꿔서 만료시간 얻기
 
