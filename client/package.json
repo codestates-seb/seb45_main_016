@@ -1,14 +1,25 @@
 {
   "dependencies": {
+    "@lottiefiles/react-lottie-player": "^3.5.3",
     "@reduxjs/toolkit": "^1.9.5",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.5.0",
+    "dotenv": "^16.3.1",
+    "jwt-decode": "^3.1.2",
+    "prop-types": "^15.8.1",
     "react": "^18.2.0",
+    "react-calendar": "^4.6.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.45.4",
+    "react-kakao-login": "^2.1.1",
+    "react-redux": "^8.1.2",
     "react-router-dom": "^6.15.0",
     "react-scripts": "5.0.1",
+    "react-toastify": "^9.1.3",
     "styled-components": "^6.0.7",
+    "token-transformer": "^0.0.33",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -16,7 +27,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "token": "token-transformer src/styles/tokens.json src/styles/global.json global --expandTypography=true --expandShadow=true --expandComposition=true --expandBorder=true",
+    "chromatic": "npx chromatic --project-token=6a567d6510c8"
   },
   "eslintConfig": {
     "extends": [
