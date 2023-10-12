@@ -27,6 +27,7 @@ export const Username = styled.p`
   margin: 12px 0 0 0;
   font-size: 12px;
   color: ${globaltoken.Gray[600].value};
+  text-decoration: none;
 `;
 
 export const Email = styled.p`
@@ -47,4 +48,5 @@ export const Title = styled.p`
   font-size: 16px;
   font-weight: 700;
   color: ${globaltoken.Gray[800].value};
+  text-decoration: none;
 `;

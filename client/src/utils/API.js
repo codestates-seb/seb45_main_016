@@ -302,18 +302,6 @@ export const DeleteCommentlist = async (answerId, commentId) => {
   return res;
 };
 
-export const DeleteUser = async () => {
-  try {
-    const res = await axios({
-      method: 'delete',
-      url: `${process.env.REACT_APP_API}members/auth/delete`,
-    });
-    return res;
-  } catch (e) {
-    console.log(e);
-  }
-};
-
 //북마킹
 export const Postbookmark = async (code) => {
   const res = await axios
@@ -353,6 +341,7 @@ export const deleteBookmark = async (code) => {
   return res;
 };
 
+//유저정보조회
 export const GetUserInfo = async () => {
   // memberId와 token을 매개변수로 추가
   try {
@@ -372,6 +361,7 @@ export const GetUserInfo = async () => {
   }
 };
 
+//유저정보수정
 export const EditUser = async (updatedUserInfo) => {
   try {
     const res = await axios({
@@ -379,12 +369,27 @@ export const EditUser = async (updatedUserInfo) => {
       url: `${process.env.REACT_APP_API}members/mypage/edit/${memberId}`,
       headers: {
         Authorization: token,
-        'ngrok-skip-browser-warning': '2',
       },
       data: { updatedUserInfo },
     });
+    console.log('memberId:', memberId);
+    console.log('token:', token);
+
     return res;
   } catch (e) {
     console.log('실패다 요녀석', e);
+  }
+};
+
+//유저정보삭제
+export const DeleteUser = async () => {
+  try {
+    const res = await axios({
+      method: 'delete',
+      url: `${process.env.REACT_APP_API}members/auth/delete`,
+    });
+    return res;
+  } catch (e) {
+    console.log(e);
   }
 };

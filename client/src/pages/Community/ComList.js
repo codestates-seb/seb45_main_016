@@ -6,7 +6,7 @@ import * as Styled from './ComListStyle';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import ComCard from '../../components/ComCard/Comcard';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { LeftArrow } from '../../utils/svg';
 import { RightArrow } from '../../utils/svg';
@@ -104,7 +104,10 @@ const ComList = () => {
       <Styled.GridContainer>
         {comData &&
           comData.map((info) => (
-            <Link to={'/community/boards/' + info.boardId} key={info.boardId}>
+            <Styled.SLink
+              to={'/community/boards/' + info.boardId}
+              key={info.boardId}
+            >
               <ComCard
                 title={info.title}
                 img={info.boardCreator.profileImage}
@@ -114,7 +117,7 @@ const ComList = () => {
                   localStorage.setItem('boardId', info.boardId);
                 }}
               />
-            </Link>
+            </Styled.SLink>
           ))}
       </Styled.GridContainer>
 
