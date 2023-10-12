@@ -40,10 +40,10 @@ export const GetAllLicensesList = async (data) => {
       `${process.env.REACT_APP_API}licenses?page=${id}
     `,
       {
+        headers: { Authorization: token },
         data,
       },
     );
-    console.log(res);
     return res;
   } catch (e) {
     console.log(e);

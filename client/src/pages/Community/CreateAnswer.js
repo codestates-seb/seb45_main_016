@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as T from './CreateAnswer.Style';
 // import jwt_decode from 'jwt-decode';
-import { PostAnswer, PostComment } from '../../utils/API';
+import { GetUserInfo, PostAnswer, PostComment } from '../../utils/API';
 import { useParams } from 'react-router-dom';
 
 // const token = localStorage.getItem('authorization');
@@ -17,8 +17,13 @@ const CreateAnswer = ({ className, answerAppender }) => {
   const [writeValue, setWriteValue] = useState('');
   const [isPosted, setPosted] = useState(false);
   const memberId = localStorage.getItem('memberId');
-  const img = localStorage.getItem('profileImg');
+  const [profileImg, setProfileImg] = useState();
   const { id } = useParams();
+
+  useEffect(() => {
+    memberId &&
+      GetUserInfo().then((res) => setProfileImg(res.data.profileImage));
+  }, [memberId]);
 
   const answerPost = (e) => {
     if (e === 'board-focusing' && isPosted === false) {
@@ -44,7 +49,10 @@ const CreateAnswer = ({ className, answerAppender }) => {
       {memberId ? (
         <T.CreateAnswerForm>
           <T.AnswerCratorInfo>
-            <T.CreatorImg src={img} alt="current user img"></T.CreatorImg>
+            <T.CreatorImg
+              src={profileImg}
+              alt="current user img"
+            ></T.CreatorImg>
             <T.Description>
               <p>{localStorage.getItem('name')}</p>
             </T.Description>

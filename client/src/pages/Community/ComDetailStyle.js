@@ -41,16 +41,20 @@ export const BoardCreatorInfo = styled.div`
 `;
 
 export const InfoImgWrap = styled.div`
-  width: 40px;
-  height: 40px;
-  border-radius: 100px;
+  width: 70px;
+  height: 70px;
   img {
-    width: 40px;
-    height: 40px;
+    width: 100%;
+    height: 100%;
+    border-radius: 100px;
   }
 `;
 
 export const InfoDescription = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   color: ${Gray['600'].value};
   text-align: center;
@@ -59,6 +63,12 @@ export const InfoDescription = styled.div`
   font-weight: 700;
   line-height: 100%;
   margin-top: 2%;
+
+  .user {
+    display: flex;
+    flex-direction: column;
+  }
+
   :nth-child(2) {
     margin-left: 2%;
   }

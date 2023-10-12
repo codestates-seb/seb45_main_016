@@ -10,6 +10,7 @@ import {
 } from './HeaderStyle';
 import { Link } from 'react-router-dom';
 import SearchBar from '../Header/Searchbar'; // SearchBar 컴포넌트를 import
+import { toast } from 'react-toastify';
 
 // eslint-disable-next-line no-undef
 const imageUrl = process.env.PUBLIC_URL + '/Logo.png';
@@ -25,7 +26,9 @@ const Header = () => {
 
   useEffect(() => {
     function clearLocalStorage() {
+      toast.error('토큰이 만료되어 로그아웃 되었습니다.');
       localStorage.clear();
+      window.location.reload();
     }
     const delayMilliseconds = 60 * 60 * 1000;
     setTimeout(clearLocalStorage, delayMilliseconds);
