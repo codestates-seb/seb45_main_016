@@ -11,6 +11,7 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Calendar;
@@ -29,12 +30,16 @@ public class JwtTokenizer {
     @Value("${jwt.key}")
     private String secretKey;
 
-
     @Value("${jwt.access-token-expiration-minutes}")
     private int originMinutes;
 
     @Getter
-    private final int accessTokenExpirationMinutes = originMinutes * 24;
+    private int accessTokenExpirationMinutes;
+
+    @PostConstruct
+    public void init() {
+        this.accessTokenExpirationMinutes = this.originMinutes * 24;
+    }
 
     @Getter
     @Value("${jwt.refresh-token-expiration-minutes}")
@@ -125,9 +130,9 @@ public class JwtTokenizer {
       * @param expriationMinutes
      * @return
      */
-    public Date getTokenExpiration(int expriationMinutes) {
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        calendar.add(Calendar.MINUTE, expriationMinutes);   // 현재 시간에 토큰 만료 시간 더하기
+    public Date getTokenExpiration(int expirationMinutes) {
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+        calendar.add(Calendar.MINUTE, expirationMinutes);   // 현재 시간에 토큰 만료 시간 더하기
         Date expiration = calendar.getTime();   // 캘린더 객체(expiration)를 Date 객체로 바꿔서 만료시간 얻기
 
         return expiration;  // 만료시간 반환
