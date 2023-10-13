@@ -35,6 +35,6 @@ public class Answer {
 	@ManyToOne
 	private Member member;
 
-	@OneToMany(mappedBy = "answer", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "answer", cascade = CascadeType.ALL)
 	private List<Comment> comments;
 }

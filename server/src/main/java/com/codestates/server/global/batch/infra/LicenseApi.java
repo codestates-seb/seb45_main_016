@@ -22,8 +22,6 @@ public class LicenseApi {
      */
     public String callApiToString(LicenseInfo licenseInfo) throws IOException {
 
-        LicenseDto licenseDto = new LicenseDto();
-
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B490007/qualExamSchd/getQualExamSchdList"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=hN6HzankT%2Bi7Qds9PJjAjFb6R6xzw5DAvqBHMSOjw4yaA98ubFd6IRzWT8Kz5CcCiksKJz7qPFdZOsOcjjn4MA%3D%3D"); /*Service Key*/
 //        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=IUYvmOEoViTK43IhVvS01eWEONK2Fs5xYW9OX%2BhJQixv%2FnkpNfdwXgF%2FK2RR6nPqHVqRIWuR%2Bkb8rJQtFs%2FLcA%3D%3D"); /*Service Key*/

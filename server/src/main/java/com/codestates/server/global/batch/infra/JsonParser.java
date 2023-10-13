@@ -17,8 +17,6 @@ public class JsonParser {
         ObjectMapper objectMapper = new ObjectMapper();
         List<LicenseDate> licenseDateList = new ArrayList<>();
 
-        Long id = 1L;
-
         try {
             JsonNode jsonNode = objectMapper.readTree(String.valueOf(json));
             JsonNode bodyNode = jsonNode.get("body").get("items");

@@ -69,19 +69,19 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.PATCH, "/members/mypage/image/upload/**").hasRole("USER")
                         .antMatchers(HttpMethod.PATCH, "/members/mypage/image/delete/**").hasRole("USER")
                 /** ---------------------------------- boards 접근 권한 설정 ---------------------------------- **/
-                        .antMatchers(HttpMethod.POST, "/boards/create").permitAll()//.hasAnyRole("ADMIN", "USER")
-                        .antMatchers(HttpMethod.PATCH, "/boards/edit/**").permitAll()//.hasAnyRole("ADMIN", "USER")
+                        .antMatchers(HttpMethod.POST, "/boards/create").hasAnyRole("ADMIN", "USER")
+                        .antMatchers(HttpMethod.PATCH, "/boards/edit/**").hasAnyRole("ADMIN", "USER")
                         .antMatchers(HttpMethod.GET, "/boards").permitAll()
                         .antMatchers(HttpMethod.GET, "/boards/**").permitAll()
-                        .antMatchers(HttpMethod.DELETE, "/boards/delete/**").permitAll()//.hasAnyRole("ADMIN", "USER")
+                        .antMatchers(HttpMethod.DELETE, "/boards/delete/**").hasAnyRole("ADMIN", "USER")
                 /** ---------------------------------- boards-answers 접근 권한 설정 ---------------------------------- **/
-                        .antMatchers(HttpMethod.POST, "/boards/**/answers/create").permitAll()//.hasAnyRole("ADMIN", "USER")
-                        .antMatchers(HttpMethod.PATCH, "/boards/**/answers/**").permitAll()//.hasAnyRole("ADMIN", "USER")
-                        .antMatchers(HttpMethod.DELETE, "/boards/**/answers/**/delete").permitAll()//.hasAnyRole("ADMIN", "USER")
+                        .antMatchers(HttpMethod.POST, "/boards/**/answers/create").hasAnyRole("ADMIN", "USER")
+                        .antMatchers(HttpMethod.PATCH, "/boards/**/answers/**").hasAnyRole("ADMIN", "USER")
+                        .antMatchers(HttpMethod.DELETE, "/boards/**/answers/**/delete").hasAnyRole("ADMIN", "USER")
                 /** ---------------------------------- boards-replies 접근 권한 설정 ---------------------------------- **/
-                        .antMatchers(HttpMethod.POST, "/answers/replies/create").permitAll()//.hasAnyRole("ADMIN", "USER")
-                        .antMatchers(HttpMethod.PATCH, "/answers/replies/**").permitAll()//.hasAnyRole("ADMIN", "USER")
-                        .antMatchers(HttpMethod.DELETE, "/answers/replies/**/delete").permitAll()//.hasAnyRole("ADMIN", "USER")
+                        .antMatchers(HttpMethod.POST, "/answers/replies/create").hasAnyRole("ADMIN", "USER")
+                        .antMatchers(HttpMethod.PATCH, "/answers/replies/**").hasAnyRole("ADMIN", "USER")
+                        .antMatchers(HttpMethod.DELETE, "/answers/replies/**/delete").hasAnyRole("ADMIN", "USER")
                 /** ---------------------------------- licenses 접근 권한 설정 ---------------------------------- **/
                         .antMatchers(HttpMethod.GET, "/licenses/**").permitAll()
                         .antMatchers(HttpMethod.GET, "/licenses").permitAll()

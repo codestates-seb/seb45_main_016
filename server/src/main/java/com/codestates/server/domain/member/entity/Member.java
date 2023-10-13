@@ -1,7 +1,9 @@
 package com.codestates.server.domain.member.entity;
 
+import com.codestates.server.domain.answer.entity.Answer;
 import com.codestates.server.domain.board.entity.Board;
 import com.codestates.server.domain.bookmark.entity.Bookmark;
+import com.codestates.server.domain.comment.entity.Comment;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -36,8 +38,16 @@ public class Member {
     private List<String> roles = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "member")
-    private List<Board> boardList;
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Board> boards;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Answer> answers;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Comment> comments;
 
     @JsonIgnore
     @OneToMany(mappedBy = "member")

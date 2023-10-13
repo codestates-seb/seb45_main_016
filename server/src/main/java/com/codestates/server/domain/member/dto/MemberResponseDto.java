@@ -25,6 +25,8 @@ public class MemberResponseDto {
 
     private String phone;
 
+    private String password;
+
     private String profileImage;
 
     private List<Bookmark> Bookmarks;

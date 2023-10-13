@@ -71,7 +71,8 @@ public class LicenseController {
         Member member = memberService.findMember(loginMemberId);
         boolean bool = bookmarkService.existsBookmarkByLicenseInfoAndMember(licenseInfo, member);
 
-        return new ResponseEntity<>(licenseDateMapper.licensesToLicenseResponseDto(licenseDates,licenseInfo, bool),HttpStatus.OK);
+        return new ResponseEntity<>(licenseDateMapper.licensesToLicenseResponseDto(
+                licenseDates,licenseInfo, bool),HttpStatus.OK);
     }
 
 }

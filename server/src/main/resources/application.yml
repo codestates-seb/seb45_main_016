@@ -1,20 +1,21 @@
 spring:
-  h2:
-    console:
-      enabled: true
-      path: /h2
   datasource:
-    url: jdbc:mysql://studyground:ctrkkuxa3llg:ap-northeast-2:rds:amazonaws:com:3306/StudyGround_db
+    url: jdbc:mysql://studyground.cm5pos6iryz8.ap-northeast-2.rds.amazonaws.com:3306/StudyGround_db
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: student
     password: ${MYSQL_PASSWORD}
+
+  batch:
+    jdbc:
+      initialize-schema: never
 
   jpa:
     hibernate:
       naming:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-      ddl-auto: create-drop #update로 다시 변경해야함.
+      ddl-auto: none #서버환경에서는 none 으로 고정
+
     show-sql: true
   security:
     oauth2:
@@ -51,6 +52,8 @@ spring:
           auth: true
           starttls:
             enable: true
+  thymeleaf:
+    prefix: classpath:/templates/
 #    defer-datasource-initialization: true #삭제 필요
 #  sql:
 #    init:
@@ -82,7 +85,7 @@ cloud:
       access-key: ${AWS_ACCESS_KEY}
       secret-key: ${AWS_SECRET_KEY}
     s3:
-      bucket: main016
+      bucket: nwestudyground
     region:
       static: ap-northeast-2
     stack:

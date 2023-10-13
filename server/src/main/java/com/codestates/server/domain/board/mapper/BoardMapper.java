@@ -57,8 +57,6 @@ public interface BoardMapper {
 		Board board = new Board();
 		Member member = new Member();
 
-		member.setMemberId(boardPostDto.getMemberId());
-
 		board.setMember(member);
 		board.setTitle(boardPostDto.getTitle());
 		board.setContent(boardPostDto.getContent());
