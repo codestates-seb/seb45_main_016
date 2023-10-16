@@ -14,7 +14,7 @@ spring:
       naming:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-      ddl-auto: none #서버환경에서는 none 으로 고정
+      ddl-auto: create #서버환경에서는 none 으로 고정
 
     show-sql: true
   security:
