@@ -40,7 +40,7 @@ public class JwtTokenizer {
     public void init() {
         this.accessTokenExpirationMinutes = this.originMinutes * 24;
     }
-
+  
     @Getter
     @Value("${jwt.refresh-token-expiration-minutes}")
     private int refreshTokenExpirationMinutes;
@@ -130,9 +130,11 @@ public class JwtTokenizer {
       * @param expriationMinutes
      * @return
      */
-    public Date getTokenExpiration(int expirationMinutes) {
+
+    public Date getTokenExpiration(int expriationMinutes) {
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
-        calendar.add(Calendar.MINUTE, expirationMinutes);   // 현재 시간에 토큰 만료 시간 더하기
+        calendar.add(Calendar.MINUTE, expriationMinutes);   // 현재 시간에 토큰 만료 시간 더하기
+
         Date expiration = calendar.getTime();   // 캘린더 객체(expiration)를 Date 객체로 바꿔서 만료시간 얻기
 
         return expiration;  // 만료시간 반환
