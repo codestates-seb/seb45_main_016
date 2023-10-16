@@ -38,7 +38,7 @@ public class JwtTokenizer {
 
     @PostConstruct
     public void init() {
-        this.accessTokenExpirationMinutes = this.originMinutes * 24;
+        this.accessTokenExpirationMinutes = this.originMinutes * 6;
     }
     @Getter
     @Value("${jwt.refresh-token-expiration-minutes}")

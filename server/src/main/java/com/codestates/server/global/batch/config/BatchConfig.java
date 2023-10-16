@@ -51,7 +51,7 @@ public class BatchConfig {
     public Job job() throws IOException {
         return jobBuilderFactory.get("job")
                 .start(step01())
-//                .next(step02())
+                .next(step02())
                 .build();
     }
 
