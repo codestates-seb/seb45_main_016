@@ -48,7 +48,6 @@ const MyInfo = () => {
     const fetchUserInfo = async () => {
       try {
         const response = await GetUserInfo();
-        console.log('유저정보', response.data);
         setUserInfo(response.data);
       } catch (error) {
         console.error('유저 정보 가져오기 실패:', error);
@@ -303,16 +302,13 @@ const MyInfo = () => {
             내가 작성한 글
             {userInfo?.boards?.length > 0 ? (
               <WriteContents>
-                {/* <Link
-                to={('/community/detail/' + board, index.boardId)}
-                key={(board, index.boardId)}
-              > */}
-                {userInfo?.boards?.map((board, index) => (
-                  <button className="write" key={index}>
-                    {board.title} onClick=
-                    {() => {
-                      openDetail(board.boardId);
-                    }}
+                {userInfo?.boards?.map((boards, index) => (
+                  <button
+                    className="write"
+                    key={index}
+                    onClick={() => openDetail(boards.boardId)}
+                  >
+                    {boards.title}
                   </button>
                 ))}
                 {/* </Link> */}

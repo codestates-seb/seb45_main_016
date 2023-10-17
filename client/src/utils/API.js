@@ -348,8 +348,8 @@ export const GetUserInfo = async () => {
         'ngrok-skip-browser-warning': '2',
       },
     });
-    console.log(res); // 응답을 로그로 출력
-    console.log(token); // 응답을 로그로 출력
+    // console.log(res);
+    // console.log(token);
     return res;
   } catch (e) {
     console.log('제발좀', e);
@@ -381,7 +381,7 @@ export const DeleteUser = async () => {
   try {
     const res = await axios({
       method: 'delete',
-      url: `${process.env.REACT_APP_API}members/auth/delete`,
+      url: `${process.env.REACT_APP_API}members/auth/delete${memberId}`,
     });
     return res;
   } catch (e) {
