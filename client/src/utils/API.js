@@ -152,15 +152,10 @@ export const PostEdit = async (title, content, id) => {
 //게시글 삭제
 export const DeletePost = async (id) => {
   const res = await axios
-    .delete(
-      `${process.env.REACT_APP_API}boards/delete/${id}`,
-      {
-        headers: { Authorization: token },
-      },
-      {
-        memberId: memberId,
-      },
-    )
+    .delete(`${process.env.REACT_APP_API}boards/delete/${id}`, {
+      data: { memberId: memberId },
+      headers: { Authorization: token },
+    })
 
     .then(() => {
       window.location.href = `/community`;
