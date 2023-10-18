@@ -372,7 +372,7 @@ export const EditUser = async (updatedUserInfo) => {
 
     return res;
   } catch (e) {
-    console.log('실패다 요녀석', e);
+    console.log('실패', e);
   }
 };
 
@@ -381,10 +381,36 @@ export const DeleteUser = async () => {
   try {
     const res = await axios({
       method: 'delete',
-      url: `${process.env.REACT_APP_API}members/auth/delete${memberId}`,
+      url: `${process.env.REACT_APP_API}members/delete${memberId}`,
     });
     return res;
   } catch (e) {
     console.log(e);
+  }
+};
+
+// 프로필사진수정
+export const UploadProfileImage = async (file) => {
+  try {
+    const formData = new FormData();
+    formData.append('profileImage', file);
+
+    const response = await axios.patch(
+      `${process.env.REACT_APP_API}members/mypage/image/upload/${memberId}`,
+      formData,
+      {
+        headers: {
+          Authorization: token,
+          'Content-Type': 'multipart/form-data',
+        },
+      },
+    );
+
+    const updatedProfileImage = response.data.profileImage;
+    return updatedProfileImage;
+  } catch (error) {
+    console.error('프로필 이미지 업로드 실패:', error);
+    console.log(formData);
+    throw error;
   }
 };

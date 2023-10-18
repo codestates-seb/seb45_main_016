@@ -6,12 +6,15 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import Modal from '../../components/Modal/Modal';
 import DelModal from '../../components/DelModal/DelModal';
-import { GetUserInfo, DeleteUser, EditUser } from '../../utils/API';
+import {
+  GetUserInfo,
+  DeleteUser,
+  EditUser,
+  UploadProfileImage,
+} from '../../utils/API';
 // import UserInfoData from '../../utils/UserdataMockup';
 import { toast } from 'react-toastify';
 // import { Link } from 'react-router-dom';
-import { useRef } from 'react';
-import axios from 'axios';
 
 import {
   CalendarContainer,
@@ -37,11 +40,8 @@ const MyInfo = () => {
   // const [eventDates, setEventDates] = useState([]);
   const [date, setDate] = useState(new Date());
   const navigator = useNavigate();
-  // const userId = localStorage.getItem('userId');
 
   console.log(userInfo.name);
-
-  // const [Image, setImage] = useState(UserInfoData.profileImage);
 
   // 유저 정보 가져오기
   useEffect(() => {
@@ -56,34 +56,6 @@ const MyInfo = () => {
     fetchUserInfo();
   }, []);
   console.log(userInfo);
-
-  const fileInput = useRef(null);
-
-  const handleEditPhoto = () => {
-    if (fileInput.current) {
-      fileInput.current.click();
-    }
-  };
-
-  const handleImageChange = (e) => {
-    const selectedFile = e.target.files[0];
-
-    if (selectedFile) {
-      const formData = new FormData();
-      formData.append('profileImage', selectedFile);
-      axios
-        .patch('http://{{host}}/members/mypage/image/upload/1', formData)
-        .then((response) => {
-          console.log('프로필 이미지 업데이트 성공:', response.data);
-          userInfo.profileImage = response.data.profileImageUrl;
-          toast.success('프로필 이미지가 업데이트되었습니다.');
-        })
-        .catch((error) => {
-          console.error('프로필 이미지 업데이트 실패:', error);
-          toast.error('프로필 이미지 업데이트 실패했습니다.');
-        });
-    }
-  };
 
   const route = (index) => {
     if (isModalOpen === false) {
@@ -148,6 +120,32 @@ const MyInfo = () => {
     }
   };
 
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+
+    try {
+      if (file) {
+        const formData = new FormData();
+        formData.append('profileImage', file);
+
+        const response = await UploadProfileImage(file);
+
+        const updatedProfileImage = response.data.profileImage;
+        setUserInfo({ ...userInfo, profileImage: updatedProfileImage });
+
+        console.log('프로필 이미지가 업로드되었습니다.');
+      }
+    } catch (error) {
+      console.error('프로필 이미지 업로드 실패:', error);
+    }
+  };
+
+  const handleEditPhotoClick = () => {
+    // "프로필 이미지 선택" 버튼 클릭 시 input[type=file]을 클릭
+    const fileInput = document.getElementById('fileInput');
+    fileInput.click();
+  };
+
   const openDetail = (boardId) => {
     navigator(`/community/boards/${boardId}`);
   };
@@ -177,15 +175,15 @@ const MyInfo = () => {
       <Profile>
         <ProfileLeft>
           <img src={userInfo.profileImage} alt="useravatar" />
-          <button className="edit" onClick={handleEditPhoto}>
+          <button className="edit" onClick={handleEditPhotoClick}>
             edit photo
           </button>
           <input
+            id="fileInput"
             type="file"
             accept="image/*"
-            onChange={handleImageChange}
-            ref={fileInput}
             style={{ display: 'none' }}
+            onChange={handleFileChange}
           />
           <button className="delBtn" onClick={handleDeleteUser}>
             회원탈퇴하기
