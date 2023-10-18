@@ -136,8 +136,6 @@ const MyInfo = () => {
     const file = event.target.files[0].name;
 
     try {
-      const file = event.target.files[0];
-
       if (file) {
         setUserInfo({
           ...userInfo,

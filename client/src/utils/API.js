@@ -393,7 +393,7 @@ export const DeleteUser = async () => {
 };
 
 // 프로필사진수정
-export const UploadProfileImage = async (formData) => {
+export const UploadProfileImage = async (file) => {
   try {
     const response = await axios.patch(
       `${process.env.REACT_APP_API}members/mypage/image/upload/${memberId}?file=${file}&x=0&y=0&width=500&height=500`,
@@ -410,7 +410,6 @@ export const UploadProfileImage = async (formData) => {
     return updatedProfileImage;
   } catch (error) {
     console.error('프로필 이미지 업로드 실패:', error);
-    console.log(formData);
     throw error;
   }
 };
