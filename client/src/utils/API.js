@@ -362,10 +362,10 @@ export const EditUser = async (updatedUserInfo) => {
     const res = await axios({
       method: 'patch',
       url: `${process.env.REACT_APP_API}members/mypage/edit/${memberId}`,
+      data: { updatedUserInfo },
       headers: {
         Authorization: token,
       },
-      data: { updatedUserInfo },
     });
     console.log('memberId:', memberId);
     console.log('token:', token);
@@ -395,12 +395,9 @@ export const DeleteUser = async () => {
 // 프로필사진수정
 export const UploadProfileImage = async (formData) => {
   try {
-    const memberId = parseInt(localStorage.getItem('memberId'));
-    const token = localStorage.getItem('authorization');
-
     const response = await axios.patch(
-      `${process.env.REACT_APP_API}members/mypage/image/upload/${memberId}`,
-      formData,
+      `${process.env.REACT_APP_API}members/mypage/image/upload/${memberId}?file=${file}&x=0&y=0&width=500&height=500`,
+      { file: file, x: 0, y: 0, width: 400, height: 400 },
       {
         headers: {
           Authorization: token,

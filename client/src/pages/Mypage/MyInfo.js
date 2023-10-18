@@ -133,22 +133,30 @@ const MyInfo = () => {
   };
 
   const handleFileChange = async (event) => {
+    const file = event.target.files[0].name;
+
     try {
       const file = event.target.files[0];
 
       if (file) {
-        const formData = new FormData();
-        formData.append('profileImage', file);
+        setUserInfo({
+          ...userInfo,
+          profileImage: await UploadProfileImage(file),
+        });
+        //     const formData = new FormData();
+        //     formData.append('profileImage', file);
 
-        const response = await UploadProfileImage(formData);
+        //     const response = await UploadProfileImage(file)
 
-        const updatedProfileImage = response.data.profileImage;
-        setUserInfo({ ...userInfo, profileImage: updatedProfileImage });
+        //     const updatedProfileImage = response.data.profileImage;
+        //     setUserInfo({ ...userInfo, profileImage: updatedProfileImage });
 
-        console.log('프로필 이미지가 업로드되었습니다.');
+        //     console.log('프로필 이미지가 업로드되었습니다.');
+        //   }
       }
     } catch (error) {
       console.error('프로필 이미지 업로드 실패:', error);
+      console.log(file);
     }
   };
 
