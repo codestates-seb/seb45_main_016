@@ -381,7 +381,10 @@ export const DeleteUser = async () => {
   try {
     const res = await axios({
       method: 'delete',
-      url: `${process.env.REACT_APP_API}members/delete${memberId}`,
+      url: `${process.env.REACT_APP_API}members/delete/${memberId}`,
+      headers: {
+        Authorization: token,
+      },
     });
     return res;
   } catch (e) {
@@ -390,10 +393,10 @@ export const DeleteUser = async () => {
 };
 
 // 프로필사진수정
-export const UploadProfileImage = async (file) => {
+export const UploadProfileImage = async (formData) => {
   try {
-    const formData = new FormData();
-    formData.append('profileImage', file);
+    const memberId = parseInt(localStorage.getItem('memberId'));
+    const token = localStorage.getItem('authorization');
 
     const response = await axios.patch(
       `${process.env.REACT_APP_API}members/mypage/image/upload/${memberId}`,

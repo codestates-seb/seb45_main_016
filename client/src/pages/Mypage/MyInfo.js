@@ -66,26 +66,38 @@ const MyInfo = () => {
 
   const [newUsername, setNewUsername] = useState(userInfo.name);
   const [newPhone, setNewPhone] = useState(userInfo.phone);
+  const [newPassword, setNewPassword] = useState(userInfo.password);
 
-  const onUpdateUserInfo = (newUsername, newPhone) => {
+  const onUpdateUserInfo = (newUsername, newPhone, newPassword) => {
     setNewUsername(newUsername);
     setNewPhone(newPhone);
+    setNewPassword(newPassword);
   };
 
   const confirmEditUser = async () => {
+    console.log('수정 시작');
+    console.log('newUsername:', newUsername);
+    console.log('newPhone:', newPhone);
+    console.log('newPassword:', newPassword);
+    if (!newUsername || !newPhone || !newPassword) {
+      toast.info('변경할 정보가 없습니다.');
+      return;
+    }
     try {
       const updatedUserInfo = {
-        username: newUsername,
+        name: newUsername,
         phone: newPhone,
+        password: newPassword,
       };
 
       await EditUser(updatedUserInfo);
-      onUpdateUserInfo(newUsername, newPhone);
+      onUpdateUserInfo(newUsername, newPhone, newPassword);
 
       console.log('수정 완료');
       toast.success('수정이 완료되었습니다.');
       localStorage.setItem('name', newUsername);
       localStorage.setItem('phone', newPhone);
+      localStorage.setItem('password', newPassword);
       setIsEditMode(false);
     } catch (e) {
       console.error('수정 실패:', e);
@@ -121,14 +133,14 @@ const MyInfo = () => {
   };
 
   const handleFileChange = async (event) => {
-    const file = event.target.files[0];
-
     try {
+      const file = event.target.files[0];
+
       if (file) {
         const formData = new FormData();
         formData.append('profileImage', file);
 
-        const response = await UploadProfileImage(file);
+        const response = await UploadProfileImage(formData);
 
         const updatedProfileImage = response.data.profileImage;
         setUserInfo({ ...userInfo, profileImage: updatedProfileImage });
@@ -199,6 +211,7 @@ const MyInfo = () => {
           {isEditMode ? (
             <>
               <div className="input-username">
+                <p>새 닉네임</p>
                 <input
                   type="text"
                   placeholder={userInfo.name}
@@ -207,10 +220,19 @@ const MyInfo = () => {
               </div>
 
               <div className="input-phonenumber">
+                <p>새 전화번호</p>
                 <input
                   type="text"
                   placeholder={userInfo.phone}
                   onChange={(e) => setNewPhone(e.target.value)}
+                />
+              </div>
+              <div className="input-password">
+                <p>새 비밀번호</p>
+                <input
+                  type="text"
+                  placeholder={userInfo.password}
+                  onChange={(e) => setNewPassword(e.target.value)}
                 />
               </div>
               <button className="editinfo" onClick={confirmEditUser}>
@@ -222,6 +244,7 @@ const MyInfo = () => {
               <div className="text">
                 닉네임<p>{userInfo.name}</p>
                 전화번호<p>{userInfo.phone}</p>
+                비밀번호<p>{userInfo.password}</p>
               </div>
               <button className="editinfo" onClick={() => setIsEditMode(true)}>
                 수정하기
