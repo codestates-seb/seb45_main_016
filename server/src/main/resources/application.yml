@@ -85,7 +85,7 @@ cloud:
       access-key: ${AWS_ACCESS_KEY}
       secret-key: ${AWS_SECRET_KEY}
     s3:
-      bucket: nwestudyground
+      bucket: newstudyground
     region:
       static: ap-northeast-2
     stack:
