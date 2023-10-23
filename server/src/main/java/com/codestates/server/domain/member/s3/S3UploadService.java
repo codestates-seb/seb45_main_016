@@ -62,7 +62,7 @@ public class S3UploadService {
     public void deleteImageFromS3(String imageUrl, String type) {
         if (imageUrl.contains("https://s3.ap-northeast-2.amazonaws.com/" + bucket))
             // https://s3.ap-northeast-2.amazonaws.com/your-bucket-name/image-folder/image.jpg 형태이기 때문에 [6] 를 삭제
-            amazonS3.deleteObject(bucket + "/" + type, imageUrl.split("/")[6]);
+            amazonS3.deleteObject(bucket + "/" + type, imageUrl.split("/")[5]);
     }
 
     private static String changedImageName(String originName) {
