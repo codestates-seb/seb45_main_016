@@ -2,6 +2,8 @@ package com.codestates.server.global.security.oauth2.service;
 
 import com.codestates.server.domain.member.entity.Member;
 import com.codestates.server.domain.member.repository.MemberRepository;
+import com.codestates.server.global.exception.BusinessLogicException;
+import com.codestates.server.global.exception.ExceptionCode;
 import com.codestates.server.global.security.auth.jwt.JwtTokenizer;
 import com.codestates.server.global.security.auth.utils.CustomAuthorityUtils;
 import com.codestates.server.global.security.oauth2.config.KakaoOAuthConfig;
@@ -114,8 +116,19 @@ public class KakaoOAuthService {
 
         KakaoMemberInfoDto kakaoMemberInfoDto = getKakaoMemberInfoDto(accessToken);
 
+        // null 체크: Kakao API로부터 받은 정보가 null인지 확인 -> 동의 정보, 이메일 등
+        if (kakaoMemberInfoDto == null || kakaoMemberInfoDto.getKakao_account() == null || kakaoMemberInfoDto.getProperties() == null) {
+            log.error("카카오로부터 유효한 사용자 정보를 받지 못했습니다.");
+            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_KAKAO);
+        }
+
         String email = kakaoMemberInfoDto.getKakao_account().getEmail();
         log.info("이메일로 회원 찾기 : {}", email);
+
+        // 카카오에서 이메일 누락되면 예외 던지기
+        if (email == null) {
+            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_EMAIL_KAKAO); // 예외 던지기
+        }
 
         // DB에 중복되는 이메일 있는지 확인
         Optional<Member> existingMember = memberRepository.findByEmail(email);

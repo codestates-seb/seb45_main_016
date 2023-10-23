@@ -55,7 +55,8 @@ public class MemberService {
         member.setPassword(encrpytedPassword);
 
         // 이메일로 사용자 역할 DB에 저장
-        List<String> roles = customAuthorityUtils.createRoles(member.getEmail());
+        List<String> roles;
+        roles = customAuthorityUtils.createRoles(member.getEmail());
         member.setRoles(roles);
 
         if(member.getProfileImage() == null) {
@@ -77,17 +78,20 @@ public class MemberService {
 
         Member getMember = verifyAuthorizedUser(member.getMemberId());
 
-        if(member.getName() != null) {  // 입력받은 닉네임이 null 이 아니면
+        if(member.getName() != null ) {  // 입력받은 닉네임이 null 이 아니면
             getMember.setName(member.getName());    // getMember 에 입력받은 name 대체 -> null 이면 유지
         }
-        else if(member.getPhone() != null) { // 입력받은 폰이 null이 아니면
+        if(member.getPhone() != null) { // 입력받은 폰이 null이 아니면
             getMember.setPhone(member.getPhone());  // getMember에 입력받은 phone 대체
         }
-        else if(member.getPassword() != null) {  // 입력받은 password null 이 아니면
+        if(member.getPassword() != null) {  // 입력받은 password null 이 아니면
             getMember.setPassword(passwordEncoder.encode(member.getPassword()));    // getPassword에 입력받은 password 대체 -> 인코딩
         }
 
-        else throw new RuntimeException("다른 값은 수정이 불가합니다.");
+        // 필드가 모두 null인 경우 예외 처리
+        if(member.getName() == null && member.getPhone() == null && member.getPassword() == null) {
+            throw new RuntimeException("수정할 정보가 없습니다.");
+        }
 
         return memberRepository.save(getMember);
     }
@@ -160,7 +164,7 @@ public class MemberService {
     // member 삭제하는 deleteMember 메서드
     public void deleteMember(Long memberId) {
 
-        Member member = verifyAuthorizedUser(memberId);
+        Member member = getVerifiedMember(memberId);
 
         memberRepository.delete(member);
 

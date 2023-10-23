@@ -33,4 +33,5 @@ public class MemberResponseDto {
 
     private List<Board> boards;
 
+    private List<String> roles;
 }

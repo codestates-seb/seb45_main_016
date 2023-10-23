@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Getter
@@ -14,8 +15,8 @@ public class MemberPostDto {
     @NotBlank(message = "이름은 필수값입니다.")
     private String name;
 
-    @NotBlank(message = "이메일은 필수값입니다.")
     @Email(message = "이메일 형식으로 작성해주세요. email@example.com")
+    @NotNull(message = "이메일은 필수값입니다.")
     private String email;
 
     @Pattern(regexp = "^010\\d{4}\\d{4}$",
