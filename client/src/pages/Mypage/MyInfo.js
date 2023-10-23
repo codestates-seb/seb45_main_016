@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { Calendar } from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { useNavigate } from 'react-router-dom';
@@ -41,6 +42,14 @@ const MyInfo = () => {
   const [date, setDate] = useState(new Date());
   const navigator = useNavigate();
 
+  const inputErrorClass = 'input-error';
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+    trigger,
+  } = useForm();
+
   console.log(userInfo.name);
 
   // 유저 정보 가져오기
@@ -64,6 +73,7 @@ const MyInfo = () => {
     setIndex(index);
   };
 
+  // 유저 정보 수정
   const [newUsername, setNewUsername] = useState(userInfo.name);
   const [newPhone, setNewPhone] = useState(userInfo.phone);
   const [newPassword, setNewPassword] = useState(userInfo.password);
@@ -79,7 +89,7 @@ const MyInfo = () => {
     console.log('newUsername:', newUsername);
     console.log('newPhone:', newPhone);
     console.log('newPassword:', newPassword);
-    if (!newUsername || !newPhone || !newPassword) {
+    if (!newUsername && !newPhone && !newPassword) {
       toast.info('변경할 정보가 없습니다.');
       return;
     }
@@ -94,14 +104,15 @@ const MyInfo = () => {
       onUpdateUserInfo(newUsername, newPhone, newPassword);
 
       console.log('수정 완료');
-      toast.success('수정이 완료되었습니다.');
       localStorage.setItem('name', newUsername);
       localStorage.setItem('phone', newPhone);
       localStorage.setItem('password', newPassword);
       setIsEditMode(false);
+      toast.success('수정이 완료되었습니다.');
     } catch (e) {
       console.error('수정 실패:', e);
       toast.error('수정에 실패하였습니다.');
+      navigator('/mypage');
     }
   };
 
@@ -213,14 +224,20 @@ const MyInfo = () => {
             warningMessage={warningMessage}
           />
         </ProfileLeft>
-        <ProfileRight>
+        <ProfileRight onSubmit={handleSubmit(confirmEditUser)}>
           {isEditMode ? (
             <>
               <div className="input-username">
                 <p>새 닉네임</p>
                 <input
                   type="text"
-                  placeholder={userInfo.name}
+                  name="name"
+                  placeholder="새 닉네임을 입력해 주세요."
+                  {...register('name', {
+                    required: '닉네임은 필수 입력입니다.',
+                  })}
+                  onBlur={() => trigger('name')}
+                  className={errors.name ? inputErrorClass : ''}
                   onChange={(e) => setNewUsername(e.target.value)}
                 />
               </div>
@@ -228,20 +245,51 @@ const MyInfo = () => {
               <div className="input-phonenumber">
                 <p>새 전화번호</p>
                 <input
-                  type="text"
-                  placeholder={userInfo.phone}
+                  type="tel"
+                  name="phone"
+                  placeholder="새 전화번호를 입력해 주세요."
+                  {...register('phone', {
+                    required: '전화번호는 필수 입력입니다.',
+                  })}
+                  onBlur={() => trigger('phone')}
+                  className={errors.phone ? inputErrorClass : ''}
                   onChange={(e) => setNewPhone(e.target.value)}
                 />
               </div>
               <div className="input-password">
                 <p>새 비밀번호</p>
                 <input
-                  type="text"
-                  placeholder={userInfo.password}
+                  type="password"
+                  name="password"
+                  placeholder="새 비밀번호를 입력해 주세요."
+                  {...register('password', {
+                    required: '비밀번호는 필수 입력입니다.',
+                  })}
+                  onBlur={() => trigger('password')}
+                  className={errors.password ? inputErrorClass : ''}
                   onChange={(e) => setNewPassword(e.target.value)}
                 />
               </div>
-              <button className="editinfo" onClick={confirmEditUser}>
+              <div className="input-passwordcheck">
+                <p>새 비밀번호 확인</p>
+                <input
+                  type="password"
+                  name="passwordcheck"
+                  placeholder="새 비밀번호를 다시 한 번 입력해 주세요."
+                  {...register('passwordcheck', {
+                    required: '비밀번호확인은 필수 입력입니다.',
+                  })}
+                  onBlur={() => trigger('name')}
+                  className={errors.passwordcheck ? inputErrorClass : ''}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                />
+              </div>
+              <button
+                className="editinfo"
+                type="submit"
+                disabled={isSubmitting}
+                onClick={confirmEditUser}
+              >
                 수정완료
               </button>
             </>
@@ -250,10 +298,9 @@ const MyInfo = () => {
               <div className="text">
                 닉네임<p>{userInfo.name}</p>
                 전화번호<p>{userInfo.phone}</p>
-                비밀번호<p>{userInfo.password}</p>
               </div>
               <button className="editinfo" onClick={() => setIsEditMode(true)}>
-                수정하기
+                내정보 및 비밀번호 수정하기
               </button>
             </div>
           )}
