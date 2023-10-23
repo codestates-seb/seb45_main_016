@@ -55,7 +55,8 @@ public class MemberService {
         member.setPassword(encrpytedPassword);
 
         // 이메일로 사용자 역할 DB에 저장
-        List<String> roles = customAuthorityUtils.createRoles(member.getEmail());
+        List<String> roles;
+        roles = customAuthorityUtils.createRoles(member.getEmail());
         member.setRoles(roles);
 
         if(member.getProfileImage() == null) {
@@ -160,7 +161,7 @@ public class MemberService {
     // member 삭제하는 deleteMember 메서드
     public void deleteMember(Long memberId) {
 
-        Member member = verifyAuthorizedUser(memberId);
+        Member member = getVerifiedMember(memberId);
 
         memberRepository.delete(member);
 
