@@ -76,44 +76,36 @@ const MyInfo = () => {
   // 유저 정보 수정
   const [newUsername, setNewUsername] = useState(userInfo.name);
   const [newPhone, setNewPhone] = useState(userInfo.phone);
-  const [newPassword, setNewPassword] = useState(userInfo.password);
-
-  const onUpdateUserInfo = (newUsername, newPhone, newPassword) => {
-    setNewUsername(newUsername);
-    setNewPhone(newPhone);
-    setNewPassword(newPassword);
-  };
 
   const confirmEditUser = async () => {
     console.log('수정 시작');
     console.log('newUsername:', newUsername);
     console.log('newPhone:', newPhone);
-    console.log('newPassword:', newPassword);
-    if (!newUsername && !newPhone && !newPassword) {
+    if (!newUsername && !newPhone) {
       toast.info('변경할 정보가 없습니다.');
       return;
     }
     try {
-      const updatedUserInfo = {
-        name: newUsername,
-        phone: newPhone,
-        password: newPassword,
-      };
-
-      await EditUser(updatedUserInfo);
-      onUpdateUserInfo(newUsername, newPhone, newPassword);
+      await EditUser(newUsername, newPhone);
+      onUpdateUserInfo(newUsername, newPhone);
 
       console.log('수정 완료');
       localStorage.setItem('name', newUsername);
       localStorage.setItem('phone', newPhone);
-      localStorage.setItem('password', newPassword);
+
       setIsEditMode(false);
       toast.success('수정이 완료되었습니다.');
+      window.location.reload();
     } catch (e) {
       console.error('수정 실패:', e);
       toast.error('수정에 실패하였습니다.');
       navigator('/mypage');
     }
+  };
+
+  const onUpdateUserInfo = (newUsername, newPhone) => {
+    setNewUsername(newUsername);
+    setNewPhone(newPhone);
   };
 
   const openDelModal = (message) => {
@@ -144,7 +136,8 @@ const MyInfo = () => {
   };
 
   const handleFileChange = async (event) => {
-    const file = event.target.files[0].name;
+    const file = event.target.files[0];
+    console.log('Selected file:', file);
 
     try {
       if (file) {
@@ -162,6 +155,7 @@ const MyInfo = () => {
 
         //     console.log('프로필 이미지가 업로드되었습니다.');
         //   }
+        window.location.reload();
       }
     } catch (error) {
       console.error('프로필 이미지 업로드 실패:', error);
@@ -256,34 +250,7 @@ const MyInfo = () => {
                   onChange={(e) => setNewPhone(e.target.value)}
                 />
               </div>
-              <div className="input-password">
-                <p>새 비밀번호</p>
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="새 비밀번호를 입력해 주세요."
-                  {...register('password', {
-                    required: '비밀번호는 필수 입력입니다.',
-                  })}
-                  onBlur={() => trigger('password')}
-                  className={errors.password ? inputErrorClass : ''}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                />
-              </div>
-              <div className="input-passwordcheck">
-                <p>새 비밀번호 확인</p>
-                <input
-                  type="password"
-                  name="passwordcheck"
-                  placeholder="새 비밀번호를 다시 한 번 입력해 주세요."
-                  {...register('passwordcheck', {
-                    required: '비밀번호확인은 필수 입력입니다.',
-                  })}
-                  onBlur={() => trigger('name')}
-                  className={errors.passwordcheck ? inputErrorClass : ''}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                />
-              </div>
+
               <button
                 className="editinfo"
                 type="submit"
@@ -300,7 +267,7 @@ const MyInfo = () => {
                 전화번호<p>{userInfo.phone}</p>
               </div>
               <button className="editinfo" onClick={() => setIsEditMode(true)}>
-                내정보 및 비밀번호 수정하기
+                내정보 수정하기
               </button>
             </div>
           )}

@@ -357,12 +357,12 @@ export const GetUserInfo = async () => {
 };
 
 //유저정보수정
-export const EditUser = async (updatedUserInfo) => {
+export const EditUser = async (newUserName, newPhone) => {
   try {
     const res = await axios({
       method: 'patch',
       url: `${process.env.REACT_APP_API}members/mypage/edit/${memberId}`,
-      data: { updatedUserInfo },
+      data: { name: newUserName, phone: newPhone },
       headers: {
         Authorization: token,
       },
@@ -395,9 +395,13 @@ export const DeleteUser = async () => {
 // 프로필사진수정
 export const UploadProfileImage = async (file) => {
   try {
+    console.log('Uploading file:', file);
+    const formData = new FormData();
+    formData.append('file', file);
+
     const response = await axios.patch(
-      `${process.env.REACT_APP_API}members/mypage/image/upload/${memberId}?file=${file}&x=0&y=0&width=500&height=500`,
-      { file: file, x: 0, y: 0, width: 400, height: 400 },
+      `${process.env.REACT_APP_API}members/mypage/image/upload/${memberId}`,
+      formData,
       {
         headers: {
           Authorization: token,
@@ -410,6 +414,7 @@ export const UploadProfileImage = async (file) => {
     return updatedProfileImage;
   } catch (error) {
     console.error('프로필 이미지 업로드 실패:', error);
+    console.log(file);
     throw error;
   }
 };
