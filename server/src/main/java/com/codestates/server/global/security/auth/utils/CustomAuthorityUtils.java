@@ -69,12 +69,12 @@ public class CustomAuthorityUtils {
         List<String> roles = new ArrayList<>();
 
         // 이메일이 관리자 이메일과 일치하면 "ADMIN" 역할을 추가
-        if (!email.equals(admin)) {
-            roles.add("USER");
+        if (email.equals(admin)) {
+            roles.add("ADMIN");
         }
 
         // 모든 사용자에게 "USER" 역할을 추가
-        roles.add("ADMIN");
+        roles.add("USER");
 
         return roles;
     }
