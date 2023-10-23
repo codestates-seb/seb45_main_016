@@ -24,15 +24,6 @@ const Header = () => {
     localStorage.setItem('comId', 1);
   };
 
-  useEffect(() => {
-    function clearLocalStorage() {
-      toast.error('토큰이 만료되어 로그아웃 되었습니다.');
-      localStorage.clear();
-      window.location.reload();
-    }
-    const delayMilliseconds = 60 * 60 * 1000;
-    setTimeout(clearLocalStorage, delayMilliseconds);
-  }, []);
 
   const onClickHandlerin = () => {
     localStorage.setItem('licenseListId', 1);

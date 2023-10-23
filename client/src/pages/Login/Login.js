@@ -105,7 +105,9 @@ function Login() {
         <Styled.KakaoLogin onClick={() => handleSocialLogin()}>
           <img src={imageUrl} alt="카카오로 회원 가입" />
         </Styled.KakaoLogin>
-
+        <Styled.Kakaodiv>
+          카카오 로그인시 이메일 제공 하셔야 로그인이 가능 합니다.
+        </Styled.Kakaodiv>
         <Styled.LinkWrap>
           <span>계정이 없으신가요?</span>
           <Styled.styledLink to="/signup">SignUp</Styled.styledLink>

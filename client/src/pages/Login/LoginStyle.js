@@ -111,6 +111,13 @@ export const styledLink = styled(Link)`
   text-decoration: none;
 `;
 
+export const Kakaodiv = styled.div`
+  text-align: center;
+  height: 10%;
+  width: 80%;
+  font-size: 12px;
+  color: ${globalTokens.Gray[400].value};
+`;
 export const KakaoLogin = styled.div`
   background: none;
   border: none;
