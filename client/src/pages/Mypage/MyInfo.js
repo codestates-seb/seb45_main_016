@@ -144,7 +144,8 @@ const MyInfo = () => {
   };
 
   const handleFileChange = async (event) => {
-    const file = event.target.files[0].name;
+    const file = event.target.files[0];
+    console.log('Selected file:', file);
 
     try {
       if (file) {
