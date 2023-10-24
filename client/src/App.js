@@ -15,6 +15,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // import InfoMock from './pages/LicenseInfo/Infomock';
 
+window.addEventListener('unload', localStorage.clear());
+
 function App() {
   return (
     <Router>
