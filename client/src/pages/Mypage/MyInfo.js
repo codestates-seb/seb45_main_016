@@ -1,203 +1,5 @@
-// /* eslint-disable no-unused-vars */
-// /* eslint-disable react/prop-types */
-// import React, { useState, useEffect } from 'react';
-// import { Calendar } from 'react-calendar';
-// import 'react-calendar/dist/Calendar.css';
-// import { useNavigate } from 'react-router-dom';
-// import Header from '../../components/Header/Header';
-// import Footer from '../../components/Footer/Footer';
-// import Modal from '../../components/Modal/Modal';
-// import DelModal from '../../components/DelModal/DelModal';
-// import { GetUserInfo, DeleteUser, UpdateUserInfo } from '../../utils/API';
-
-// import {
-//   CalendarContainer,
-//   LikedInfo,
-//   MypageStyle,
-//   Profile,
-//   ProfileLeft,
-//   ProfileRight,
-//   SchedulePlusLog,
-//   Log,
-//   Written,
-//   BookMarkContainer,
-//   WriteContents,
-// } from './MypageStyle';
-
-// // eslint-disable-next-line no-undef
-// const imageUrl = process.env.PUBLIC_URL + '/edit.png';
-
-// const MyInfo = ({ InfoData, ComData }) => {
-//   const [userInfo, setUserInfo] = useState({});
-//   const [isIndex, setIndex] = useState();
-//   const [isModalOpen, setModalOpen] = useState(false);
-//   const [isDelModalOpen, setDelModalOpen] = useState(false);
-//   const [warningMessage, setWarningMessage] = useState('');
-//   const [date, setDate] = useState(new Date());
-//   const navigator = useNavigate();
-//   const userId = localStorage.getItem('userId');
-
-//   const WriteData = ComData.filter((info) => {
-//     return info.username === userId;
-//   });
-
-//   // 유저 정보 가져오기
-//   useEffect(() => {
-//     const fetchUserInfo = async () => {
-//       try {
-//         const response = await GetUserInfo();
-//         setUserInfo(response.data);
-//       } catch (error) {
-//         console.error('유저 정보 가져오기 실패:', error);
-//       }
-//     };
-
-//     fetchUserInfo();
-//   }, []);
-
-//   const modal = (index) => {
-//     if (isModalOpen === false) {
-//       setModalOpen(true);
-//     }
-//     setIndex(index);
-//   };
-
-//   const openDelModal = (message) => {
-//     setWarningMessage(message);
-//     setDelModalOpen(true);
-//   };
-
-//   const closeModal = () => {
-//     setDelModalOpen(false);
-//   };
-
-//   const handleDeleteUser = async () => {
-//     openDelModal('이 작업은 되돌릴 수 없어요!');
-//   };
-
-//   useEffect(() => {
-//     if (isModalOpen === true) {
-//       document.body.style = `overflow:hidden`;
-//     } else {
-//       document.body.style = `overflow:display`;
-//     }
-//   });
-
-//   const handleDateChange = (date) => {
-//     setDate(date);
-//   };
-
-//   const openDetail = () => {
-//     navigator('/community/Detail/');
-//   };
-
-//   const confirmDeleteUser = async () => {
-//     try {
-//       await DeleteUser();
-//       alert('그동안 이용해주셔서 감사합니다.');
-//       localStorage.clear();
-//       navigator('/');
-//     } catch (e) {
-//       console.error('회원 탈퇴 실패:', e);
-//       alert('탈퇴에 실패하였습니다.');
-//     } finally {
-//       closeModal();
-//     }
-//   };
-
-//   return (
-//     <MypageStyle>
-//       <Header />
-
-//       <Profile>
-//         {isModalOpen === true && (
-//           <Modal
-//             date={InfoData[isIndex].date}
-//             setModalOpen={setModalOpen}
-//             name={InfoData[isIndex].name}
-//           />
-//         )}
-//         <ProfileLeft>
-//           <img
-//             /*{useravatar}*/ src="https://dinotaeng.com/file_data/dinotaeng/2022/04/07/3e1a4215a71999cb828799e4da858012.png"
-//             alt="useravatar"
-//           />
-//           <button className="edit">edit photo</button>
-//           <button className="delBtn" onClick={handleDeleteUser}>
-//             회원탈퇴하기
-//           </button>
-//           <DelModal
-//             isOpen={isDelModalOpen}
-//             onCancel={closeModal}
-//             onConfirm={confirmDeleteUser}
-//             warningMessage={warningMessage}
-//           />
-//         </ProfileLeft>
-//         <ProfileRight>
-//           <div className="input-username">
-//             <input type="text" placeholder="username"></input>
-//             <button>
-//               <img src={imageUrl} alt="editlogo" />
-//             </button>
-//           </div>
-//           <div className="input-email">
-//             <input type="text" placeholder="E-mail"></input>
-//             <button>
-//               <img src={imageUrl} alt="editlogo" />
-//             </button>
-//           </div>
-//           <div className="input-phonenumber">
-//             <input type="text" placeholder="Phone number"></input>
-//             <button>
-//               <img src={imageUrl} alt="editlogo" />
-//             </button>
-//           </div>
-//         </ProfileRight>
-//       </Profile>
-//       <SchedulePlusLog>
-//         <CalendarContainer className="calendar-container">
-//           <Calendar
-//             onChange={handleDateChange}
-//             value={date}
-//             showNeighboringMonth={false} //  이전, 이후 달의 날짜는 보이지 않도록 설정
-//           />
-//         </CalendarContainer>
-//         <Log>
-//           <LikedInfo>
-//             나의 관심 자격증
-//             <BookMarkContainer>
-//               {/* {InfoData 배열 순회하여 버튼 렌더링} */}
-//               {InfoData.map((item, index) => (
-//                 <button
-//                   className="bookmark"
-//                   key={index}
-//                   onClick={() => modal(index)}
-//                 >
-//                   {item.name}
-//                 </button>
-//               ))}
-//             </BookMarkContainer>
-//           </LikedInfo>
-//           <Written>
-//             내가 작성한 글
-//             <WriteContents>
-//               {WriteData.map((item, index) => (
-//                 <button className="write" key={index} onClick={openDetail}>
-//                   {item.title}
-//                 </button>
-//               ))}
-//             </WriteContents>
-//           </Written>
-//         </Log>
-//       </SchedulePlusLog>
-//       <Footer />
-//     </MypageStyle>
-//   );
-// };
-
-// export default MyInfo;
-
 import React, { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { Calendar } from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { useNavigate } from 'react-router-dom';
@@ -205,12 +7,15 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import Modal from '../../components/Modal/Modal';
 import DelModal from '../../components/DelModal/DelModal';
-import { GetUserInfo, DeleteUser, EditUser } from '../../utils/API';
+import {
+  GetUserInfo,
+  DeleteUser,
+  EditUser,
+  UploadProfileImage,
+} from '../../utils/API';
 // import UserInfoData from '../../utils/UserdataMockup';
 import { toast } from 'react-toastify';
 // import { Link } from 'react-router-dom';
-import { useRef } from 'react';
-import axios from 'axios';
 
 import {
   CalendarContainer,
@@ -228,7 +33,7 @@ import {
 
 const MyInfo = () => {
   const [userInfo, setUserInfo] = useState([]);
-  // const [isIndex, setIndex] = useState();
+  const [isIndex, setIndex] = useState();
   const [isModalOpen, setModalOpen] = useState(false);
   const [isDelModalOpen, setDelModalOpen] = useState(false);
   const [warningMessage, setWarningMessage] = useState('');
@@ -236,21 +41,22 @@ const MyInfo = () => {
   // const [eventDates, setEventDates] = useState([]);
   const [date, setDate] = useState(new Date());
   const navigator = useNavigate();
-  // const userId = localStorage.getItem('userId');
-  // const [username, setUsername] = useState(userInfo.name);
-  // const [email, setEmail] = useState(userInfo.email);
-  // const [phone, setPhone] = useState(userInfo.phone);
+
+  const inputErrorClass = 'input-error';
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+    trigger,
+  } = useForm();
 
   console.log(userInfo.name);
-
-  // const [Image, setImage] = useState(UserInfoData.profileImage);
 
   // 유저 정보 가져오기
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
         const response = await GetUserInfo();
-        console.log('dlfma', response.data);
         setUserInfo(response.data);
       } catch (error) {
         console.error('유저 정보 가져오기 실패:', error);
@@ -260,81 +66,53 @@ const MyInfo = () => {
   }, []);
   console.log(userInfo);
 
-  const fileInput = useRef(null);
-
-  const handleEditPhoto = () => {
-    if (fileInput.current) {
-      fileInput.current.click();
-    }
-  };
-
-  const handleImageChange = (e) => {
-    const selectedFile = e.target.files[0];
-
-    if (selectedFile) {
-      const formData = new FormData();
-      formData.append('profileImage', selectedFile);
-      axios
-        .patch('http://{{host}}/members/mypage/image/upload/1', formData)
-        .then((response) => {
-          console.log('프로필 이미지 업데이트 성공:', response.data);
-          userInfo.profileImage = response.data.profileImageUrl;
-          toast.success('프로필 이미지가 업데이트되었습니다.');
-        })
-        .catch((error) => {
-          console.error('프로필 이미지 업데이트 실패:', error);
-          toast.error('프로필 이미지 업데이트 실패했습니다.');
-        });
-    }
-  };
-
-  const openDetail = (boardId) => {
-    navigator(`/community/detail/${boardId}`);
-  };
-  const route = () => {
+  const route = (index) => {
     if (isModalOpen === false) {
       setModalOpen(true);
     }
+    setIndex(index);
   };
 
-  const [newUsername, setNewUsername] = useState('');
-  const [newEmail, setNewEmail] = useState('');
-  const [newPhone, setNewPhone] = useState('');
-
-  const onUpdateUserInfo = (newUsername, newEmail, newPhone) => {
-    setNewUsername(newUsername);
-    setNewEmail(newEmail);
-    setNewPhone(newPhone);
-  };
+  // 유저 정보 수정
+  const [newUsername, setNewUsername] = useState(userInfo.name);
+  const [newPhone, setNewPhone] = useState(userInfo.phone);
 
   const confirmEditUser = async () => {
+    console.log('수정 시작');
+    console.log('newUsername:', newUsername);
+    console.log('newPhone:', newPhone);
+    if (!newUsername && !newPhone) {
+      toast.info('변경할 정보가 없습니다.');
+      return;
+    }
     try {
-      const updatedUserInfo = {
-        username: newUsername,
-        email: newEmail,
-        phone: newPhone,
-      };
-
-      await EditUser(updatedUserInfo);
-      onUpdateUserInfo(newUsername, newEmail, newPhone);
+      await EditUser(newUsername, newPhone);
+      onUpdateUserInfo(newUsername, newPhone);
 
       console.log('수정 완료');
-      toast.success('수정이 완료되었습니다.');
       localStorage.setItem('name', newUsername);
-      localStorage.setItem('email', newEmail);
       localStorage.setItem('phone', newPhone);
+
       setIsEditMode(false);
+      toast.success('수정이 완료되었습니다.');
+      window.location.reload();
     } catch (e) {
       console.error('수정 실패:', e);
       toast.error('수정에 실패하였습니다.');
+      navigator('/mypage');
     }
+  };
+
+  const onUpdateUserInfo = (newUsername, newPhone) => {
+    setNewUsername(newUsername);
+    setNewPhone(newPhone);
   };
 
   const openDelModal = (message) => {
     setWarningMessage(message);
     setDelModalOpen(true);
   };
-  const closeModal = () => {
+  const closeDelModal = () => {
     setDelModalOpen(false);
   };
   const handleDeleteUser = async () => {
@@ -353,8 +131,46 @@ const MyInfo = () => {
       console.error('회원 탈퇴 실패:', e);
       toast.error('탈퇴에 실패하였습니다.');
     } finally {
-      closeModal();
+      closeDelModal();
     }
+  };
+
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+    console.log('Selected file:', file);
+
+    try {
+      if (file) {
+        setUserInfo({
+          ...userInfo,
+          profileImage: await UploadProfileImage(file),
+        });
+        //     const formData = new FormData();
+        //     formData.append('profileImage', file);
+
+        //     const response = await UploadProfileImage(file)
+
+        //     const updatedProfileImage = response.data.profileImage;
+        //     setUserInfo({ ...userInfo, profileImage: updatedProfileImage });
+
+        //     console.log('프로필 이미지가 업로드되었습니다.');
+        //   }
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error('프로필 이미지 업로드 실패:', error);
+      console.log(file);
+    }
+  };
+
+  const handleEditPhotoClick = () => {
+    // "프로필 이미지 선택" 버튼 클릭 시 input[type=file]을 클릭
+    const fileInput = document.getElementById('fileInput');
+    fileInput.click();
+  };
+
+  const openDetail = (boardId) => {
+    navigator(`/community/boards/${boardId}`);
   };
 
   // const extractEventDates = () => {
@@ -382,66 +198,76 @@ const MyInfo = () => {
       <Profile>
         <ProfileLeft>
           <img src={userInfo.profileImage} alt="useravatar" />
-          <button className="edit" onClick={handleEditPhoto}>
+          <button className="edit" onClick={handleEditPhotoClick}>
             edit photo
           </button>
           <input
+            id="fileInput"
             type="file"
             accept="image/*"
-            onChange={handleImageChange}
-            ref={fileInput}
             style={{ display: 'none' }}
+            onChange={handleFileChange}
           />
           <button className="delBtn" onClick={handleDeleteUser}>
             회원탈퇴하기
           </button>
           <DelModal
             isOpen={isDelModalOpen}
-            onCancel={closeModal}
+            onCancel={closeDelModal}
             onConfirm={confirmDeleteUser}
             warningMessage={warningMessage}
           />
         </ProfileLeft>
-        <ProfileRight>
+        <ProfileRight onSubmit={handleSubmit(confirmEditUser)}>
           {isEditMode ? (
             <>
               <div className="input-username">
+                <p>새 닉네임</p>
                 <input
                   type="text"
-                  // value={name}
-                  placeholder={userInfo.name}
+                  name="name"
+                  placeholder="새 닉네임을 입력해 주세요."
+                  {...register('name', {
+                    required: '닉네임은 필수 입력입니다.',
+                  })}
+                  onBlur={() => trigger('name')}
+                  className={errors.name ? inputErrorClass : ''}
                   onChange={(e) => setNewUsername(e.target.value)}
                 />
               </div>
-              <div className="input-email">
-                <input
-                  type="text"
-                  // value={email}
-                  placeholder={userInfo.email}
-                  onChange={(e) => setNewEmail(e.target.value)}
-                />
-              </div>
+
               <div className="input-phonenumber">
+                <p>새 전화번호</p>
                 <input
-                  type="text"
-                  // value={phone}
-                  placeholder={userInfo.phone}
+                  type="tel"
+                  name="phone"
+                  placeholder="새 전화번호를 입력해 주세요."
+                  {...register('phone', {
+                    required: '전화번호는 필수 입력입니다.',
+                  })}
+                  onBlur={() => trigger('phone')}
+                  className={errors.phone ? inputErrorClass : ''}
                   onChange={(e) => setNewPhone(e.target.value)}
                 />
               </div>
-              <button className="editinfo" onClick={confirmEditUser}>
+
+              <button
+                className="editinfo"
+                type="submit"
+                disabled={isSubmitting}
+                onClick={confirmEditUser}
+              >
                 수정완료
               </button>
             </>
           ) : (
             <div className="display">
               <div className="text">
-                <p>{userInfo.name}</p>
-                <p>{userInfo.email}</p>
-                <p>{userInfo.phone}</p>
+                닉네임<p>{userInfo.name}</p>
+                전화번호<p>{userInfo.phone}</p>
               </div>
               <button className="editinfo" onClick={() => setIsEditMode(true)}>
-                수정하기
+                내정보 수정하기
               </button>
             </div>
           )}
@@ -490,30 +316,47 @@ const MyInfo = () => {
         <Log>
           <LikedInfo>
             나의 관심 자격증
-            <BookMarkContainer>
-              {/* {InfoData 배열 순회하여 버튼 렌더링} */}
-              {userInfo?.bookmarks?.map((bookmark, index) => (
-                <button className="bookmark" key={index} onClick={route}>
-                  {bookmark.licenseInfo.name}
-                </button>
-              ))}
-            </BookMarkContainer>
-            {isModalOpen === true && <Modal setModalOpen={setModalOpen} />}
+            {userInfo?.bookmarks?.length > 0 && (
+              <BookMarkContainer>
+                {isModalOpen === true && (
+                  <Modal
+                    date={userInfo.bookmarks[isIndex].licenseInfo.licenses}
+                    setModalOpen={setModalOpen}
+                    name={userInfo.bookmarks[isIndex].licenseInfo.name}
+                    code={userInfo.bookmarks[isIndex].licenseInfo.code}
+                    bookmark={userInfo.bookmarks[isIndex].licenseInfo.bookmark}
+                  />
+                )}
+                {userInfo?.bookmarks?.map((bookmark, index) => (
+                  <button
+                    className="bookmark"
+                    key={index}
+                    onClick={() => route(index)}
+                  >
+                    {bookmark.licenseInfo.name}
+                  </button>
+                ))}
+              </BookMarkContainer>
+            )}
           </LikedInfo>
           <Written>
             내가 작성한 글
-            <WriteContents>
-              {/* <Link
-                to={('/community/detail/' + board, index.boardId)}
-                key={(board, index.boardId)}
-              > */}
-              {userInfo?.boards?.map((board, index) => (
-                <button className="write" key={index} onClick={openDetail}>
-                  {board.title}
-                </button>
-              ))}
-              {/* </Link> */}
-            </WriteContents>
+            {userInfo?.boards?.length > 0 ? (
+              <WriteContents>
+                {userInfo?.boards?.map((boards, index) => (
+                  <button
+                    className="write"
+                    key={index}
+                    onClick={() => openDetail(boards.boardId)}
+                  >
+                    {boards.title}
+                  </button>
+                ))}
+                {/* </Link> */}
+              </WriteContents>
+            ) : (
+              <p>아직 작성한 글이 없어요😅</p>
+            )}
           </Written>
         </Log>
       </SchedulePlusLog>

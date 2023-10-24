@@ -108,6 +108,7 @@ export const ProfileRight = styled.div`
 
   .input-username {
     display: flex;
+    flex-direction: column;
     width: 80%;
 
     > input {
@@ -119,22 +120,9 @@ export const ProfileRight = styled.div`
       padding: 2px 8px 12px 8px;
     }
 
-    > input::placeholder {
-      color: ${globaltoken.Gray[400].value};
-    }
-  }
-
-  .input-email {
-    display: flex;
-    width: 80%;
-
-    > input {
-      width: 100%;
-      border: none;
-      border-bottom: 0.5px solid ${globaltoken.Primary.Default.value};
-      color: ${globaltoken.Gray[600].value};
+    > p {
       font-size: 12px;
-      padding: 2px 8px 12px 8px;
+      color: ${globaltoken.Gray[600].value};
     }
 
     > input::placeholder {
@@ -144,6 +132,7 @@ export const ProfileRight = styled.div`
 
   .input-phonenumber {
     display: flex;
+    flex-direction: column;
     width: 80%;
 
     > input {
@@ -153,6 +142,11 @@ export const ProfileRight = styled.div`
       color: ${globaltoken.Gray[600].value};
       font-size: 12px;
       padding: 2px 8px 12px 8px;
+    }
+
+    > p {
+      font-size: 12px;
+      color: ${globaltoken.Gray[600].value};
     }
 
     > input::placeholder {

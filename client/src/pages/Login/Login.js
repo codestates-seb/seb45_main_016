@@ -14,6 +14,8 @@ import profile4 from './profileImage/profile4.png';
 import profile5 from './profileImage/profile5.png';
 import profile6 from './profileImage/profile6.png';
 import profile7 from './profileImage/profile7.png';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const imageUrl = process.env.PUBLIC_URL + '/KaKaoLogo.png';
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
@@ -42,7 +44,7 @@ function Login() {
   const onSubmit = async (data) => {
     try {
       const res = await login(data);
-      console.log(res);
+
       if (res?.status === 200) {
         const accessToken = res.headers.get('authorization');
         const name = jwt_decode(accessToken).name;
@@ -54,18 +56,17 @@ function Login() {
           'profileImg',
           profile[Math.floor(Math.random() * profile.length)],
         );
-        alert('로그인이 성공했습니다.');
         navigate('/');
         location.reload();
       } else {
         const errorText =
           res?.data?.message ||
           '로그인에 실패했습니다. 이메일과 비밀번호를 다시 확인해주세요.';
-        alert(errorText);
+        toast.error(errorText);
       }
     } catch (error) {
       console.error('로그인 에러:', error);
-      alert('로그인 중에 문제가 발생했습니다. 나중에 다시 시도해주세요.');
+      toast.error('로그인에 실패했습니다.');
     }
   };
 
@@ -75,6 +76,7 @@ function Login() {
 
   return (
     <Styled.Wrap>
+      <Header />
       <Header />
       <Styled.LoginContainer>
         <Styled.LoginForm onSubmit={handleSubmit(onSubmit)}>

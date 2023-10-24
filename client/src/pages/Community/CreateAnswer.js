@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as T from './CreateAnswer.Style';
 // import jwt_decode from 'jwt-decode';
-import { PostAnswer, PostComment } from '../../utils/API';
+import { GetUserInfo, PostAnswer, PostComment } from '../../utils/API';
+import { useParams } from 'react-router-dom';
 
 // const token = localStorage.getItem('authorization');
 // let img;
@@ -14,15 +15,32 @@ import { PostAnswer, PostComment } from '../../utils/API';
 
 const CreateAnswer = ({ className, answerAppender }) => {
   const [writeValue, setWriteValue] = useState('');
+  const [isPosted, setPosted] = useState(false);
   const memberId = localStorage.getItem('memberId');
-  const img = localStorage.getItem('profileImg');
+  const [profileImg, setProfileImg] = useState();
+  const { id } = useParams();
+
+  useEffect(() => {
+    memberId &&
+      GetUserInfo().then((res) => setProfileImg(res.data.profileImage));
+  }, [memberId]);
 
   const answerPost = (e) => {
-    if (e === 'board-focusing') {
-      PostAnswer(writeValue).then(() => answerAppender());
-    } else if (e === 'focusing-answer') {
+    if (e === 'board-focusing' && isPosted === false) {
+      PostAnswer(writeValue, id).then(() => answerAppender());
+      setPosted(true);
+    } else if (e === 'focusing-answer' && isPosted === false) {
       PostComment(writeValue);
-      console.log(e);
+      setPosted(true);
+    }
+  };
+
+  const valueHandler = (e) => {
+    if (isPosted === true) {
+      e.target.value = '';
+      setPosted(false);
+    } else {
+      setWriteValue(e.target.value);
     }
   };
 
@@ -31,14 +49,17 @@ const CreateAnswer = ({ className, answerAppender }) => {
       {memberId ? (
         <T.CreateAnswerForm>
           <T.AnswerCratorInfo>
-            <T.CreatorImg src={img} alt="current user img"></T.CreatorImg>
+            <T.CreatorImg
+              src={profileImg}
+              alt="current user img"
+            ></T.CreatorImg>
             <T.Description>
               <p>{localStorage.getItem('name')}</p>
             </T.Description>
           </T.AnswerCratorInfo>
           <textarea
             placeholder="댓글을 입력하세요"
-            onChange={(e) => setWriteValue(e.target.value)}
+            onChange={valueHandler}
           ></textarea>
           <T.AnswerPost
             className={className}

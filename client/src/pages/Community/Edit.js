@@ -9,7 +9,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 // import mockData from './ComData';
 
 const Edit = () => {
-  const [editData, setEditData] = useState({ title: '', content: '' });
+  const [editData, setEditData] = useState({
+    title: localStorage.getItem('beforeTitle'),
+    content: localStorage.getItem('beforeContent'),
+  });
   let { id } = useParams();
 
   useEffect(() => {
@@ -29,8 +32,7 @@ const Edit = () => {
   };
 
   const patch = () => {
-    PostEdit(title, content, id);
-    navigator(`/community/detail/boards/${id}`);
+    PostEdit(title, content, id).then(navigator(`/community/boards/${id}`));
   };
 
   return (

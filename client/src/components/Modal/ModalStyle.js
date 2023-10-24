@@ -5,7 +5,8 @@ const { Primary, White, Gray } = globalToken;
 
 export const ModalStyle = styled.div`
   position: fixed;
-  left: 50;
+  top: 10%;
+  left: 15%;
   margin: 2% auto;
   height: 45%;
   width: 70%;

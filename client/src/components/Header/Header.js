@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import { useEffect } from 'react';
 import {
@@ -10,21 +11,35 @@ import {
 } from './HeaderStyle';
 import { Link } from 'react-router-dom';
 import SearchBar from '../Header/Searchbar'; // SearchBar 컴포넌트를 import
+import { toast } from 'react-toastify';
+import { GetUserInfo } from '../../utils/API';
 
 // eslint-disable-next-line no-undef
 const imageUrl = process.env.PUBLIC_URL + '/Logo.png';
 
 const Header = () => {
   const token = localStorage.getItem('authorization');
-  const name = localStorage.getItem('name');
+  const userName = localStorage.getItem('userName');
+
+  useEffect(() => {
+    if (token) {
+      GetUserInfo().then((res) =>
+        localStorage.setItem('userName', res.data.name),
+      );
+    }
+  }, []);
+
   const onClickHandler = () => {
     localStorage.clear();
     window.location.reload();
+    localStorage.setItem('comId', 1);
   };
 
   useEffect(() => {
     function clearLocalStorage() {
+      toast.error('토큰이 만료되어 로그아웃 되었습니다.');
       localStorage.clear();
+      window.location.reload();
     }
     const delayMilliseconds = 60 * 60 * 1000;
     setTimeout(clearLocalStorage, delayMilliseconds);
@@ -37,6 +52,7 @@ const Header = () => {
   const onClickHandlercom = () => {
     localStorage.setItem('comId', 1);
   };
+
   return (
     <HeaderStyle>
       <HeaderLeft>
@@ -69,7 +85,7 @@ const Header = () => {
         <Loginform>
           {token ? (
             <>
-              <span>{name}</span>
+              <span>{userName}</span>
               <Link to="/" className="logout-button" onClick={onClickHandler}>
                 <button>Logout</button>
               </Link>

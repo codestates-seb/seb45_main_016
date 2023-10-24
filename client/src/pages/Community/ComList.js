@@ -6,11 +6,14 @@ import * as Styled from './ComListStyle';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import ComCard from '../../components/ComCard/Comcard';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { LeftArrow } from '../../utils/svg';
 import { RightArrow } from '../../utils/svg';
+// import ComData from '../../utils/commock';
 import { GetAllCommunityPostsList } from '../../utils/API';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ComList = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,6 +32,8 @@ const ComList = () => {
       } catch (error) {
         console.error('Error fetching data:', error);
       }
+      // setComData(ComData); //mock
+      // setTotalItems(ComData.length); //mock
     }
 
     fetchData();
@@ -86,7 +91,7 @@ const ComList = () => {
       navigator('/write');
     } else {
       navigator('/login');
-      alert('로그인이 필요합니다');
+      toast.error('로그인이 필요합니다');
     }
   };
 
@@ -99,19 +104,20 @@ const ComList = () => {
       <Styled.GridContainer>
         {comData &&
           comData.map((info) => (
-            <Link
-              to={'/community/detail/boards/' + info.boardId}
+            <Styled.SLink
+              to={'/community/boards/' + info.boardId}
               key={info.boardId}
             >
               <ComCard
                 title={info.title}
+                img={info.boardCreator.profileImage}
                 username={info.boardCreator.name}
-                email={info.email}
+                email={info.boardCreator.email}
                 onClick={() => {
                   localStorage.setItem('boardId', info.boardId);
                 }}
               />
-            </Link>
+            </Styled.SLink>
           ))}
       </Styled.GridContainer>
 
