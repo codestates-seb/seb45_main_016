@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import * as S from './kakaoStyle';
-
 import { useNavigate } from 'react-router-dom';
 
 const Kakao = () => {
@@ -31,8 +30,7 @@ const Kakao = () => {
             localStorage.setItem('authorization', accessToken);
             localStorage.setItem('memberId', memberId);
             localStorage.setItem('name', name);
-            alert('로그인이 성공했습니다.');
-            navigate('/');
+            window.location.href = `/`;
           } else {
             console.error('API 호출 실패:', response.statusText);
           }

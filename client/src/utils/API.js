@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
 import axios from 'axios';
-import { json } from 'react-router-dom';
 
 const token = localStorage.getItem('authorization');
 
@@ -33,21 +32,25 @@ export const signUp = async (data) => {
   }
 };
 
+//자격 정보 전체 조회
 export const GetAllLicensesList = async (data) => {
   let id = localStorage.getItem('licenseListId');
   try {
-    const res = await axios({
-      method: 'get',
-      data,
-      url: `${process.env.REACT_APP_API}licenses?page=${id}
-      `,
-    });
+    const res = await axios.get(
+      `${process.env.REACT_APP_API}licenses?page=${id}
+    `,
+      {
+        headers: { Authorization: token },
+        data,
+      },
+    );
     return res;
   } catch (e) {
     console.log(e);
   }
 };
 
+//커뮤니티 정보 전체 조회
 export const GetAllCommunityPostsList = async (data) => {
   // let id = localStorage.getItem('boardId');
   let id = localStorage.getItem('comId');
@@ -64,6 +67,7 @@ export const GetAllCommunityPostsList = async (data) => {
   }
 };
 
+//게시글 상세페이지 조회
 export const GetDetail = async (id) => {
   try {
     const res = await axios({
@@ -76,6 +80,7 @@ export const GetDetail = async (id) => {
   }
 };
 
+//검색된 자격 정보 조회
 export const GetSearchedlicense = async (data) => {
   try {
     const res = await axios({
@@ -91,85 +96,44 @@ export const GetSearchedlicense = async (data) => {
   }
 };
 
+//게시글 post
 export const PostContents = async (title, content) => {
   const res = await axios
-    .post(`${process.env.REACT_APP_API}boards/create`, {
-      title: title,
-      content: content,
-      memberId: memberId,
-      headers: {
-        Authorization: token,
-      },
-    })
-
-    .then((res) => {
-      window.location.href = `/community/detail${res.headers.location}`;
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  return res;
-};
-
-export const PostEdit = async (title, content, id) => {
-  const res = await axios
-    .patch(`${process.env.REACT_APP_API}boards/edit/${id}`, {
-      title: title,
-      content: content,
-      memberId: memberId,
-      headers: {
-        Authorization: token,
-      },
-    })
-
-    .then((res) => {
-      window.location.href = `/community/detail${res.headers.location}`;
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  return res;
-};
-
-export const PostAnswer = async (writeValue) => {
-  const res = await axios
     .post(
-      `${process.env.REACT_APP_API}boards/${localStorage.getItem(
-        'boardId',
-      )}/answers`,
+      `${process.env.REACT_APP_API}boards/create`,
       {
-        content: writeValue,
+        title: title,
+        content: content,
         memberId: memberId,
-        headers: {},
+      },
+      {
+        headers: {
+          Authorization: token,
+        },
       },
     )
-    .catch(function (error) {
-      console.log(error);
-    });
-  return res;
-};
 
-export const PostComment = async (writeValue) => {
-  let answerId = localStorage.getItem('answerId');
-  const res = await axios
-    .post(`${process.env.REACT_APP_API}answers/${answerId}/comments/create`, {
-      content: writeValue,
-      memberId: memberId,
+    .then((res) => {
+      window.location.href = `/community${res.headers.location}`;
     })
     .catch(function (error) {
       console.log(error);
     });
+  console.log(res);
   return res;
 };
 
-export const DeleteAnswerlist = async () => {
-  let boardId = localStorage.getItem('boardId');
-  let answerId = localStorage.getItem('answerId');
+//게시글 수정
+export const PostEdit = async (title, content, id) => {
   const res = await axios
-    .delete(
-      `${process.env.REACT_APP_API}boards/${boardId}/answers/delete/${answerId} `,
+    .patch(
+      `${process.env.REACT_APP_API}boards/edit/${id}`,
       {
         memberId: memberId,
+        title: title,
+        content: content,
+      },
+      {
         headers: {
           Authorization: token,
         },
@@ -177,7 +141,7 @@ export const DeleteAnswerlist = async () => {
     )
 
     .then(() => {
-      window.location.href = `/community/detail/boards/${boardId}`;
+      window.location.href = `/community/boards/${id}`;
     })
     .catch(function (error) {
       console.log(error);
@@ -185,22 +149,33 @@ export const DeleteAnswerlist = async () => {
   return res;
 };
 
-export const DeleteCommentlist = async () => {
-  let answerId = localStorage.getItem('answerId');
-  let commentId = localStorage.getItem('commentId');
+//게시글 삭제
+export const DeletePost = async (id) => {
   const res = await axios
-    .delete(
-      `${process.env.REACT_APP_API}answers/${answerId}/comments/${commentId}`,
-      {
-        memberId: memberId,
-        headers: {
-          Authorization: token,
-        },
-      },
-    )
+    .delete(`${process.env.REACT_APP_API}boards/delete/${id}`, {
+      data: { memberId: memberId },
+      headers: { Authorization: token },
+    })
 
-    .then((res) => {
-      window.location.href = `/community/detail${res.headers.location}`;
+    .then(() => {
+      window.location.href = `/community`;
+    })
+
+    .catch(function (error) {
+      console.log(error);
+    });
+  return res;
+};
+
+//답변 작성
+export const PostAnswer = async (writeValue, id) => {
+  const res = await axios
+    .post(`${process.env.REACT_APP_API}boards/${id}/answers`, {
+      content: writeValue,
+      memberId: memberId,
+    })
+    .then(() => {
+      window.location.reload();
     })
     .catch(function (error) {
       console.log(error);
@@ -208,15 +183,17 @@ export const DeleteCommentlist = async () => {
   return res;
 };
 
-export const EditAnswerlist = async (writeValue) => {
+//답변 수정
+export const EditAnswerlist = async (writeValue, answerId) => {
   let boardId = localStorage.getItem('boardId');
-  let answerId = localStorage.getItem('answerId');
   const res = await axios
     .patch(
       `${process.env.REACT_APP_API}boards/${boardId}/answers/${answerId}`,
       {
         content: writeValue,
         memberId: memberId,
+      },
+      {
         headers: {
           Authorization: token,
         },
@@ -229,88 +206,137 @@ export const EditAnswerlist = async (writeValue) => {
   return res;
 };
 
-export const EditCommentlist = async (writeValue) => {
+//답변 삭제
+export const DeleteAnswerlist = async (answerId) => {
+  let boardId = localStorage.getItem('boardId');
+  const res = await axios
+    .delete(
+      `${process.env.REACT_APP_API}boards/${boardId}/answers/delete/${answerId} `,
+      {
+        headers: {
+          Authorization: token,
+        },
+      },
+      {
+        memberId: memberId,
+      },
+    )
+
+    .then(() => {
+      window.location.reload();
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  return res;
+};
+
+//댓글 작성
+export const PostComment = async (writeValue) => {
   let answerId = localStorage.getItem('answerId');
-  let commentId = localStorage.getItem('commentId');
+  const res = await axios
+    .post(
+      `${process.env.REACT_APP_API}answers/${answerId}/comments/create`,
+      {
+        memberId: memberId,
+        content: writeValue,
+      },
+      { headers: { Authorization: token } },
+    )
+    .then(() => {
+      window.location.reload();
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  return res;
+};
+
+//댓글 수정
+export const EditCommentlist = async (writeValue, answerId, commentId) => {
   const res = await axios
     .patch(
       `${process.env.REACT_APP_API}answers/${answerId}/comments/${commentId}`,
       {
-        content: writeValue,
         memberId: memberId,
+        content: writeValue,
+      },
+      { headers: { Authorization: token } },
+    )
+
+    .then(() => {
+      window.location.reload();
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  return res;
+};
+
+//댓글 삭제
+export const DeleteCommentlist = async (answerId, commentId) => {
+  const res = await axios
+    .delete(
+      `${process.env.REACT_APP_API}answers/${answerId}/comments/${commentId}`,
+      {
+        headers: {
+          Authorization: token,
+        },
+      },
+      {
+        memberId: memberId,
+      },
+    )
+
+    .then(() => {
+      window.location.reload();
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  return res;
+};
+
+//북마킹
+export const Postbookmark = async (code) => {
+  const res = await axios
+    .post(
+      `${process.env.REACT_APP_API}bookmark`,
+      {
+        code: code,
+        memberId: memberId,
+      },
+      {
         headers: {
           Authorization: token,
         },
       },
     )
-
-    .then((res) => {
-      window.location.href = `/community/detail${res.headers.location}`;
-    })
+    .then(() => window.location.reload())
     .catch(function (error) {
       console.log(error);
     });
   return res;
 };
 
-export const DeletePost = async (id) => {
-  const res = await axios
-    .delete(`${process.env.REACT_APP_API}boards/delete/${id}`, {
-      memberId: memberId,
-      headers: {
-        Authorization: token,
-      },
-    })
-
-    .catch(function (error) {
-      console.log(error);
-    });
-  return res;
-};
-
-export const DeleteUser = async () => {
-  try {
-    const res = await axios({
-      method: 'delete',
-      url: `${process.env.REACT_APP_API}members/auth/delete`,
-    });
-    return res;
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-export const Postbookmark = async () => {
-  const res = await axios
-    .post(`${process.env.REACT_APP_API}bookmark`, {
-      data: {
-        code: localStorage.getItem('code'),
-        memberId: memberId,
-      },
-      headers: {
-        type: json,
-      },
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  return res;
-};
-
-export const deleteBookmark = async () => {
+//북마크 해제
+export const deleteBookmark = async (code) => {
   const res = await axios
     .delete(`${process.env.REACT_APP_API}bookmark`, {
       data: {
         memberId: memberId,
-        code: localStorage.getItem('code'),
+        code: code,
       },
     })
+    .then(() => window.location.reload())
     .catch(function (error) {
       console.log(error);
+      console.log(code);
     });
   return res;
 };
 
+//유저정보조회
 export const GetUserInfo = async () => {
   // memberId와 token을 매개변수로 추가
   try {
@@ -322,27 +348,73 @@ export const GetUserInfo = async () => {
         'ngrok-skip-browser-warning': '2',
       },
     });
-    console.log(res); // 응답을 로그로 출력
-    console.log(token); // 응답을 로그로 출력
+    // console.log(res);
+    // console.log(token);
     return res;
   } catch (e) {
     console.log('제발좀', e);
   }
 };
 
-export const EditUser = async (updatedUserInfo) => {
+//유저정보수정
+export const EditUser = async (newUserName, newPhone) => {
   try {
     const res = await axios({
       method: 'patch',
       url: `${process.env.REACT_APP_API}members/mypage/edit/${memberId}`,
+      data: { name: newUserName, phone: newPhone },
       headers: {
         Authorization: token,
-        'ngrok-skip-browser-warning': '2',
       },
-      data: { updatedUserInfo },
+    });
+    console.log('memberId:', memberId);
+    console.log('token:', token);
+
+    return res;
+  } catch (e) {
+    console.log('실패', e);
+  }
+};
+
+//유저정보삭제
+export const DeleteUser = async () => {
+  try {
+    const res = await axios({
+      method: 'delete',
+      url: `${process.env.REACT_APP_API}members/delete/${memberId}`,
+      headers: {
+        Authorization: token,
+      },
     });
     return res;
   } catch (e) {
-    console.log('실패다 요녀석', e);
+    console.log(e);
+  }
+};
+
+// 프로필사진수정
+export const UploadProfileImage = async (file) => {
+  try {
+    console.log('Uploading file:', file);
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const response = await axios.patch(
+      `${process.env.REACT_APP_API}members/mypage/image/upload/${memberId}`,
+      formData,
+      {
+        headers: {
+          Authorization: token,
+          'Content-Type': 'multipart/form-data',
+        },
+      },
+    );
+
+    const updatedProfileImage = response.data.profileImage;
+    return updatedProfileImage;
+  } catch (error) {
+    console.error('프로필 이미지 업로드 실패:', error);
+    console.log(file);
+    throw error;
   }
 };

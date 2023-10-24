@@ -2,7 +2,7 @@
 import { InfoCardStyle, Title } from './LicenseCardStyle';
 import Bookmark from '../Bookmark/Bookmark';
 
-const InfoCard = ({ title, onClick, date }) => {
+const InfoCard = ({ title, onClick, date, bookmark, code }) => {
   const allDate = [...date];
 
   let count = 1;
@@ -26,7 +26,7 @@ const InfoCard = ({ title, onClick, date }) => {
         <div>{title}</div>
         <p>총 {counting(count)} 회</p>
       </Title>
-      <Bookmark />
+      <Bookmark bookmark={bookmark} code={code} />
     </InfoCardStyle>
   );
 };
