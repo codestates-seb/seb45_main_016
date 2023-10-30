@@ -13,14 +13,11 @@ import { Link } from 'react-router-dom';
 import SearchBar from '../Header/Searchbar'; // SearchBar 컴포넌트를 import
 import { toast } from 'react-toastify';
 import { GetUserInfo } from '../../utils/API';
-
 // eslint-disable-next-line no-undef
 const imageUrl = process.env.PUBLIC_URL + '/Logo.png';
-
 const Header = () => {
   const token = localStorage.getItem('authorization');
   const userName = localStorage.getItem('userName');
-
   useEffect(() => {
     if (token) {
       GetUserInfo().then((res) =>
@@ -28,7 +25,6 @@ const Header = () => {
       );
     }
   }, []);
-
   const onClickHandler = () => {
     localStorage.clear();
     window.location.reload();
@@ -48,11 +44,9 @@ const Header = () => {
   const onClickHandlerin = () => {
     localStorage.setItem('licenseListId', 1);
   };
-
   const onClickHandlercom = () => {
     localStorage.setItem('comId', 1);
   };
-
   return (
     <HeaderStyle>
       <HeaderLeft>
@@ -96,7 +90,6 @@ const Header = () => {
               <Link to="/login" className="login-button">
                 <button>Login</button>
               </Link>
-
               <Link to="/signup" className="signup-button">
                 <button>Signup</button>
               </Link>
@@ -107,5 +100,4 @@ const Header = () => {
     </HeaderStyle>
   );
 };
-
 export default Header;

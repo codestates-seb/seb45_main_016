@@ -1,5 +1,6 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { useEffect } from 'react';
 import Main from './pages/Main/Main';
 import SignUp from './pages/Signup/SignUp';
 import Login from './pages/Login/Login';
@@ -14,10 +15,21 @@ import ComDetail from './pages/Community/ComDetail';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // import InfoMock from './pages/LicenseInfo/Infomock';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 window.addEventListener('unload', localStorage.clear());
 
 function App() {
+  useEffect(() => {
+    function clearLocalStorage() {
+      toast.error('토큰이 만료되어 로그아웃 되었습니다.');
+      localStorage.clear();
+      window.location.reload();
+    }
+    const delayMilliseconds = 6 * 60 * 60 * 1000;
+    setTimeout(clearLocalStorage, delayMilliseconds);
+  }, []);
   return (
     <Router>
       <div className="App">
@@ -40,5 +52,4 @@ function App() {
     </Router>
   );
 }
-
 export default App;

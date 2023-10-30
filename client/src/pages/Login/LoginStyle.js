@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import globalTokens from '../../styles/global.json';
-
 const breakpoints = {
   medium: '992px',
   large: '1200px',
@@ -11,7 +10,6 @@ export const Wrap = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-
 export const LoginContainer = styled.div`
   margin: 10% auto;
   display: flex;
@@ -27,7 +25,6 @@ export const LoginContainer = styled.div`
     margin-top: 300px;
   }
 `;
-
 export const LoginForm = styled.form`
   display: flex;
   margin-top: 5%;
@@ -37,7 +34,6 @@ export const LoginForm = styled.form`
   height: 50%;
   width: 100%;
 `;
-
 export const LoginInput = styled.input`
   height: 15%;
   margin-top: 5%;
@@ -53,7 +49,6 @@ export const LoginInput = styled.input`
     outline: none;
   }
 `;
-
 export const LoginButton = styled.button`
   height: 15%;
   width: 80%;
@@ -72,7 +67,6 @@ export const LoginButton = styled.button`
     background-color: ${globalTokens.Primary['Darken-1'].value};
   }
 `;
-
 export const DivisionLine = styled.div`
   position: relative;
   display: flex;
@@ -82,7 +76,6 @@ export const DivisionLine = styled.div`
   height: 1px;
   background-color: ${globalTokens.Gray[400].value};
   margin: 20px 0;
-
   &::before {
     content: '또는';
     position: absolute;
@@ -96,7 +89,6 @@ export const DivisionLine = styled.div`
     z-index: 1; /* 텍스트를 선 위에 표시하려면 z-index 값을 설정합니다 */
   }
 `;
-
 export const LinkWrap = styled.div`
   text-align: center;
   height: 10%;
@@ -104,13 +96,19 @@ export const LinkWrap = styled.div`
   font-size: 12px;
   color: ${globalTokens.Gray[400].value};
 `;
-
 export const styledLink = styled(Link)`
   font-size: 100%;
   color: ${globalTokens.Secondary.Default.value};
   text-decoration: none;
 `;
 
+export const Kakaodiv = styled.div`
+  text-align: center;
+  height: 10%;
+  width: 80%;
+  font-size: 12px;
+  color: ${globalTokens.Gray[400].value};
+`;
 export const KakaoLogin = styled.div`
   background: none;
   border: none;

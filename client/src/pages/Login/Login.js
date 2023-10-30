@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -16,19 +15,16 @@ import profile6 from './profileImage/profile6.png';
 import profile7 from './profileImage/profile7.png';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 const imageUrl = process.env.PUBLIC_URL + '/KaKaoLogo.png';
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 const KAKAO_REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
 const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
-
 function Login() {
   const {
     register,
     handleSubmit,
     formState: { isSubmitting },
   } = useForm();
-
   const profile = [
     profile1,
     profile2,
@@ -38,13 +34,10 @@ function Login() {
     profile6,
     profile7,
   ];
-
   const navigate = useNavigate();
-
   const onSubmit = async (data) => {
     try {
       const res = await login(data);
-
       if (res?.status === 200) {
         const accessToken = res.headers.get('authorization');
         const name = jwt_decode(accessToken).name;
@@ -69,11 +62,9 @@ function Login() {
       toast.error('로그인에 실패했습니다.');
     }
   };
-
   const handleSocialLogin = async () => {
     window.location.href = KAKAO_AUTH_URI;
   };
-
   return (
     <Styled.Wrap>
       <Header />
@@ -106,6 +97,9 @@ function Login() {
           <img src={imageUrl} alt="카카오로 회원 가입" />
         </Styled.KakaoLogin>
 
+        <Styled.Kakaodiv>
+          카카오 로그인시 이메일 제공 하셔야 로그인이 가능 합니다.
+        </Styled.Kakaodiv>
         <Styled.LinkWrap>
           <span>계정이 없으신가요?</span>
           <Styled.styledLink to="/signup">SignUp</Styled.styledLink>
@@ -114,5 +108,4 @@ function Login() {
     </Styled.Wrap>
   );
 }
-
 export default Login;
