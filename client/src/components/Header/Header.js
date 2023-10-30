@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import { useEffect } from 'react';
 import {
@@ -11,13 +12,23 @@ import {
 import { Link } from 'react-router-dom';
 import SearchBar from '../Header/Searchbar'; // SearchBar 컴포넌트를 import
 import { toast } from 'react-toastify';
+import { GetUserInfo } from '../../utils/API';
 
 // eslint-disable-next-line no-undef
 const imageUrl = process.env.PUBLIC_URL + '/Logo.png';
 
 const Header = () => {
   const token = localStorage.getItem('authorization');
-  const name = localStorage.getItem('name');
+  const userName = localStorage.getItem('userName');
+
+  useEffect(() => {
+    if (token) {
+      GetUserInfo().then((res) =>
+        localStorage.setItem('userName', res.data.name),
+      );
+    }
+  }, []);
+
   const onClickHandler = () => {
     localStorage.clear();
     window.location.reload();
@@ -65,7 +76,7 @@ const Header = () => {
         <Loginform>
           {token ? (
             <>
-              <span>{name}</span>
+              <span>{userName}</span>
               <Link to="/" className="logout-button" onClick={onClickHandler}>
                 <button>Logout</button>
               </Link>
