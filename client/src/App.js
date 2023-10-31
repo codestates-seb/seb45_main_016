@@ -18,8 +18,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-window.addEventListener('unload', localStorage.clear());
-
 function App() {
   useEffect(() => {
     function clearLocalStorage() {
